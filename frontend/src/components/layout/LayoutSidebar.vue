@@ -1,0 +1,59 @@
+<template>
+  <q-drawer v-model="show" class="bg-grey-1" :width="240" :breakpoint="700" bordered>
+    <div class="sidebar-header row no-wrap items-center gap-3 q-px-md q-pb-md q-pt-lg">
+      <q-avatar v-if="avatar" size="24px" square>
+        <img :src="avatar" alt="Avatar" />
+      </q-avatar>
+      <div>
+        <h6 v-if="title" class="q-my-none text-sm">
+          {{ title }}
+        </h6>
+        <div v-if="subtitle" class="text-xs text-blue-grey-4">
+          {{ subtitle }}
+        </div>
+      </div>
+    </div>
+
+    <div class="q-pa-sm flex-grow-1">
+      <slot />
+    </div>
+
+    <div class="sidebar-footer q-pa-sm">
+      <slot name="footer" />
+    </div>
+  </q-drawer>
+</template>
+
+<script lang="ts">
+import { defineComponent, ref } from 'vue';
+
+export default defineComponent({
+  name: 'LayoutSidebar',
+
+  props: {
+    avatar: {
+      type: String,
+      required: false,
+      default: null,
+    },
+    title: {
+      type: String,
+      required: false,
+      default: null,
+    },
+    subtitle: {
+      type: String,
+      required: false,
+      default: null,
+    },
+  },
+
+  setup() {
+    const show = ref(true);
+
+    return {
+      show,
+    };
+  },
+});
+</script>
