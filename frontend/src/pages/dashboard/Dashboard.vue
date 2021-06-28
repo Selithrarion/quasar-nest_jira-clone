@@ -19,14 +19,7 @@
 
             <template #body-cell-favorite="props">
               <q-td :props="props">
-                <q-btn
-                  size="md"
-                  :icon="props.row.favorite ? 'star' : 'star_border'"
-                  :color="props.row.favorite ? 'orange-5' : 'grey-6'"
-                  flat
-                  round
-                  @click="toggleFavorite(props.row.id)"
-                />
+                <BaseButtonFavorite :favorite="props.row.favorite" @click="toggleFavorite(props.row.id)" />
               </q-td>
             </template>
 
@@ -102,6 +95,7 @@ import { useStore } from 'src/store';
 import useDialog from 'src/composables/common/useDialog';
 
 import BaseLoader from 'components/base/BaseLoader.vue';
+import BaseButtonFavorite from "components/base/button/BaseButtonFavorite.vue";
 import BaseButtonMore from 'components/base/button/BaseButtonMore.vue';
 import CommonPageHeader from 'components/common/CommonPageHeader.vue';
 import DashboardCreateDialog from 'components/dashboard/create/DashboardCreateDialog.vue';
@@ -112,7 +106,7 @@ import dashboardService from 'src/service/dashboardService';
 export default defineComponent({
   name: 'Dashboard',
 
-  components: { BaseLoader, BaseButtonMore, CommonPageHeader, DashboardCreateDialog },
+  components: { BaseLoader, BaseButtonFavorite, BaseButtonMore, CommonPageHeader, DashboardCreateDialog },
 
   setup() {
     const dialog = useDialog();

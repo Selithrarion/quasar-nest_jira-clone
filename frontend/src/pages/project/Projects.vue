@@ -17,14 +17,7 @@
 
         <template #body-cell-favorite="props">
           <q-td :props="props">
-            <q-btn
-              size="md"
-              :icon="props.row.favorite ? 'star' : 'star_border'"
-              :color="props.row.favorite ? 'orange-5' : 'grey-6'"
-              flat
-              round
-              @click="toggleFavorite(props.row.id)"
-            />
+            <BaseButtonFavorite :favorite="props.row.favorite" @click="toggleFavorite(props.row.id)" />
           </q-td>
         </template>
 
@@ -78,6 +71,7 @@
 import { defineComponent, ref, reactive } from 'vue';
 import useDialog from 'src/composables/common/useDialog';
 
+import BaseButtonFavorite from 'components/base/button/BaseButtonFavorite.vue';
 import BaseButtonMore from 'components/base/button/BaseButtonMore.vue';
 import CommonPageHeader from 'components/common/CommonPageHeader.vue';
 import ProjectCreateDialog from 'components/project/create/ProjectCreateDialog.vue';
@@ -87,7 +81,12 @@ import { ProjectInterface } from 'components/project/models/project.interface';
 export default defineComponent({
   name: 'Projects',
 
-  components: { BaseButtonMore, CommonPageHeader, ProjectCreateDialog },
+  components: {
+    BaseButtonFavorite,
+    BaseButtonMore,
+    CommonPageHeader,
+    ProjectCreateDialog,
+  },
 
   setup() {
     const dialog = useDialog();
