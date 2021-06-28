@@ -14,20 +14,17 @@
         />
 
         <q-btn
-          class="text-weight-bold"
+          class="btn--secondary text-weight-bold"
           label="Добавить гаджет"
-          color="grey-2"
-          text-color="blue-grey-7"
           unelevated
           no-caps
+          no-wrap
           @click="dialog.open('addGadget')"
         />
 
         <q-btn
-          class="text-weight-bold"
+          class="btn--secondary text-weight-bold"
           label="Изменить схему"
-          color="grey-2"
-          text-color="blue-grey-7"
           unelevated
           no-caps
         >
@@ -44,9 +41,9 @@
           </q-menu>
         </q-btn>
 
-        <BaseButtonMore color="grey-2" text-color="blue-grey-7" padding="6px" :flat="false" :round="false" unelevated>
+        <BaseButtonMore class="btn--secondary" padding="6px" :flat="false" :round="false" unelevated>
           <q-menu>
-            <q-list class="q-py-sm" dense>
+            <q-list padding dense>
               <q-item class="flex items-center text-caption text-uppercase">
                 <q-item-section> {{ dashboard.name }} </q-item-section>
               </q-item>
@@ -150,7 +147,7 @@
 
         <q-form class="column justify-between h-full">
           <div class="flex justify-end q-mt-auto q-pt-lg">
-            <q-btn label="Сохранить" color="grey-2" text-color="blue-grey-7" unelevated no-caps />
+            <q-btn class="btn--secondary" label="Сохранить" unelevated no-caps />
           </div>
         </q-form>
       </div>

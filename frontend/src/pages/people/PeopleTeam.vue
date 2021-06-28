@@ -7,7 +7,7 @@
 
         <transition enter-active-class="animated fadeIn" leave-active-class="animated fadeOut">
           <div v-show="isHeaderMenu" class="header-menu bg-white rounded-md" @click.stop="isHeaderMenu = false">
-            <q-list class="text-grey-7 q-py-sm" dense>
+            <q-list class="text-grey-7" padding dense>
               <q-item clickable>
                 <q-item-section>
                   <q-file
@@ -37,8 +37,8 @@
         </div>
 
         <div class="row gap-2">
-          <q-btn label="Добавить людей" color="grey-2" text-color="blue-grey-7" unelevated no-caps />
-          <BaseButtonMore color="grey-2" text-color="blue-grey-7" padding="6px" :round="false" :flat="false" unelevated>
+          <q-btn class="btn--secondary" label="Добавить людей" unelevated no-caps />
+          <BaseButtonMore class="btn--secondary" padding="6px" :round="false" :flat="false" unelevated>
             <q-menu anchor="bottom middle" self="top middle" auto-close dense>
               <q-list>
                 <q-item clickable>
@@ -104,7 +104,7 @@
           <q-card-section class="column gap-2">
             <div>Расскажите, удобно ли вам пользоваться функциями профилей и поиска внутри этого каталога.</div>
             <div class="text-center">
-              <q-btn label="Отправить отзыв по Atlassian" color="grey-2" text-color="blue-grey-7" unelevated no-caps />
+              <q-btn class="btn--secondary" label="Отправить отзыв по Atlassian" unelevated no-caps />
             </div>
           </q-card-section>
         </q-card>

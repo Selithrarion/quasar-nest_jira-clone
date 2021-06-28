@@ -3,9 +3,8 @@
     <div class="column gap-4 q-mt-lg">
       <div class="flex justify-end gap-2">
         <q-btn
+          class="btn--secondary"
           label="Создайте новую команду"
-          color="grey-2"
-          text-color="blue-grey-7"
           unelevated
           no-caps
           @click="toggleCreateTeamDialog"
@@ -35,33 +34,20 @@
     <h6 class="text-default">Ваши команды</h6>
     <div class="teams-wrapper">
       <q-card class="shadow-1 hover-shadow-lg">
-        <q-card-section class="avatars-wrapper flex-center bg-grey-3">
-          <q-avatar size="36px">
+        <CommonAvatarsWrapper class="q-pa-md bg-grey-3">
+          <q-avatar v-for="avatar of 3" :key="avatar" size="36px">
             <img
               src="https://secure.gravatar.com/avatar/d1cb0ee26c499154d46f1ab7b61cf44f?d=https%3A%2F%2Favatar-management--avatars.us-west-2.prod.public.atl-paas.net%2Fdefault-avatar-1.png"
               alt="User Avatar"
             />
           </q-avatar>
-          <q-avatar size="36px">
-            <img
-              src="https://secure.gravatar.com/avatar/d1cb0ee26c499154d46f1ab7b61cf44f?d=https%3A%2F%2Favatar-management--avatars.us-west-2.prod.public.atl-paas.net%2Fdefault-avatar-1.png"
-              alt="User Avatar"
-            />
-          </q-avatar>
-          <q-avatar size="36px">
-            <img
-              src="https://secure.gravatar.com/avatar/d1cb0ee26c499154d46f1ab7b61cf44f?d=https%3A%2F%2Favatar-management--avatars.us-west-2.prod.public.atl-paas.net%2Fdefault-avatar-1.png"
-              alt="User Avatar"
-            />
-          </q-avatar>
-        </q-card-section>
+        </CommonAvatarsWrapper>
 
         <q-card-section class="column items-center q-px-sm q-pt-sm q-pb-md">
           <div class="q-py-sm">Ваша новая команда!</div>
           <q-btn
+            class="btn--secondary"
             label="Создайте новую команду"
-            color="grey-2"
-            text-color="blue-grey-7"
             unelevated
             dense
             no-caps
@@ -78,6 +64,8 @@
 
 <script lang="ts">
 import { defineComponent, ref } from 'vue';
+
+import CommonAvatarsWrapper from 'components/common/CommonAvatarsWrapper.vue';
 import CommonSearch from 'components/common/CommonSearch.vue';
 import PeopleCreateTeamDialog from 'components/people/PeopleCreateTeamDialog.vue';
 
@@ -85,6 +73,7 @@ export default defineComponent({
   name: 'People',
 
   components: {
+    CommonAvatarsWrapper,
     CommonSearch,
     PeopleCreateTeamDialog,
   },
@@ -121,21 +110,6 @@ export default defineComponent({
     display: grid;
     grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
     gap: 8px;
-  }
-  .avatars-wrapper {
-    > div {
-      margin: 0 -8px;
-      border: 2px solid white;
-    }
-    :first-child {
-      z-index: 3;
-    }
-    :nth-child(2) {
-      z-index: 2;
-    }
-    :last-child {
-      z-index: 1;
-    }
   }
 }
 </style>

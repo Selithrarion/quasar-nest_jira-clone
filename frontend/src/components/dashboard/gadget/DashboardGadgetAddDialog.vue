@@ -56,13 +56,12 @@
 
             <q-card-actions class="q-py-md q-pl-md q-pr-none" vertical>
               <q-btn
-                class="text-no-wrap"
+                class="btn--secondary"
                 label="Добавить гаджет"
-                color="grey-2"
-                text-color="blue-grey-8"
                 size="12px"
                 unelevated
                 no-caps
+                no-wrap
                 @click="add"
               />
             </q-card-actions>
