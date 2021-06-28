@@ -100,7 +100,7 @@
         </div>
       </div>
 
-      <div class="row gap-4">
+      <div class="row gap-4 q-pb-lg">
         <CommonSearch v-model="search" client-search append-icon />
 
         <CommonAvatarsWrapper margin="small" hover-effects>
@@ -127,7 +127,7 @@
       <router-view />
     </q-page>
 
-    <ProjectDialogSelectBoard
+    <ProjectBoardSelectDialog
       :show="dialog.opened.value === 'selectBoard'"
       :project-name="project.name"
       :boards="project.boards"
@@ -152,7 +152,7 @@ import CommonSearch from 'components/common/CommonSearch.vue';
 import CommonAvatarsWrapper from 'components/common/CommonAvatarsWrapper.vue';
 import CommonClipboard from 'components/common/CommonClipboard.vue';
 
-import ProjectDialogSelectBoard from 'components/project/ProjectDialogSelectBoard.vue';
+import ProjectBoardSelectDialog from 'components/project/board/ProjectBoardSelectDialog.vue';
 
 import SidebarItemInterface from 'src/models/sidebarItem.interface';
 import BoardInterface from 'components/project/models/board.interface';
@@ -169,7 +169,7 @@ export default defineComponent({
     CommonAvatarsWrapper,
     CommonClipboard,
 
-    ProjectDialogSelectBoard,
+    ProjectBoardSelectDialog,
   },
 
   setup() {
