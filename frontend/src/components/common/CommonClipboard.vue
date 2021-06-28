@@ -25,7 +25,7 @@ export default defineComponent({
 
     async function copyToClipboard() {
       await navigator.clipboard.writeText(props.text);
-      await q.notify({
+      q.notify({
         message: 'Copied to clipboard',
         type: 'info',
         textColor: 'white',
