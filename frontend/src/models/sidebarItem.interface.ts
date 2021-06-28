@@ -2,7 +2,8 @@ export default interface SidebarItemInterface {
   label: string;
   icon: string;
 
-  url?: string;
+  routeName?: string;
+  action?: () => void;
   dialog?: boolean;
   lastInGroup?: boolean;
 }
