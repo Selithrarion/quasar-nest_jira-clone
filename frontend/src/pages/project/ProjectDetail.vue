@@ -152,7 +152,7 @@ import CommonSearch from 'components/common/CommonSearch.vue';
 import CommonAvatarsWrapper from 'components/common/CommonAvatarsWrapper.vue';
 import CommonClipboard from 'components/common/CommonClipboard.vue';
 
-import ProjectDialogSelectBoard from 'components/project/detail/ProjectDialogSelectBoard.vue';
+import ProjectDialogSelectBoard from 'components/project/ProjectDialogSelectBoard.vue';
 
 import SidebarItemInterface from 'src/models/sidebarItem.interface';
 import BoardInterface from 'components/project/models/board.interface';

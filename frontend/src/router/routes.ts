@@ -19,7 +19,7 @@ const routes: RouteRecordRaw[] = [
             meta: {
               name: 'Доска задач'
             },
-            component: () => import('components/project/detail/ProjectBoard.vue'),
+            component: () => import('components/project/board/ProjectBoard.vue'),
           },
           {
             path: 'roadmap',
@@ -27,7 +27,7 @@ const routes: RouteRecordRaw[] = [
             meta: {
               name: 'Дорожная карта'
             },
-            component: () => import('components/project/detail/ProjectRoadmap.vue'),
+            component: () => import('components/project/ProjectRoadmap.vue'),
           },
         ],
       },

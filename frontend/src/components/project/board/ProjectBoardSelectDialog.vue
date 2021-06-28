@@ -26,7 +26,7 @@ import CommonSearch from 'components/common/CommonSearch.vue';
 import BoardInterface from 'components/project/models/board.interface';
 
 export default defineComponent({
-  name: 'ProjectDialogSelectBoard',
+  name: 'ProjectBoardSelectDialog',
 
   components: {
     BaseDialog,
