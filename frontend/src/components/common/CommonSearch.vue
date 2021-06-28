@@ -1,6 +1,6 @@
 <template>
   <q-input
-    :model-value="value"
+    :model-value="modelValue"
     :placeholder="placeholder"
     :outlined="outlined"
     :debounce="clientSearch ? 0 : 500"
@@ -24,10 +24,7 @@ export default defineComponent({
   name: 'CommonSearch',
 
   props: {
-    value: {
-      type: String,
-      required: true,
-    },
+    modelValue: String,
 
     clientSearch: {
       type: Boolean,
@@ -61,7 +58,7 @@ export default defineComponent({
 
   setup(props, { emit }) {
     function emitSearch(value: string) {
-      const normalizedSearch = value.toLowerCase().trim()
+      const normalizedSearch = value.toLowerCase().trim();
       emit('search', normalizedSearch);
     }
 
