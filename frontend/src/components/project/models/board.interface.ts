@@ -1,4 +1,5 @@
 export default interface BoardInterface {
-  readonly id: number
-  name: string
+  readonly id: number;
+  name: string;
+  favorite: boolean;
 }
