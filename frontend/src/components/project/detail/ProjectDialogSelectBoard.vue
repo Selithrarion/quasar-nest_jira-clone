@@ -1,13 +1,14 @@
 <template>
   <BaseDialog title="Выбор доски" :show="show" :actions="false" large @close="close">
-    <CommonSearch :value="searchValue" :outlined="false" client-search filled @search="updateSearch" />
+    <CommonSearch :value="search" :outlined="false" client-search filled @search="updateSearch" />
 
     <div class="text-caption text-uppercase q-mt-md q-mb-sm">доски в {{ projectName }}</div>
     <q-list>
       <q-item
         v-for="board in filteredBoards"
         :key="board.id"
-        class="row items-center gap-3"
+        class="row items-center gap-3 q-pl-sm"
+        :class="{ 'shadow-1': board.id === selectedBoard.id }"
         clickable
         @click="selectBoard(board)"
       >
@@ -25,7 +26,7 @@ import CommonSearch from 'components/common/CommonSearch.vue';
 import BoardInterface from 'components/project/models/board.interface';
 
 export default defineComponent({
-  name: 'ProjectDetailDialogSelectBoard',
+  name: 'ProjectDialogSelectBoard',
 
   components: {
     BaseDialog,
@@ -55,21 +56,21 @@ export default defineComponent({
   emits: ['select', 'close'],
 
   setup(props, { emit }) {
-    const searchValue = ref('');
+    const search = ref('');
     function updateSearch(value: string) {
-      searchValue.value = value;
+      search.value = value;
     }
 
     const filteredBoards = computed(() => {
-      const boards = props.boards;
-      const normalizedSearch = searchValue.value.toLowerCase().trim();
-
-      if (!normalizedSearch) return boards;
-      return boards.filter((b) => b.name.includes(normalizedSearch));
+      if (!search.value) return props.boards;
+      return props.boards.filter((b) => b.name.toLowerCase().includes(search.value));
     });
 
     function selectBoard(boardID: number) {
-      emit('select', boardID);
+      const isSelectedAnotherBoard = boardID !== props.selectedBoard.id;
+      if (isSelectedAnotherBoard) {
+        emit('select', boardID);
+      }
       close();
     }
     function close() {
@@ -77,7 +78,7 @@ export default defineComponent({
     }
 
     return {
-      searchValue,
+      search,
       updateSearch,
       filteredBoards,
 
