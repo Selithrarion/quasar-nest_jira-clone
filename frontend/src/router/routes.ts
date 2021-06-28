@@ -1,14 +1,36 @@
 import { RouteRecordRaw } from 'vue-router';
+import component from '*.vue';
 
 const routes: RouteRecordRaw[] = [
   {
     path: '/',
     component: () => import('layouts/MainLayout.vue'),
     children: [
-      { path: '', component: () => import('pages/Index.vue') },
+      { path: '/', component: () => import('pages/Index.vue') },
 
-      { path: 'projects', component: () => import('pages/project/Projects.vue') },
-      { path: 'projects/:id', component: () => import('pages/project/ProjectDetail.vue') },
+      { path: '/projects', name: 'projects', component: () => import('pages/project/Projects.vue') },
+      {
+        path: '/projects/:id',
+        component: () => import('pages/project/ProjectDetail.vue'),
+        children: [
+          {
+            path: 'board/:id',
+            name: 'board',
+            meta: {
+              name: 'Доска задач'
+            },
+            component: () => import('components/project/detail/ProjectBoard.vue'),
+          },
+          {
+            path: 'roadmap',
+            name: 'roadmap',
+            meta: {
+              name: 'Дорожная карта'
+            },
+            component: () => import('components/project/detail/ProjectRoadmap.vue'),
+          },
+        ],
+      },
 
       { path: 'filters', component: () => import('pages/Filters.vue') },
 
