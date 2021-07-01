@@ -1,5 +1,4 @@
 import { RouteRecordRaw } from 'vue-router';
-import component from '*.vue';
 
 const routes: RouteRecordRaw[] = [
   {
