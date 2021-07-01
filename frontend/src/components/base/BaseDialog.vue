@@ -10,7 +10,7 @@
             </div>
           </slot>
 
-          <BaseButtonCloseIcon class="close-icon" @click="close" />
+          <BaseButtonCloseIcon v-if="!hideCloseIcon" class="close-icon" @click="close" />
         </q-card-section>
 
         <q-card-section class="q-pt-none">
@@ -26,7 +26,7 @@
           :class="{ 'dialog-action-buttons--dense': type === 'delete' }"
         >
           <q-btn
-            v-if="showCloseButton"
+            v-if="!hideCloseButton"
             v-close-popup
             color="grey-6"
             :label="closeText || selectedType.closeButtonText"
@@ -34,7 +34,7 @@
             @click="close"
           />
           <q-btn
-            v-if="showConfirmButton"
+            v-if="!hideConfirmButton"
             :color="confirmColor || selectedType.confirmColor"
             :label="confirmText || selectedType.confirmButtonText"
             :loading="confirmLoading"
@@ -115,16 +115,9 @@ export default defineComponent({
       default: 'primary',
     },
 
-    showConfirmButton: {
-      type: Boolean,
-      required: false,
-      default: true,
-    },
-    showCloseButton: {
-      type: Boolean,
-      required: false,
-      default: true,
-    },
+    hideConfirmButton: Boolean,
+    hideCloseButton: Boolean,
+    hideCloseIcon: Boolean,
 
     small: {
       type: Boolean,

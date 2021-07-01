@@ -32,7 +32,6 @@ export default defineComponent({
     show: {
       type: Boolean,
       required: true,
-      default: null,
     },
   },
 

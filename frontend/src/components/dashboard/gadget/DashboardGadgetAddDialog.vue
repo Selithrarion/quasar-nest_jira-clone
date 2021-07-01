@@ -3,8 +3,8 @@
     title="Добавить гаджет"
     :show="show"
     :loading="loading.status"
-    :show-confirm-button="false"
     :maximized="$q.screen.lt.md"
+    hide-confirm-button
     large
     @close="close"
   >
