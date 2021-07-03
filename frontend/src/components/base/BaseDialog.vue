@@ -1,6 +1,10 @@
 <template>
   <q-dialog :model-value="show" :maximized="maximized" v-bind="$attrs" @update:model-value="handleInput">
-    <q-card class="base-dialog" :class="{ 'big-side-padding': maximized }" :style="getCardStyles">
+    <q-card
+      class="base-dialog"
+      :class="[{ 'big-side-padding': maximized }, { 'overflow-hidden': hideScroll }]"
+      :style="getCardStyles"
+    >
       <slot name="content">
         <q-card-section class="flex items-center q-py-lg">
           <slot name="title">
@@ -118,6 +122,8 @@ export default defineComponent({
     hideConfirmButton: Boolean,
     hideCloseButton: Boolean,
     hideCloseIcon: Boolean,
+
+    hideScroll: Boolean,
 
     small: {
       type: Boolean,
