@@ -154,8 +154,8 @@ import CommonClipboard from 'components/common/CommonClipboard.vue';
 
 import ProjectBoardSelectDialog from 'components/project/board/ProjectBoardSelectDialog.vue';
 
-import SidebarItemInterface from 'src/models/sidebarItem.interface';
-import BoardInterface from 'components/project/models/board.interface';
+import { SidebarItemInterface } from 'src/models/sidebarItem.interface';
+import { BoardInterface } from 'components/project/models/board.interface';
 
 export default defineComponent({
   name: 'ProjectDetail',
