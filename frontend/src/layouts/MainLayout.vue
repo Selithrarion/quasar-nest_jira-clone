@@ -16,14 +16,14 @@
             Jira software
           </q-btn>
 
-          <q-tabs v-model="selectedTab" active-color="primary" inline-label>
+          <q-tabs v-model="selectedTab" active-color="primary" inline-label no-caps>
             <q-route-tab
               v-for="tab in tabsData"
               :key="tab.name"
               :name="tab.name"
               :label="tab.label"
               :to="tab.url"
-              exact
+              :exact="tab.exact"
             />
           </q-tabs>
 
@@ -69,6 +69,7 @@ export default defineComponent({
         name: 'work',
         label: 'Ваша работа',
         url: '/',
+        exact: true,
       },
       {
         name: 'projects',
