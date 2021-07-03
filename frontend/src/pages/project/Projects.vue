@@ -68,7 +68,7 @@
 </template>
 
 <script lang="ts">
-import { defineComponent, ref, reactive } from 'vue';
+import { defineComponent, reactive } from 'vue';
 import useDialog from 'src/composables/common/useDialog';
 
 import BaseButtonFavorite from 'components/base/button/BaseButtonFavorite.vue';

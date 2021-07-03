@@ -93,7 +93,7 @@
                   </q-btn>
                 </CommonClipboard>
 
-                <q-btn label="Отправить" color="primary" unelevated no-caps v-close-popup />
+                <q-btn v-close-popup label="Отправить" color="primary" unelevated no-caps />
               </div>
             </q-menu>
           </q-btn>

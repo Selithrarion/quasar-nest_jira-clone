@@ -95,7 +95,7 @@ import { useStore } from 'src/store';
 import useDialog from 'src/composables/common/useDialog';
 
 import BaseLoader from 'components/base/BaseLoader.vue';
-import BaseButtonFavorite from "components/base/button/BaseButtonFavorite.vue";
+import BaseButtonFavorite from 'components/base/button/BaseButtonFavorite.vue';
 import BaseButtonMore from 'components/base/button/BaseButtonMore.vue';
 import CommonPageHeader from 'components/common/CommonPageHeader.vue';
 import DashboardCreateDialog from 'components/dashboard/create/DashboardCreateDialog.vue';

@@ -28,7 +28,7 @@
 
     <!-- сделать раздельный скролл и прилапающий хедер с инпутом коммента -->
     <template #default>
-      <div class="row q-col-gutter-md ">
+      <div class="row q-col-gutter-md">
         <div class="column col-7 gap-6 q-pl-lg q-pb-lg h-full overflow-auto">
           <div class="column gap-2">
             <div>
@@ -239,7 +239,7 @@ export default defineComponent({
         ],
       },
     ]);
-    const selectedColumn = ref(availableColumns[0]);
+    const selectedColumn = ref<ColumnInterface>(availableColumns[0]);
 
     const inputNameFocus = ref(false);
     const commentInput = ref<HTMLInputElement | null>(null);
@@ -254,7 +254,9 @@ export default defineComponent({
       }
     });
     onBeforeUnmount(() => {
-      document.removeEventListener('keydown', () => {});
+      document.removeEventListener('keydown', () => {
+        // do nothing
+      });
     });
 
     return {

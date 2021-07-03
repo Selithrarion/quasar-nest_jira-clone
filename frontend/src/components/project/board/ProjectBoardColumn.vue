@@ -52,9 +52,9 @@ export default defineComponent({
     ProjectBoardIconIssueType,
   },
 
-  emits: ['open'],
-
   props: {},
+
+  emits: ['open'],
 
   setup(props, { emit }) {
     const issues = reactive<IssueInterface[]>([
