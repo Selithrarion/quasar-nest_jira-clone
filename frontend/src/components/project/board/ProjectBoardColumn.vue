@@ -1,0 +1,156 @@
+<template>
+  <div class="project-board-column bg-grey-2 flex-grow-1 h-full rounded-md">
+    <div class="text-caption text-uppercase text-weight-medium q-pa-sm">In progress</div>
+
+    <div class="q-px-xs q-pb-xl">
+      <Draggable v-model="issues" item-key="id" @start="isDrag = true" @end="isDrag = false">
+        <template #item="{ element }">
+          <q-card class="select-none" @click="openIssue(100)">
+            <q-card-section class="q-pa-sm"> Lorem ipsum dolor sit amet, consectetur adipisic </q-card-section>
+            <q-card-section class="flex-center-between q-pa-sm">
+              <div>
+                <ProjectBoardIconIssueType type="bug" />
+              </div>
+
+              <div class="row gap-2">
+                <span class="cursor-pointer">
+                  JP-100
+                  <BaseTooltip label="JP-100" />
+                </span>
+
+                <q-avatar size="24px">
+                  <img
+                    src="https://secure.gravatar.com/avatar/d1cb0ee26c499154d46f1ab7b61cf44f?d=https%3A%2F%2Favatar-management--avatars.us-west-2.prod.public.atl-paas.net%2Fdefault-avatar-1.png"
+                    alt="User Avatar"
+                  />
+                  <BaseTooltip label="Исполнитель: Сергей Мальцев" />
+                </q-avatar>
+              </div>
+            </q-card-section>
+          </q-card>
+        </template>
+      </Draggable>
+    </div>
+  </div>
+</template>
+
+<script lang="ts">
+import { defineComponent, reactive } from 'vue';
+import Draggable from 'vuedraggable';
+
+import BaseTooltip from 'components/base/BaseTooltip.vue';
+import ProjectBoardIconIssueType from 'components/project/board/ProjectBoardIconIssueType.vue';
+
+import { IssueInterface } from 'components/project/models/issue.interface';
+
+export default defineComponent({
+  name: 'ProjectBoardColumn',
+
+  components: {
+    Draggable,
+    BaseTooltip,
+    ProjectBoardIconIssueType,
+  },
+
+  emits: ['open'],
+
+  props: {},
+
+  setup(props, { emit }) {
+    const issues = reactive<IssueInterface[]>([
+      {
+        id: 1,
+        name: 'name',
+        description: 'des',
+        comments: [],
+        watchNumber: 1,
+        watchers: [],
+        priority: {
+          id: 3,
+          name: 'Medium',
+        },
+        author: {
+          id: 1,
+          name: 'Jira Jira',
+          avatarURLs: {
+            x16: 'https://thumbs.dreamstime.com/b/creative-illustration-default-avatar-profile-placeholder-isolated-background-art-design-grey-photo-blank-template-mockup-144849704.jpg',
+            x24: 'https://thumbs.dreamstime.com/b/creative-illustration-default-avatar-profile-placeholder-isolated-background-art-design-grey-photo-blank-template-mockup-144849704.jpg',
+            x32: 'https://thumbs.dreamstime.com/b/creative-illustration-default-avatar-profile-placeholder-isolated-background-art-design-grey-photo-blank-template-mockup-144849704.jpg',
+            x48: 'https://thumbs.dreamstime.com/b/creative-illustration-default-avatar-profile-placeholder-isolated-background-art-design-grey-photo-blank-template-mockup-144849704.jpg',
+          },
+          email: 'jirajiraemail@gmail.com',
+          locale: 'ru_RU',
+          isActive: true,
+        },
+        assigned: {
+          id: 1,
+          name: 'Jira Jira',
+          avatarURLs: {
+            x16: 'https://thumbs.dreamstime.com/b/creative-illustration-default-avatar-profile-placeholder-isolated-background-art-design-grey-photo-blank-template-mockup-144849704.jpg',
+            x24: 'https://thumbs.dreamstime.com/b/creative-illustration-default-avatar-profile-placeholder-isolated-background-art-design-grey-photo-blank-template-mockup-144849704.jpg',
+            x32: 'https://thumbs.dreamstime.com/b/creative-illustration-default-avatar-profile-placeholder-isolated-background-art-design-grey-photo-blank-template-mockup-144849704.jpg',
+            x48: 'https://thumbs.dreamstime.com/b/creative-illustration-default-avatar-profile-placeholder-isolated-background-art-design-grey-photo-blank-template-mockup-144849704.jpg',
+          },
+          email: 'jirajiraemail@gmail.com',
+          locale: 'ru_RU',
+          isActive: true,
+        },
+        createdAt: new Date().getTime(),
+        updatedAt: new Date().getTime(),
+      },
+      {
+        id: 2,
+        name: 'title',
+        description: 'des',
+        comments: [],
+        watchNumber: 1,
+        watchers: [],
+        priority: {
+          id: 3,
+          name: 'Medium',
+        },
+        author: {
+          id: 1,
+          name: 'Jira Jira',
+          avatarURLs: {
+            x16: 'https://thumbs.dreamstime.com/b/creative-illustration-default-avatar-profile-placeholder-isolated-background-art-design-grey-photo-blank-template-mockup-144849704.jpg',
+            x24: 'https://thumbs.dreamstime.com/b/creative-illustration-default-avatar-profile-placeholder-isolated-background-art-design-grey-photo-blank-template-mockup-144849704.jpg',
+            x32: 'https://thumbs.dreamstime.com/b/creative-illustration-default-avatar-profile-placeholder-isolated-background-art-design-grey-photo-blank-template-mockup-144849704.jpg',
+            x48: 'https://thumbs.dreamstime.com/b/creative-illustration-default-avatar-profile-placeholder-isolated-background-art-design-grey-photo-blank-template-mockup-144849704.jpg',
+          },
+          email: 'jirajiraemail@gmail.com',
+          locale: 'ru_RU',
+          isActive: true,
+        },
+        assigned: {
+          id: 1,
+          name: 'Jira Jira',
+          avatarURLs: {
+            x16: 'https://thumbs.dreamstime.com/b/creative-illustration-default-avatar-profile-placeholder-isolated-background-art-design-grey-photo-blank-template-mockup-144849704.jpg',
+            x24: 'https://thumbs.dreamstime.com/b/creative-illustration-default-avatar-profile-placeholder-isolated-background-art-design-grey-photo-blank-template-mockup-144849704.jpg',
+            x32: 'https://thumbs.dreamstime.com/b/creative-illustration-default-avatar-profile-placeholder-isolated-background-art-design-grey-photo-blank-template-mockup-144849704.jpg',
+            x48: 'https://thumbs.dreamstime.com/b/creative-illustration-default-avatar-profile-placeholder-isolated-background-art-design-grey-photo-blank-template-mockup-144849704.jpg',
+          },
+          email: 'jirajiraemail@gmail.com',
+          locale: 'ru_RU',
+          isActive: true,
+        },
+        createdAt: new Date().getTime(),
+        updatedAt: new Date().getTime(),
+      },
+    ]);
+    function openIssue(issueID: number) {
+      emit('open', issueID);
+    }
+
+    const isDrag = ref(false);
+
+    return {
+      issues,
+      openIssue,
+
+      isDrag,
+    };
+  },
+});
+</script>
