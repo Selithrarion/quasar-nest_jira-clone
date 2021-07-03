@@ -9,11 +9,11 @@ const routes: RouteRecordRaw[] = [
 
       { path: '/projects', name: 'projects', component: () => import('pages/project/Projects.vue') },
       {
-        path: '/projects/:id',
+        path: '/projects/:projectID',
         component: () => import('pages/project/ProjectDetail.vue'),
         children: [
           {
-            path: 'board/:id',
+            path: 'board/:boardID',
             name: 'board',
             meta: {
               name: 'Доска задач'
