@@ -1,7 +1,7 @@
-import IssueInterface from "components/project/models/issue.interface";
+import { IssueInterface } from 'components/project/models/issue.interface';
 
-export default interface ColumnInterface {
+export interface ColumnInterface {
   readonly id: number;
   name: string;
-  issues: IssueInterface[]
+  issues: IssueInterface[];
 }

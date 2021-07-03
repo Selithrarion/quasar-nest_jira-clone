@@ -1,5 +1,5 @@
 import { AvatarSizesInterface, UserInterface } from 'components/user/models/user.interface';
-import BoardInterface from 'components/project/models/board.interface';
+import { BoardInterface } from 'components/project/models/board.interface';
 
 export interface ProjectInterface {
   readonly id: number;
@@ -7,7 +7,7 @@ export interface ProjectInterface {
   key: string;
   type: string;
   favorite: boolean;
-  // boards: BoardInterface[];
+  boards: BoardInterface[];
   avatarURLs: AvatarSizesInterface;
   leader: UserInterface;
 }
