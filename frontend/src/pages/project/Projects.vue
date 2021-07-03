@@ -25,7 +25,7 @@
           <q-td :props="props">
             <q-btn
               :label="props.row.name"
-              :to="`/projects/${props.row.id}`"
+              :to="`/projects/${props.row.id}/board/${props.row.boards[0].id}`"
               option-value="id"
               emit-value
               map-options
@@ -143,6 +143,28 @@ export default defineComponent({
         key: 'JP',
         type: 'Software',
         favorite: true,
+        boards: [
+          {
+            id: 1,
+            name: 'Full',
+            favorite: false,
+          },
+          {
+            id: 2,
+            name: 'Frontend',
+            favorite: true,
+          },
+          {
+            id: 3,
+            name: 'Backend',
+            favorite: false,
+          },
+          {
+            id: 4,
+            name: 'Testing',
+            favorite: false,
+          },
+        ],
         avatarURLs: {
           x16: 'https://png.pngtree.com/element_our/20190604/ourlarge/pngtree-gradient-square-border-illustration-image_1467225.jpg',
           x24: 'https://png.pngtree.com/element_our/20190604/ourlarge/pngtree-gradient-square-border-illustration-image_1467225.jpg',
