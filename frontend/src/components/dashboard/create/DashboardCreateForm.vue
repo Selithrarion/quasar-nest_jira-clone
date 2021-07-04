@@ -2,7 +2,6 @@
   <q-form @submit="submit">
     <q-input
       v-model="form.name"
-      type="text"
       label="Название"
       hint="До 40 символов"
       :rules="[rules.required, rules.max40]"

@@ -2,7 +2,6 @@
   <q-form @submit="submit">
     <q-input
       v-model="form.name"
-      type="text"
       label="Название"
       hint="До 40 символов"
       :rules="[rules.required, rules.max40]"
@@ -37,7 +36,6 @@
 
     <q-input
       v-model="form.key"
-      type="text"
       label="Ключ"
       hint="К примеру My Project может быть — MP, MP1, MYPR, MY, PR или любое другое"
       lazy-rules

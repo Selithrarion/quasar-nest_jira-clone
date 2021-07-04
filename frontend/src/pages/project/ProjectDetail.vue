@@ -82,8 +82,8 @@
             <q-menu class="q-px-lg q-py-md column gap-3" style="width: 350px" :offset="[0, 8]">
               <div class="text-subtitle1 text-weight-medium">Поделиться</div>
 
-              <q-input type="text" label="Введите имя, команду или адрес эл. почты" filled dense />
-              <q-input type="text" label="Введите сообщение" filled dense />
+              <q-input label="Введите имя, команду или адрес эл. почты" filled dense />
+              <q-input label="Введите сообщение" filled dense />
 
               <div class="flex-center-between gap-2">
                 <CommonClipboard text="123">

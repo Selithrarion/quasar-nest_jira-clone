@@ -20,7 +20,6 @@
         <q-form v-model="valid">
           <q-input
             v-model="form.name"
-            type="text"
             label="Название команды"
             hint="Как называется ваша команда?"
             lazy-rules

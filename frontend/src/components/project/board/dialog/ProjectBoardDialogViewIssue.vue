@@ -31,7 +31,7 @@
         <div class="column col-7 gap-6 h-full overflow-auto">
           <div class="column gap-2">
             <div>
-              <q-input v-model="issue.name" class="text-h6" type="text" placeholder="Добавить название" filled />
+              <q-input v-model="issue.name" class="text-h6" placeholder="Добавить название" filled />
               <BaseTooltip :label="issue.name" />
             </div>
 
