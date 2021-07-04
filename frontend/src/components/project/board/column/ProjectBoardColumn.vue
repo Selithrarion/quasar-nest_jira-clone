@@ -19,7 +19,7 @@
       >
         <template #item="{ element }">
           <q-card class="list-group-item" @click="openIssue(100)">
-            <q-card-section class="q-pa-sm">
+            <q-card-section class="q-px-sm q-pt-sm q-pb-none">
               <span> Lorem ipsum dolor sit amet, consectetur adipisic </span>
               <BaseTooltip label="Lorem ipsum dolor sit amet, consectetur adipisic" />
             </q-card-section>
