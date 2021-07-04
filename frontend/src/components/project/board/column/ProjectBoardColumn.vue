@@ -19,7 +19,10 @@
       >
         <template #item="{ element }">
           <q-card class="list-group-item" @click="openIssue(100)">
-            <q-card-section class="q-pa-sm"> Lorem ipsum dolor sit amet, consectetur adipisic </q-card-section>
+            <q-card-section class="q-pa-sm">
+              <span> Lorem ipsum dolor sit amet, consectetur adipisic </span>
+              <BaseTooltip label="Lorem ipsum dolor sit amet, consectetur adipisic" />
+            </q-card-section>
             <q-card-section class="flex-center-between q-pa-sm">
               <div>
                 <ProjectBoardIconIssueType type="bug" />
