@@ -29,7 +29,7 @@
         <q-card-section
           v-if="actions"
           class="dialog-action-buttons"
-          :class="{ 'dialog-action-buttons--dense': type === 'delete' }"
+          :class="[{ 'dialog-action-buttons--dense': type === 'delete' }, { 'fixed-section': fixedFooter }]"
         >
           <q-btn
             v-if="!hideCloseButton"
@@ -121,6 +121,17 @@ export default defineComponent({
       default: 'primary',
     },
 
+    fixedHeader: {
+      type: Boolean,
+      required: false,
+      default: true,
+    },
+    fixedFooter: {
+      type: Boolean,
+      required: false,
+      default: true,
+    },
+
     hideConfirmButton: Boolean,
     hideCloseButton: Boolean,
     hideCloseIcon: Boolean,
@@ -203,10 +214,22 @@ export default defineComponent({
 
 <style lang="scss" scoped>
 .base-dialog {
+  position: relative;
+
   .close-icon {
     position: absolute;
     top: 16px;
     right: 16px;
+  }
+
+  .fixed-section {
+    position: sticky;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: white;
+    z-index: 1;
   }
 }
 </style>
