@@ -127,7 +127,7 @@
       <router-view />
     </q-page>
 
-    <ProjectBoardSelectDialog
+    <ProjectBoardDialogSelect
       :show="dialog.opened.value === 'selectBoard'"
       :project-name="project.name"
       :boards="project.boards"
@@ -152,7 +152,7 @@ import CommonSearch from 'components/common/CommonSearch.vue';
 import CommonAvatarsWrapper from 'components/common/CommonAvatarsWrapper.vue';
 import CommonClipboard from 'components/common/CommonClipboard.vue';
 
-import ProjectBoardSelectDialog from 'components/project/board/ProjectBoardSelectDialog.vue';
+import ProjectBoardDialogSelect from 'components/project/board/dialog/ProjectBoardDialogSelect.vue';
 
 import { SidebarItemInterface } from 'src/models/sidebarItem.interface';
 import { BoardInterface } from 'components/project/models/board.interface';
@@ -169,7 +169,7 @@ export default defineComponent({
     CommonAvatarsWrapper,
     CommonClipboard,
 
-    ProjectBoardSelectDialog,
+    ProjectBoardDialogSelect,
   },
 
   setup() {

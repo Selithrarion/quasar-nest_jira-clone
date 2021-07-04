@@ -52,7 +52,7 @@ import { defineComponent, reactive, ref } from 'vue';
 
 import Draggable from 'vuedraggable';
 import BaseTooltip from 'components/base/BaseTooltip.vue';
-import ProjectBoardIconIssueType from 'components/project/board/ProjectBoardIconIssueType.vue';
+import ProjectBoardIconIssueType from 'components/project/board/icon/ProjectBoardIconIssueType.vue';
 
 import { IssueInterface } from 'components/project/models/issue.interface';
 

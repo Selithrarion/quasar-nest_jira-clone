@@ -26,10 +26,9 @@
       </div>
     </template>
 
-    <!-- сделать раздельный скролл и прилапающий хедер с инпутом коммента -->
     <template #default>
       <div class="row q-col-gutter-md">
-        <div class="column col-7 gap-6 q-pl-lg q-pb-lg h-full overflow-auto">
+        <div class="column col-7 gap-6 h-full overflow-auto">
           <div class="column gap-2">
             <div>
               <q-input v-model="issue.name" class="text-h6" type="text" placeholder="Добавить название" filled />
@@ -47,7 +46,14 @@
 
           <div>
             <div class="text-subtitle2 q-pb-sm">Описание</div>
-            <q-input v-model="issue.description" type="text" placeholder="Добавить описание" autogrow filled dense />
+            <q-input
+              v-model="issue.description"
+              type="textarea"
+              placeholder="Добавить описание"
+              autogrow
+              filled
+              dense
+            />
           </div>
 
           <div>
@@ -176,14 +182,14 @@ import { defineComponent, ref, reactive, onBeforeUnmount } from 'vue';
 import BaseDialog from 'components/base/BaseDialog.vue';
 import BaseTooltip from 'components/base/BaseTooltip.vue';
 import BaseButtonCloseIcon from 'components/base/button/BaseButtonCloseIcon.vue';
-import ProjectBoardIconIssueType from 'components/project/board/ProjectBoardIconIssueType.vue';
-import ProjectBoardIconPriorityType from 'components/project/board/ProjectBoardIconPriorityType.vue';
+import ProjectBoardIconIssueType from 'components/project/board/icon/ProjectBoardIconIssueType.vue';
+import ProjectBoardIconPriorityType from 'components/project/board/icon/ProjectBoardIconPriorityType.vue';
 
 import { ColumnInterface } from 'components/project/models/column.interface';
 import { IssueInterface } from 'components/project/models/issue.interface';
 
 export default defineComponent({
-  name: 'ProjectBoardViewIssueDialog',
+  name: 'ProjectBoardDialogViewIssue',
 
   components: {
     BaseDialog,
