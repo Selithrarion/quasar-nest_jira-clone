@@ -19,7 +19,7 @@
           <BaseButtonCloseIcon v-if="!hideCloseIcon" class="close-icon" @click="close" />
         </q-card-section>
 
-        <q-card-section class="q-pt-none">
+        <q-card-section class="q-pt-none q-px-lg q-pb-lg">
           <BaseLoader v-if="contentLoading" />
           <div v-else>
             <slot>Default slot</slot>
