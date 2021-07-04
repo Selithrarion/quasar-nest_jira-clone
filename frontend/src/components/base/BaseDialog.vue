@@ -14,6 +14,8 @@
             </div>
           </slot>
 
+          <slot name="title-append-buttons" />
+
           <BaseButtonCloseIcon v-if="!hideCloseIcon" class="close-icon" @click="close" />
         </q-card-section>
 
