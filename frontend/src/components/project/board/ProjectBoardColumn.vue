@@ -2,10 +2,23 @@
   <div class="project-board-column bg-grey-2 flex-grow-1 h-full rounded-md">
     <div class="text-caption text-uppercase text-weight-medium q-pa-sm">In progress</div>
 
-    <div class="q-px-xs q-pb-xl">
-      <Draggable v-model="issues" item-key="id" @start="isDrag = true" @end="isDrag = false">
+    <div class="q-px-xs q-pb-xs">
+      <Draggable
+        v-model="issues"
+        class="list-group"
+        item-key="id"
+        tag="transition-group"
+        :component-data="{
+          tag: 'div',
+          type: 'transition-group',
+          name: !isDrag ? 'flip-list' : null,
+        }"
+        v-bind="dragOptions"
+        @start="drag = true"
+        @end="drag = false"
+      >
         <template #item="{ element }">
-          <q-card class="select-none" @click="openIssue(100)">
+          <q-card class="list-group-item" @click="openIssue(100)">
             <q-card-section class="q-pa-sm"> Lorem ipsum dolor sit amet, consectetur adipisic </q-card-section>
             <q-card-section class="flex-center-between q-pa-sm">
               <div>
@@ -35,9 +48,9 @@
 </template>
 
 <script lang="ts">
-import { defineComponent, reactive } from 'vue';
-import Draggable from 'vuedraggable';
+import { defineComponent, reactive, ref } from 'vue';
 
+import Draggable from 'vuedraggable';
 import BaseTooltip from 'components/base/BaseTooltip.vue';
 import ProjectBoardIconIssueType from 'components/project/board/ProjectBoardIconIssueType.vue';
 
@@ -144,13 +157,45 @@ export default defineComponent({
     }
 
     const isDrag = ref(false);
+    const dragOptions = {
+      animation: 200,
+      group: 'description',
+      disabled: false,
+      ghostClass: 'ghost',
+    };
 
     return {
       issues,
       openIssue,
 
       isDrag,
+      dragOptions,
     };
   },
 });
 </script>
+
+<style lang="scss" scoped>
+.button {
+  margin-top: 35px;
+}
+.flip-list-move {
+  transition: transform 0.5s;
+}
+.no-move {
+  transition: transform 0s;
+}
+.ghost {
+  opacity: 0.5;
+  background: #c8e3fb;
+}
+.list-group {
+  display: flex;
+  flex-flow: column;
+  gap: 4px;
+  min-height: 77px;
+}
+.list-group-item {
+  cursor: grab;
+}
+</style>
