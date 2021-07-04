@@ -1,23 +1,23 @@
 import { ref, Ref } from 'vue';
 
 declare interface DialogInterface {
-  opened: Ref<string | null>;
+  openedName: Ref<string | null>;
   open: (name: string) => void;
   close: () => void;
 }
 
 export default function useDialog(): DialogInterface {
-  const opened = ref<string | null>(null);
+  const openedName = ref<string | null>(null);
 
   function open(name: string) {
-    opened.value = name;
+    openedName.value = name;
   }
   function close() {
-    opened.value = null;
+    openedName.value = null;
   }
 
   return {
-    opened,
+    openedName,
     open,
     close,
   };

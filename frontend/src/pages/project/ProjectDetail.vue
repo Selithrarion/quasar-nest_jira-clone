@@ -128,7 +128,7 @@
     </q-page>
 
     <ProjectBoardDialogSelect
-      :show="dialog.opened.value === 'selectBoard'"
+      :show="dialog.openedName.value === 'selectBoard'"
       :project-name="project.name"
       :boards="project.boards"
       :selected-board="selectedBoard"

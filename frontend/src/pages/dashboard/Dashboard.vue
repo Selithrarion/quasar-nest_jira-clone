@@ -85,7 +85,7 @@
       </Suspense>
     </div>
 
-    <DashboardCreateDialog :show="dialog.opened.value === 'createDashboard'" @close="dialog.close" />
+    <DashboardCreateDialog :show="dialog.openedName.value === 'createDashboard'" @close="dialog.close" />
   </q-page>
 </template>
 

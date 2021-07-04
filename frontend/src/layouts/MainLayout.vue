@@ -53,7 +53,7 @@
       <router-view />
     </q-page-container>
 
-    <ProjectBoardDialogCreateTask :show="dialog.opened.value === 'createTask'" @close="dialog.close" />
+    <ProjectBoardDialogCreateTask :show="dialog.openedName.value === 'createTask'" @close="dialog.close" />
   </q-layout>
 </template>
 

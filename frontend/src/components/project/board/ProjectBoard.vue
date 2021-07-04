@@ -4,7 +4,7 @@
       <ProjectBoardColumn v-for="column in 5" :key="column" @open="dialog.open('viewIssue')"></ProjectBoardColumn>
     </ProjectBoardColumnWrapper>
 
-    <ProjectBoardDialogViewIssue :show="dialog.opened.value === 'viewIssue'" @close="dialog.close" />
+    <ProjectBoardDialogViewIssue :show="dialog.openedName.value === 'viewIssue'" @close="dialog.close" />
   </div>
 </template>
 

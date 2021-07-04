@@ -169,11 +169,11 @@
       </div>
     </div>
 
-    <DashboardGadgetAddDialog :show="dialog.opened.value === 'addGadget'" @close="dialog.close" />
-    <DashboardCreateDialog :show="dialog.opened.value === 'createDashboard'" @close="dialog.close" />
+    <DashboardGadgetAddDialog :show="dialog.openedName.value === 'addGadget'" @close="dialog.close" />
+    <DashboardCreateDialog :show="dialog.openedName.value === 'createDashboard'" @close="dialog.close" />
     <BaseDialog
       type="delete"
-      :show="dialog.opened.value === 'deleteDashboard'"
+      :show="dialog.openedName.value === 'deleteDashboard'"
       :title="`Удалить ${dashboard.name}?`"
       :confirm-loading="isDeleteDashboardLoading"
       @close="dialog.close"

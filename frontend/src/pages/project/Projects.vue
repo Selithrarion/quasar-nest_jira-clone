@@ -63,7 +63,7 @@
       </q-table>
     </div>
 
-    <ProjectCreateDialog :show="dialog.opened.value === 'create'" @close="dialog.close" />
+    <ProjectCreateDialog :show="dialog.openedName.value === 'create'" @close="dialog.close" />
   </q-page>
 </template>
 
