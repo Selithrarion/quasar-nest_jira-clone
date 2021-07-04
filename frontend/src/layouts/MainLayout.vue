@@ -27,7 +27,15 @@
             />
           </q-tabs>
 
-          <q-btn class="flex-shrink-0" color="primary" padding="4px 12px" unelevated no-caps>Создать</q-btn>
+          <q-btn
+            class="flex-shrink-0"
+            label="Создать"
+            color="primary"
+            padding="4px 12px"
+            unelevated
+            no-caps
+            @click="dialog.open('createTask')"
+          />
         </div>
 
         <div class="flex-center gap-4">
@@ -44,19 +52,29 @@
     <q-page-container>
       <router-view />
     </q-page-container>
+
+    <ProjectBoardDialogCreateTask :show="dialog.opened.value === 'createTask'" @close="dialog.close" />
   </q-layout>
 </template>
 
 <script lang="ts">
 import { defineComponent, ref, reactive } from 'vue';
+import useDialog from 'src/composables/common/useDialog';
+
 import CommonSearch from 'components/common/CommonSearch.vue';
+import ProjectBoardDialogCreateTask from 'components/project/board/dialog/ProjectBoardDialogCreateTask.vue';
 
 export default defineComponent({
   name: 'MainLayout',
 
-  components: { CommonSearch },
+  components: {
+    CommonSearch,
+    ProjectBoardDialogCreateTask,
+  },
 
   setup() {
+    const dialog = useDialog();
+
     const searchValue = ref('');
     function search(value: string) {
       console.log(value);
@@ -99,11 +117,13 @@ export default defineComponent({
     ]);
 
     return {
-      tabsData,
-      selectedTab,
+      dialog,
 
       searchValue,
       search,
+
+      tabsData,
+      selectedTab,
     };
   },
 });
