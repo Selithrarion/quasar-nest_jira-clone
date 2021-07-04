@@ -6,9 +6,9 @@
       :style="getCardStyles"
     >
       <slot name="content">
-        <q-card-section class="flex items-center q-py-lg">
+        <q-card-section class="row items-center no-wrap q-pa-lg" :class="{ 'fixed-section': fixedHeader }">
           <slot name="title">
-            <div class="flex items-center gap-2 text-h6 full-width">
+            <div class="row items-center gap-2 text-h6 full-width">
               <q-icon v-if="type === 'delete'" color="amber-8" name="warning" />
               {{ title }}
             </div>
