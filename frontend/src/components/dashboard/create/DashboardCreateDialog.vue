@@ -35,6 +35,7 @@ export default defineComponent({
     async function createDashboard(payload: DashboardDTO) {
       try {
         loading.start();
+        console.log(payload)
         // const dashboard: DashboardInterface = await new Promise((res) => {
         //   setTimeout(() => {
         //     res({});

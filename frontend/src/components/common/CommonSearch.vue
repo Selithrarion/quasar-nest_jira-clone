@@ -24,7 +24,10 @@ export default defineComponent({
   name: 'CommonSearch',
 
   props: {
-    modelValue: String,
+    modelValue: {
+      type: String,
+      required: true,
+    },
 
     clientSearch: {
       type: Boolean,

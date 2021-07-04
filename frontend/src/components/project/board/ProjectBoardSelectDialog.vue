@@ -21,9 +21,11 @@
 
 <script lang="ts">
 import { defineComponent, ref, computed, PropType } from 'vue';
+
 import BaseDialog from 'components/base/BaseDialog.vue';
 import CommonSearch from 'components/common/CommonSearch.vue';
-import BoardInterface from 'components/project/models/board.interface';
+
+import { BoardInterface } from 'components/project/models/board.interface';
 
 export default defineComponent({
   name: 'ProjectBoardSelectDialog',

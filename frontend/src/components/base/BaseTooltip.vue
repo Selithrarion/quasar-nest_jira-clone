@@ -13,7 +13,11 @@ export default defineComponent({
   name: 'BaseTooltip',
 
   props: {
-    label: String,
+    label: {
+      type: String,
+      required: false,
+      default: null,
+    },
   },
 });
 </script>

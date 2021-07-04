@@ -9,8 +9,6 @@ export default defineComponent({
 
   components: {},
 
-  props: {},
-
   setup() {
     return {};
   },

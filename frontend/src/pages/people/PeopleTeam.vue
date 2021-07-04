@@ -126,8 +126,6 @@ export default defineComponent({
     BaseTooltip,
   },
 
-  props: {},
-
   setup() {
     const isHeaderMenu = ref(false);
     const headerImage = ref(null);

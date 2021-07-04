@@ -9,7 +9,7 @@
 </template>
 
 <script lang="ts">
-import { defineComponent, ref } from 'vue';
+import { defineComponent } from 'vue';
 
 import ProjectBoardColumnWrapper from 'components/project/board/ProjectBoardColumnWrapper.vue';
 import ProjectBoardColumn from 'components/project/board/ProjectBoardColumn.vue';
