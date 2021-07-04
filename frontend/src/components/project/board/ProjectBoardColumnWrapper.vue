@@ -1,5 +1,5 @@
 <template>
-  <div class="row justify-between gap-4 no-wrap">
+  <div class="project-board-column-wrapper">
     <slot />
   </div>
 </template>
@@ -11,3 +11,11 @@ export default defineComponent({
   name: 'ProjectBoardColumnWrapper',
 });
 </script>
+
+<style lang="scss" scoped>
+.project-board-column-wrapper {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 16px;
+}
+</style>
