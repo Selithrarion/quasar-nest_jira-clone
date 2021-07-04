@@ -11,7 +11,7 @@
       filled
     />
 
-    <q-input v-model="form.description" type="text" label="Описание" autogrow filled />
+    <q-input v-model="form.description" type="textarea" label="Описание" autogrow filled />
 
     <q-select
       v-model="form.accessID"
