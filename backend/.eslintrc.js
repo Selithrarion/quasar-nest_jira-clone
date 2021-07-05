@@ -8,7 +8,7 @@ module.exports = {
 
   parser: '@typescript-eslint/parser',
   parserOptions: {
-    project: 'tsconfig.json',
+    // project: 'tsconfig.json',
     sourceType: 'module',
   },
 
@@ -21,5 +21,6 @@ module.exports = {
     '@typescript-eslint/explicit-function-return-type': 'warn',
     '@typescript-eslint/explicit-module-boundary-types': 'off',
     // '@typescript-eslint/no-explicit-any': 'off',
+    'prettier/prettier': 'off'
   },
 };
