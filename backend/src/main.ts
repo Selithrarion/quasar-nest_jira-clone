@@ -14,7 +14,11 @@ async function bootstrap(): Promise<void> {
   const document = SwaggerModule.createDocument(app, config);
   SwaggerModule.setup('api', app, document);
 
-  app.enableCors()
+  // app.useGlobalPipes(new ValidationPipe({
+  //   transform: true
+  // }));
+
+  app.enableCors();
 
   await app.listen(3000);
 }
