@@ -1,8 +1,8 @@
 import { ProjectModel } from 'src/models/project/project.model';
 
 export interface ProjectStateInterface {
-  projects: ProjectModel[] | null;
-  projectDetail: ProjectModel | null;
+  projects?: ProjectModel[] | null;
+  projectDetail?: ProjectModel | null;
 }
 
 function state(): ProjectStateInterface {
