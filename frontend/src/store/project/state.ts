@@ -1,10 +1,14 @@
+import { ProjectInterface } from 'src/models/project/project.interface';
+
 export interface ProjectStateInterface {
-  prop: boolean;
+  projects: ProjectInterface[] | null;
+  projectDetail: ProjectInterface | null;
 }
 
 function state(): ProjectStateInterface {
   return {
-    prop: false,
+    projects: null,
+    projectDetail: null,
   };
 }
 
