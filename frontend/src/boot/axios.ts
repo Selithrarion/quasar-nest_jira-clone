@@ -13,7 +13,7 @@ declare module '@vue/runtime-core' {
 // "export default () => {}" function below (which runs individually
 // for each client)
 const http: AxiosInstance = axios.create({
-  baseURL: '/',
+  baseURL: 'api',
 });
 
 http.interceptors.response.use(

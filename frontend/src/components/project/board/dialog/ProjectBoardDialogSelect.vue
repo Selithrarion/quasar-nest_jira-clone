@@ -25,7 +25,7 @@ import { defineComponent, ref, computed, PropType } from 'vue';
 import BaseDialog from 'components/base/BaseDialog.vue';
 import CommonSearch from 'components/common/CommonSearch.vue';
 
-import { BoardInterface } from 'components/project/models/board.interface';
+import { BoardModel } from 'src/models/project/board.model';
 
 export default defineComponent({
   name: 'ProjectBoardDialogSelect',
@@ -46,11 +46,11 @@ export default defineComponent({
     },
 
     boards: {
-      type: Array as PropType<BoardInterface[]>,
+      type: Array as PropType<BoardModel[]>,
       required: true,
     },
     selectedBoard: {
-      type: Object as PropType<BoardInterface>,
+      type: Object as PropType<BoardModel>,
       required: true,
     },
   },

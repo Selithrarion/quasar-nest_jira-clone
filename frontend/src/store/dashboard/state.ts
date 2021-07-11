@@ -1,8 +1,8 @@
-import { DashboardInterface } from 'src/models/dashboard/dashboard.interface';
+import { DashboardModel } from 'src/models/dashboard/dashboard.model';
 
 export interface DashboardStateInterface {
-  dashboards?: DashboardInterface[] | null;
-  dashboardDetail?: DashboardInterface | null;
+  dashboards?: DashboardModel[] | null;
+  dashboardDetail?: DashboardModel | null;
 }
 
 function state(): DashboardStateInterface {

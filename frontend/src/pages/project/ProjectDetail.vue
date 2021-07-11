@@ -154,8 +154,8 @@ import CommonClipboard from 'components/common/CommonClipboard.vue';
 
 import ProjectBoardDialogSelect from 'components/project/board/dialog/ProjectBoardDialogSelect.vue';
 
-import { SidebarItemInterface } from 'src/models/sidebarItem.interface';
-import { BoardInterface } from 'components/project/models/board.interface';
+import { SidebarItemModel } from 'src/models/common/sidebarItem.model';
+import { BoardModel } from 'src/models/project/board.model';
 
 export default defineComponent({
   name: 'ProjectDetail',
@@ -229,7 +229,7 @@ export default defineComponent({
 
     const selectedBoard = ref(project.boards[0]);
 
-    async function selectBoard(board: BoardInterface) {
+    async function selectBoard(board: BoardModel) {
       selectedBoard.value = board;
       storage.save(board.id, 'selectedBoardID');
       await openBoardByID(board.id);
@@ -255,7 +255,7 @@ export default defineComponent({
       loadSavedBoard();
     });
 
-    const sidebarItems: SidebarItemInterface[] = [
+    const sidebarItems: SidebarItemModel[] = [
       {
         label: 'Дорожная карта',
         icon: 'view_day',
@@ -314,7 +314,7 @@ export default defineComponent({
         dialog: true,
       },
     ];
-    async function handleSidebarItemClick(item: SidebarItemInterface) {
+    async function handleSidebarItemClick(item: SidebarItemModel) {
       if (item.routeName) await router.push({ name: item.routeName });
       else if (item.dialog) dialog.open(item.icon);
       else if (item.action) item.action();

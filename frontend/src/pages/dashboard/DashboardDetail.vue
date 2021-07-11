@@ -206,7 +206,7 @@ import BaseTooltip from 'components/base/BaseTooltip.vue';
 import DashboardCreateDialog from 'components/dashboard/create/DashboardCreateDialog.vue';
 import DashboardGadgetAddDialog from 'components/dashboard/gadget/DashboardGadgetAddDialog.vue';
 
-import { DashboardInterface } from 'components/dashboard/models/dashboard.interface';
+import { DashboardModel } from 'src/models/dashboard/dashboard.model';
 
 export default defineComponent({
   name: 'DashboardDetail',
@@ -230,7 +230,7 @@ export default defineComponent({
     // const dashboardID = route.params.id;
     // await store.dispatch('dashboard/fetchDashboardDetail', dashboardID);
     // const dashboard = computed((): DashboardInterface | null | undefined => store.state.dashboard.dashboardDetail);
-    const dashboard = reactive<DashboardInterface>({
+    const dashboard = reactive<DashboardModel>({
       id: 1,
       name: 'Jira dashboard',
       favorite: true,

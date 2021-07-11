@@ -1,4 +1,4 @@
-export interface SidebarItemInterface {
+export interface SidebarItemModel {
   label: string;
   icon: string;
 

@@ -1,12 +1,12 @@
 import { MutationTree } from 'vuex';
 import { ProjectStateInterface } from './state';
-import { ProjectInterface } from 'src/models/project/project.interface';
+import { ProjectModel } from 'src/models/project/project.model';
 
 const mutation: MutationTree<ProjectStateInterface> = {
-  SET_PROJECTS(state, projects: ProjectInterface[]) {
+  SET_PROJECTS(state, projects: ProjectModel[]) {
     state.projects = projects;
   },
-  SET_PROJECT_DETAIL(state, project: ProjectInterface) {
+  SET_PROJECT_DETAIL(state, project: ProjectModel) {
     state.projectDetail = project;
   },
 };

@@ -1,11 +1,14 @@
 import { http } from 'boot/axios';
-import { ProjectInterface } from 'components/project/models/project.interface';
+import { ProjectModel } from 'src/models/project/project.model';
 
 export default {
-  async get(): Promise<ProjectInterface[]> {
-    return await http.get('/project');
+  async getAll(): Promise<ProjectModel[]> {
+    return await http.get('/projects');
   },
-  async getByID(id: number): Promise<ProjectInterface> {
-    return await http.get(`/project/${id}`);
+  async getByID(id: number): Promise<ProjectModel> {
+    return await http.get(`/projects/${id}`);
+  },
+  async create(project: CreateProjectDTO): Promise<ProjectModel> {
+    return await http.get(`/projects/${id}`);
   },
 };

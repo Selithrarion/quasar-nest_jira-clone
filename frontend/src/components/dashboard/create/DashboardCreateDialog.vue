@@ -11,7 +11,7 @@ import useLoading from 'src/composables/common/useLoading';
 
 import BaseDialog from 'components/base/BaseDialog.vue';
 import DashboardCreateForm from 'components/dashboard/create/DashboardCreateForm.vue';
-import { DashboardDTO } from 'components/dashboard/models/dashboard.interface';
+import { DashboardDTO } from 'src/models/dashboard/dashboard.model';
 
 export default defineComponent({
   name: 'DashboardCreateDialog',

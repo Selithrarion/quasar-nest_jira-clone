@@ -40,7 +40,7 @@
             <template #body-cell-leader="props">
               <q-td :props="props">
                 <q-avatar size="md">
-                  <img :src="props.row.leader.avatarURLs.x32" alt="Avatar" />
+                  <img :src="props.row.leader.avatarURL" alt="Avatar" />
                 </q-avatar>
                 <q-btn
                   class="q-mx-sm"
@@ -56,7 +56,7 @@
               <q-td :props="props">
                 <div class="flex items-center gap-2">
                   <q-avatar size="md" square>
-                    <img :src="props.row.project.avatarURLs.x32" alt="Company avatar" />
+                    <img :src="props.row.project.avatarURL" alt="Company avatar" />
                   </q-avatar>
                   <span>{{ props.row.project.name }},</span>
                   <span>{{ props.row.access.name }}</span>
@@ -100,7 +100,7 @@ import BaseButtonMore from 'components/base/button/BaseButtonMore.vue';
 import CommonPageHeader from 'components/common/CommonPageHeader.vue';
 import DashboardCreateDialog from 'components/dashboard/create/DashboardCreateDialog.vue';
 
-import { DashboardInterface } from 'components/dashboard/models/dashboard.interface';
+import { DashboardModel } from 'src/models/dashboard/dashboard.model';
 import dashboardService from 'src/service/dashboardService';
 
 export default defineComponent({
@@ -115,14 +115,14 @@ export default defineComponent({
       {
         name: 'favorite',
         label: '',
-        field: (row: DashboardInterface) => row.favorite,
+        field: (row: DashboardModel) => row.favorite,
         align: 'center',
       },
       {
         name: 'name',
         required: true,
         label: 'Название',
-        field: (row: DashboardInterface) => row.name,
+        field: (row: DashboardModel) => row.name,
         sortable: true,
         align: 'left',
       },
@@ -130,7 +130,7 @@ export default defineComponent({
         name: 'leader',
         required: true,
         label: 'Руководитель',
-        field: (row: DashboardInterface) => row.leader,
+        field: (row: DashboardModel) => row.leader,
         sortable: true,
         align: 'left',
       },
@@ -138,7 +138,7 @@ export default defineComponent({
         name: 'access',
         required: true,
         label: 'Доступ',
-        field: (row: DashboardInterface) => row.leader,
+        field: (row: DashboardModel) => row.leader,
         sortable: true,
         align: 'left',
       },
@@ -146,7 +146,7 @@ export default defineComponent({
         name: 'marksCount',
         required: true,
         label: 'Пометки',
-        field: (row: DashboardInterface) => row.marksCount,
+        field: (row: DashboardModel) => row.marksCount,
         format: (val: number) => `${val} человек`,
         sortable: true,
         align: 'left',
@@ -154,12 +154,12 @@ export default defineComponent({
       {
         name: 'actions',
         label: '',
-        field: (row: DashboardInterface) => row.id,
+        field: (row: DashboardModel) => row.id,
         align: 'right',
       },
     ]);
 
-    const dashboards = reactive<DashboardInterface[]>([
+    const dashboards = reactive<DashboardModel[]>([
       {
         id: 1,
         name: 'Jira dashboard',
@@ -221,8 +221,8 @@ export default defineComponent({
     ]);
 
     function toggleFavorite(dashboardID: number) {
-      const dashboard: DashboardInterface | undefined = dashboards.find(
-        (d: DashboardInterface) => d.id === dashboardID
+      const dashboard: DashboardModel | undefined = dashboards.find(
+        (d: DashboardModel) => d.id === dashboardID
       );
       if (!dashboard) return;
 

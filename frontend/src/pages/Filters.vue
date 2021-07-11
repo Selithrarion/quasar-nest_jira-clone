@@ -30,7 +30,7 @@
         <template #body-cell-leader="props">
           <q-td :props="props">
             <q-avatar size="md">
-              <img :src="props.row.leader.avatarURLs.x32" alt="Avatar" />
+              <img :src="props.row.leader.avatarURL" alt="Avatar" />
             </q-avatar>
             <q-btn class="q-mx-sm" :label="props.row.leader.name" :to="`/people/${props.row.leader.id}`" dense flat />
           </q-td>
@@ -40,7 +40,7 @@
           <q-td :props="props">
             <div class="flex items-center gap-2">
               <q-avatar size="md" square>
-                <img :src="props.row.project.avatarURLs.x32" alt="Company avatar" />
+                <img :src="props.row.project.avatarURL" alt="Company avatar" />
               </q-avatar>
               <span>{{ props.row.project.name }},</span>
               <span>{{ props.row.access.name }}</span>

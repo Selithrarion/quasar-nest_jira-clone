@@ -57,7 +57,7 @@ import Draggable from 'vuedraggable';
 import BaseTooltip from 'components/base/BaseTooltip.vue';
 import ProjectBoardIconIssueType from 'components/project/board/icon/ProjectBoardIconIssueType.vue';
 
-import { IssueInterface } from 'components/project/models/issue.interface';
+import { IssueModel } from 'src/models/project/issue.model';
 
 export default defineComponent({
   name: 'ProjectBoardColumn',
@@ -73,7 +73,7 @@ export default defineComponent({
   emits: ['open'],
 
   setup(props, { emit }) {
-    const issues = reactive<IssueInterface[]>([
+    const issues = reactive<IssueModel[]>([
       {
         id: 1,
         name: 'name',
@@ -88,12 +88,8 @@ export default defineComponent({
         author: {
           id: 1,
           name: 'Jira Jira',
-          avatarURLs: {
-            x16: 'https://thumbs.dreamstime.com/b/creative-illustration-default-avatar-profile-placeholder-isolated-background-art-design-grey-photo-blank-template-mockup-144849704.jpg',
-            x24: 'https://thumbs.dreamstime.com/b/creative-illustration-default-avatar-profile-placeholder-isolated-background-art-design-grey-photo-blank-template-mockup-144849704.jpg',
-            x32: 'https://thumbs.dreamstime.com/b/creative-illustration-default-avatar-profile-placeholder-isolated-background-art-design-grey-photo-blank-template-mockup-144849704.jpg',
-            x48: 'https://thumbs.dreamstime.com/b/creative-illustration-default-avatar-profile-placeholder-isolated-background-art-design-grey-photo-blank-template-mockup-144849704.jpg',
-          },
+          avatarURL:
+            'https://thumbs.dreamstime.com/b/creative-illustration-default-avatar-profile-placeholder-isolated-background-art-design-grey-photo-blank-template-mockup-144849704.jpg',
           email: 'jirajiraemail@gmail.com',
           locale: 'ru_RU',
           isActive: true,
@@ -101,12 +97,8 @@ export default defineComponent({
         assigned: {
           id: 1,
           name: 'Jira Jira',
-          avatarURLs: {
-            x16: 'https://thumbs.dreamstime.com/b/creative-illustration-default-avatar-profile-placeholder-isolated-background-art-design-grey-photo-blank-template-mockup-144849704.jpg',
-            x24: 'https://thumbs.dreamstime.com/b/creative-illustration-default-avatar-profile-placeholder-isolated-background-art-design-grey-photo-blank-template-mockup-144849704.jpg',
-            x32: 'https://thumbs.dreamstime.com/b/creative-illustration-default-avatar-profile-placeholder-isolated-background-art-design-grey-photo-blank-template-mockup-144849704.jpg',
-            x48: 'https://thumbs.dreamstime.com/b/creative-illustration-default-avatar-profile-placeholder-isolated-background-art-design-grey-photo-blank-template-mockup-144849704.jpg',
-          },
+          avatarURL:
+            'https://thumbs.dreamstime.com/b/creative-illustration-default-avatar-profile-placeholder-isolated-background-art-design-grey-photo-blank-template-mockup-144849704.jpg',
           email: 'jirajiraemail@gmail.com',
           locale: 'ru_RU',
           isActive: true,
@@ -128,12 +120,8 @@ export default defineComponent({
         author: {
           id: 1,
           name: 'Jira Jira',
-          avatarURLs: {
-            x16: 'https://thumbs.dreamstime.com/b/creative-illustration-default-avatar-profile-placeholder-isolated-background-art-design-grey-photo-blank-template-mockup-144849704.jpg',
-            x24: 'https://thumbs.dreamstime.com/b/creative-illustration-default-avatar-profile-placeholder-isolated-background-art-design-grey-photo-blank-template-mockup-144849704.jpg',
-            x32: 'https://thumbs.dreamstime.com/b/creative-illustration-default-avatar-profile-placeholder-isolated-background-art-design-grey-photo-blank-template-mockup-144849704.jpg',
-            x48: 'https://thumbs.dreamstime.com/b/creative-illustration-default-avatar-profile-placeholder-isolated-background-art-design-grey-photo-blank-template-mockup-144849704.jpg',
-          },
+          avatarURL:
+            'https://thumbs.dreamstime.com/b/creative-illustration-default-avatar-profile-placeholder-isolated-background-art-design-grey-photo-blank-template-mockup-144849704.jpg',
           email: 'jirajiraemail@gmail.com',
           locale: 'ru_RU',
           isActive: true,
@@ -141,12 +129,8 @@ export default defineComponent({
         assigned: {
           id: 1,
           name: 'Jira Jira',
-          avatarURLs: {
-            x16: 'https://thumbs.dreamstime.com/b/creative-illustration-default-avatar-profile-placeholder-isolated-background-art-design-grey-photo-blank-template-mockup-144849704.jpg',
-            x24: 'https://thumbs.dreamstime.com/b/creative-illustration-default-avatar-profile-placeholder-isolated-background-art-design-grey-photo-blank-template-mockup-144849704.jpg',
-            x32: 'https://thumbs.dreamstime.com/b/creative-illustration-default-avatar-profile-placeholder-isolated-background-art-design-grey-photo-blank-template-mockup-144849704.jpg',
-            x48: 'https://thumbs.dreamstime.com/b/creative-illustration-default-avatar-profile-placeholder-isolated-background-art-design-grey-photo-blank-template-mockup-144849704.jpg',
-          },
+          avatarURL:
+            'https://thumbs.dreamstime.com/b/creative-illustration-default-avatar-profile-placeholder-isolated-background-art-design-grey-photo-blank-template-mockup-144849704.jpg',
           email: 'jirajiraemail@gmail.com',
           locale: 'ru_RU',
           isActive: true,
