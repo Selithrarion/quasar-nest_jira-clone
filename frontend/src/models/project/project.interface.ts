@@ -1,5 +1,5 @@
-import { AvatarSizesInterface, UserInterface } from 'components/user/models/user.interface';
-import { BoardInterface } from 'components/project/models/board.interface';
+import { AvatarSizesInterface, UserInterface } from 'src/models/user/user.interface';
+import { BoardInterface } from 'src/models/project/board.interface';
 
 export interface ProjectInterface {
   readonly id: number;

@@ -1,6 +1,6 @@
 import { MutationTree } from 'vuex';
 import { DashboardStateInterface } from './state';
-import { DashboardInterface } from 'components/dashboard/models/dashboard.interface';
+import { DashboardInterface } from 'src/models/dashboard/dashboard.interface';
 
 const mutation: MutationTree<DashboardStateInterface> = {
   SET_DASHBOARDS(state: DashboardStateInterface, dashboards: DashboardInterface[]) {

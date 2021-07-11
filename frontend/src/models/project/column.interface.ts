@@ -1,4 +1,4 @@
-import { IssueInterface } from 'components/project/models/issue.interface';
+import { IssueInterface } from 'src/models/project/issue.interface';
 
 export interface ColumnInterface {
   readonly id: number;

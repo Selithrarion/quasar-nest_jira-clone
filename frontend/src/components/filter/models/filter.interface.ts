@@ -1,6 +1,6 @@
-import { ProjectInterface } from 'components/project/models/project.interface';
-import { AccessInterface } from 'src/models/access.interface';
-import { UserInterface } from 'components/user/models/user.interface';
+import { ProjectInterface } from 'src/models/project/project.interface';
+import { AccessInterface } from 'src/models/common/access.interface';
+import { UserInterface } from 'src/models/user/user.interface';
 
 export interface FilterInterface {
   readonly id: number;

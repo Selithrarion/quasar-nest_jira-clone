@@ -1,7 +1,7 @@
-import { ProjectInterface } from 'components/project/models/project.interface';
-import { AccessInterface } from 'src/models/access.interface';
-import { UserInterface } from 'components/user/models/user.interface';
-import { GadgetsTuple } from 'components/dashboard/models/gadget.interface';
+import { ProjectInterface } from 'src/models/project/project.interface';
+import { AccessInterface } from 'src/models/common/access.interface';
+import { UserInterface } from 'src/models/user/user.interface';
+import { GadgetsTuple } from 'src/models/dashboard/gadget.interface';
 
 export interface DashboardInterface {
   readonly id: number;

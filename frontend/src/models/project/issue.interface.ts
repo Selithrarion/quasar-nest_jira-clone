@@ -1,5 +1,5 @@
-import { CommentInterface } from 'components/project/models/comment.interface';
-import { UserInterface } from 'components/user/models/user.interface';
+import { CommentInterface } from 'src/models/project/comment.interface';
+import { UserInterface } from 'src/models/user/user.interface';
 
 export interface IssueInterface {
   readonly id: number;

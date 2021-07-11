@@ -1,4 +1,4 @@
-import { UserInterface } from 'components/user/models/user.interface';
+import { UserInterface } from 'src/models/user/user.interface';
 
 export interface CommentInterface {
   readonly id: number;

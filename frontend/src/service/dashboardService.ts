@@ -1,8 +1,8 @@
 import { http } from 'boot/axios';
-import { DashboardDTO, DashboardInterface } from 'components/dashboard/models/dashboard.interface';
+import { DashboardDTO, DashboardInterface } from 'src/models/dashboard/dashboard.interface';
 
 export default {
-  async get(): Promise<DashboardInterface[]> {
+  async getAll(): Promise<DashboardInterface[]> {
     return await http.get('/dashboard');
   },
   async getByID(id: number): Promise<DashboardInterface> {

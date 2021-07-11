@@ -5,7 +5,7 @@ import dashboardService from 'src/service/dashboardService';
 
 const actions: ActionTree<DashboardStateInterface, StateInterface> = {
   async fetchDashboards({ commit }) {
-    const data = await dashboardService.get();
+    const data = await dashboardService.getAll();
     commit('SET_DASHBOARDS', data);
   },
   async fetchDashboardDetail({ commit }, id) {

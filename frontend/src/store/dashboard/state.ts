@@ -1,4 +1,4 @@
-import { DashboardInterface } from 'components/dashboard/models/dashboard.interface';
+import { DashboardInterface } from 'src/models/dashboard/dashboard.interface';
 
 export interface DashboardStateInterface {
   dashboards?: DashboardInterface[] | null;
