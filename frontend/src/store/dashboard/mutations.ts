@@ -9,6 +9,17 @@ const mutation: MutationTree<DashboardStateInterface> = {
   SET_DASHBOARD_DETAIL(state: DashboardStateInterface, dashboard: DashboardModel) {
     state.dashboardDetail = dashboard;
   },
+  ADD_DASHBOARD(state: DashboardStateInterface, dashboard: DashboardModel) {
+    state.dashboards?.push(dashboard);
+  },
+  UPDATE_DASHBOARD(state: DashboardStateInterface, dashboard: DashboardModel) {
+    if (!state.dashboards) return;
+    const index = state.dashboards.findIndex((d) => d.id === dashboard.id);
+    state.dashboards[index] = dashboard;
+  },
+  DELETE_DASHBOARD(state: DashboardStateInterface, id: number) {
+    state.dashboards = state.dashboards?.filter((d) => d.id !== id);
+  },
 };
 
 export default mutation;

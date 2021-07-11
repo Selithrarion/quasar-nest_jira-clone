@@ -8,13 +8,13 @@ export default {
   async getByID(id: number): Promise<DashboardModel> {
     return await http.get(`/dashboard/${id}`);
   },
-  async create(payload: DashboardDTO): Promise<DashboardModel> {
-    return await http.post('/dashboard/', payload);
+  async create(dashboardData: DashboardDTO): Promise<DashboardModel> {
+    return await http.post('/dashboard', dashboardData);
   },
-  async update(id: number, payload: Partial<DashboardModel>): Promise<DashboardModel> {
-    return await http.patch(`/dashboard/${id}`, payload);
+  async update(id: number, dashboardData: Partial<DashboardDTO>): Promise<DashboardModel> {
+    return await http.patch(`/dashboard/${id}`, dashboardData);
   },
-  async delete(id: number) {
+  async delete(id: number): Promise<void> {
     return await http.delete(`/dashboard/${id}`);
   },
 };
