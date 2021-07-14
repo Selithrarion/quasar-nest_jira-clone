@@ -1,7 +1,8 @@
+import { BaseModel } from 'src/models/common/base.model';
 import { CommentModel } from 'src/models/project/comment.model';
 import { UserModel } from 'src/models/user/user.model';
 
-export interface IssueModel {
+export interface IssueModel extends BaseModel {
   readonly id: number;
   name: string;
   description?: string;
@@ -10,19 +11,20 @@ export interface IssueModel {
 
   watchNumber: number;
   watchers: UserModel[];
-  // dependentIssues:
   comments?: CommentModel[];
 
-  priority: IssuePriorityInterface;
-  author: UserModel;
-  assigned: UserModel;
-  createdAt: number;
-  updatedAt: number;
+  priority: IssuePriorityEnum;
+  authorID: number;
+  assignedID: number;
+  columnID: number;
 }
 
-export interface IssuePriorityInterface {
-  readonly id: number;
-  name: string;
+export enum IssuePriorityEnum {
+  LOWEST = 1,
+  LOW = 2,
+  MEDIUM = 3,
+  HIGH = 4,
+  HIGHEST = 5,
 }
 
 export interface IssueDTO {
@@ -35,7 +37,8 @@ export interface IssueDTO {
   watchers: UserModel[];
   comments: CommentModel[];
 
-  priority: IssuePriorityInterface;
-  author: UserModel;
-  assigned: UserModel;
+  priority: IssuePriorityEnum;
+  authorID: number;
+  assignedID: number;
+  columnID: number;
 }
