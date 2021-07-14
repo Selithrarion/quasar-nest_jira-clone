@@ -3,10 +3,10 @@ import { CreateDateColumn, PrimaryGeneratedColumn, UpdateDateColumn } from 'type
 export abstract class BaseEntity {
   @PrimaryGeneratedColumn()
   readonly id: number;
-
-  @CreateDateColumn({ type: 'timestamptz', default: () => 'CURRENT_TIMESTAMP' })
-  createdAt: Date;
-
-  @UpdateDateColumn({ type: 'timestamptz', default: () => 'CURRENT_TIMESTAMP' })
-  updatedAt: Date;
+  //
+  // @CreateDateColumn({ type: 'timestamptz', default: () => 'CURRENT_TIMESTAMP' })
+  // createdAt: Date;
+  //
+  // @UpdateDateColumn({ type: 'timestamptz', default: () => 'CURRENT_TIMESTAMP' })
+  // updatedAt: Date;
 }
