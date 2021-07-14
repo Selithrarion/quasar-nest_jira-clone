@@ -1,18 +1,18 @@
 import { ref, Ref } from 'vue';
 
 interface LoadingInterface {
-  status: Ref<boolean>;
+  active: Ref<boolean>;
   start: () => void;
   stop: () => void;
 }
 
 export default function useLoading(): LoadingInterface {
-  const status = ref(false);
-  const start = () => (status.value = true);
-  const stop = () => (status.value = false);
+  const active = ref(false);
+  const start = () => (active.value = true);
+  const stop = () => (active.value = false);
 
   return {
-    status,
+    active,
     start,
     stop,
   };

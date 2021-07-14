@@ -17,7 +17,8 @@
         @start="drag = true"
         @end="drag = false"
       >
-        <template #item="{ element }">
+<!--        <template #item="{ element }">-->
+        <template #item>
           <q-card class="list-group-item" @click="openIssue(100)">
             <q-card-section class="q-px-sm q-pt-sm q-pb-none">
               <span> Lorem ipsum dolor sit amet, consectetur adipisic </span>
@@ -81,10 +82,7 @@ export default defineComponent({
         comments: [],
         watchNumber: 1,
         watchers: [],
-        priority: {
-          id: 3,
-          name: 'Medium',
-        },
+        priority: 3,
         author: {
           id: 1,
           name: 'Jira Jira',
@@ -113,10 +111,7 @@ export default defineComponent({
         comments: [],
         watchNumber: 1,
         watchers: [],
-        priority: {
-          id: 3,
-          name: 'Medium',
-        },
+        priority: 3,
         author: {
           id: 1,
           name: 'Jira Jira',

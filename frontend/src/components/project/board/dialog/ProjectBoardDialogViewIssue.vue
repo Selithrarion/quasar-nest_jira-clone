@@ -215,10 +215,7 @@ export default defineComponent({
       description: 'Issue description',
       watchNumber: 1,
       watchers: [],
-      priority: {
-        id: 3,
-        name: 'Medium',
-      },
+      priority: 3,
       author: {
         id: 1,
         name: 'Jira Jira',
@@ -265,19 +262,12 @@ export default defineComponent({
             description: 'Issue description',
             watchNumber: 1,
             watchers: [],
-            priority: {
-              id: 3,
-              name: 'Medium',
-            },
+            priority: 3,
             author: {
               id: 1,
               name: 'Jira Jira',
-              avatarURLs: {
-                x16: 'https://thumbs.dreamstime.com/b/creative-illustration-default-avatar-profile-placeholder-isolated-background-art-design-grey-photo-blank-template-mockup-144849704.jpg',
-                x24: 'https://thumbs.dreamstime.com/b/creative-illustration-default-avatar-profile-placeholder-isolated-background-art-design-grey-photo-blank-template-mockup-144849704.jpg',
-                x32: 'https://thumbs.dreamstime.com/b/creative-illustration-default-avatar-profile-placeholder-isolated-background-art-design-grey-photo-blank-template-mockup-144849704.jpg',
-                x48: 'https://thumbs.dreamstime.com/b/creative-illustration-default-avatar-profile-placeholder-isolated-background-art-design-grey-photo-blank-template-mockup-144849704.jpg',
-              },
+              avatarURL:
+                'https://thumbs.dreamstime.com/b/creative-illustration-default-avatar-profile-placeholder-isolated-background-art-design-grey-photo-blank-template-mockup-144849704.jpg',
               email: 'jirajiraemail@gmail.com',
               locale: 'ru_RU',
               isActive: true,
@@ -285,12 +275,8 @@ export default defineComponent({
             assigned: {
               id: 1,
               name: 'Jira Jira',
-              avatarURLs: {
-                x16: 'https://thumbs.dreamstime.com/b/creative-illustration-default-avatar-profile-placeholder-isolated-background-art-design-grey-photo-blank-template-mockup-144849704.jpg',
-                x24: 'https://thumbs.dreamstime.com/b/creative-illustration-default-avatar-profile-placeholder-isolated-background-art-design-grey-photo-blank-template-mockup-144849704.jpg',
-                x32: 'https://thumbs.dreamstime.com/b/creative-illustration-default-avatar-profile-placeholder-isolated-background-art-design-grey-photo-blank-template-mockup-144849704.jpg',
-                x48: 'https://thumbs.dreamstime.com/b/creative-illustration-default-avatar-profile-placeholder-isolated-background-art-design-grey-photo-blank-template-mockup-144849704.jpg',
-              },
+              avatarURL:
+                'https://thumbs.dreamstime.com/b/creative-illustration-default-avatar-profile-placeholder-isolated-background-art-design-grey-photo-blank-template-mockup-144849704.jpg',
               email: 'jirajiraemail@gmail.com',
               locale: 'ru_RU',
               isActive: true,
@@ -307,9 +293,12 @@ export default defineComponent({
     const commentInput = ref<HTMLInputElement | null>(null);
 
     document.addEventListener('keydown', (e: KeyboardEvent) => {
+      interface TargetInterface extends EventTarget {
+        className?: string[];
+      }
       const isCommentFocusKey = e.key === 'm' || e.key === 'ь';
-      // @ts-ignore
-      const isPressedWhenNoFocus = !e.target?.className?.includes('q-field__native q-placeholder');
+      const target: TargetInterface | null = e.target;
+      const isPressedWhenNoFocus = !target?.className?.includes('q-field__native q-placeholder');
       if (isCommentFocusKey && isPressedWhenNoFocus) {
         commentInput?.value?.focus();
         e.preventDefault();

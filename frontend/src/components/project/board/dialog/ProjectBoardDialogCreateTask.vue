@@ -66,10 +66,7 @@ export default defineComponent({
       name: '',
       description: '',
       assigned: null,
-      priority: {
-        id: 3,
-        name: 'Medium',
-      },
+      priority: 3,
       marks: [],
     });
 
