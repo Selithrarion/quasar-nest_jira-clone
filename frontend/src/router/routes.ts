@@ -26,7 +26,7 @@ const routes: RouteRecordRaw[] = [
             meta: {
               name: 'Дорожная карта'
             },
-            component: () => import('components/project/ProjectRoadmap.vue'),
+            component: () => import('components/project/roadmap/ProjectRoadmap.vue'),
           },
         ],
       },
