@@ -15,6 +15,7 @@ const actions: ActionTree<ProjectStateInterface, StateInterface> = {
   async create({ commit }, projectData) {
     const project = await projectService.create(projectData);
     commit('ADD_PROJECT', project);
+    return project;
   },
   async update({ commit }, { id, projectData }) {
     const project = await projectService.update(id, projectData);
