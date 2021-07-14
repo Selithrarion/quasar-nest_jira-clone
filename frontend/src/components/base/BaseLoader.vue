@@ -1,6 +1,6 @@
 <template>
   <div class="base-loader text-center" :style="[pageMargin ? 'margin-top: 128px' : '']">
-    <q-circular-progress size="40px" color="primary" :thickness="0.15" indeterminate v-bind="$attrs" />
+    <q-circular-progress size="40px" color="primary" :thickness="0.11" indeterminate v-bind="$attrs" />
   </div>
 </template>
 
