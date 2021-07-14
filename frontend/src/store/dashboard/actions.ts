@@ -15,6 +15,7 @@ const actions: ActionTree<DashboardStateInterface, StateInterface> = {
   async create({ commit }, dashboardData) {
     const dashboard = await dashboardService.create(dashboardData);
     commit('ADD_DASHBOARD', dashboard);
+    return dashboard;
   },
   async update({ commit }, { id, dashboardData }) {
     const dashboard = await dashboardService.update(id, dashboardData);
