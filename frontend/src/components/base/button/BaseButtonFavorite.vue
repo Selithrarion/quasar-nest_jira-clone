@@ -7,7 +7,7 @@
     :round="round"
     v-bind="$attrs"
   >
-    <BaseTooltip :label="favorite ? tooltipRemove : tooltipAdd" />
+    <BaseTooltip :label="favorite ? tooltipRemove : tooltipAdd" :delay="0" />
   </q-btn>
 </template>
 
