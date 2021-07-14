@@ -25,6 +25,11 @@ const actions: ActionTree<ProjectStateInterface, StateInterface> = {
     await projectService.delete(id);
     commit('DELETE_PROJECT', id);
   },
+
+  async toggleFavorite({ commit }, id) {
+    commit('TOGGLE_FAVORITE', id);
+    await projectService.toggleFavorite(id);
+  },
 };
 
 export default actions;

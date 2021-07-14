@@ -20,6 +20,11 @@ const mutation: MutationTree<ProjectStateInterface> = {
   DELETE_PROJECT(state: ProjectStateInterface, id: number) {
     state.projects = state.projects?.filter((p) => p.id !== id);
   },
+
+  TOGGLE_FAVORITE(state: ProjectStateInterface, id: number) {
+    const project = state.projects?.find((p) => p.id === id);
+    if (project) project.favorite = !project.favorite;
+  },
 };
 
 export default mutation;
