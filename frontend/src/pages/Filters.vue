@@ -77,7 +77,8 @@ import BaseButtonFavorite from 'components/base/button/BaseButtonFavorite.vue';
 import BaseButtonMore from 'components/base/button/BaseButtonMore.vue';
 import CommonPageHeader from 'components/common/CommonPageHeader.vue';
 
-import { FilterInterface } from 'components/filter/models/filter.interface';
+import { FilterInterface } from 'src/models/filter/filter.interface';
+import { AccessEnum } from 'src/models/common/access.model';
 
 export default defineComponent({
   name: 'Filters',
@@ -114,7 +115,7 @@ export default defineComponent({
         name: 'access',
         required: true,
         label: 'Доступ',
-        field: (row: FilterInterface) => row.access,
+        field: (row: FilterInterface) => AccessEnum[row.accessID],
         sortable: false,
         align: 'left',
       },
