@@ -62,29 +62,30 @@
 </template>
 
 <script lang="ts">
-import { defineComponent, reactive } from 'vue';
-// import { useStore } from 'vuex';
+import { defineComponent, reactive, PropType } from 'vue';
+
+import { useRouter } from 'vue-router';
+import { useStore } from 'src/store';
 import useFormValidation from 'src/composables/common/useFormValidation';
 import useLoading from 'src/composables/common/useLoading';
+
+import { ProjectModel, ProjectTypeEnum } from 'src/models/project/project.model';
 
 export default defineComponent({
   name: 'ProjectCreateForm',
 
   props: {
-    type: {
-      type: String,
+    typeId: {
+      type: Number as PropType<ProjectTypeEnum>,
       required: true,
-      default: null,
-      validator(value: string): boolean {
-        return ['company', 'team'].indexOf(value) !== -1;
-      },
     },
   },
 
   emits: ['back'],
 
   setup(props, { emit }) {
-    // const store = useStore();
+    const router = useRouter();
+    const store = useStore();
     const rules = useFormValidation();
     const loading = useLoading();
 
@@ -127,20 +128,27 @@ export default defineComponent({
 
     const form = reactive({
       name: '',
-      accessID: accessOptions[0].id,
       key: '',
+      accessID: accessOptions[0].id,
       templateID: templateOptions[0].id,
+      typeID: props.typeId,
     });
 
-    function submit() {
+    async function submit() {
       try {
         loading.start();
+        const project = (await store.dispatch('project/create', form)) as ProjectModel;
+        await openProject(project.id);
       } finally {
         loading.stop();
       }
     }
     function back() {
       emit('back');
+    }
+
+    async function openProject(projectID: number) {
+      await router.push(`/projects/${projectID}`);
     }
 
     return {

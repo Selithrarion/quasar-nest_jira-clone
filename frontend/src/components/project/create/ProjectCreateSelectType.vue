@@ -20,7 +20,7 @@
         </div>
 
         <div class="flex justify-center">
-          <q-btn label="Выбрать управляемый компанией" size="0.8rem" disable @click="select('company')" />
+          <q-btn label="Выбрать управляемый компанией" size="0.8rem" disable @click="select(ProjectTypeEnum.TEAM)" />
           <div class="project-type__caption q-pt-sm text-blue-grey-6">
             <div>Вы не можете создавать проекты, управляемые компанией.</div>
             <div>Обратитесь к администратору Jira.</div>
@@ -39,7 +39,13 @@
           </div>
         </div>
 
-        <q-btn color="primary" label="Выбрать управляемый командой" size="0.8rem" unelevated @click="select('team')" />
+        <q-btn
+          color="primary"
+          label="Выбрать управляемый командой"
+          size="0.8rem"
+          unelevated
+          @click="select(ProjectTypeEnum.SOFTWARE)"
+        />
       </div>
     </div>
   </div>
@@ -47,6 +53,7 @@
 
 <script lang="ts">
 import { defineComponent } from 'vue';
+import { ProjectTypeEnum } from 'src/models/project/project.model';
 
 export default defineComponent({
   name: 'ProjectCreateSelectType',
@@ -54,11 +61,14 @@ export default defineComponent({
   emits: ['select'],
 
   setup(props, { emit }) {
-    function select(type: string) {
+    function select(type: number) {
       emit('select', type);
     }
 
-    return { select };
+    return {
+      select,
+      ProjectTypeEnum,
+    };
   },
 });
 </script>
