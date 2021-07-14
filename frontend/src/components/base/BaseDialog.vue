@@ -3,7 +3,7 @@
     <q-card
       class="base-dialog"
       :class="[{ 'big-side-padding': maximized }, { 'overflow-hidden': hideScroll }]"
-      :style="getCardStyles"
+      :style="computedCardStyles"
     >
       <slot name="content">
         <q-card-section class="row items-center no-wrap q-pa-lg" :class="{ 'fixed-section': fixedHeader }">
@@ -118,7 +118,7 @@ export default defineComponent({
     confirmColor: {
       type: String,
       required: false,
-      default: 'primary',
+      default: null,
     },
 
     fixedHeader: {
@@ -188,7 +188,7 @@ export default defineComponent({
       return propsType || defaultType;
     });
 
-    const getCardStyles = computed(() => {
+    const computedCardStyles = computed(() => {
       const styles = [];
 
       if (props.small) styles.push({ width: '300px' });
@@ -206,7 +206,7 @@ export default defineComponent({
       types,
       selectedType,
 
-      getCardStyles,
+      computedCardStyles,
     };
   },
 });
