@@ -27,20 +27,19 @@ export class ProjectsController {
   @ApiOperation({ summary: 'Create project' })
   @ApiResponse({ status: 201, description: 'Project was created' })
   @ApiResponse({ status: 403, description: 'Forbidden' })
-  // TODO: посмотреть отправляет ли 201 статус
   @Post()
-  async create(@Body('project') projectData: CreateProjectDTO): Promise<ProjectEntity> {
+  async create(@Body() projectData: CreateProjectDTO): Promise<ProjectEntity> {
     return await this.projectsService.create(projectData);
   }
 
-  @ApiOperation({ summary: 'Update project' })
-  @ApiResponse({ status: 201, description: 'Project was updated' })
-  @ApiResponse({ status: 403, description: 'Forbidden' })
-  @Patch(':id')
-  // @Body('project')
-  async update(@Param('id') id: number, @Body() projectData: UpdateProjectDTO): Promise<ProjectEntity> {
-    return await this.projectsService.update(id, projectData);
-  }
+  // @ApiOperation({ summary: 'Update project' })
+  // @ApiResponse({ status: 201, description: 'Project was updated' })
+  // @ApiResponse({ status: 403, description: 'Forbidden' })
+  // @Patch(':id')
+  // // @Body()
+  // async update(@Param('id') id: number, @Body() projectData: UpdateProjectDTO): Promise<ProjectEntity> {
+  //   return await this.projectsService.update(id, projectData);
+  // }
 
   @ApiOperation({ summary: 'Delete project' })
   @ApiResponse({ status: 201, description: 'Project was deleted' })
@@ -48,5 +47,13 @@ export class ProjectsController {
   @Delete(':id')
   async delete(@Param('id') id: number): Promise<void> {
     return await this.projectsService.delete(id);
+  }
+
+  @ApiOperation({ summary: 'Toggle project favorite' })
+  @ApiResponse({ status: 200, description: 'Project favorite was toggled' })
+  @ApiResponse({ status: 403, description: 'Forbidden' })
+  @Post('favorite/:id')
+  async toggleFavorite(@Param('id') id: number): Promise<void> {
+    return await this.projectsService.toggleFavorite(id);
   }
 }

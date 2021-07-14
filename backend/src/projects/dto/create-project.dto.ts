@@ -1,8 +1,6 @@
-import { IsNotEmpty, IsString, MaxLength } from 'class-validator';
+import { IsNotEmpty, IsNumber, IsString, MaxLength } from 'class-validator';
 import { ApiProperty } from '@nestjs/swagger';
-
-import { BoardEntity } from '../entity/board.entity';
-import { UserEntity } from '../../user/entity/user.entity';
+import { ProjectTypeEnum } from '../entity/project.entity';
 
 export class CreateProjectDTO {
   @ApiProperty({ required: true })
@@ -18,22 +16,17 @@ export class CreateProjectDTO {
   key: string;
 
   @ApiProperty({ required: true })
-  @IsString()
+  @IsNumber()
   @IsNotEmpty()
-  favorite: boolean;
+  accessID: number;
 
   @ApiProperty({ required: true })
-  @IsString()
+  @IsNumber()
   @IsNotEmpty()
-  board: BoardEntity;
+  templateID: number;
 
   @ApiProperty({ required: true })
-  @IsString()
+  @IsNumber()
   @IsNotEmpty()
-  avatarURL: string;
-
-  @ApiProperty({ required: true })
-  @IsString()
-  @IsNotEmpty()
-  leader: UserEntity;
+  typeID: ProjectTypeEnum;
 }

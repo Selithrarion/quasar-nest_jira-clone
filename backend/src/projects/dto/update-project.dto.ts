@@ -21,7 +21,7 @@ export class UpdateProjectDTO {
 
   @ApiProperty()
   @IsString()
-  board?: BoardEntity;
+  boards?: BoardEntity[];
 
   @ApiProperty()
   @IsString()
