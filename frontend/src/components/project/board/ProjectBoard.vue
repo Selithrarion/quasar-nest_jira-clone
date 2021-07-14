@@ -1,4 +1,6 @@
 <template>
+  <BaseLoader v-if="loading.active" />
+
   <div>
     <ProjectBoardColumnWrapper>
       <ProjectBoardColumn v-for="column in 5" :key="column" @open="dialog.open('viewIssue')"></ProjectBoardColumn>
@@ -10,17 +12,19 @@
 
 <script lang="ts">
 import { defineComponent } from 'vue';
+import useDialog from 'src/composables/common/useDialog';
+import useLoading from 'src/composables/common/useLoading';
 
+import BaseLoader from 'components/base/BaseLoader.vue';
 import ProjectBoardColumnWrapper from 'components/project/board/column/ProjectBoardColumnWrapper.vue';
 import ProjectBoardColumn from 'components/project/board/column/ProjectBoardColumn.vue';
 import ProjectBoardDialogViewIssue from 'components/project/board/dialog/ProjectBoardDialogViewIssue.vue';
-
-import useDialog from 'src/composables/common/useDialog';
 
 export default defineComponent({
   name: 'ProjectBoard',
 
   components: {
+    BaseLoader,
     ProjectBoardColumnWrapper,
     ProjectBoardColumn,
     ProjectBoardDialogViewIssue,
@@ -28,9 +32,11 @@ export default defineComponent({
 
   setup() {
     const dialog = useDialog();
+    const loading = useLoading();
 
     return {
       dialog,
+      loading,
     };
   },
 });
