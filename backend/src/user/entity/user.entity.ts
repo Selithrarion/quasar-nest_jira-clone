@@ -1,20 +1,22 @@
-import { Column, Entity } from 'typeorm';
+import { Column, Entity, JoinTable, ManyToMany, OneToMany } from 'typeorm';
 import { BaseEntity } from '../../common/base.entity';
 import { IsEmail } from 'class-validator';
 import { Exclude } from 'class-transformer';
+import { IssueEntity } from '../../projects/entity/issue.entity';
+import { ProjectEntity } from '../../projects/entity/project.entity';
 
 @Entity()
 export class UserEntity extends BaseEntity {
-  @Column()
+  @Column({ unique: true })
   name: string;
 
-  @Column()
+  @Column({ unique: true })
   @IsEmail()
   email: string;
 
   @Column()
   @Exclude()
-  password: string
+  password: string;
 
   @Column()
   locale: string;
@@ -22,6 +24,13 @@ export class UserEntity extends BaseEntity {
   @Column()
   isActive: boolean;
 
-  @Column()
+  @Column({ nullable: true })
   avatarURL: string;
+
+  @OneToMany(() => IssueEntity, (issue) => issue.assigned)
+  assignedIssues: IssueEntity[];
+
+  @ManyToMany(() => ProjectEntity)
+  @JoinTable()
+  favoriteProjectsIDs: number[];
 }
