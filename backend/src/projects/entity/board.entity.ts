@@ -1,4 +1,4 @@
-import { Column, Entity, OneToMany } from 'typeorm';
+import { Column, Entity, JoinColumn, ManyToOne, OneToMany } from 'typeorm';
 import { BaseEntity } from '../../common/base.entity';
 import { ColumnEntity } from './column.entity';
 import { ProjectEntity } from './project.entity';
@@ -8,12 +8,13 @@ export class BoardEntity extends BaseEntity {
   @Column()
   name: string;
 
-  @Column()
+  @Column({ default: false })
   favorite: boolean;
 
-  @Column({ array: true, default: [] })
-  columns: ColumnEntity;
+  @OneToMany(() => ColumnEntity, (column) => column.board)
+  columns: ColumnEntity[];
 
-  @OneToMany((type) => ProjectEntity, (project) => project.boards)
+  @ManyToOne(() => ProjectEntity, (project) => project.boards)
+  @JoinColumn({ name: 'projectID' })
   project: ProjectEntity;
 }
