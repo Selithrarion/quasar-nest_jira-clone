@@ -38,7 +38,41 @@ export class ProjectsService {
   }
 
   async create(projectData: CreateProjectDTO): Promise<ProjectEntity> {
-    const createdProject = await this.projects.save({ ...projectData, leader: this.mockUser });
+    const leader = this.mockUser;
+    const defaultColumns = [
+      {
+        id: 1,
+        name: 'Бэклог',
+        boardID: 1,
+        issues: [],
+      },
+      {
+        id: 2,
+        name: 'Выбрано для разработки',
+        boardID: 1,
+        issues: [],
+      },
+      {
+        id: 3,
+        name: 'В работе',
+        boardID: 1,
+        issues: [],
+      },
+      {
+        id: 4,
+        name: 'Готово',
+        boardID: 1,
+        issues: [],
+      },
+    ];
+    // create in board.service
+    const defaultBoard = {
+      id: 1,
+      name: projectData.key + projectData.name,
+      favorite: false,
+      columns: defaultColumns,
+    };
+    const createdProject = await this.projects.save({ ...projectData, leader, boards: [defaultBoard] });
     return createdProject;
   }
 
