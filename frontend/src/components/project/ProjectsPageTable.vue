@@ -154,7 +154,13 @@ export default defineComponent({
     await store.dispatch('project/getAll');
 
     async function deleteProject(projectID: number) {
-      await store.dispatch('project/delete', projectID);
+      try {
+        dialog.startLoading();
+        await store.dispatch('project/delete', projectID);
+        dialog.close();
+      } finally {
+        dialog.stopLoading();
+      }
     }
 
     async function toggleFavorite(projectID: number) {
