@@ -1,5 +1,5 @@
 <template>
-  <BaseLoader v-if="loading.active" />
+  <BaseLoader v-if="loading.active.value" />
 
   <div>
     <ProjectBoardColumnWrapper>

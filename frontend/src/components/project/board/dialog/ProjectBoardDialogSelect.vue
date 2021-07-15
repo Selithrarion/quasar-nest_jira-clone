@@ -1,6 +1,6 @@
 <template>
   <BaseDialog title="Выбор доски" :show="show" :actions="false" large @close="close">
-    <CommonSearch :value="search" :outlined="false" client-search filled @search="updateSearch" />
+    <CommonSearch v-model="search" :outlined="false" client-search filled />
 
     <div class="text-caption text-uppercase q-mt-md q-mb-sm">доски в {{ projectName }}</div>
     <q-list>
@@ -59,9 +59,6 @@ export default defineComponent({
 
   setup(props, { emit }) {
     const search = ref('');
-    function updateSearch(value: string) {
-      search.value = value;
-    }
 
     const filteredBoards = computed(() => {
       if (!search.value) return props.boards;
@@ -81,7 +78,6 @@ export default defineComponent({
 
     return {
       search,
-      updateSearch,
       filteredBoards,
 
       selectBoard,

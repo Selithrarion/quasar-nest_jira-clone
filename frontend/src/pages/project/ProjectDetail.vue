@@ -1,5 +1,7 @@
 <template>
-  <div>
+  <BaseLoader v-if="loading.active.value" page-margin />
+
+  <div v-else>
     <LayoutSidebar
       title="Jira project"
       subtitle="Проект по разработке ПО"
@@ -101,7 +103,7 @@
       </div>
 
       <div class="row gap-4 q-pb-lg">
-        <CommonSearch v-model="search" client-search append-icon />
+        <CommonSearch v-model="search" client-search append-icon  model-value=""/>
 
         <CommonAvatarsWrapper margin="small" hover-effects>
           <q-avatar v-for="avatar of 4" :key="avatar" size="36px" @click="toggleUserSelection(avatar)">
@@ -139,13 +141,16 @@
 </template>
 
 <script lang="ts">
-import { defineComponent, ref, reactive, onMounted, computed } from 'vue';
+import { defineComponent, ref, reactive, computed, onBeforeMount } from 'vue';
 import { useRouter, useRoute } from 'vue-router';
+import { useStore } from 'src/store';
 import useDialog from 'src/composables/common/useDialog';
 import useLocalStorage from 'src/composables/common/useLocalStorage';
+import useLoading from 'src/composables/common/useLoading';
 
 import LayoutSidebar from 'components/layout/LayoutSidebar.vue';
 
+import BaseLoader from 'components/base/BaseLoader.vue';
 import BaseTooltip from 'components/base/BaseTooltip.vue';
 import BaseButtonFavorite from 'components/base/button/BaseButtonFavorite.vue';
 import CommonSearch from 'components/common/CommonSearch.vue';
@@ -163,6 +168,7 @@ export default defineComponent({
   components: {
     LayoutSidebar,
 
+    BaseLoader,
     BaseTooltip,
     BaseButtonFavorite,
     CommonSearch,
@@ -175,70 +181,35 @@ export default defineComponent({
   setup() {
     const router = useRouter();
     const route = useRoute();
+    const store = useStore();
     const dialog = useDialog();
     const storage = useLocalStorage('projectDetail__');
+    const loading = useLoading({ default: true });
 
-    const project = reactive({
-      id: 1,
-      name: 'Jira project',
-      key: 'JP',
-      type: 'Software',
-      favorite: true,
-      boards: [
-        {
-          id: 1,
-          name: 'Full',
-          favorite: false,
-        },
-        {
-          id: 2,
-          name: 'Frontend',
-          favorite: true,
-        },
-        {
-          id: 3,
-          name: 'Backend',
-          favorite: false,
-        },
-        {
-          id: 4,
-          name: 'Testing',
-          favorite: false,
-        },
-      ],
-      avatarURLs: {
-        x16: 'https://png.pngtree.com/element_our/20190604/ourlarge/pngtree-gradient-square-border-illustration-image_1467225.jpg',
-        x24: 'https://png.pngtree.com/element_our/20190604/ourlarge/pngtree-gradient-square-border-illustration-image_1467225.jpg',
-        x32: 'https://png.pngtree.com/element_our/20190604/ourlarge/pngtree-gradient-square-border-illustration-image_1467225.jpg',
-        x48: 'https://png.pngtree.com/element_our/20190604/ourlarge/pngtree-gradient-square-border-illustration-image_1467225.jpg',
-      },
-      leader: {
-        id: 1,
-        name: 'Jira Jira',
-        avatarURLs: {
-          x16: 'https://thumbs.dreamstime.com/b/creative-illustration-default-avatar-profile-placeholder-isolated-background-art-design-grey-photo-blank-template-mockup-144849704.jpg',
-          x24: 'https://thumbs.dreamstime.com/b/creative-illustration-default-avatar-profile-placeholder-isolated-background-art-design-grey-photo-blank-template-mockup-144849704.jpg',
-          x32: 'https://thumbs.dreamstime.com/b/creative-illustration-default-avatar-profile-placeholder-isolated-background-art-design-grey-photo-blank-template-mockup-144849704.jpg',
-          x48: 'https://thumbs.dreamstime.com/b/creative-illustration-default-avatar-profile-placeholder-isolated-background-art-design-grey-photo-blank-template-mockup-144849704.jpg',
-        },
-        email: 'jirajiraemail@gmail.com',
-        locale: 'ru_RU',
-        isActive: true,
-      },
+    const project = computed(() => store.state.project.projectDetail);
+    const selectedBoard = ref<BoardModel | null | undefined>(null);
+
+    onBeforeMount(async () => {
+      try {
+        loading.start();
+        const { projectID } = route.params;
+        await store.dispatch('project/getByID', projectID);
+        await loadSavedBoard();
+      } finally {
+        loading.stop();
+      }
     });
-
-    const selectedBoard = ref(project.boards[0]);
 
     async function selectBoard(board: BoardModel) {
       selectedBoard.value = board;
       storage.save(board.id, 'selectedBoardID');
       await openBoardByID(board.id);
     }
-    function loadSavedBoard() {
-      const savedBoard = storage.load('selectedBoardID') as number;
-      const defaultBoard = project.boards[0];
+    async function loadSavedBoard() {
+      const savedBoard = (await storage.load('selectedBoardID')) as number;
+      const defaultBoard = project.value?.boards[0];
       if (savedBoard) {
-        const boardObject = project.boards.find((b) => b.id === savedBoard);
+        const boardObject = project.value?.boards.find((b) => b.id === savedBoard);
         selectedBoard.value = boardObject || defaultBoard;
       }
     }
@@ -247,13 +218,9 @@ export default defineComponent({
       await router.push({ name: 'board', params: { id: boardID } });
     }
     async function openSelectedBoard() {
-      const boardID = selectedBoard.value.id;
-      await openBoardByID(boardID);
+      const boardID = selectedBoard.value?.id;
+      if (boardID) await openBoardByID(boardID);
     }
-
-    onMounted(() => {
-      loadSavedBoard();
-    });
 
     const sidebarItems: SidebarItemModel[] = [
       {
@@ -329,11 +296,13 @@ export default defineComponent({
     }
 
     function toggleSelectedBoardFavorite() {
+      if (selectedBoard.value === undefined || selectedBoard.value === null) return;
       selectedBoard.value.favorite = !selectedBoard.value.favorite;
     }
 
     return {
       dialog,
+      loading,
 
       project,
       selectedBoard,
