@@ -26,7 +26,8 @@ export default defineComponent({
   props: {
     modelValue: {
       type: String,
-      required: true,
+      required: false,
+      default: null,
     },
 
     clientSearch: {
@@ -57,12 +58,12 @@ export default defineComponent({
     },
   },
 
-  emits: ['search'],
+  emits: ['update:model-value'],
 
   setup(props, { emit }) {
     function emitSearch(value: string) {
       const normalizedSearch = value.toLowerCase().trim();
-      emit('search', normalizedSearch);
+      emit('update:model-value', normalizedSearch);
     }
 
     return { emitSearch };
