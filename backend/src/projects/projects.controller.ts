@@ -20,7 +20,7 @@ export class ProjectsController {
   @ApiOperation({ summary: 'Get project by ID' })
   @ApiResponse({ status: 200, description: 'Return project' })
   @Get(':id')
-  async getByID(@Query('id') id: number): Promise<ProjectEntity> {
+  async getByID(@Param('id') id: number): Promise<ProjectEntity> {
     return await this.projectsService.getByID(id);
   }
 
