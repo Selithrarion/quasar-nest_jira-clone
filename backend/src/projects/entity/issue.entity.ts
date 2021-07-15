@@ -39,12 +39,16 @@ export class IssueEntity extends BaseEntity {
   @Column({ type: 'enum', enum: IssuePriorityEnum, default: IssuePriorityEnum.MEDIUM })
   priority: IssuePriorityEnum;
 
-  @ManyToOne(() => UserEntity)
-  @JoinColumn({ name: 'authorID' })
+  @ManyToOne(() => UserEntity, {
+    eager: true,
+    cascade: true,
+  })
   author: UserEntity;
 
-  @OneToOne(() => UserEntity, user => user.assignedIssues)
-  @JoinColumn({ name: 'assignedID' })
+  @OneToOne(() => UserEntity, (user) => user.assignedIssues, {
+    eager: true,
+    cascade: true,
+  })
   assigned: UserEntity;
 
   @ManyToOne(() => ColumnEntity, (column) => column.issues)

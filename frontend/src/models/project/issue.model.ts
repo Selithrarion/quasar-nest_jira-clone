@@ -14,8 +14,8 @@ export interface IssueModel extends BaseModel {
   comments?: CommentModel[];
 
   priority: IssuePriorityEnum;
-  authorID: number;
-  assignedID: number;
+  author: UserModel;
+  assigned: UserModel;
   columnID: number;
 }
 
