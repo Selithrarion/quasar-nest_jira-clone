@@ -3,7 +3,7 @@ import { ref, Ref } from 'vue';
 interface DialogInterface {
   openedName: Ref<string | null>;
   openedItem: Ref<unknown | null>;
-  open: (name: string, options: DialogOpenOptionsInterface) => void;
+  open: (name: string, options?: DialogOpenOptionsInterface) => void;
   close: () => void;
 
   loading: Ref<boolean>;
@@ -31,7 +31,7 @@ export default function useDialog(): DialogInterface {
     loading.value = true;
   }
   function stopLoading() {
-    loading.value = true;
+    loading.value = false;
   }
 
   return {
