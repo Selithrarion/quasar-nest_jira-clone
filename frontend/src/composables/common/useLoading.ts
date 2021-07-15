@@ -5,9 +5,12 @@ interface LoadingInterface {
   start: () => void;
   stop: () => void;
 }
+interface LoadingOptionsInterface {
+  default: boolean;
+}
 
-export default function useLoading(): LoadingInterface {
-  const active = ref(false);
+export default function useLoading(options: LoadingOptionsInterface = { default: false }): LoadingInterface {
+  const active = ref(options.default);
   const start = () => (active.value = true);
   const stop = () => (active.value = false);
 
