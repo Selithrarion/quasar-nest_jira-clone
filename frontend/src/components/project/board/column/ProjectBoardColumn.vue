@@ -14,15 +14,15 @@
           name: !isDrag ? 'flip-list' : null,
         }"
         v-bind="dragOptions"
-        @start="drag = true"
-        @end="drag = false"
+        @start="isDrag = true"
+        @end="isDrag = false"
       >
-<!--        <template #item="{ element }">-->
+        <!--        <template #item="{ element }">-->
         <template #item>
           <q-card class="list-group-item" @click="openIssue(100)">
             <q-card-section class="q-px-sm q-pt-sm q-pb-none">
               <span> Lorem ipsum dolor sit amet, consectetur adipisic </span>
-              <BaseTooltip label="Lorem ipsum dolor sit amet, consectetur adipisic" />
+              <BaseTooltip v-if="!isDrag" label="Lorem ipsum dolor sit amet, consectetur adipisic" />
             </q-card-section>
             <q-card-section class="flex-center-between q-pa-sm">
               <div>
@@ -64,6 +64,7 @@ export default defineComponent({
   name: 'ProjectBoardColumn',
 
   components: {
+    // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
     Draggable,
     BaseTooltip,
     ProjectBoardIconIssueType,
@@ -83,6 +84,7 @@ export default defineComponent({
         watchNumber: 1,
         watchers: [],
         priority: 3,
+        columnID: 1,
         author: {
           id: 1,
           name: 'Jira Jira',
@@ -91,6 +93,7 @@ export default defineComponent({
           email: 'jirajiraemail@gmail.com',
           locale: 'ru_RU',
           isActive: true,
+          favoriteProjectsIDs: [],
         },
         assigned: {
           id: 1,
@@ -100,9 +103,8 @@ export default defineComponent({
           email: 'jirajiraemail@gmail.com',
           locale: 'ru_RU',
           isActive: true,
+          favoriteProjectsIDs: [],
         },
-        createdAt: new Date().getTime(),
-        updatedAt: new Date().getTime(),
       },
       {
         id: 2,
@@ -112,6 +114,7 @@ export default defineComponent({
         watchNumber: 1,
         watchers: [],
         priority: 3,
+        columnID: 1,
         author: {
           id: 1,
           name: 'Jira Jira',
@@ -120,6 +123,7 @@ export default defineComponent({
           email: 'jirajiraemail@gmail.com',
           locale: 'ru_RU',
           isActive: true,
+          favoriteProjectsIDs: [],
         },
         assigned: {
           id: 1,
@@ -129,9 +133,8 @@ export default defineComponent({
           email: 'jirajiraemail@gmail.com',
           locale: 'ru_RU',
           isActive: true,
+          favoriteProjectsIDs: [],
         },
-        createdAt: new Date().getTime(),
-        updatedAt: new Date().getTime(),
       },
     ]);
     function openIssue(issueID: number) {
