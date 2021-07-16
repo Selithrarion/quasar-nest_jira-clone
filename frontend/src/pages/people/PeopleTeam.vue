@@ -33,7 +33,7 @@
         <h6 class="no-margin">Test</h6>
         <div class="row items-center gap-3">
           <q-icon class="text-blue-grey-3" name="visibility" size="sm" />
-          <div class="text-sm text-blue-grey-4">Открытая команда</div>
+          <div class="text-body2 text-blue-grey-4">Открытая команда</div>
         </div>
 
         <div class="row gap-2">
@@ -68,7 +68,7 @@
       </div>
 
       <div class="col-8">
-        <h6 class="q-mt-none text-default q-mb-md">В работе</h6>
+        <h6 class="q-mt-none text-body1 q-mb-md">В работе</h6>
         <q-card class="row flex-2 q-py-md">
           <q-card-section class="q-pl-xl col-3">
             <img
@@ -86,7 +86,7 @@
         </q-card>
 
         <div class="flex-center-between">
-          <h6 class="text-default q-mb-md">Ссылки</h6>
+          <h6 class="text-body1 q-mb-md">Ссылки</h6>
 
           <q-btn icon="add" padding="4px" flat>
             <BaseTooltip> Добавить ссылку </BaseTooltip>

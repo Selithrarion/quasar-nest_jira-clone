@@ -15,7 +15,7 @@
       <CommonSearch v-model="searchValue" placeholder="Поиск людей и команд" :outlined="false" filled append-icon />
     </div>
 
-    <h6 class="text-default">Вы работаете с</h6>
+    <h6 class="text-body1">Вы работаете с</h6>
     <div class="people-wrapper">
       <q-card class="shadow-1 hover-shadow-lg">
         <q-card-section class="column items-center q-px-lg q-pb-lg q-pt-md">
@@ -31,7 +31,7 @@
       </q-card>
     </div>
 
-    <h6 class="text-default">Ваши команды</h6>
+    <h6 class="text-body1">Ваши команды</h6>
     <div class="teams-wrapper">
       <q-card class="shadow-1 hover-shadow-lg">
         <CommonAvatarsWrapper class="q-pa-md bg-grey-3">

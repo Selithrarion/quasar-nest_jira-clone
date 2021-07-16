@@ -14,7 +14,7 @@
               <q-icon class="text-blue-grey-6" name="table_view" size="sm" />
               <div>
                 <div class="text-weight-medium">{{ selectedBoard.name }}</div>
-                <div class="text-xs">Доска</div>
+                <div class="text-caption">Доска</div>
               </div>
             </div>
             <q-icon name="expand_more" size="xs" />
@@ -36,7 +36,7 @@
       </q-list>
 
       <template #footer>
-        <div class="column gap-1 text-center text-xs">
+        <div class="column gap-1 text-center text-caption">
           <div>Это проект управляемый компанией</div>
           <a
             class="text-blue-grey-8"
@@ -131,7 +131,8 @@
 
     <ProjectBoardDialogSelect
       :show="dialog.openedName.value === 'selectBoard'"
-      :project-name="project.name"
+      :project="project"
+      :available-projects="availableProjects"
       :boards="project.boards"
       :selected-board="selectedBoard"
       @close="dialog.close"
@@ -187,6 +188,7 @@ export default defineComponent({
     const loading = useLoading({ default: true });
 
     const project = computed(() => store.state.project.projectDetail);
+    const availableProjects = computed(() => store.state.project.projects);
     const selectedBoard = ref<BoardModel | null | undefined>(null);
 
     onBeforeMount(async () => {
@@ -305,6 +307,7 @@ export default defineComponent({
       loading,
 
       project,
+      availableProjects,
       selectedBoard,
       selectBoard,
 

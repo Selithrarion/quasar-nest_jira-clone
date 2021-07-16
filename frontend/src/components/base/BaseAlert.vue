@@ -2,10 +2,10 @@
   <div class="base-alert rounded-md" :class="getBackgroundColor" :style="{ padding }" v-bind="$attrs">
     <div class="flex items-center gap-3">
       <q-icon size="20px" :name="icon" :class="getIconColor" />
-      <div class="text-weight-bold text-sm" :class="getTitleColor">{{ title }}</div>
+      <div class="text-weight-bold text-body2" :class="getTitleColor">{{ title }}</div>
     </div>
 
-    <div class="alert-padding text-sm q-mt-sm q-mb-md" :class="getTextColor">{{ text }}</div>
+    <div class="alert-padding text-body2 q-mt-sm q-mb-md" :class="getTextColor">{{ text }}</div>
 
     <div class="text-center">
       <q-btn v-if="actionText" :label="actionText" :color="color" flat @click="$emit('action-click')" />
