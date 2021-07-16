@@ -84,15 +84,15 @@ export default defineComponent({
   :nth-child(6) {
     z-index: 1;
   }
-}
 
-.hover-effects {
-  ::v-deep > .q-avatar {
-    cursor: pointer;
-    transition: transform 200ms ease;
-  }
-  ::v-deep > .q-avatar:hover {
-    transform: translateY(-8px);
+  &.hover-effects {
+    ::v-deep > .q-avatar {
+      cursor: pointer;
+      transition: transform 200ms ease;
+    }
+    ::v-deep > .q-avatar:hover {
+      transform: translateY(-8px);
+    }
   }
 }
 </style>
