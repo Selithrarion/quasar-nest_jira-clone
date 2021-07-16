@@ -6,7 +6,7 @@
     </div>
 
     <div class="q-px-xl flex gap-4">
-      <CommonSearch :value="searchValue" append-icon @search="search" />
+      <CommonSearch v-model="searchValue" append-icon @search="search" />
 
       <q-select
         v-if="isShowFilter('type')"
@@ -93,9 +93,8 @@ export default defineComponent({
 
   setup(props, { emit }) {
     const searchValue = ref('');
-    function search(value: string) {
-      console.log(value);
-      searchValue.value = value;
+    function search() {
+      console.log(searchValue.value);
     }
 
     const availableTypes = reactive([

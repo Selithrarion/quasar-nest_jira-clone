@@ -12,7 +12,7 @@
         <q-btn label="Добавить людей" color="primary" unelevated no-caps />
       </div>
 
-      <CommonSearch placeholder="Поиск людей и команд" :value="searchValue" :outlined="false" filled append-icon />
+      <CommonSearch v-model="searchValue" placeholder="Поиск людей и команд" :outlined="false" filled append-icon />
     </div>
 
     <h6 class="text-default">Вы работаете с</h6>

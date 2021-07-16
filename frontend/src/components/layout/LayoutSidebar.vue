@@ -5,10 +5,10 @@
         <img :src="avatar" alt="Avatar" />
       </q-avatar>
       <div>
-        <h6 v-if="title" class="q-my-none text-sm">
+        <h6 v-if="title" class="q-my-none text-body2">
           {{ title }}
         </h6>
-        <div v-if="subtitle" class="text-xs text-blue-grey-4">
+        <div v-if="subtitle" class="text-caption text-blue-grey-4">
           {{ subtitle }}
         </div>
       </div>

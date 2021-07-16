@@ -103,7 +103,7 @@
       </div>
 
       <div class="row gap-4 q-pb-lg">
-        <CommonSearch v-model="search" client-search append-icon  model-value=""/>
+        <CommonSearch v-model="search" client-search append-icon />
 
         <CommonAvatarsWrapper margin="small" hover-effects>
           <q-avatar v-for="avatar of 4" :key="avatar" size="36px" @click="toggleUserSelection(avatar)">

@@ -58,12 +58,13 @@ export default defineComponent({
     },
   },
 
-  emits: ['update:model-value'],
+  emits: ['update:model-value', 'search'],
 
   setup(props, { emit }) {
     function emitSearch(value: string) {
       const normalizedSearch = value.toLowerCase().trim();
       emit('update:model-value', normalizedSearch);
+      emit('search');
     }
 
     return { emitSearch };

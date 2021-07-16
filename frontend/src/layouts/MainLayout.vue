@@ -39,7 +39,7 @@
         </div>
 
         <div class="flex-center gap-4">
-          <CommonSearch :value="searchValue" prepend-icon @search="search" />
+          <CommonSearch v-model="searchValue" prepend-icon @search="search" />
 
           <q-btn icon="notifications" unelevated dense round />
           <q-btn icon="help" unelevated dense round />
@@ -76,9 +76,8 @@ export default defineComponent({
     const dialog = useDialog();
 
     const searchValue = ref('');
-    function search(value: string) {
-      console.log(value);
-      searchValue.value = value;
+    function search() {
+      console.log(searchValue.value);
     }
 
     const selectedTab = ref('work');

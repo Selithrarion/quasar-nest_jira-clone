@@ -10,7 +10,7 @@
   >
     <div class="row">
       <nav class="col-3">
-        <CommonSearch :value="searchValue" autofocus filled />
+        <CommonSearch v-model="searchValue" autofocus filled />
 
         <div class="text-caption text-uppercase q-mt-md">Категории</div>
         <q-list class="category-list" dense>
@@ -47,9 +47,9 @@
 
             <q-card-section>
               <div class="text-subtitle2">Wallboard Spacer Gadget</div>
-              <div class="text-xs text-grey-7">Разработчик: Atlassian • Локальный</div>
+              <div class="text-caption text-grey-7">Разработчик: Atlassian • Локальный</div>
 
-              <div class="text-sm q-py-md">Allows for custom spacing between gadgets in a wallboard</div>
+              <div class="text-body2 q-py-md">Allows for custom spacing between gadgets in a wallboard</div>
 
               <q-btn label="Показать ссылку XML" text-color="blue-8" size="12px" unelevated dense no-caps />
             </q-card-section>
