@@ -205,7 +205,7 @@ export default defineComponent({
     async function createBoard() {
       try {
         loading.start();
-        await store.dispatch('board/create', form);
+        await store.dispatch('project/createBoard', form);
         close();
       } finally {
         loading.stop;

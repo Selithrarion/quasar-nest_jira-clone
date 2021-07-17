@@ -2,6 +2,7 @@ import { ActionTree } from 'vuex';
 import { StateInterface } from '../index';
 import { ProjectStateInterface } from './state';
 import projectService from 'src/service/projectService';
+import boardService from 'src/service/boardService';
 
 const actions: ActionTree<ProjectStateInterface, StateInterface> = {
   async getAll({ commit }) {
@@ -29,6 +30,21 @@ const actions: ActionTree<ProjectStateInterface, StateInterface> = {
   async toggleFavorite({ commit }, id) {
     commit('TOGGLE_FAVORITE', id);
     await projectService.toggleFavorite(id);
+  },
+
+  // board
+  async createBoard({ commit }, boardData) {
+    const board = await boardService.create(boardData);
+    commit('ADD_BOARD', board);
+    return board;
+  },
+  async updateBoard({ commit }, { id, boardData }) {
+    const board = await boardService.update(id, boardData);
+    commit('UPDATE_BOARD', board);
+  },
+  async deleteBoard({ commit }, { boardID, projectID }: { boardID: number; projectID: number }) {
+    await boardService.delete(boardID);
+    commit('DELETE_BOARD', { boardID, projectID });
   },
 };
 

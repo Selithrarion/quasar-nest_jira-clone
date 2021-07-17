@@ -1,6 +1,7 @@
 import { MutationTree } from 'vuex';
 import { ProjectStateInterface } from './state';
 import { ProjectModel } from 'src/models/project/project.model';
+import { BoardModel } from 'src/models/project/board.model';
 
 const mutation: MutationTree<ProjectStateInterface> = {
   SET_PROJECTS(state, projects: ProjectModel[]) {
@@ -12,18 +13,38 @@ const mutation: MutationTree<ProjectStateInterface> = {
   ADD_PROJECT(state: ProjectStateInterface, project: ProjectModel) {
     state.projects?.push(project);
   },
-  UPDATE_PROJECT(state: ProjectStateInterface, dashboard: ProjectModel) {
+  UPDATE_PROJECT(state: ProjectStateInterface, project: ProjectModel) {
     if (!state.projects) return;
-    const index = state.projects.findIndex((d) => d.id === dashboard.id);
-    state.projects[index] = dashboard;
+    const index = state.projects.findIndex((d) => d.id === project.id);
+    state.projects[index] = project;
   },
   DELETE_PROJECT(state: ProjectStateInterface, id: number) {
-    state.projects = state.projects?.filter((p) => p.id !== id);
+    if (!state.projects) return;
+    const index = state.projects.findIndex((p) => p.id === id);
+    state.projects.splice(index, 1);
   },
 
   TOGGLE_FAVORITE(state: ProjectStateInterface, id: number) {
     const project = state.projects?.find((p) => p.id === id);
     if (project) project.favorite = !project.favorite;
+  },
+
+  // board
+  ADD_BOARD(state: ProjectStateInterface, board: BoardModel) {
+    const projectBoards = state.projects?.[board.projectID]?.boards;
+    if (projectBoards) projectBoards.push(board);
+  },
+  UPDATE_BOARD(state: ProjectStateInterface, board: BoardModel) {
+    const projectBoards = state.projects?.[board.projectID]?.boards;
+    if (!projectBoards) return;
+    const index = projectBoards.findIndex((b) => b.id === board.id);
+    projectBoards[index] = board;
+  },
+  DELETE_BOARD(state: ProjectStateInterface, { boardID, projectID }: { boardID: number; projectID: number }) {
+    const projectBoards = state.projects?.[projectID]?.boards;
+    if (!projectBoards) return;
+    const index = projectBoards.findIndex((b) => b.id === boardID);
+    projectBoards.splice(index, 1);
   },
 };
 

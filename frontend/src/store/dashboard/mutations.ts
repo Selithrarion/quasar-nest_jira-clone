@@ -18,7 +18,9 @@ const mutation: MutationTree<DashboardStateInterface> = {
     state.dashboards[index] = dashboard;
   },
   DELETE_DASHBOARD(state: DashboardStateInterface, id: number) {
-    state.dashboards = state.dashboards?.filter((d) => d.id !== id);
+    if (!state.dashboards) return;
+    const index = state.dashboards.findIndex((d) => d.id === id);
+    state.dashboards.splice(index, 1)
   },
 };
 
