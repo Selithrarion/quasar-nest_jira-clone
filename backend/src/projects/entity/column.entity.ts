@@ -1,7 +1,7 @@
-import {Column, Entity, JoinColumn, JoinTable, ManyToOne, OneToMany} from 'typeorm';
+import {Column, Entity, JoinColumn, ManyToOne, OneToMany} from 'typeorm';
 import { BaseEntity } from '../../common/base.entity';
 import { IssueEntity } from './issue.entity';
-import { BoardEntity } from './board.entity';
+import { BoardEntity } from '../../boards/entity/board.entity';
 
 @Entity()
 export class ColumnEntity extends BaseEntity {
