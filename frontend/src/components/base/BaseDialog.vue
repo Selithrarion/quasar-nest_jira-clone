@@ -20,7 +20,7 @@
         </q-card-section>
 
         <q-card-section class="q-pt-none q-px-lg q-pb-lg">
-          <BaseLoader v-if="contentLoading" />
+          <BaseLoader v-if="contentLoading" class="q-mt-xl q-mb-lg" />
           <div v-else>
             <slot>Default slot</slot>
           </div>
@@ -31,6 +31,7 @@
           class="dialog-action-buttons"
           :class="[{ 'dialog-action-buttons--dense': type === 'delete' }, { 'fixed-section': fixedFooter }]"
         >
+          <q-btn v-if="showBackButton" color="grey-6" :label="backText" flat @click="back" />
           <q-btn
             v-if="!hideCloseButton"
             v-close-popup
@@ -110,6 +111,11 @@ export default defineComponent({
       required: false,
       default: null,
     },
+    backText: {
+      type: String,
+      required: false,
+      default: 'Назад',
+    },
     closeText: {
       type: String,
       required: false,
@@ -132,8 +138,9 @@ export default defineComponent({
       default: true,
     },
 
-    hideConfirmButton: Boolean,
+    showBackButton: Boolean,
     hideCloseButton: Boolean,
+    hideConfirmButton: Boolean,
     hideCloseIcon: Boolean,
 
     hideScroll: Boolean,
@@ -155,7 +162,7 @@ export default defineComponent({
     },
   },
 
-  emits: ['confirm', 'close'],
+  emits: ['confirm', 'close', 'back'],
 
   setup(props, { emit }) {
     function handleInput(value: boolean) {
@@ -166,6 +173,9 @@ export default defineComponent({
     }
     function close() {
       emit('close');
+    }
+    function back() {
+      emit('back');
     }
 
     const types = [
@@ -202,6 +212,7 @@ export default defineComponent({
       handleInput,
       confirm,
       close,
+      back,
 
       types,
       selectedType,
