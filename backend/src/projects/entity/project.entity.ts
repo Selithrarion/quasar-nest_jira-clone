@@ -1,6 +1,6 @@
 import { Column, Entity, JoinColumn, ManyToOne, OneToMany } from 'typeorm';
 import { BaseEntity } from '../../common/base.entity';
-import { BoardEntity } from './board.entity';
+import { BoardEntity } from '../../boards/entity/board.entity';
 import { UserEntity } from '../../user/entity/user.entity';
 import { AccessEnum } from '../../common/access.model';
 

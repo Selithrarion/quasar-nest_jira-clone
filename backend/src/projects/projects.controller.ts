@@ -32,14 +32,13 @@ export class ProjectsController {
     return await this.projectsService.create(projectData);
   }
 
-  // @ApiOperation({ summary: 'Update project' })
-  // @ApiResponse({ status: 201, description: 'Project was updated' })
-  // @ApiResponse({ status: 403, description: 'Forbidden' })
-  // @Patch(':id')
-  // // @Body()
-  // async update(@Param('id') id: number, @Body() projectData: UpdateProjectDTO): Promise<ProjectEntity> {
-  //   return await this.projectsService.update(id, projectData);
-  // }
+  @ApiOperation({ summary: 'Update project' })
+  @ApiResponse({ status: 201, description: 'Project was updated' })
+  @ApiResponse({ status: 403, description: 'Forbidden' })
+  @Patch(':id')
+  async update(@Param('id') id: number, @Body() projectData: UpdateProjectDTO): Promise<ProjectEntity> {
+    return await this.projectsService.update(id, projectData);
+  }
 
   @ApiOperation({ summary: 'Delete project' })
   @ApiResponse({ status: 201, description: 'Project was deleted' })

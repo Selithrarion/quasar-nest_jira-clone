@@ -76,13 +76,12 @@ export class ProjectsService {
     return createdProject;
   }
 
-  // async update(id: number, projectData: UpdateProjectDTO): Promise<ProjectEntity> {
-  //   const toUpdate = await this.projects.find({ id });
-  //   const updated = { ...toUpdate, ...projectData };
-  //   await this.projects.save(updated);
-  //   console.log('update project', updated);
-  //   return updated;
-  // }
+  async update(id: number, projectData: UpdateProjectDTO): Promise<ProjectEntity> {
+    const toUpdate = await this.projects.findOneOrFail({ id });
+    const updated = { ...toUpdate, ...projectData };
+    await this.projects.save(updated);
+    return updated;
+  }
 
   async delete(id: number): Promise<void> {
     await this.projects.delete(id);
