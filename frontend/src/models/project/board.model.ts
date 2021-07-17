@@ -3,7 +3,13 @@ import { ColumnModel } from 'src/models/project/column.model';
 
 export interface BoardModel extends BaseModel {
   name: string;
-  favorite: boolean,
+  favorite: boolean;
+  columns: ColumnModel[];
+  projectID: number;
+}
+
+export interface BoardDTO {
+  name: string;
   columns: ColumnModel[];
   projectID: number;
 }
