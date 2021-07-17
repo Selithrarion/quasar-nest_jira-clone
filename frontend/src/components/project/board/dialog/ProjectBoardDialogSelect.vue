@@ -1,5 +1,21 @@
 <template>
-  <BaseDialog :title="computedTitle" :show="show" :actions="false" large @close="close">
+  <BaseDialog
+    close-text="Назад"
+    confirm-text="Создать доску"
+    :title="computedTitle"
+    :show="show"
+    :actions="step !== 1"
+    :show-back-button="step !== 1"
+    :back-text="step === 1 ? 'Отмена' : 'Назад'"
+    :hide-confirm-button="step !== 3"
+    :confirm-loading="loading.active.value"
+    :content-loading="step === 3 && loading.custom.projects"
+    hide-close-button
+    large
+    @back="step = 2"
+    @close="close"
+    @confirm="createBoard"
+  >
     <div v-if="step === 1">
       <CommonSearch v-model="search" :outlined="false" client-search filled />
 
@@ -63,10 +79,6 @@
           />
         </div>
       </div>
-
-      <div class="row justify-end q-mt-lg">
-        <q-btn label="Отмена" flat @click="step = 1" />
-      </div>
     </div>
 
     <div v-else-if="step === 3">
@@ -82,17 +94,13 @@
           map-options
           filled
         />
-        <div class="row justify-end gap-2">
-          <q-btn class="btn--secondary" label="Назад" unelevated @click="step = 2" />
-          <q-btn label="Создать доску" color="primary" unelevated @click="createBoard" />
-        </div>
       </q-form>
     </div>
   </BaseDialog>
 </template>
 
 <script lang="ts">
-import { defineComponent, ref, reactive, computed, PropType } from 'vue';
+import { defineComponent, ref, reactive, computed, PropType, onBeforeMount } from 'vue';
 import { useStore } from 'src/store';
 import useLoading from 'src/composables/common/useLoading';
 
@@ -121,7 +129,8 @@ export default defineComponent({
     },
     availableProjects: {
       type: Array as PropType<ProjectModel[]>,
-      required: true,
+      required: false,
+      default: null,
     },
 
     boards: {
@@ -138,7 +147,23 @@ export default defineComponent({
 
   setup(props, { emit }) {
     const store = useStore();
-    const loading = useLoading();
+    const loading = useLoading({ customNames: ['projects'] });
+
+    onBeforeMount(async () => {
+      if (!props.availableProjects) {
+        try {
+          loading.start('projects');
+          await store.dispatch('project/getAll');
+          await new Promise((res) =>
+            setTimeout(() => {
+              res({});
+            }, 10000)
+          );
+        } finally {
+          loading.stop('projects');
+        }
+      }
+    });
 
     const search = ref('');
     const filteredBoards = computed(() => {
