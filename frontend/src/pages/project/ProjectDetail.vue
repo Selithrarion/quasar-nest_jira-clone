@@ -189,11 +189,10 @@ export default defineComponent({
 
     const project = computed(() => store.state.project.projectDetail);
     const availableProjects = computed(() => store.state.project.projects);
-    const selectedBoard = ref<BoardModel | null | undefined>(null);
+    const selectedBoard = ref<BoardModel>();
 
     onBeforeMount(async () => {
       try {
-        loading.start();
         const { projectID } = route.params;
         await store.dispatch('project/getByID', projectID);
         await loadSavedBoard();
@@ -210,10 +209,9 @@ export default defineComponent({
     async function loadSavedBoard() {
       const savedBoard = (await storage.load('selectedBoardID')) as number;
       const defaultBoard = project.value?.boards[0];
-      if (savedBoard) {
-        const boardObject = project.value?.boards.find((b) => b.id === savedBoard);
-        selectedBoard.value = boardObject || defaultBoard;
-      }
+
+      const boardObject = project.value?.boards.find((b) => b.id === savedBoard);
+      selectedBoard.value = boardObject || defaultBoard;
     }
 
     async function openBoardByID(boardID: number) {
@@ -248,7 +246,7 @@ export default defineComponent({
         dialog: true,
       },
       {
-        label: 'Копмпоненты',
+        label: 'Компоненты',
         icon: 'call_to_action',
         dialog: true,
       },

@@ -13,13 +13,16 @@
 </template>
 
 <script lang="ts">
+import { defineComponent } from 'vue';
+import useLoading from 'src/composables/common/useLoading';
+
 import CommonPageTitle from 'components/common/CommonPageTitle.vue';
 
 import WorkProjectHeader from 'components/work/WorkProjectHeader.vue';
 import WorkProjectList from 'components/work/WorkProjectList.vue';
 import WorkProjectCard from 'components/work/WorkProjectCard.vue';
 
-export default {
+export default defineComponent({
   name: 'PageIndex',
 
   components: {
@@ -30,6 +33,7 @@ export default {
   },
 
   setup() {
+    const loading = useLoading({ customNames: ['test'] });
     const projects = [
       {
         id: 1,
@@ -43,5 +47,5 @@ export default {
       projects,
     };
   },
-};
+});
 </script>

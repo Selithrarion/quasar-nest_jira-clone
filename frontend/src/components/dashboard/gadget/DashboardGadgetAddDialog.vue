@@ -2,7 +2,7 @@
   <BaseDialog
     title="Добавить гаджет"
     :show="show"
-    :loading="loading.active"
+    :loading="loading.active.value"
     :maximized="$q.screen.lt.md"
     hide-confirm-button
     large

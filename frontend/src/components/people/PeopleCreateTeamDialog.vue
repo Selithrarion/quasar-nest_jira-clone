@@ -3,7 +3,7 @@
     title="Создать новую команду"
     confirm-text="Создать команду"
     :show="show"
-    :loading="loading.active"
+    :loading="loading.active.value"
     large
     @confirm="createTeam"
   >

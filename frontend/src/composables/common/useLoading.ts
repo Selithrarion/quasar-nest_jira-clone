@@ -1,21 +1,39 @@
-import { ref, Ref } from 'vue';
+import { ref, reactive, Ref } from 'vue';
 
+// TODO: make custom not object with items, but simple refs like active
 interface LoadingInterface {
   active: Ref<boolean>;
-  start: () => void;
-  stop: () => void;
+  custom: Record<string, boolean>;
+  start: (name?: string) => void;
+  stop: (name?: string) => void;
 }
 interface LoadingOptionsInterface {
-  default: boolean;
+  default?: boolean;
+  customNames?: string[] | null;
 }
 
-export default function useLoading(options: LoadingOptionsInterface = { default: false }): LoadingInterface {
-  const active = ref(options.default);
-  const start = () => (active.value = true);
-  const stop = () => (active.value = false);
+export default function useLoading(options: LoadingOptionsInterface = {}): LoadingInterface {
+  const active = ref(options.default || false);
+  const custom = reactive<Record<string, boolean>>({});
+
+  if (options.customNames) {
+    options.customNames.forEach((name) => {
+      custom[name] = false;
+    });
+  }
+
+  const start = (name?: string) => {
+    if (name) custom[name] = true;
+    else active.value = true;
+  };
+  const stop = (name?: string) => {
+    if (name) custom[name] = false;
+    else active.value = false;
+  };
 
   return {
     active,
+    custom,
     start,
     stop,
   };
