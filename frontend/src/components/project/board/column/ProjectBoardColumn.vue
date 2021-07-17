@@ -182,5 +182,12 @@ export default defineComponent({
 }
 .list-group-item {
   cursor: grab;
+  transition: background-color 150ms ease-in;
+  &:hover {
+    background: $grey-1;
+  }
+  &:active {
+    background: $blue-grey-1;
+  }
 }
 </style>
