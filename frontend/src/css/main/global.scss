@@ -1,0 +1,22 @@
+.dialog-action-buttons {
+  display: flex;
+  justify-content: flex-end;
+  gap: 16px;
+  margin-top: 32px;
+  &--dense {
+    margin-top: 0;
+  }
+}
+
+.big-side-padding {
+  padding: 0 16px;
+  @media screen and (min-width: $breakpoint-sm-min) {
+    padding: 0 48px;
+  }
+  @media screen and (min-width: $breakpoint-md-min) {
+    padding: 0 200px;
+  }
+  @media screen and (min-width: $breakpoint-lg-min) {
+    padding: 0 400px;
+  }
+}

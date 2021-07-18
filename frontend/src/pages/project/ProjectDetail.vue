@@ -9,7 +9,7 @@
     >
       <q-list class="select-none">
         <q-item class="q-pa-sm" clickable @click="dialog.open('selectBoard')">
-          <div class="flex-center-between no-wrap w-full">
+          <div class="flex-center-between no-wrap full-width">
             <div class="row items-center gap-3">
               <q-icon class="text-blue-grey-6" name="table_view" size="sm" />
               <div>
@@ -23,7 +23,7 @@
 
         <div v-for="item in sidebarItems" :key="item.label">
           <q-item class="items-center q-pa-sm" clickable @click="handleSidebarItemClick(item)">
-            <div class="flex-center-between no-wrap w-full">
+            <div class="flex-center-between no-wrap full-width">
               <div class="row items-center gap-3">
                 <q-icon class="text-blue-grey-6" :name="item.icon" size="sm" />
                 <div>{{ item.label }}</div>

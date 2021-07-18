@@ -1,5 +1,5 @@
 <template>
-  <div class="project-board-column bg-grey-2 flex-grow-1 h-full rounded-md">
+  <div class="project-board-column bg-grey-2 flex-grow-1 full-height rounded-md">
     <div class="text-caption text-uppercase text-weight-medium q-pa-sm">In progress</div>
 
     <div class="q-px-xs q-pb-xs">

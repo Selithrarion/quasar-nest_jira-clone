@@ -1,0 +1,53 @@
+html {
+  $light-background-color: white;
+
+  $scrollbar-size: 6px;
+  $scrollbar-size--page: 0.75rem;
+
+  $scrollbar-border-radius: 6px;
+  $scrollbar-minlength: 1rem;
+  $scrollbar-ff-width: thin;
+  $scrollbar-color: rgba(0, 0, 0, 0.1);
+  $scrollbar-color-hover: rgba(0, 0, 0, 0.15);
+  $scrollbar-color-active: rgba(0, 0, 0, 0.25);
+
+  $dark-scrollbar-color: rgba(84, 84, 84, 0.5);
+  $dark-scrollbar-color-hover: rgba(127, 127, 127, 0.5);
+  $dark-scrollbar-color-active: rgba(160, 160, 160, 0.5);
+
+  // page
+  &::-webkit-scrollbar {
+    height: $scrollbar-size;
+    width: $scrollbar-size--page;
+  }
+  * {
+    // FF
+    scrollbar-color: $scrollbar-color $light-background-color !important;
+    scrollbar-width: $scrollbar-ff-width;
+
+    // Webkit
+    &::-webkit-scrollbar {
+      height: $scrollbar-size;
+      width: $scrollbar-size;
+    }
+    &::-webkit-scrollbar-track {
+      background-color: $light-background-color;
+    }
+    &::-webkit-scrollbar-thumb {
+      background-color: $scrollbar-color;
+      border-radius: $scrollbar-border-radius;
+    }
+    &::-webkit-scrollbar-thumb:hover {
+      background-color: $scrollbar-color-hover;
+    }
+    &::-webkit-scrollbar-thumb:active {
+      background-color: $scrollbar-color-active;
+    }
+    &::-webkit-scrollbar-thumb:vertical {
+      min-height: $scrollbar-minlength;
+    }
+    &::-webkit-scrollbar-thumb:horizontal {
+      min-width: $scrollbar-minlength;
+    }
+  }
+}

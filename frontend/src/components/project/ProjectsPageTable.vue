@@ -16,7 +16,7 @@
       <template #body-cell-name="props">
         <q-td :props="props">
           <q-btn
-            class="w-full"
+            class="full-width"
             align="left"
             option-value="id"
             :label="props.row.name"
@@ -39,7 +39,7 @@
             <img v-if="props.row.leader.avatarURL" :src="props.row.leader.avatarURL" alt="Avatar" />
           </q-avatar>
           <q-btn
-            class="q-mx-sm w-full"
+            class="q-mx-sm full-width"
             align="left"
             :label="props.row.leader.name"
             :to="`/people/${props.row.leader.id}`"

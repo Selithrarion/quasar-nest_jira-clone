@@ -145,7 +145,7 @@
           </div>
         </div>
 
-        <q-form class="column justify-between h-full">
+        <q-form class="column justify-between full-height">
           <div class="flex justify-end q-mt-auto q-pt-lg">
             <q-btn class="btn--secondary" label="Сохранить" unelevated no-caps />
           </div>

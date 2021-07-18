@@ -1,7 +1,7 @@
 <template>
   <BaseDialog :show="show" :actions="false" hide-close-icon large @close="close">
     <template #title>
-      <div class="flex-center-between w-full">
+      <div class="flex-center-between full-width">
         <div>
           <ProjectBoardIconIssueType type="bug" />
           CR-100
@@ -28,7 +28,7 @@
 
     <template #default>
       <div class="row q-col-gutter-md">
-        <div class="column col-7 gap-6 h-full overflow-auto">
+        <div class="column col-7 gap-6 full-height overflow-auto">
           <div class="column gap-2">
             <div>
               <q-input v-model="issue.name" class="text-h6" placeholder="Добавить название" filled />
@@ -110,7 +110,7 @@
           </div>
         </div>
 
-        <div class="col-5 gap-4 h-full overflow-auto">
+        <div class="col-5 gap-4 full-height overflow-auto">
           <div>
             <q-select
               v-model="selectedColumn"
