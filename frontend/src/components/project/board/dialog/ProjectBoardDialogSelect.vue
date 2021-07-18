@@ -31,15 +31,32 @@
           @click="selectBoard(board)"
         >
           <q-icon name="check" size="sm" :color="board.id === selectedBoard.id ? 'green-6' : 'blue-grey-5'" />
-          <q-item-section :class="{ 'text-weight-bold': board.id === selectedBoard.id }">
-            {{ board.name }}
-          </q-item-section>
+
+          <div class="row items-center justify-between no-wrap full-width">
+            <q-item-section :class="{ 'text-weight-bold': board.id === selectedBoard.id }">
+              {{ board.name }}
+            </q-item-section>
+
+            <q-btn
+              v-show="board.id !== selectedBoard.id"
+              icon="more_horiz"
+              padding="4px"
+              color="blue-grey-4"
+              size="small"
+              flat
+              @click.stop=""
+            >
+              <q-menu>
+                <q-list>
+                  <q-item v-close-popup clickable @click.stop="dialog.open('deleteBoard', { item: board })">
+                    <q-item-section> Удалить </q-item-section>
+                  </q-item>
+                </q-list>
+              </q-menu>
+            </q-btn>
+          </div>
         </q-item>
       </q-list>
-
-      <!--      <div class="row justify-end q-mt-xl">-->
-      <!--        <q-btn class="btn&#45;&#45;secondary" label="Создать доску" icon="add" unelevated no-caps no-wrap @click="step = 2" />-->
-      <!--      </div>-->
     </div>
 
     <div v-else-if="step === 2">
@@ -56,6 +73,7 @@
           <q-btn
             class="btn--secondary q-mt-xl"
             label="Создание доски Scrum"
+            disable
             unelevated
             no-caps
             @click="showScrumCreateForm"
@@ -97,12 +115,28 @@
         />
       </q-form>
     </div>
+
+    <BaseDialog
+      type="delete"
+      :show="dialog.openedName.value === 'deleteBoard'"
+      :title="`Удалить ${dialog.openedItem.value.name}?`"
+      :confirm-loading="dialog.loading.value"
+      :confirm-disabled="dialog.openedItem.value.name !== confirmBoardName"
+      @close="closeDeleteConfirmDialog"
+      @confirm="deleteBoard(dialog.openedItem.value.id)"
+    >
+      Вы уверены, что хотите удалить доску
+      <b>{{ dialog.openedItem.value.name }}</b>
+      ? Данные в ней навсегда будут утеряны.
+      <q-input v-model.trim="confirmBoardName" class="q-mt-md" label="Введите имя доски" autofocus outlined />
+    </BaseDialog>
   </BaseDialog>
 </template>
 
 <script lang="ts">
-import { defineComponent, ref, reactive, computed, PropType, onBeforeMount } from 'vue';
+import { defineComponent, ref, reactive, computed, PropType, onMounted } from 'vue';
 import { useStore } from 'src/store';
+import useDialog from 'src/composables/common/useDialog';
 import useLoading from 'src/composables/common/useLoading';
 
 import BaseDialog from 'components/base/BaseDialog.vue';
@@ -148,9 +182,10 @@ export default defineComponent({
 
   setup(props, { emit }) {
     const store = useStore();
+    const dialog = useDialog();
     const loading = useLoading({ customNames: ['projects'] });
 
-    onBeforeMount(async () => {
+    onMounted(async () => {
       if (!props.availableProjects) {
         try {
           loading.start('projects');
@@ -172,12 +207,26 @@ export default defineComponent({
       return props.boards.filter((b) => b.name.toLowerCase().includes(search.value));
     });
 
-    function selectBoard(boardID: number) {
-      const isSelectedAnotherBoard = boardID !== props.selectedBoard.id;
+    function selectBoard(board: BoardModel) {
+      const isSelectedAnotherBoard = board.id !== props.selectedBoard.id;
       if (isSelectedAnotherBoard) {
-        emit('select', boardID);
+        emit('select', board);
       }
       close();
+    }
+    const confirmBoardName = ref('');
+    async function deleteBoard(boardID: number) {
+      try {
+        dialog.startLoading();
+        await store.dispatch('project/deleteBoard', boardID);
+        closeDeleteConfirmDialog();
+      } finally {
+        dialog.stopLoading();
+      }
+    }
+    function closeDeleteConfirmDialog() {
+      confirmBoardName.value = '';
+      dialog.close();
     }
     function close() {
       step.value = 1;
@@ -209,13 +258,14 @@ export default defineComponent({
       try {
         loading.start();
         const board = (await store.dispatch('project/createBoard', form)) as BoardModel;
-        selectBoard(board.id);
+        selectBoard(board);
       } finally {
         loading.stop();
       }
     }
 
     return {
+      dialog,
       loading,
 
       handleDialogConfirmClick,
@@ -224,6 +274,9 @@ export default defineComponent({
       filteredBoards,
 
       selectBoard,
+      deleteBoard,
+      confirmBoardName,
+      closeDeleteConfirmDialog,
       close,
 
       computedTitle,
