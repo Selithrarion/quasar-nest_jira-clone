@@ -31,19 +31,21 @@
           class="dialog-action-buttons"
           :class="[{ 'dialog-action-buttons--dense': type === 'delete' }, { 'fixed-section': fixedFooter }]"
         >
-          <q-btn v-if="showBackButton" color="grey-6" :label="backText" flat @click="back" />
+          <q-btn v-if="showBackButton" color="blue-grey-6" :label="backText" flat @click="back" />
           <q-btn
             v-if="!hideCloseButton"
             v-close-popup
-            color="grey-6"
+            color="blue-grey-6"
             :label="closeText || selectedType.closeButtonText"
             flat
             @click="close"
           />
           <q-btn
             v-if="!hideConfirmButton"
+            :class="confirmClasses"
             :color="confirmColor || selectedType.confirmColor"
             :label="confirmText || selectedType.confirmButtonText"
+            :icon="confirmIcon"
             :loading="confirmLoading"
             unelevated
             @click="confirm"
@@ -106,22 +108,34 @@ export default defineComponent({
       required: false,
       default: null,
     },
+
     confirmText: {
       type: String,
       required: false,
       default: null,
     },
+    confirmColor: {
+      type: String,
+      required: false,
+      default: null,
+    },
+    confirmIcon: {
+      type: String,
+      required: false,
+      default: undefined,
+    },
+    confirmClasses: {
+      type: String,
+      required: false,
+      default: null,
+    },
+
     backText: {
       type: String,
       required: false,
       default: 'Назад',
     },
     closeText: {
-      type: String,
-      required: false,
-      default: null,
-    },
-    confirmColor: {
       type: String,
       required: false,
       default: null,
