@@ -142,7 +142,7 @@
 </template>
 
 <script lang="ts">
-import { defineComponent, ref, reactive, computed, onBeforeMount } from 'vue';
+import { defineComponent, ref, reactive, computed, onMounted } from 'vue';
 import { useRouter, useRoute } from 'vue-router';
 import { useStore } from 'src/store';
 import useDialog from 'src/composables/common/useDialog';
@@ -191,7 +191,7 @@ export default defineComponent({
     const availableProjects = computed(() => store.state.project.projects);
     const selectedBoard = ref<BoardModel>();
 
-    onBeforeMount(async () => {
+    onMounted(async () => {
       try {
         const { projectID } = route.params;
         await store.dispatch('project/getByID', projectID);
@@ -321,5 +321,3 @@ export default defineComponent({
   },
 });
 </script>
-
-<style lang="sass" scoped></style>

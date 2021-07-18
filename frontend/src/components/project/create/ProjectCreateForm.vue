@@ -49,6 +49,7 @@
       :options="templateOptions"
       option-label="name"
       option-value="id"
+      option-disable="disabled"
       map-options
       emit-value
       filled
@@ -123,6 +124,7 @@ export default defineComponent({
         id: 2,
         name: 'Scrum',
         description: 'Быстрее достигайте намеченных целей с современной доской и бэклогом.',
+        disabled: true,
       },
     ]);
 
@@ -138,7 +140,7 @@ export default defineComponent({
       try {
         loading.start();
         const project = (await store.dispatch('project/create', form)) as ProjectModel;
-        await openProject(project.id);
+        await openProject(project.id, project.boards[0].id);
       } finally {
         loading.stop();
       }
@@ -147,8 +149,8 @@ export default defineComponent({
       emit('back');
     }
 
-    async function openProject(projectID: number) {
-      await router.push(`/projects/${projectID}`);
+    async function openProject(projectID: number, boardID: number) {
+      await router.push(`/projects/${projectID}/board/${boardID}`);
     }
 
     return {
