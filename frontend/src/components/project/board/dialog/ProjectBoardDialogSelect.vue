@@ -4,17 +4,18 @@
     confirm-text="Создать доску"
     :title="computedTitle"
     :show="show"
-    :actions="step !== 1"
     :show-back-button="step !== 1"
     :back-text="step === 1 ? 'Отмена' : 'Назад'"
-    :hide-confirm-button="step !== 3"
+    :hide-confirm-button="step === 2"
     :confirm-loading="loading.active.value"
+    :confirm-icon="step === 1 ? 'add' : undefined"
+    :confirm-classes="step === 1 ? 'btn--secondary' : null"
     :content-loading="step === 3 && loading.custom.projects"
     hide-close-button
     large
-    @back="step = 2"
+    @back="step--"
     @close="close"
-    @confirm="createBoard"
+    @confirm="handleDialogConfirmClick"
   >
     <div v-if="step === 1">
       <CommonSearch v-model="search" :outlined="false" client-search filled />
@@ -36,9 +37,9 @@
         </q-item>
       </q-list>
 
-      <div class="row justify-end q-mt-xl">
-        <q-btn class="btn--secondary" label="Создать доску" icon="add" unelevated no-caps no-wrap @click="step = 2" />
-      </div>
+      <!--      <div class="row justify-end q-mt-xl">-->
+      <!--        <q-btn class="btn&#45;&#45;secondary" label="Создать доску" icon="add" unelevated no-caps no-wrap @click="step = 2" />-->
+      <!--      </div>-->
     </div>
 
     <div v-else-if="step === 2">
@@ -53,7 +54,7 @@
           </div>
 
           <q-btn
-            class="btn--secondary q-mt-lg"
+            class="btn--secondary q-mt-xl"
             label="Создание доски Scrum"
             unelevated
             no-caps
@@ -71,7 +72,7 @@
           </div>
 
           <q-btn
-            class="btn--secondary q-mt-lg"
+            class="btn--secondary q-mt-xl"
             label="Создание доски Kanban"
             unelevated
             no-caps
@@ -143,7 +144,7 @@ export default defineComponent({
     },
   },
 
-  emits: ['select', 'close'],
+  emits: ['select', 'create', 'close'],
 
   setup(props, { emit }) {
     const store = useStore();
@@ -154,16 +155,16 @@ export default defineComponent({
         try {
           loading.start('projects');
           await store.dispatch('project/getAll');
-          await new Promise((res) =>
-            setTimeout(() => {
-              res({});
-            }, 10000)
-          );
         } finally {
           loading.stop('projects');
         }
       }
     });
+
+    async function handleDialogConfirmClick() {
+      if (step.value === 1) step.value++;
+      else await createBoard();
+    }
 
     const search = ref('');
     const filteredBoards = computed(() => {
@@ -179,6 +180,8 @@ export default defineComponent({
       close();
     }
     function close() {
+      step.value = 1;
+      form.name = '';
       emit('close');
     }
 
@@ -205,15 +208,17 @@ export default defineComponent({
     async function createBoard() {
       try {
         loading.start();
-        await store.dispatch('project/createBoard', form);
-        close();
+        const board = (await store.dispatch('project/createBoard', form)) as BoardModel;
+        selectBoard(board.id);
       } finally {
-        loading.stop;
+        loading.stop();
       }
     }
 
     return {
       loading,
+
+      handleDialogConfirmClick,
 
       search,
       filteredBoards,

@@ -31,17 +31,17 @@ const mutation: MutationTree<ProjectStateInterface> = {
 
   // board
   ADD_BOARD(state: ProjectStateInterface, board: BoardModel) {
-    const projectBoards = state.projects?.[board.projectID]?.boards;
+    const projectBoards = state.projectDetail?.boards;
     if (projectBoards) projectBoards.push(board);
   },
   UPDATE_BOARD(state: ProjectStateInterface, board: BoardModel) {
-    const projectBoards = state.projects?.[board.projectID]?.boards;
+    const projectBoards = state.projectDetail?.boards;
     if (!projectBoards) return;
     const index = projectBoards.findIndex((b) => b.id === board.id);
     projectBoards[index] = board;
   },
-  DELETE_BOARD(state: ProjectStateInterface, { boardID, projectID }: { boardID: number; projectID: number }) {
-    const projectBoards = state.projects?.[projectID]?.boards;
+  DELETE_BOARD(state: ProjectStateInterface, boardID) {
+    const projectBoards = state.projectDetail?.boards;
     if (!projectBoards) return;
     const index = projectBoards.findIndex((b) => b.id === boardID);
     projectBoards.splice(index, 1);

@@ -42,9 +42,9 @@ const actions: ActionTree<ProjectStateInterface, StateInterface> = {
     const board = await boardService.update(id, boardData);
     commit('UPDATE_BOARD', board);
   },
-  async deleteBoard({ commit }, { boardID, projectID }: { boardID: number; projectID: number }) {
+  async deleteBoard({ commit }, boardID) {
     await boardService.delete(boardID);
-    commit('DELETE_BOARD', { boardID, projectID });
+    commit('DELETE_BOARD', boardID);
   },
 };
 
