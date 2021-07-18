@@ -47,6 +47,7 @@
             :label="confirmText || selectedType.confirmButtonText"
             :icon="confirmIcon"
             :loading="confirmLoading"
+            :disabled="confirmDisabled"
             unelevated
             @click="confirm"
           />
@@ -129,6 +130,7 @@ export default defineComponent({
       required: false,
       default: null,
     },
+    confirmDisabled: Boolean,
 
     backText: {
       type: String,
