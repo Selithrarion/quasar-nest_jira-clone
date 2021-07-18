@@ -14,7 +14,9 @@ export class BoardEntity extends BaseEntity {
   @OneToMany(() => ColumnEntity, (column) => column.board)
   columns: ColumnEntity[];
 
-  @ManyToOne(() => ProjectEntity, (project) => project.boards)
+  @ManyToOne(() => ProjectEntity, (project) => project.boards, {
+    onUpdate: 'CASCADE',
+  })
   @JoinColumn({ name: 'projectID' })
   project: ProjectEntity;
 }

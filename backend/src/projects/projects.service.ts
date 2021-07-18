@@ -1,15 +1,19 @@
-import { Injectable } from '@nestjs/common';
+import { forwardRef, Inject, Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { ProjectEntity } from './entity/project.entity';
 import { Repository } from 'typeorm';
 import { CreateProjectDTO, UpdateProjectDTO } from './dto';
 import { UserEntity } from '../user/entity/user.entity';
+import { BoardsService } from '../boards/boards.service';
 
 @Injectable()
 export class ProjectsService {
   constructor(
     @InjectRepository(ProjectEntity)
-    private projects: Repository<ProjectEntity>
+    private projects: Repository<ProjectEntity>,
+
+    @Inject(forwardRef(() => BoardsService))
+    private readonly boardsService: BoardsService
   ) {}
 
   private mockUser: UserEntity = {
@@ -65,14 +69,18 @@ export class ProjectsService {
         issues: [],
       },
     ];
-    // create in board.service
+    const createdProject = await this.projects.create({ ...projectData, leader });
+
     const defaultBoard = {
-      id: 1,
       name: projectData.key + projectData.name,
       favorite: false,
       columns: defaultColumns,
+      projectID: createdProject.id,
     };
-    const createdProject = await this.projects.save({ ...projectData, leader, boards: [defaultBoard] });
+    const createdBoard = await this.boardsService.create(defaultBoard);
+
+    createdProject.boards = [createdBoard];
+    await this.projects.save(createdProject);
     return createdProject;
   }
 

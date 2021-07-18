@@ -47,5 +47,6 @@ export class ProjectEntity extends BaseEntity {
     eager: true,
     cascade: true,
   })
+  @JoinColumn({ name: 'leaderID' })
   leader: UserEntity;
 }
