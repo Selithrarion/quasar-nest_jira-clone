@@ -11,12 +11,13 @@ const routes: RouteRecordRaw[] = [
       {
         path: '/projects/:projectID',
         component: () => import('pages/project/ProjectDetail.vue'),
+        redirect: '/projects',
         children: [
           {
             path: 'board/:boardID',
             name: 'board',
             meta: {
-              name: 'Доска задач'
+              name: 'Доска задач',
             },
             component: () => import('components/project/board/ProjectBoard.vue'),
           },
@@ -24,7 +25,7 @@ const routes: RouteRecordRaw[] = [
             path: 'roadmap',
             name: 'roadmap',
             meta: {
-              name: 'Дорожная карта'
+              name: 'Дорожная карта',
             },
             component: () => import('components/project/roadmap/ProjectRoadmap.vue'),
           },
