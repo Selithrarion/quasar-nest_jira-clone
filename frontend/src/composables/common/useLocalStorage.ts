@@ -6,14 +6,14 @@ interface StorageInterface {
 export default function useLocalStorage(defaultStorageName: string): StorageInterface {
   function load(storageName?: string): unknown {
     try {
-      const item = localStorage.getItem(`${defaultStorageName} ${storageName || ''}`);
+      const item = localStorage.getItem(`${defaultStorageName}${storageName || ''}`);
       return item ? JSON.parse(item) : null;
     } catch (e) {
       return null;
     }
   }
   function save(data: unknown, storageName?: string) {
-    localStorage.setItem(`${defaultStorageName} ${storageName || ''}`, JSON.stringify(data));
+    localStorage.setItem(`${defaultStorageName}${storageName || ''}`, JSON.stringify(data));
   }
 
   return {
