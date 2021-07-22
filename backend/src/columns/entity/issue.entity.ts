@@ -18,6 +18,9 @@ export class IssueEntity extends BaseEntity {
   name: string;
 
   @Column()
+  key: string;
+
+  @Column()
   description?: string;
 
   @Column()

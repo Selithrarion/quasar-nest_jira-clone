@@ -3,8 +3,8 @@ import { CommentModel } from 'src/models/project/comment.model';
 import { UserModel } from 'src/models/user/user.model';
 
 export interface IssueModel extends BaseModel {
-  readonly id: number;
   name: string;
+  key: string;
   description?: string;
   environment?: string;
   attachments?: string;
