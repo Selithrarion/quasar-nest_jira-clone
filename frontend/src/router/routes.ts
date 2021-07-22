@@ -11,7 +11,6 @@ const routes: RouteRecordRaw[] = [
       {
         path: '/projects/:projectID',
         component: () => import('pages/project/ProjectDetail.vue'),
-        redirect: '/projects',
         children: [
           {
             path: 'board/:boardID',
