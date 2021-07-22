@@ -4,6 +4,7 @@ import { BoardEntity } from './entity/board.entity';
 import { Repository } from 'typeorm';
 import { CreateBoardDTO, UpdateBoardDTO } from './dto';
 import { ProjectsService } from '../projects/projects.service';
+import { ColumnsService } from '../columns/columns.service';
 
 @Injectable()
 export class BoardsService {
@@ -12,14 +13,20 @@ export class BoardsService {
     private boards: Repository<BoardEntity>,
 
     @Inject(forwardRef(() => ProjectsService))
-    private readonly projectsService: ProjectsService
+    private readonly projectsService: ProjectsService,
+
+    @Inject(forwardRef(() => ColumnsService))
+    private readonly columnsService: ColumnsService
   ) {}
 
+  async getByID(id: number): Promise<BoardEntity> {
+    return await this.boards.findOneOrFail(id, { relations: ['columns'] });
+  }
+
   async create(boardData: CreateBoardDTO): Promise<BoardEntity> {
-    const createdBoard = await this.boards.save(boardData);
-    const project = await this.projectsService.getByID(createdBoard.projectID);
-    const updatedProject = { ...project, boards: [...project.boards, createdBoard] };
-    await this.projectsService.update(updatedProject.id, updatedProject);
+    const project = await this.projectsService.getByID(boardData.projectID);
+    const createdBoard = await this.boards.save({ ...boardData, project });
+    await this.columnsService.createDefaultColumns(createdBoard);
     return createdBoard;
   }
 
