@@ -3,6 +3,10 @@ import { ApiResponseModel } from 'src/models/common/apiResponse.model';
 import { BoardDTO, BoardModel } from 'src/models/project/board.model';
 
 export default {
+  async getByID(boardID: number): Promise<BoardModel> {
+    const { data }: ApiResponseModel = await http.get(`/boards/${boardID}`);
+    return data as BoardModel;
+  },
   async create(boardData: BoardDTO): Promise<BoardModel> {
     const { data }: ApiResponseModel = await http.post('/boards', boardData);
     return data as BoardModel;

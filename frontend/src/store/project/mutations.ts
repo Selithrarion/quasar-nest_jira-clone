@@ -30,6 +30,9 @@ const mutation: MutationTree<ProjectStateInterface> = {
   },
 
   // board
+  SET_BOARD_DETAIL(state: ProjectStateInterface, board: BoardModel) {
+    state.boardDetail = board
+  },
   ADD_BOARD(state: ProjectStateInterface, board: BoardModel) {
     const projectBoards = state.projectDetail?.boards;
     if (projectBoards) projectBoards.push(board);

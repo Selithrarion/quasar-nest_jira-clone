@@ -33,6 +33,10 @@ const actions: ActionTree<ProjectStateInterface, StateInterface> = {
   },
 
   // board
+  async getBoardByID({ commit }, id) {
+    const board = await boardService.getByID(id);
+    commit('SET_BOARD_DETAIL', board)
+  },
   async createBoard({ commit }, boardData) {
     const board = await boardService.create(boardData);
     commit('ADD_BOARD', board);
