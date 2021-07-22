@@ -1,11 +1,12 @@
 <template>
-  <q-icon :name="selectedType.icon" :color="selectedType.color" size="sm">
-    <BaseTooltip :label="selectedType.tooltip" />
+  <q-icon :name="selectedType.icon" :color="selectedType.color" :size="small ? 'xs' : 'sm'">
+    <BaseTooltip v-if="!hideTooltip" :label="selectedType.name" />
   </q-icon>
 </template>
 
 <script lang="ts">
 import { defineComponent, computed } from 'vue';
+import { useStore } from 'src/store';
 import BaseTooltip from 'components/base/BaseTooltip.vue';
 
 export default defineComponent({
@@ -17,49 +18,23 @@ export default defineComponent({
 
   props: {
     type: {
-      type: String,
+      type: [Number, String],
       required: true,
       validator: (value: string): boolean => {
-        return ['lowest', 'low', 'medium', 'high', 'highest'].includes(value);
+        return ['LOWEST', 'LOW', 'MEDIUM', 'HIGH', 'HIGHEST'].includes(value);
       },
     },
+    small: Boolean,
+    hideTooltip: Boolean,
   },
 
   setup(props) {
-    const types = [
-      {
-        key: 'low',
-        icon: 'expand_more',
-        color: 'green-3',
-        tooltip: 'Очень низкий приоритет',
-      },
-      {
-        key: 'low',
-        icon: 'expand_more',
-        color: 'green-5',
-        tooltip: 'Низкий приоритет',
-      },
-      {
-        key: 'medium',
-        icon: 'drag_handle',
-        color: 'amber-5',
-        tooltip: 'Средний приоритет',
-      },
-      {
-        key: 'high',
-        icon: 'expand_less',
-        color: 'red-5',
-        tooltip: 'Высокий приоритет',
-      },
-      {
-        key: 'highest',
-        icon: 'priority_high',
-        color: 'red-7',
-        tooltip: 'Срочно',
-      },
-    ];
+    const store = useStore();
+
+    const availableIssuePriorities = computed(() => store.state.project.availableIssuePriorities);
     const selectedType = computed(() => {
-      return types.find((t) => t.key === props.type);
+      const type = props.type;
+      return availableIssuePriorities.value.find((t) => t.key === type || t.id === type);
     });
 
     return {
