@@ -1,4 +1,4 @@
-import { Column, Entity, JoinColumn, JoinTable, ManyToMany, ManyToOne, OneToMany, OneToOne } from 'typeorm';
+import { Column, Entity, JoinColumn, JoinTable, ManyToMany, ManyToOne, OneToMany } from 'typeorm';
 import { BaseEntity } from '../../common/base.entity';
 import { UserEntity } from '../../user/entity/user.entity';
 import { CommentEntity } from './comment.entity';
@@ -34,24 +34,25 @@ export class IssueEntity extends BaseEntity {
   watchers: UserEntity[];
 
   @OneToMany(() => CommentEntity, (comment) => comment.issue)
-  comments?: CommentEntity[];
+  comments: CommentEntity[];
 
   @Column({ type: 'enum', enum: IssuePriorityEnum, default: IssuePriorityEnum.MEDIUM })
   priority: IssuePriorityEnum;
 
   @ManyToOne(() => UserEntity, {
     eager: true,
-    cascade: true,
   })
   author: UserEntity;
 
-  @OneToOne(() => UserEntity, (user) => user.assignedIssues, {
+  @ManyToOne(() => UserEntity, (user) => user.assignedIssues, {
     eager: true,
-    cascade: true,
   })
   assigned: UserEntity;
 
-  @ManyToOne(() => ColumnEntity, (column) => column.issues)
+  @ManyToOne(() => ColumnEntity, (column) => column.issues, {
+    onUpdate: 'CASCADE',
+    onDelete: 'CASCADE',
+  })
   @JoinColumn({ name: 'columnID' })
   column: ColumnEntity;
 }
