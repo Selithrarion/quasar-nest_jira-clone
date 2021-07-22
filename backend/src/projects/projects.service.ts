@@ -26,10 +26,12 @@ export class ProjectsService {
     avatarURL: null,
     assignedIssues: [],
     favoriteProjectsIDs: [1, 7, 8, 12, 15],
+    createdAt: new Date(),
+    updatedAt: new Date(),
   };
 
   async getAll(query): Promise<ProjectEntity[]> {
-    const allProjects = await this.projects.find();
+    const allProjects = await this.projects.find({ order: { createdAt: 'DESC' } });
     const formattedProjects = allProjects.map((p) => ({
       ...p,
       favorite: this.mockUser.favoriteProjectsIDs.includes(p.id),
@@ -43,49 +45,21 @@ export class ProjectsService {
 
   async create(projectData: CreateProjectDTO): Promise<ProjectEntity> {
     const leader = this.mockUser;
-    const defaultColumns = [
-      {
-        id: 1,
-        name: 'Бэклог',
-        boardID: 1,
-        issues: [],
-      },
-      {
-        id: 2,
-        name: 'Выбрано для разработки',
-        boardID: 1,
-        issues: [],
-      },
-      {
-        id: 3,
-        name: 'В работе',
-        boardID: 1,
-        issues: [],
-      },
-      {
-        id: 4,
-        name: 'Готово',
-        boardID: 1,
-        issues: [],
-      },
-    ];
-    const createdProject = await this.projects.create({ ...projectData, leader });
+    const createdProject = await this.projects.save({ ...projectData, leader });
 
     const defaultBoard = {
       name: projectData.key + projectData.name,
       favorite: false,
-      columns: defaultColumns,
       projectID: createdProject.id,
     };
-    const createdBoard = await this.boardsService.create(defaultBoard);
 
-    createdProject.boards = [createdBoard];
-    await this.projects.save(createdProject);
+    await this.boardsService.create(defaultBoard);
+
     return createdProject;
   }
 
   async update(id: number, projectData: UpdateProjectDTO): Promise<ProjectEntity> {
-    const toUpdate = await this.projects.findOneOrFail({ id });
+    const toUpdate = await this.projects.findOneOrFail(id);
     const updated = { ...toUpdate, ...projectData };
     await this.projects.save(updated);
     return updated;
