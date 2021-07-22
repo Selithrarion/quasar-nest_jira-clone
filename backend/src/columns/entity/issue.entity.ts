@@ -4,6 +4,12 @@ import { UserEntity } from '../../user/entity/user.entity';
 import { CommentEntity } from './comment.entity';
 import { ColumnEntity } from './column.entity';
 
+export enum IssueTypeEnum {
+  BUG = 1,
+  TASK = 2,
+  HISTORY = 3,
+  INVESTIGATION = 4,
+}
 export enum IssuePriorityEnum {
   LOWEST = 1,
   LOW = 2,
@@ -38,6 +44,9 @@ export class IssueEntity extends BaseEntity {
 
   @OneToMany(() => CommentEntity, (comment) => comment.issue)
   comments: CommentEntity[];
+
+  @Column({ type: 'enum', enum: IssueTypeEnum, default: IssueTypeEnum.BUG })
+  type: IssueTypeEnum;
 
   @Column({ type: 'enum', enum: IssuePriorityEnum, default: IssuePriorityEnum.MEDIUM })
   priority: IssuePriorityEnum;

@@ -11,14 +11,21 @@ export interface IssueModel extends BaseModel {
 
   watchNumber: number;
   watchers: UserModel[];
-  comments?: CommentModel[];
+  comments: CommentModel[];
 
+  type: IssueTypeEnum;
   priority: IssuePriorityEnum;
   author: UserModel;
   assigned: UserModel;
   columnID: number;
 }
 
+export enum IssueTypeEnum {
+  BUG = 1,
+  TASK = 2,
+  HISTORY = 3,
+  INVESTIGATION = 4,
+}
 export enum IssuePriorityEnum {
   LOWEST = 1,
   LOW = 2,
@@ -29,13 +36,10 @@ export enum IssuePriorityEnum {
 
 export interface IssueDTO {
   name: string;
+
   description?: string;
   environment?: string;
   attachments?: string;
-
-  watchNumber: number;
-  watchers: UserModel[];
-  comments: CommentModel[];
 
   priority: IssuePriorityEnum;
   authorID: number;
