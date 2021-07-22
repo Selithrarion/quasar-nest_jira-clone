@@ -11,7 +11,7 @@ const mutation: MutationTree<ProjectStateInterface> = {
     state.projectDetail = project;
   },
   ADD_PROJECT(state: ProjectStateInterface, project: ProjectModel) {
-    state.projects?.push(project);
+    state.projects?.unshift(project);
   },
   UPDATE_PROJECT(state: ProjectStateInterface, project: ProjectModel) {
     if (!state.projects) return;
