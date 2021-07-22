@@ -11,8 +11,15 @@
   >
     <template #title-append-buttons>
       <div class="row items-center gap-2 no-wrap">
-        <q-btn class="btn--secondary" label="Импортировать задачи" unelevated no-caps no-wrap />
-        <q-btn-dropdown class="btn--secondary" label="Настроить поля" unelevated no-caps no-wrap></q-btn-dropdown>
+        <q-btn class="btn--secondary" label="Импортировать задачи" unelevated disable no-caps no-wrap />
+        <q-btn-dropdown
+          class="btn--secondary"
+          label="Настроить поля"
+          unelevated
+          disable
+          no-caps
+          no-wrap
+        ></q-btn-dropdown>
       </div>
     </template>
 

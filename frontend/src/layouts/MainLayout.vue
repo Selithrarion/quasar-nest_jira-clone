@@ -53,7 +53,7 @@
       <router-view />
     </q-page-container>
 
-    <ProjectBoardDialogCreateTask :show="dialog.openedName.value === 'createTask'" @close="dialog.close" />
+    <ProjectBoardDialogCreateIssue :show="dialog.openedName.value === 'createTask'" @close="dialog.close" />
   </q-layout>
 </template>
 
@@ -62,14 +62,14 @@ import { defineComponent, ref, reactive } from 'vue';
 import useDialog from 'src/composables/common/useDialog';
 
 import CommonSearch from 'components/common/CommonSearch.vue';
-import ProjectBoardDialogCreateTask from 'components/project/board/dialog/ProjectBoardDialogCreateTask.vue';
+import ProjectBoardDialogCreateIssue from 'components/project/board/dialog/ProjectBoardDialogCreateIssue.vue';
 
 export default defineComponent({
   name: 'MainLayout',
 
   components: {
     CommonSearch,
-    ProjectBoardDialogCreateTask,
+    ProjectBoardDialogCreateIssue,
   },
 
   setup() {
