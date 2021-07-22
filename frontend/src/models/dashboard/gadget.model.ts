@@ -1,5 +1,6 @@
-export interface GadgetModel {
-  readonly id: number;
+import { BaseModel } from 'src/models/common/base.model';
+
+export interface GadgetModel extends BaseModel{
   label: string;
   color: string;
 }
