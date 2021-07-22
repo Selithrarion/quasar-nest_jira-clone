@@ -1,6 +1,6 @@
 <template>
   <BaseDialog title="Создание дашбоарда" :show="show" :actions="false" medium @close="close">
-    <DashboardCreateForm :loading="loading.active.value" @close="close" @submit="createDashboard" />
+    <DashboardCreateForm :loading="loading.active.value" @close="close" @submit.prevent="createDashboard" />
   </BaseDialog>
 </template>
 

@@ -1,5 +1,5 @@
 <template>
-  <q-form @submit="submit">
+  <q-form @submit.prevent="submit">
     <q-input
       v-model="form.name"
       label="Название"

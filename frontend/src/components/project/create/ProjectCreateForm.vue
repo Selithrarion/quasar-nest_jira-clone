@@ -1,5 +1,5 @@
 <template>
-  <q-form @submit="submit">
+  <q-form @submit.prevent="submit">
     <q-input
       v-model="form.name"
       label="Название"
@@ -140,8 +140,8 @@ export default defineComponent({
       try {
         loading.start();
         const project = (await store.dispatch('project/create', form)) as ProjectModel;
-        await openProject(project.id, project.boards[0].id);
-      } finally {
+        await openProject(project.id);
+      } catch (e) {
         loading.stop();
       }
     }
@@ -149,8 +149,8 @@ export default defineComponent({
       emit('back');
     }
 
-    async function openProject(projectID: number, boardID: number) {
-      await router.push(`/projects/${projectID}/board/${boardID}`);
+    async function openProject(projectID: number) {
+      await router.push(`/projects/${projectID}`);
     }
 
     return {
