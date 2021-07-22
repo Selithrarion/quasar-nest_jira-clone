@@ -1,20 +1,10 @@
-import { IsNotEmpty, IsNumber, IsString, MaxLength } from 'class-validator';
-import { ApiProperty } from '@nestjs/swagger';
-import { ColumnEntity } from '../../projects/entity/column.entity';
+import { IsNotEmpty } from 'class-validator';
+import { ApiProperty, PartialType } from '@nestjs/swagger';
+import { ColumnEntity } from '../../columns/entity/column.entity';
+import { CreateBoardDTO } from './create-board.dto';
 
-export class UpdateBoardDTO {
-  @ApiProperty()
-  @IsString()
-  @IsNotEmpty()
-  @MaxLength(100)
-  name?: string;
-
-  @ApiProperty()
+export class UpdateBoardDTO extends PartialType(CreateBoardDTO) {
+  @ApiProperty({ required: false })
   @IsNotEmpty()
   columns?: ColumnEntity[];
-
-  @ApiProperty()
-  @IsNumber()
-  @IsNotEmpty()
-  projectID?: number;
 }

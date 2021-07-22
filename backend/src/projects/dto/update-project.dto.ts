@@ -1,29 +1,20 @@
 import { IsString, MaxLength } from 'class-validator';
-import { ApiProperty } from '@nestjs/swagger';
+import { ApiProperty, PartialType } from '@nestjs/swagger';
 
 import { BoardEntity } from '../../boards/entity/board.entity';
 import { UserEntity } from '../../user/entity/user.entity';
+import { CreateProjectDTO } from './create-project.dto';
 
-export class UpdateProjectDTO {
-  @ApiProperty()
-  @IsString()
-  @MaxLength(100)
-  name?: string;
-
-  @ApiProperty()
-  @IsString()
-  @MaxLength(10)
-  key?: string;
-
-  @ApiProperty()
+export class UpdateProjectDTO extends PartialType(CreateProjectDTO) {
+  @ApiProperty({ required: false })
   @IsString()
   boards?: BoardEntity[];
 
-  @ApiProperty()
+  @ApiProperty({ required: false })
   @IsString()
   avatarURL?: string;
 
-  @ApiProperty()
+  @ApiProperty({ required: false })
   @IsString()
   leader?: UserEntity;
 }
