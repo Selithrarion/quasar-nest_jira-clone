@@ -1,4 +1,4 @@
-import { Body, Controller, Delete, Param, Patch, Post } from '@nestjs/common';
+import { Body, Controller, Get, Post, Patch, Delete, Param } from '@nestjs/common';
 import { ApiBearerAuth, ApiOperation, ApiResponse, ApiTags } from '@nestjs/swagger';
 import { BoardsService } from './boards.service';
 import { BoardEntity } from './entity/board.entity';
@@ -9,6 +9,13 @@ import { CreateBoardDTO, UpdateBoardDTO } from './dto';
 @Controller('boards')
 export class BoardsController {
   constructor(private readonly boardsService: BoardsService) {}
+
+  @ApiOperation({ summary: 'Get board' })
+  @ApiResponse({ status: 200, description: 'Return board' })
+  @Get(':id')
+  async getBoardByID(@Param('id') id: number): Promise<BoardEntity> {
+    return await this.boardsService.getByID(id);
+  }
 
   @ApiOperation({ summary: 'Create board' })
   @ApiResponse({ status: 201, description: 'Board was created' })
