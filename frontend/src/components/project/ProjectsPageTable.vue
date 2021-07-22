@@ -32,6 +32,7 @@
       <template #body-cell-leader="props">
         <q-td :props="props">
           <q-avatar
+            class="q-mr-sm"
             size="md"
             :icon="props.row.leader.avatarURL ? null : 'people'"
             :color="props.row.leader.avatarURL ? null : 'blue-grey-2'"
@@ -39,7 +40,7 @@
             <img v-if="props.row.leader.avatarURL" :src="props.row.leader.avatarURL" alt="Avatar" />
           </q-avatar>
           <q-btn
-            class="q-mx-sm full-width"
+            class="full-width"
             align="left"
             :label="props.row.leader.name"
             :to="`/people/${props.row.leader.id}`"
