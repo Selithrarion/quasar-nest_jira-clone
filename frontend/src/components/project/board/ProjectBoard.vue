@@ -1,17 +1,34 @@
 <template>
-  <BaseLoader v-if="loading.active.value" />
+  <BaseLoader v-if="loading.active.value" page-margin />
 
-  <div>
+  <div v-else>
     <ProjectBoardColumnWrapper>
-      <ProjectBoardColumn v-for="column in 5" :key="column" @open="dialog.open('viewIssue')"></ProjectBoardColumn>
+      <ProjectBoardColumn
+        v-for="column in boardColumns"
+        :key="column"
+        :column-name="column.name"
+        :column-issues="column.issues"
+        @open="dialog.open('viewIssue')"
+      ></ProjectBoardColumn>
     </ProjectBoardColumnWrapper>
+
+    <div v-if="!isAnyIssues" class="no-active-issues__wrapper">
+      <div class="no-active-issues__image q-mb-md" />
+      <h6 class="no-margin">Нет видимых текущих задач</h6>
+      <div class="flex-center gap-1">
+        <q-btn label="Создайте задачу" color="primary" no-wrap dense flat />
+        или проверьте
+        <q-btn label="настройки доски" color="primary" no-wrap dense flat />
+      </div>
+    </div>
 
     <ProjectBoardDialogViewIssue :show="dialog.openedName.value === 'viewIssue'" @close="dialog.close" />
   </div>
 </template>
 
 <script lang="ts">
-import { defineComponent } from 'vue';
+import { defineComponent, computed, onMounted } from 'vue';
+import { useStore } from 'src/store';
 import useDialog from 'src/composables/common/useDialog';
 import useLoading from 'src/composables/common/useLoading';
 
@@ -30,14 +47,57 @@ export default defineComponent({
     ProjectBoardDialogViewIssue,
   },
 
-  setup() {
+  props: {
+    selectedBoardId: {
+      type: Number,
+      required: true,
+    },
+  },
+
+  setup(props) {
+    const store = useStore();
     const dialog = useDialog();
-    const loading = useLoading();
+    const loading = useLoading({ default: true });
+
+    onMounted(async () => {
+      await store.dispatch('project/getBoardByID', props.selectedBoardId);
+      loading.stop();
+    });
+
+    const boardColumns = computed(() => store.state.project.boardDetail?.columns);
+    const isAnyIssues = computed(() => {
+      // let result = false;
+      boardColumns.value?.forEach((c) => {
+        if (c.issues.length) return true;
+      });
+      return false;
+      // return result;
+    });
 
     return {
       dialog,
       loading,
+
+      boardColumns,
+      isAnyIssues,
     };
   },
 });
 </script>
+
+<style lang="scss" scoped>
+.no-active-issues {
+  &__wrapper {
+    display: flex;
+    flex-flow: column;
+    align-items: center;
+    margin-top: 96px;
+  }
+  &__image {
+    background: url('src/assets/no-active-issues.png') center no-repeat;
+    background-size: 100%;
+    width: 180px;
+    height: 130px;
+  }
+}
+</style>
