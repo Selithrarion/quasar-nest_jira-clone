@@ -126,7 +126,7 @@
         <q-btn v-if="selectedUsersFilter.length" label="Очистить всё" no-caps dense flat />
       </div>
 
-      <router-view />
+      <router-view :project="project" :selected-board-id="selectedBoard.id" />
     </q-page>
 
     <ProjectBoardDialogSelect
@@ -208,14 +208,16 @@ export default defineComponent({
     }
     async function loadSavedBoard() {
       const savedBoard = (await storage.load('selectedBoardID')) as number;
-      const defaultBoard = project.value?.boards[0];
 
+      const defaultBoard = project.value?.boards[0];
       const boardObject = project.value?.boards.find((b) => b.id === savedBoard);
-      selectedBoard.value = boardObject || defaultBoard;
+
+      const board = boardObject || defaultBoard;
+      if (board) await selectBoard(board);
     }
 
     async function openBoardByID(boardID: number) {
-      await router.push({ name: 'board', params: { id: boardID } });
+      await router.push({ name: 'board', params: { boardID } });
     }
     async function openSelectedBoard() {
       const boardID = selectedBoard.value?.id;
