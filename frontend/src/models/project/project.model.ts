@@ -25,7 +25,9 @@ export interface ProjectModel extends BaseModel {
   typeID: ProjectTypeEnum;
 
   boards: BoardModel[];
+
   leader: UserModel;
+  users: UserModel[]
 }
 
 export interface ProjectDTO {
