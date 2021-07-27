@@ -54,11 +54,13 @@ export class IssueEntity extends BaseEntity {
   @ManyToOne(() => UserEntity, {
     eager: true,
   })
+  @JoinColumn({ name: 'authorID' })
   author: UserEntity;
 
   @ManyToOne(() => UserEntity, (user) => user.assignedIssues, {
     eager: true,
   })
+  @JoinColumn({ name: 'assignedID' })
   assigned: UserEntity;
 
   @ManyToOne(() => ColumnEntity, (column) => column.issues, {
