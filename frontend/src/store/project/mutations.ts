@@ -2,6 +2,7 @@ import { MutationTree } from 'vuex';
 import { ProjectStateInterface } from './state';
 import { ProjectModel } from 'src/models/project/project.model';
 import { BoardModel } from 'src/models/project/board.model';
+import { IssueModel } from 'src/models/project/issue.model';
 
 const mutation: MutationTree<ProjectStateInterface> = {
   SET_PROJECTS(state, projects: ProjectModel[]) {
@@ -31,23 +32,51 @@ const mutation: MutationTree<ProjectStateInterface> = {
 
   // board
   SET_BOARD_DETAIL(state: ProjectStateInterface, board: BoardModel) {
-    state.boardDetail = board
+    state.boardDetail = board;
   },
   ADD_BOARD(state: ProjectStateInterface, board: BoardModel) {
-    const projectBoards = state.projectDetail?.boards;
-    if (projectBoards) projectBoards.push(board);
+    if (!state.projectDetail) return;
+    const projectBoards = state.projectDetail.boards;
+    projectBoards.push(board);
   },
   UPDATE_BOARD(state: ProjectStateInterface, board: BoardModel) {
-    const projectBoards = state.projectDetail?.boards;
-    if (!projectBoards) return;
-    const index = projectBoards.findIndex((b) => b.id === board.id);
-    projectBoards[index] = board;
+    if (!state.projectDetail) return;
+    const projectBoards = state.projectDetail.boards;
+    const boardIndex = projectBoards.findIndex((b) => b.id === board.id);
+    projectBoards[boardIndex] = board;
   },
   DELETE_BOARD(state: ProjectStateInterface, boardID) {
-    const projectBoards = state.projectDetail?.boards;
-    if (!projectBoards) return;
-    const index = projectBoards.findIndex((b) => b.id === boardID);
-    projectBoards.splice(index, 1);
+    if (!state.projectDetail) return;
+    const projectBoards = state.projectDetail.boards;
+    const boardIndex = projectBoards.findIndex((b) => b.id === boardID);
+    projectBoards.splice(boardIndex, 1);
+  },
+
+  // issue
+  SET_ISSUE_DETAIL(state: ProjectStateInterface, issue: IssueModel) {
+    state.issueDetail = issue;
+  },
+  ADD_ISSUE(state: ProjectStateInterface, issue: IssueModel) {
+    if (!state.boardDetail) return;
+    const columns = state.boardDetail.columns;
+    const column = columns.find((c) => c.id === issue.columnID);
+    if (column) column.issues.push(issue);
+  },
+  UPDATE_ISSUE(state: ProjectStateInterface, issue: IssueModel) {
+    if (!state.boardDetail) return;
+    const columns = state.boardDetail.columns;
+    const column = columns.find((c) => c.id === issue.columnID);
+    if (!column) return;
+    const issueIndex = column.issues.findIndex((i) => i.id === issue.id);
+    if (issueIndex) column.issues[issueIndex] = issue;
+  },
+  DELETE_ISSUE(state: ProjectStateInterface, issue: IssueModel) {
+    if (!state.boardDetail) return;
+    const columns = state.boardDetail.columns;
+    const column = columns.find((c) => c.id === issue.columnID);
+    if (!column) return;
+    const issueIndex = column.issues.findIndex((i) => i.id === issue.id);
+    if (issueIndex) column.issues.splice(issueIndex, 1);
   },
 };
 

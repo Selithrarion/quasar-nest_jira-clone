@@ -3,6 +3,7 @@ import { StateInterface } from '../index';
 import { ProjectStateInterface } from './state';
 import projectService from 'src/service/projectService';
 import boardService from 'src/service/boardService';
+import issueService from 'src/service/issueService';
 
 const actions: ActionTree<ProjectStateInterface, StateInterface> = {
   async getAll({ commit }) {
@@ -35,7 +36,7 @@ const actions: ActionTree<ProjectStateInterface, StateInterface> = {
   // board
   async getBoardByID({ commit }, id) {
     const board = await boardService.getByID(id);
-    commit('SET_BOARD_DETAIL', board)
+    commit('SET_BOARD_DETAIL', board);
   },
   async createBoard({ commit }, boardData) {
     const board = await boardService.create(boardData);
@@ -49,6 +50,25 @@ const actions: ActionTree<ProjectStateInterface, StateInterface> = {
   async deleteBoard({ commit }, boardID) {
     await boardService.delete(boardID);
     commit('DELETE_BOARD', boardID);
+  },
+
+  // issue
+  async getIssueByID({ commit }, issueID) {
+    const issue = await issueService.getByID(issueID);
+    commit('SET_ISSUE_DETAIL', issue);
+  },
+  async createIssue({ commit }, issueData) {
+    const issue = await issueService.create(issueData);
+    commit('ADD_ISSUE', issue);
+    return issue;
+  },
+  async updateIssue({ commit }, { id, issueData }) {
+    const issue = await issueService.update(id, issueData);
+    commit('UPDATE_ISSUE', issue);
+  },
+  async deleteIssue({ commit }, issueID) {
+    await issueService.delete(issueID);
+    commit('DELETE_ISSUE', issueID);
   },
 };
 

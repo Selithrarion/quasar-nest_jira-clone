@@ -1,10 +1,14 @@
 import { ProjectModel } from 'src/models/project/project.model';
 import { BoardModel } from 'src/models/project/board.model';
+import { IssueModel } from 'src/models/project/issue.model';
 
 export interface ProjectStateInterface {
   projects?: ProjectModel[] | null;
+
   projectDetail?: ProjectModel | null;
   boardDetail?: BoardModel | null;
+  issueDetail?: IssueModel | null;
+
   availableIssueTypes: IssuePropertyItem[];
   availableIssuePriorities: IssuePropertyItem[];
 }
@@ -19,8 +23,11 @@ interface IssuePropertyItem {
 function state(): ProjectStateInterface {
   return {
     projects: null,
+
     projectDetail: null,
     boardDetail: null,
+    issueDetail: null,
+
     availableIssueTypes: [
       {
         id: 1,
