@@ -38,7 +38,7 @@ export class IssueEntity extends BaseEntity {
   @Column()
   watchNumber: number;
 
-  @ManyToMany(() => UserEntity)
+  @ManyToMany(() => UserEntity, (user) => user.watchingIssues)
   @JoinTable()
   watchers: UserEntity[];
 

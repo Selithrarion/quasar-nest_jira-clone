@@ -25,6 +25,8 @@ export class ProjectsService {
     isActive: true,
     avatarURL: null,
     assignedIssues: [],
+    watchingIssues: [],
+    projectsIDs: [],
     favoriteProjectsIDs: [1, 7, 8, 12, 15],
     createdAt: new Date(),
     updatedAt: new Date(),
@@ -40,12 +42,12 @@ export class ProjectsService {
   }
 
   async getByID(id: number): Promise<ProjectEntity> {
-    return await this.projects.findOneOrFail(id);
+    return await this.projects.findOneOrFail(id, { relations: ['users'] });
   }
 
   async create(projectData: CreateProjectDTO): Promise<ProjectEntity> {
     const leader = this.mockUser;
-    const createdProject = await this.projects.save({ ...projectData, leader });
+    const createdProject = await this.projects.save({ ...projectData, leader, users: [leader] });
 
     const defaultBoard = {
       name: projectData.key + projectData.name,

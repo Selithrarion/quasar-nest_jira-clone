@@ -31,6 +31,16 @@ export class UserEntity extends BaseEntity {
   @OneToMany(() => IssueEntity, (issue) => issue.assigned)
   assignedIssues: IssueEntity[];
 
+  @ManyToMany(() => IssueEntity, (issue) => issue.watchers)
+  watchingIssues: IssueEntity[];
+
+  @ManyToMany(() => ProjectEntity, (project) => project.users, {
+    onUpdate: 'CASCADE',
+    onDelete: 'CASCADE',
+  })
+  @JoinTable()
+  projectsIDs: number[];
+
   @ManyToMany(() => ProjectEntity)
   @JoinTable()
   favoriteProjectsIDs: number[];

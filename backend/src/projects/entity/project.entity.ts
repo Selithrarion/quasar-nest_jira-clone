@@ -1,4 +1,4 @@
-import { Column, Entity, JoinColumn, ManyToOne, OneToMany } from 'typeorm';
+import { Column, Entity, JoinColumn, ManyToMany, ManyToOne, OneToMany } from 'typeorm';
 import { BaseEntity } from '../../common/base.entity';
 import { BoardEntity } from '../../boards/entity/board.entity';
 import { UserEntity } from '../../user/entity/user.entity';
@@ -49,4 +49,7 @@ export class ProjectEntity extends BaseEntity {
   })
   @JoinColumn({ name: 'leaderID' })
   leader: UserEntity;
+
+  @ManyToMany(() => UserEntity, (user) => user.projectsIDs)
+  users: UserEntity[];
 }
