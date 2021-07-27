@@ -1,10 +1,10 @@
 <template>
-  <BaseDialog :show="show" :actions="false" hide-close-icon large @close="close">
+  <BaseDialog :show="show" :actions="false" :content-loading="!issue" hide-close-icon large @close="close">
     <template #title>
       <div class="flex-center-between full-width">
         <div>
-          <ProjectBoardIconIssueType type="bug" />
-          CR-100
+          <ProjectBoardIconIssueType :type="issue.typeID" />
+          {{ issue.key }}
         </div>
 
         <div class="row items-center gap-2">
@@ -15,7 +15,7 @@
 
           <q-btn size="small" disable no-caps no-wrap flat>
             <q-icon name="visibility" size="xs" />
-            <span class="text-subtitle2">1</span>
+            <span class="text-subtitle2">{{ issue.watchNumber }}</span>
           </q-btn>
 
           <q-btn icon="thumb_up" padding="8px" size="sm" disable flat />
@@ -31,7 +31,12 @@
         <div class="column col-7 gap-6 full-height overflow-auto">
           <div class="column gap-2">
             <div>
-              <q-input v-model="issue.name" class="text-h6" placeholder="Добавить название" filled />
+              <q-input
+                v-model="issue.name"
+                class="text-h6"
+                :placeholder="issue.name ? 'Изменить название' : 'Добавить название'"
+                filled
+              />
               <BaseTooltip :label="issue.name" />
             </div>
 
@@ -49,7 +54,7 @@
             <q-input
               v-model="issue.description"
               type="textarea"
-              placeholder="Добавить описание"
+              :placeholder="issue.description ? 'Изменить описание' : 'Добавить описание'"
               autogrow
               filled
               dense
@@ -155,8 +160,8 @@
             <div class="item-row">
               <label>Приоритет</label>
               <q-item clickable dense>
-                <ProjectBoardIconPriorityType type="medium" />
-                Medium
+                <ProjectBoardIconPriorityType :type="issue.priorityID" />
+                {{ store.getters.getIssuePriorityName(issue.priorityID) }}
               </q-item>
             </div>
 
@@ -164,10 +169,13 @@
 
             <div class="text-caption text-blue-grey-5 q-pb-lg">
               <div class="flex-center-between">
-                <span> Создано 22 июня 2021 г., 12:02 </span>
+                <div :class="{ clickable: false }">
+                  Создано 22 июня 2021 г., 12:02
+                  <BaseTooltip label="22 июня 2021 г. 12:02" />
+                </div>
                 <q-btn icon="settings" label="Настроить" size="small" no-wrap no-caps dense flat />
               </div>
-              <div>Дата обновления 2 часа назад</div>
+              <div :class="{ clickable: false }">Дата обновления 2 часа назад</div>
             </div>
           </div>
         </div>
@@ -177,7 +185,10 @@
 </template>
 
 <script lang="ts">
-import { defineComponent, ref, reactive, onBeforeUnmount } from 'vue';
+import { defineComponent, ref, reactive, computed, onBeforeMount, onBeforeUnmount } from 'vue';
+import { useStore } from 'src/store';
+import { useRoute } from 'vue-router';
+// import useLoading from 'src/composables/common/useLoading';
 
 import BaseDialog from 'components/base/BaseDialog.vue';
 import BaseTooltip from 'components/base/BaseTooltip.vue';
@@ -209,35 +220,18 @@ export default defineComponent({
   emits: ['close'],
 
   setup(props, { emit }) {
-    const issue = reactive<IssueModel>({
-      id: 1,
-      name: 'Issue1',
-      description: 'Issue description',
-      watchNumber: 1,
-      watchers: [],
-      priority: 3,
-      author: {
-        id: 1,
-        name: 'Jira Jira',
-        avatarURL:
-          'https://thumbs.dreamstime.com/b/creative-illustration-default-avatar-profile-placeholder-isolated-background-art-design-grey-photo-blank-template-mockup-144849704.jpg',
-        email: 'jirajiraemail@gmail.com',
-        locale: 'ru_RU',
-        isActive: true,
-      },
-      assigned: {
-        id: 1,
-        name: 'Jira Jira',
-        avatarURL:
-          'https://thumbs.dreamstime.com/b/creative-illustration-default-avatar-profile-placeholder-isolated-background-art-design-grey-photo-blank-template-mockup-144849704.jpg',
-        email: 'jirajiraemail@gmail.com',
-        locale: 'ru_RU',
-        isActive: true,
-      },
-      createdAt: 1625296327573,
-      updatedAt: 1625296327573,
+    const store = useStore();
+    const route = useRoute();
+    // const loading = useLoading({ default: true });
+
+    const issue = computed(() => store.state.project.issueDetail);
+
+    onBeforeMount(async () => {
+      const { issueID } = route.params;
+      await store.dispatch('project/getIssueByID', issueID);
+      console.log(issue);
+      // loading.stop();
     });
-    const comment = ref('');
 
     function close() {
       emit('close');
@@ -251,48 +245,14 @@ export default defineComponent({
       selectedType.value = null;
     }
 
-    const availableColumns = reactive<ColumnModel[]>([
-      {
-        id: 1,
-        name: 'Column1',
-        issues: [
-          {
-            id: 1,
-            name: 'Issue1',
-            description: 'Issue description',
-            watchNumber: 1,
-            watchers: [],
-            priority: 3,
-            author: {
-              id: 1,
-              name: 'Jira Jira',
-              avatarURL:
-                'https://thumbs.dreamstime.com/b/creative-illustration-default-avatar-profile-placeholder-isolated-background-art-design-grey-photo-blank-template-mockup-144849704.jpg',
-              email: 'jirajiraemail@gmail.com',
-              locale: 'ru_RU',
-              isActive: true,
-            },
-            assigned: {
-              id: 1,
-              name: 'Jira Jira',
-              avatarURL:
-                'https://thumbs.dreamstime.com/b/creative-illustration-default-avatar-profile-placeholder-isolated-background-art-design-grey-photo-blank-template-mockup-144849704.jpg',
-              email: 'jirajiraemail@gmail.com',
-              locale: 'ru_RU',
-              isActive: true,
-            },
-            createdAt: 1625296327573,
-            updatedAt: 1625296327573,
-          },
-        ],
-      },
-    ]);
-    const selectedColumn = ref<ColumnModel>(availableColumns[0]);
+    const availableColumns = computed(() => store.state.project.boardDetail?.columns);
+    const selectedColumn = ref(availableColumns.value?.[0]);
 
-    const inputNameFocus = ref(false);
     const commentInput = ref<HTMLInputElement | null>(null);
+    const comment = ref('');
 
-    document.addEventListener('keydown', (e: KeyboardEvent) => {
+    document.addEventListener('keydown', handleKeydown);
+    function handleKeydown(e: KeyboardEvent) {
       interface TargetInterface extends EventTarget {
         className?: string[];
       }
@@ -303,14 +263,16 @@ export default defineComponent({
         commentInput?.value?.focus();
         e.preventDefault();
       }
-    });
+    }
+
     onBeforeUnmount(() => {
-      document.removeEventListener('keydown', () => {
-        // do nothing
-      });
+      document.removeEventListener('keydown', handleKeydown);
     });
 
     return {
+      store,
+      // loading,
+
       issue,
       comment,
 
@@ -323,7 +285,6 @@ export default defineComponent({
       availableColumns,
       selectedColumn,
 
-      inputNameFocus,
       commentInput,
     };
   },

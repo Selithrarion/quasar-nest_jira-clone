@@ -16,12 +16,13 @@
       <div class="no-active-issues__image q-mb-md" />
       <h6 class="no-margin">Нет видимых текущих задач</h6>
       <div class="flex-center gap-1">
-        <q-btn label="Создайте задачу" color="primary" no-wrap dense flat @click="dialog.open('viewIssue')" />
+        <q-btn label="Создайте задачу" color="primary" no-wrap dense flat @click="dialog.open('createIssue')" />
         или проверьте
         <q-btn label="настройки доски" color="primary" no-wrap dense flat @click="dialog.open('settings')" />
       </div>
     </div>
 
+    <ProjectBoardDialogCreateIssue :show="dialog.openedName.value === 'createIssue'" @close="dialog.close" />
     <ProjectBoardDialogViewIssue
       v-if="dialog.openedName.value === 'viewIssue'"
       :show="dialog.openedName.value === 'viewIssue'"
@@ -39,6 +40,7 @@ import useLoading from 'src/composables/common/useLoading';
 import BaseLoader from 'components/base/BaseLoader.vue';
 import ProjectBoardColumnWrapper from 'components/project/board/column/ProjectBoardColumnWrapper.vue';
 import ProjectBoardColumn from 'components/project/board/column/ProjectBoardColumn.vue';
+import ProjectBoardDialogCreateIssue from 'components/project/board/dialog/ProjectBoardDialogCreateIssue.vue';
 import ProjectBoardDialogViewIssue from 'components/project/board/dialog/ProjectBoardDialogViewIssue.vue';
 
 export default defineComponent({
@@ -48,6 +50,7 @@ export default defineComponent({
     BaseLoader,
     ProjectBoardColumnWrapper,
     ProjectBoardColumn,
+    ProjectBoardDialogCreateIssue,
     ProjectBoardDialogViewIssue,
   },
 

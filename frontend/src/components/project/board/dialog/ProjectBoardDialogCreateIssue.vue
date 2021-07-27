@@ -3,6 +3,7 @@
     title="Создать задачу"
     confirm-text="Создать"
     :show="show"
+    :content-loading="isContentLoading"
     hide-close-icon
     use-form
     large
@@ -25,17 +26,97 @@
 
     <template #default>
       <q-form>
-        <q-input v-model="form.project" style="max-width: 250px" label="Проект" filled />
-        <q-input v-model="form.issueType" style="max-width: 250px" label="Тип задачи" filled />
+        <q-select
+          v-model="form.project"
+          style="max-width: 250px"
+          label="Проект"
+          option-label="name"
+          option-value="id"
+          :options="availableProjects"
+          emit-value
+          map-options
+          filled
+        />
+        <q-select
+          v-model="form.type"
+          style="max-width: 250px"
+          label="Тип задачи"
+          option-label="name"
+          option-value="key"
+          :options="availableIssueTypes"
+          emit-value
+          map-options
+          filled
+        >
+          <template #option="{ itemProps, itemEvents, opt }">
+            <q-item v-bind="itemProps" v-on="itemEvents">
+              <div class="flex-center q-pr-sm">
+                <ProjectBoardIconIssueType :type="opt.id" small />
+              </div>
+
+              <q-item-section>
+                <q-item-label>{{ opt.name }}</q-item-label>
+              </q-item-section>
+            </q-item>
+          </template>
+        </q-select>
+
+        <q-separator />
 
         <q-input v-model="form.name" label="Резюме" autofocus filled />
         <q-input v-model="form.description" type="textarea" label="Описание" autogrow filled />
 
-        <q-input v-model="form.priority" style="max-width: 250px" label="Приоритет" filled />
+        <q-separator />
+
+        <q-select
+          v-model="form.priority"
+          style="max-width: 250px"
+          label="Приоритет"
+          option-label="name"
+          option-value="key"
+          :options="availableIssuePriorities"
+          emit-value
+          map-options
+          filled
+        >
+          <template #option="{ itemProps, itemEvents, opt }">
+            <q-item v-bind="itemProps" v-on="itemEvents">
+              <div class="flex-center q-pr-sm">
+                <ProjectBoardIconPriorityType :type="opt.id" hide-tooltip small />
+              </div>
+
+              <q-item-section>
+                <q-item-label>{{ opt.name }}</q-item-label>
+              </q-item-section>
+            </q-item>
+          </template>
+        </q-select>
         <q-input v-model="form.marks" style="max-width: 250px" label="Метки" filled />
 
         <div class="column gap-1">
-          <q-input v-model="form.assigned" label="Исполнитель" filled />
+          <q-select
+            v-model="form.assigned"
+            style="max-width: 250px"
+            label="Исполнитель"
+            option-label="name"
+            option-value="id"
+            :options="availableProjectUsers"
+            emit-value
+            map-options
+            filled
+          >
+            <template #option="{ itemProps, itemEvents, opt }">
+              <q-item v-bind="itemProps" v-on="itemEvents">
+                <div class="flex-center q-pr-sm">
+                  <ProjectBoardIconPriorityType :type="opt.id" hide-tooltip small />
+                </div>
+
+                <q-item-section>
+                  <q-item-label>{{ opt.name }}</q-item-label>
+                </q-item-section>
+              </q-item>
+            </template>
+          </q-select>
           <div>
             <q-btn label="Назначить мне" dense no-caps no-wrap flat />
           </div>
@@ -46,15 +127,21 @@
 </template>
 
 <script lang="ts">
-import { defineComponent, reactive } from 'vue';
+import { defineComponent, reactive, computed, onBeforeMount } from 'vue';
+import { useStore } from 'src/store';
+import useLoading from 'src/composables/common/useLoading';
 
 import BaseDialog from 'components/base/BaseDialog.vue';
+import ProjectBoardIconIssueType from 'components/project/board/icon/ProjectBoardIconIssueType.vue';
+import ProjectBoardIconPriorityType from 'components/project/board/icon/ProjectBoardIconPriorityType.vue';
 
 export default defineComponent({
-  name: 'ProjectBoardDialogCreateTask',
+  name: 'ProjectBoardDialogCreateIssue',
 
   components: {
     BaseDialog,
+    ProjectBoardIconIssueType,
+    ProjectBoardIconPriorityType,
   },
 
   props: {
@@ -67,13 +154,29 @@ export default defineComponent({
   emits: ['close'],
 
   setup(props, { emit }) {
+    const store = useStore();
+    const loading = useLoading({ customNames: ['content'] });
+
+    const availableProjects = computed(() => store.state.project.projects);
+    const availableProjectUsers = computed(() => store.state.project.projectUsers);
+    const availableIssueTypes = computed(() => store.state.project.availableIssueTypes);
+    const availableIssuePriorities = computed(() => store.state.project.availableIssuePriorities);
+
+    const isContentLoading = computed(() => !availableProjects.value || !availableProjectUsers.value);
+
+    const currentProject = computed(() => store.state.project?.projectDetail);
+    onBeforeMount(async () => {
+      if (!availableProjects.value) await store.dispatch('project/getAll');
+      if (!availableProjectUsers.value) await store.dispatch('project/getProjectUsers');
+    });
+
     const form = reactive({
-      project: null,
-      issueType: null,
+      project: currentProject,
+      type: 1,
+      priority: 3,
       name: '',
       description: '',
       assigned: null,
-      priority: 3,
       marks: [],
     });
 
@@ -85,6 +188,14 @@ export default defineComponent({
     }
 
     return {
+      loading,
+
+      availableProjects,
+      availableProjectUsers,
+      availableIssueTypes,
+      availableIssuePriorities,
+      isContentLoading,
+
       form,
 
       create,
