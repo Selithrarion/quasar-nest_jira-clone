@@ -16,18 +16,22 @@
       <div class="no-active-issues__image q-mb-md" />
       <h6 class="no-margin">Нет видимых текущих задач</h6>
       <div class="flex-center gap-1">
-        <q-btn label="Создайте задачу" color="primary" no-wrap dense flat />
+        <q-btn label="Создайте задачу" color="primary" no-wrap dense flat @click="dialog.open('viewIssue')" />
         или проверьте
-        <q-btn label="настройки доски" color="primary" no-wrap dense flat />
+        <q-btn label="настройки доски" color="primary" no-wrap dense flat @click="dialog.open('settings')" />
       </div>
     </div>
 
-    <ProjectBoardDialogViewIssue :show="dialog.openedName.value === 'viewIssue'" @close="dialog.close" />
+    <ProjectBoardDialogViewIssue
+      v-if="dialog.openedName.value === 'viewIssue'"
+      :show="dialog.openedName.value === 'viewIssue'"
+      @close="dialog.close"
+    />
   </div>
 </template>
 
 <script lang="ts">
-import { defineComponent, computed, onMounted } from 'vue';
+import { defineComponent, computed, onBeforeMount } from 'vue';
 import { useStore } from 'src/store';
 import useDialog from 'src/composables/common/useDialog';
 import useLoading from 'src/composables/common/useLoading';
@@ -59,7 +63,7 @@ export default defineComponent({
     const dialog = useDialog();
     const loading = useLoading({ default: true });
 
-    onMounted(async () => {
+    onBeforeMount(async () => {
       await store.dispatch('project/getBoardByID', props.selectedBoardId);
       loading.stop();
     });

@@ -22,7 +22,7 @@
     >
       <template #option="{ itemProps, itemEvents, opt }">
         <q-item v-bind="itemProps" v-on="itemEvents">
-          <div class="flex-center q-pr-md">
+          <div class="flex-center q-md-sm">
             <q-icon :name="opt.icon" />
           </div>
 

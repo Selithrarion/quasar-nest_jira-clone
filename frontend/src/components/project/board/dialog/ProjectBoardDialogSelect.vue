@@ -134,7 +134,7 @@
 </template>
 
 <script lang="ts">
-import { defineComponent, ref, reactive, computed, PropType, onMounted } from 'vue';
+import { defineComponent, ref, reactive, computed, PropType, onBeforeMount } from 'vue';
 import { useStore } from 'src/store';
 import useDialog from 'src/composables/common/useDialog';
 import useLoading from 'src/composables/common/useLoading';
@@ -185,7 +185,7 @@ export default defineComponent({
     const dialog = useDialog();
     const loading = useLoading({ customNames: ['projects'] });
 
-    onMounted(async () => {
+    onBeforeMount(async () => {
       if (!props.availableProjects) {
         try {
           loading.start('projects');
