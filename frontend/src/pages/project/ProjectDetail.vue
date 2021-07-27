@@ -142,7 +142,7 @@
 </template>
 
 <script lang="ts">
-import { defineComponent, ref, reactive, computed, onBeforeMount } from 'vue';
+import { defineComponent, ref, reactive, computed, onBeforeMount, onMounted } from 'vue';
 import { useRouter, useRoute } from 'vue-router';
 import { useStore } from 'src/store';
 import useDialog from 'src/composables/common/useDialog';
@@ -199,6 +199,10 @@ export default defineComponent({
       } finally {
         loading.stop();
       }
+    });
+
+    onMounted(async () => {
+      if (!availableProjects.value) await store.dispatch('project/getAll');
     });
 
     async function selectBoard(board: BoardModel) {

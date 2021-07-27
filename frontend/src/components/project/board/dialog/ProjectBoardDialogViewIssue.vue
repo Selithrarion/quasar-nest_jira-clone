@@ -222,7 +222,6 @@ export default defineComponent({
   setup(props, { emit }) {
     const store = useStore();
     const route = useRoute();
-    // const loading = useLoading({ default: true });
 
     const issue = computed(() => store.state.project.issueDetail);
 
@@ -230,7 +229,6 @@ export default defineComponent({
       const { issueID } = route.params;
       await store.dispatch('project/getIssueByID', issueID);
       console.log(issue);
-      // loading.stop();
     });
 
     function close() {
@@ -271,7 +269,6 @@ export default defineComponent({
 
     return {
       store,
-      // loading,
 
       issue,
       comment,

@@ -127,7 +127,7 @@
 </template>
 
 <script lang="ts">
-import { defineComponent, reactive, computed, onBeforeMount } from 'vue';
+import { defineComponent, reactive, computed } from 'vue';
 import { useStore } from 'src/store';
 import useLoading from 'src/composables/common/useLoading';
 
@@ -158,17 +158,13 @@ export default defineComponent({
     const loading = useLoading({ customNames: ['content'] });
 
     const availableProjects = computed(() => store.state.project.projects);
-    const availableProjectUsers = computed(() => store.state.project.projectUsers);
+    const availableProjectUsers = computed(() => store.state.project.projectDetail?.users);
     const availableIssueTypes = computed(() => store.state.project.availableIssueTypes);
     const availableIssuePriorities = computed(() => store.state.project.availableIssuePriorities);
 
     const isContentLoading = computed(() => !availableProjects.value || !availableProjectUsers.value);
 
     const currentProject = computed(() => store.state.project?.projectDetail);
-    onBeforeMount(async () => {
-      if (!availableProjects.value) await store.dispatch('project/getAll');
-      if (!availableProjectUsers.value) await store.dispatch('project/getProjectUsers');
-    });
 
     const form = reactive({
       project: currentProject,

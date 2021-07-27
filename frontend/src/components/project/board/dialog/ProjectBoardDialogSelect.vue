@@ -10,7 +10,7 @@
     :confirm-loading="loading.active.value"
     :confirm-icon="step === 1 ? 'add' : undefined"
     :confirm-classes="step === 1 ? 'btn--secondary' : null"
-    :content-loading="step === 3 && loading.custom.projects"
+    :content-loading="step === 3 && !availableProjects"
     hide-close-button
     large
     @back="step--"
@@ -134,7 +134,7 @@
 </template>
 
 <script lang="ts">
-import { defineComponent, ref, reactive, computed, PropType, onBeforeMount } from 'vue';
+import { defineComponent, ref, reactive, computed, PropType } from 'vue';
 import { useStore } from 'src/store';
 import useDialog from 'src/composables/common/useDialog';
 import useLoading from 'src/composables/common/useLoading';
@@ -183,18 +183,7 @@ export default defineComponent({
   setup(props, { emit }) {
     const store = useStore();
     const dialog = useDialog();
-    const loading = useLoading({ customNames: ['projects'] });
-
-    onBeforeMount(async () => {
-      if (!props.availableProjects) {
-        try {
-          loading.start('projects');
-          await store.dispatch('project/getAll');
-        } finally {
-          loading.stop('projects');
-        }
-      }
-    });
+    const loading = useLoading();
 
     async function handleDialogConfirmClick() {
       if (step.value === 1) step.value++;
@@ -258,7 +247,9 @@ export default defineComponent({
       try {
         loading.start();
         const board = (await store.dispatch('project/createBoard', form)) as BoardModel;
-        selectBoard(board);
+        const isCreatedInCurrentProject = board.projectID === store.state.project.projectDetail?.id;
+        if (isCreatedInCurrentProject) selectBoard(board);
+        else close()
       } finally {
         loading.stop();
       }
