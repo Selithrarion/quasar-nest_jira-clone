@@ -106,12 +106,9 @@
         <CommonSearch v-model="search" client-search append-icon />
 
         <CommonAvatarsWrapper margin="small" hover-effects>
-          <q-avatar v-for="avatar of 4" :key="avatar" size="36px" @click="toggleUserSelection(avatar)">
-            <img
-              src="https://secure.gravatar.com/avatar/d1cb0ee26c499154d46f1ab7b61cf44f?d=https%3A%2F%2Favatar-management--avatars.us-west-2.prod.public.atl-paas.net%2Fdefault-avatar-1.png"
-              alt="User Avatar"
-            />
-            <BaseTooltip> % имя % </BaseTooltip>
+          <q-avatar v-for="user in project.users" :key="user.id" size="36px" @click="toggleUserSelection(user)">
+            <img :src="user.avatarURL || require('src/assets/img/default-avatar-1.png')" :alt="`${user.name} Avatar`" />
+            <BaseTooltip> {{ user.name }} </BaseTooltip>
           </q-avatar>
           <q-avatar class="bg-blue-grey-1" size="36px">
             <q-icon name="person" size="20px" />
@@ -219,6 +216,10 @@ export default defineComponent({
       const board = boardObject || defaultBoard;
       if (board) await selectBoard(board);
     }
+    function toggleSelectedBoardFavorite() {
+      if (selectedBoard.value === undefined) return;
+      selectedBoard.value.favorite = !selectedBoard.value.favorite;
+    }
 
     async function openBoardByID(boardID: number) {
       await router.push({ name: 'board', params: { boardID } });
@@ -301,11 +302,6 @@ export default defineComponent({
       console.log(userID);
     }
 
-    function toggleSelectedBoardFavorite() {
-      if (selectedBoard.value === undefined || selectedBoard.value === null) return;
-      selectedBoard.value.favorite = !selectedBoard.value.favorite;
-    }
-
     return {
       dialog,
       loading,
@@ -314,6 +310,7 @@ export default defineComponent({
       availableProjects,
       selectedBoard,
       selectBoard,
+      toggleSelectedBoardFavorite,
 
       sidebarItems,
       handleSidebarItemClick,
@@ -322,7 +319,6 @@ export default defineComponent({
       pageName,
       selectedUsersFilter,
       toggleUserSelection,
-      toggleSelectedBoardFavorite,
     };
   },
 });
