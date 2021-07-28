@@ -26,7 +26,7 @@ export class UserEntity extends BaseEntity {
   isActive: boolean;
 
   @Column({ nullable: true })
-  avatarURL: string;
+  avatarURL: string | null;
 
   @OneToMany(() => IssueEntity, (issue) => issue.assigned)
   assignedIssues: IssueEntity[];
