@@ -4,6 +4,7 @@
     confirm-text="Создать"
     :show="show"
     :content-loading="isContentLoading"
+    :confirm-loading="loading.value"
     hide-close-icon
     use-form
     large
@@ -91,7 +92,7 @@
             </q-item>
           </template>
         </q-select>
-        <q-input v-model="form.marks" style="max-width: 250px" label="Метки" filled />
+        <q-input v-model="form.marks" style="max-width: 250px" label="Метки" disable filled />
 
         <div class="column gap-1">
           <q-select
@@ -108,7 +109,12 @@
             <template #option="{ itemProps, itemEvents, opt }">
               <q-item v-bind="itemProps" v-on="itemEvents">
                 <div class="flex-center q-pr-sm">
-                  <ProjectBoardIconPriorityType :type="opt.id" hide-tooltip small />
+                  <q-avatar size="24px">
+                    <img
+                      :src="opt.avatarURL || require('src/assets/img/default-avatar-1.png')"
+                      :alt="`${opt.name} Avatar`"
+                    />
+                  </q-avatar>
                 </div>
 
                 <q-item-section>
@@ -118,7 +124,7 @@
             </template>
           </q-select>
           <div>
-            <q-btn label="Назначить мне" dense no-caps no-wrap flat />
+            <q-btn label="Назначить мне" dense no-caps no-wrap flat @click="assignToCurrentUser" />
           </div>
         </div>
       </q-form>
@@ -134,6 +140,7 @@ import useLoading from 'src/composables/common/useLoading';
 import BaseDialog from 'components/base/BaseDialog.vue';
 import ProjectBoardIconIssueType from 'components/project/board/icon/ProjectBoardIconIssueType.vue';
 import ProjectBoardIconPriorityType from 'components/project/board/icon/ProjectBoardIconPriorityType.vue';
+import { UserModel } from 'src/models/user/user.model';
 
 export default defineComponent({
   name: 'ProjectBoardDialogCreateIssue',
@@ -155,32 +162,42 @@ export default defineComponent({
 
   setup(props, { emit }) {
     const store = useStore();
-    const loading = useLoading({ customNames: ['content'] });
+    const loading = useLoading();
 
     const availableProjects = computed(() => store.state.project.projects);
     const availableProjectUsers = computed(() => store.state.project.projectDetail?.users);
     const availableIssueTypes = computed(() => store.state.project.availableIssueTypes);
     const availableIssuePriorities = computed(() => store.state.project.availableIssuePriorities);
-
     const isContentLoading = computed(() => !availableProjects.value || !availableProjectUsers.value);
 
     const currentProject = computed(() => store.state.project?.projectDetail);
 
     const form = reactive({
       project: currentProject,
-      type: 1,
-      priority: 3,
+      type: 'BUG',
+      priority: 'MEDIUM',
       name: '',
       description: '',
-      assigned: null,
+      assigned: null as UserModel | null,
       marks: [],
     });
 
-    function create() {
-      console.log(form);
+    async function create() {
+      try {
+        loading.start();
+        await store.dispatch('project/createIssue', form);
+        close()
+      } finally {
+        loading.stop;
+      }
     }
     function close() {
       emit('close');
+    }
+
+    function assignToCurrentUser() {
+      const currentUser = store.state.user.currentUser;
+      form.assigned = currentUser;
     }
 
     return {
@@ -196,6 +213,8 @@ export default defineComponent({
 
       create,
       close,
+
+      assignToCurrentUser,
     };
   },
 });
