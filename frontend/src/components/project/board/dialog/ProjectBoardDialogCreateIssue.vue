@@ -28,14 +28,11 @@
     <template #default>
       <q-form>
         <q-select
-          v-model="form.project"
+          v-model="form.projectName"
           style="max-width: 250px"
           label="Проект"
-          option-label="name"
-          option-value="id"
           :options="availableProjects"
           emit-value
-          map-options
           filled
         />
         <q-select
@@ -43,7 +40,7 @@
           style="max-width: 250px"
           label="Тип задачи"
           option-label="name"
-          option-value="key"
+          option-value="id"
           :options="availableIssueTypes"
           emit-value
           map-options
@@ -74,7 +71,7 @@
           style="max-width: 250px"
           label="Приоритет"
           option-label="name"
-          option-value="key"
+          option-value="id"
           :options="availableIssuePriorities"
           emit-value
           map-options
@@ -141,6 +138,7 @@ import BaseDialog from 'components/base/BaseDialog.vue';
 import ProjectBoardIconIssueType from 'components/project/board/icon/ProjectBoardIconIssueType.vue';
 import ProjectBoardIconPriorityType from 'components/project/board/icon/ProjectBoardIconPriorityType.vue';
 import { UserModel } from 'src/models/user/user.model';
+import { IssuePriorityEnum, IssueTypeEnum } from 'src/models/project/issue.model';
 
 export default defineComponent({
   name: 'ProjectBoardDialogCreateIssue',
@@ -173,9 +171,10 @@ export default defineComponent({
     const currentProject = computed(() => store.state.project?.projectDetail);
 
     const form = reactive({
-      project: currentProject,
-      type: 'BUG',
-      priority: 'MEDIUM',
+      projectName: currentProject.value?.name,
+      projectKey: currentProject.value?.key,
+      type: IssueTypeEnum['BUG'],
+      priority: IssuePriorityEnum['MEDIUM'],
       name: '',
       description: '',
       assigned: null as UserModel | null,
@@ -186,7 +185,7 @@ export default defineComponent({
       try {
         loading.start();
         await store.dispatch('project/createIssue', form);
-        close()
+        close();
       } finally {
         loading.stop;
       }

@@ -59,8 +59,8 @@ const mutation: MutationTree<ProjectStateInterface> = {
   ADD_ISSUE(state: ProjectStateInterface, issue: IssueModel) {
     if (!state.boardDetail) return;
     const columns = state.boardDetail.columns;
-    const column = columns.find((c) => c.id === issue.columnID);
-    if (column) column.issues.push(issue);
+    const column = columns.find((c) => c.id === issue.columnID) || columns[0];
+    column.issues.push(issue);
   },
   UPDATE_ISSUE(state: ProjectStateInterface, issue: IssueModel) {
     if (!state.boardDetail) return;

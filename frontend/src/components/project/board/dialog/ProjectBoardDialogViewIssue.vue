@@ -15,7 +15,7 @@
 
           <q-btn size="small" disable no-caps no-wrap flat>
             <q-icon name="visibility" size="xs" />
-            <span class="text-subtitle2">{{ issue.watchNumber }}</span>
+            <span class="text-subtitle2">{{ issue.watchers.length }}</span>
           </q-btn>
 
           <q-btn icon="thumb_up" padding="8px" size="sm" disable flat />
