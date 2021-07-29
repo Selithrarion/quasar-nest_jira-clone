@@ -9,7 +9,7 @@ import { BoardsModule } from '../boards/boards.module';
 import { ColumnEntity } from './entity/column.entity';
 import { BoardEntity } from '../boards/entity/board.entity';
 import { CommentEntity } from './entity/comment.entity';
-import { IssueEntity } from './entity/issue.entity';
+import { IssueEntity } from '../issues/entity/issue.entity';
 import { UserEntity } from '../user/entity/user.entity';
 
 @Module({

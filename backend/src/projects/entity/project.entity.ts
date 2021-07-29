@@ -3,6 +3,7 @@ import { BaseEntity } from '../../common/base.entity';
 import { BoardEntity } from '../../boards/entity/board.entity';
 import { UserEntity } from '../../user/entity/user.entity';
 import { AccessEnum } from '../../common/access.model';
+import { IssueEntity } from '../../issues/entity/issue.entity';
 
 export enum ProjectTemplateEnum {
   KANBAN = 1,

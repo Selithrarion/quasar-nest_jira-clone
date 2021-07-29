@@ -3,7 +3,7 @@ import { IsEmail } from 'class-validator';
 import { Exclude } from 'class-transformer';
 
 import { BaseEntity } from '../../common/base.entity';
-import { IssueEntity } from '../../columns/entity/issue.entity';
+import { IssueEntity } from '../../issues/entity/issue.entity';
 import { ProjectEntity } from '../../projects/entity/project.entity';
 
 @Entity()

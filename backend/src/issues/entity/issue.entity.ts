@@ -1,8 +1,8 @@
 import { Column, Entity, JoinColumn, JoinTable, ManyToMany, ManyToOne, OneToMany } from 'typeorm';
 import { BaseEntity } from '../../common/base.entity';
 import { UserEntity } from '../../user/entity/user.entity';
-import { CommentEntity } from './comment.entity';
-import { ColumnEntity } from './column.entity';
+import { CommentEntity } from '../../columns/entity/comment.entity';
+import { ColumnEntity } from '../../columns/entity/column.entity';
 
 export enum IssueTypeEnum {
   BUG = 1,

@@ -5,9 +5,10 @@ import { ProjectsModule } from './projects/projects.module';
 import { UserModule } from './user/user.module';
 import { BoardsModule } from './boards/boards.module';
 import { ColumnsModule } from './columns/columns.module';
+import { IssuesModule } from './issues/issues.module';
 
 @Module({
-  imports: [TypeOrmModule.forRoot(), ProjectsModule, UserModule, BoardsModule, ColumnsModule],
+  imports: [TypeOrmModule.forRoot(), ProjectsModule, UserModule, BoardsModule, ColumnsModule, IssuesModule],
   controllers: [],
   providers: [],
 })
