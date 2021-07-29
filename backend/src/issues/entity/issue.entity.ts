@@ -23,20 +23,17 @@ export class IssueEntity extends BaseEntity {
   @Column()
   name: string;
 
-  @Column()
+  @Column({ nullable: true })
   key: string;
 
-  @Column()
-  description?: string;
+  @Column({ nullable: true })
+  description: string;
 
-  @Column()
-  environment?: string;
+  @Column({ nullable: true })
+  environment: string;
 
-  @Column()
-  attachments?: string;
-
-  @Column()
-  watchNumber: number;
+  @Column({ nullable: true })
+  attachments: string;
 
   @ManyToMany(() => UserEntity, (user) => user.watchingIssues)
   @JoinTable()
@@ -58,6 +55,7 @@ export class IssueEntity extends BaseEntity {
   author: UserEntity;
 
   @ManyToOne(() => UserEntity, (user) => user.assignedIssues, {
+    nullable: true,
     eager: true,
   })
   @JoinColumn({ name: 'assignedID' })
