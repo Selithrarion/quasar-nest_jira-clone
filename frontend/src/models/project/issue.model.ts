@@ -9,7 +9,6 @@ export interface IssueModel extends BaseModel {
   environment?: string;
   attachments?: string;
 
-  watchNumber: number;
   watchers: UserModel[];
   comments: CommentModel[];
 
@@ -41,8 +40,11 @@ export interface IssueDTO {
   environment?: string;
   attachments?: string;
 
+  projectKey: string;
+  boardKey: string;
+
   priority: IssuePriorityEnum;
-  authorID: number;
-  assignedID: number;
+  author: UserModel;
+  assigned: UserModel;
   columnID: number;
 }
