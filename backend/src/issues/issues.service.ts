@@ -33,10 +33,9 @@ export class IssuesService {
     };
     const watchers = [author];
 
-    const issue = await this.issues.save({ ...payload, author, watchers });
+    const issue = await this.issues.save({ ...payload, author, watchers, column: payload.board.columns[0] });
 
-    // const key = `${payload.projectKey}${payload.projectName}-${issue.id}`;
-    const key = `${payload.projectKey}-${issue.id}`;
+    const key = `${payload.project.key}-${issue.id}`;
     await this.issues.update(issue.id, { key });
 
     return { ...issue, key };
