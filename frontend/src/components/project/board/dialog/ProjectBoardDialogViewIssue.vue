@@ -1,5 +1,5 @@
 <template>
-  <BaseDialog :show="show" :actions="false" :content-loading="!issue" hide-close-icon large @close="close">
+  <BaseDialog :actions="false" :content-loading="!issue" hide-close-icon large @close="close">
     <template #title>
       <div class="flex-center-between full-width">
         <div>

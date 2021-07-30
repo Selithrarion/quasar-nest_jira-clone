@@ -69,8 +69,8 @@
     </q-table>
 
     <BaseDialog
+      v-if="dialog.openedName.value === 'deleteProject'"
       type="delete"
-      :show="dialog.openedName.value === 'deleteProject'"
       :title="`Удалить ${dialog.openedItem.value.name}?`"
       :confirm-loading="dialog.loading.value"
       @close="dialog.close"

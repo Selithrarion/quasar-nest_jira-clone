@@ -85,7 +85,7 @@
       </Suspense>
     </div>
 
-    <DashboardCreateDialog :show="dialog.openedName.value === 'createDashboard'" @close="dialog.close" />
+    <DashboardCreateDialog v-if="dialog.openedName.value === 'createDashboard'" @close="dialog.close" />
   </q-page>
 </template>
 
@@ -221,9 +221,7 @@ export default defineComponent({
     ]);
 
     function toggleFavorite(dashboardID: number) {
-      const dashboard: DashboardModel | undefined = dashboards.find(
-        (d: DashboardModel) => d.id === dashboardID
-      );
+      const dashboard: DashboardModel | undefined = dashboards.find((d: DashboardModel) => d.id === dashboardID);
       if (!dashboard) return;
 
       dashboard.favorite = !dashboard.favorite;

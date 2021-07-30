@@ -1,5 +1,5 @@
 <template>
-  <BaseDialog title="Создание дашбоарда" :show="show" :actions="false" medium @close="close">
+  <BaseDialog title="Создание дашбоарда" :actions="false" medium @close="close">
     <DashboardCreateForm :loading="loading.active.value" @close="close" @submit.prevent="createDashboard" />
   </BaseDialog>
 </template>
@@ -17,14 +17,6 @@ export default defineComponent({
   name: 'DashboardCreateDialog',
 
   components: { BaseDialog, DashboardCreateForm },
-
-  props: {
-    show: {
-      type: Boolean,
-      required: true,
-      default: null,
-    },
-  },
 
   emits: ['close'],
 

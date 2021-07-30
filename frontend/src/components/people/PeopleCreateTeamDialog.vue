@@ -2,7 +2,6 @@
   <BaseDialog
     title="Создать новую команду"
     confirm-text="Создать команду"
-    :show="show"
     :loading="loading.active.value"
     large
     @confirm="createTeam"
@@ -64,13 +63,6 @@ export default defineComponent({
 
   components: {
     BaseDialog,
-  },
-
-  props: {
-    show: {
-      type: Boolean,
-      required: true,
-    },
   },
 
   setup() {

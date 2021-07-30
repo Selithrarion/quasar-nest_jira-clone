@@ -22,12 +22,7 @@
           @click="dialog.open('addGadget')"
         />
 
-        <q-btn
-          class="btn--secondary text-weight-bold"
-          label="Изменить схему"
-          unelevated
-          no-caps
-        >
+        <q-btn class="btn--secondary text-weight-bold" label="Изменить схему" unelevated no-caps>
           <q-menu>
             <q-list>
               <q-item class="q-pa-sm">
@@ -169,11 +164,11 @@
       </div>
     </div>
 
-    <DashboardGadgetAddDialog :show="dialog.openedName.value === 'addGadget'" @close="dialog.close" />
-    <DashboardCreateDialog :show="dialog.openedName.value === 'createDashboard'" @close="dialog.close" />
+    <DashboardGadgetAddDialog v-if="dialog.openedName.value === 'addGadget'" @close="dialog.close" />
+    <DashboardCreateDialog v-if="dialog.openedName.value === 'createDashboard'" @close="dialog.close" />
     <BaseDialog
+      v-if="dialog.openedName.value === 'deleteDashboard'"
       type="delete"
-      :show="dialog.openedName.value === 'deleteDashboard'"
       :title="`Удалить ${dashboard.name}?`"
       :confirm-loading="isDeleteDashboardLoading"
       @close="dialog.close"

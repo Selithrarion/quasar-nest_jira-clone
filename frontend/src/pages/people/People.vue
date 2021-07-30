@@ -58,7 +58,7 @@
       </q-card>
     </div>
 
-    <PeopleCreateTeamDialog :show="isCreateTeamDialog" @close="toggleCreateTeamDialog" />
+    <PeopleCreateTeamDialog v-if="isCreateTeamDialog" @close="toggleCreateTeamDialog" />
   </q-page>
 </template>
 

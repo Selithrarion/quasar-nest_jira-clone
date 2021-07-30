@@ -1,5 +1,5 @@
 <template>
-  <BaseDialog :show="show" :actions="false" maximized @close="close">
+  <BaseDialog :actions="false" maximized @close="close">
     <template #title>
       <div class="flex justify-center text-h5 full-width">
         <div v-if="!selectedTypeID">Выберите тип проекта</div>
@@ -25,13 +25,6 @@ export default defineComponent({
   name: 'ProjectCreateDialog',
 
   components: { BaseDialog, ProjectCreateSelectType, ProjectCreateForm },
-
-  props: {
-    show: {
-      type: Boolean,
-      required: true,
-    },
-  },
 
   emits: ['close'],
 

@@ -58,7 +58,7 @@
 </template>
 
 <script lang="ts">
-import { defineComponent, computed } from 'vue';
+import { defineComponent, computed, ref } from 'vue';
 
 import BaseLoader from 'components/base/BaseLoader.vue';
 import BaseButtonCloseIcon from 'components/base/button/BaseButtonCloseIcon.vue';
@@ -69,11 +69,6 @@ export default defineComponent({
   components: { BaseLoader, BaseButtonCloseIcon },
 
   props: {
-    show: {
-      type: Boolean,
-      required: true,
-      default: null,
-    },
     type: {
       type: String,
       required: false,
@@ -194,6 +189,8 @@ export default defineComponent({
       emit('back');
     }
 
+    const show = ref(true);
+
     const types = [
       {
         name: 'default',
@@ -229,6 +226,8 @@ export default defineComponent({
       confirm,
       close,
       back,
+
+      show,
 
       types,
       selectedType,

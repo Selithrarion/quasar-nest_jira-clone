@@ -1,7 +1,6 @@
 <template>
   <BaseDialog
     title="Добавить гаджет"
-    :show="show"
     :loading="loading.active.value"
     :maximized="$q.screen.lt.md"
     hide-confirm-button
@@ -85,14 +84,6 @@ export default defineComponent({
   name: 'DashboardGadgetAddDialog',
 
   components: { BaseDialog, BaseAlert, CommonSearch },
-
-  props: {
-    show: {
-      type: Boolean,
-      required: true,
-      default: null,
-    },
-  },
 
   emits: ['close'],
 

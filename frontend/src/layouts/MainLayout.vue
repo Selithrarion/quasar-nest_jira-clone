@@ -28,13 +28,14 @@
           </q-tabs>
 
           <q-btn
+            v-if="isShowCreateIssueButton"
             class="flex-shrink-0"
-            label="Создать"
+            label="Создать задачу"
             color="primary"
             padding="4px 12px"
             unelevated
             no-caps
-            @click="dialog.open('createTask')"
+            @click="dialog.open('createIssue')"
           />
         </div>
 
@@ -53,12 +54,13 @@
       <router-view />
     </q-page-container>
 
-    <ProjectBoardDialogCreateIssue :show="dialog.openedName.value === 'createTask'" @close="dialog.close" />
+    <ProjectBoardDialogCreateIssue v-if="dialog.openedName.value === 'createIssue'" @close="dialog.close" />
   </q-layout>
 </template>
 
 <script lang="ts">
-import { defineComponent, ref, reactive } from 'vue';
+import { defineComponent, ref, reactive, computed } from 'vue';
+import { useRoute } from 'vue-router';
 import useDialog from 'src/composables/common/useDialog';
 
 import CommonSearch from 'components/common/CommonSearch.vue';
@@ -73,6 +75,7 @@ export default defineComponent({
   },
 
   setup() {
+    const route = useRoute();
     const dialog = useDialog();
 
     const searchValue = ref('');
@@ -115,6 +118,8 @@ export default defineComponent({
       },
     ]);
 
+    const isShowCreateIssueButton = computed(() => route.path.includes('/projects/'));
+
     return {
       dialog,
 
@@ -123,6 +128,8 @@ export default defineComponent({
 
       tabsData,
       selectedTab,
+
+      isShowCreateIssueButton,
     };
   },
 });

@@ -2,7 +2,6 @@
   <BaseDialog
     title="Создать задачу"
     confirm-text="Создать"
-    :show="show"
     :content-loading="isContentLoading"
     :confirm-loading="loading.value"
     hide-close-icon
@@ -28,11 +27,13 @@
     <template #default>
       <q-form>
         <q-select
-          v-model="form.projectName"
+          v-model="form.project"
           style="max-width: 250px"
           label="Проект"
+          option-label="name"
           :options="availableProjects"
-          emit-value
+          :rules="[rules.required]"
+          hide-bottom-space
           filled
         />
         <q-select
@@ -42,6 +43,8 @@
           option-label="name"
           option-value="id"
           :options="availableIssueTypes"
+          :rules="[rules.required]"
+          hide-bottom-space
           emit-value
           map-options
           filled
@@ -61,7 +64,7 @@
 
         <q-separator />
 
-        <q-input v-model="form.name" label="Резюме" autofocus filled />
+        <q-input v-model="form.name" label="Резюме" :rules="[rules.required]" hide-bottom-space autofocus filled />
         <q-input v-model="form.description" type="textarea" label="Описание" autogrow filled />
 
         <q-separator />
@@ -73,6 +76,8 @@
           option-label="name"
           option-value="id"
           :options="availableIssuePriorities"
+          :rules="[rules.required]"
+          hide-bottom-space
           emit-value
           map-options
           filled
@@ -133,6 +138,7 @@
 import { defineComponent, reactive, computed } from 'vue';
 import { useStore } from 'src/store';
 import useLoading from 'src/composables/common/useLoading';
+import useFormValidation from 'src/composables/common/useFormValidation';
 
 import BaseDialog from 'components/base/BaseDialog.vue';
 import ProjectBoardIconIssueType from 'components/project/board/icon/ProjectBoardIconIssueType.vue';
@@ -149,18 +155,12 @@ export default defineComponent({
     ProjectBoardIconPriorityType,
   },
 
-  props: {
-    show: {
-      type: Boolean,
-      required: true,
-    },
-  },
-
   emits: ['close'],
 
   setup(props, { emit }) {
     const store = useStore();
     const loading = useLoading();
+    const rules = useFormValidation();
 
     const availableProjects = computed(() => store.state.project.projects);
     const availableProjectUsers = computed(() => store.state.project.projectDetail?.users);
@@ -168,11 +168,11 @@ export default defineComponent({
     const availableIssuePriorities = computed(() => store.state.project.availableIssuePriorities);
     const isContentLoading = computed(() => !availableProjects.value || !availableProjectUsers.value);
 
-    const currentProject = computed(() => store.state.project?.projectDetail);
+    const currentProject = computed(() => store.state.project.projectDetail);
+    const currentBoard = computed(() => store.state.project.boardDetail);
 
     const form = reactive({
-      projectName: currentProject.value?.name,
-      projectKey: currentProject.value?.key,
+      project: currentProject.value,
       type: IssueTypeEnum['BUG'],
       priority: IssuePriorityEnum['MEDIUM'],
       name: '',
@@ -184,7 +184,9 @@ export default defineComponent({
     async function create() {
       try {
         loading.start();
-        await store.dispatch('project/createIssue', form);
+        const board = currentBoard.value || currentProject.value?.boards[0];
+        const payload = { ...form, board };
+        await store.dispatch('project/createIssue', payload);
         close();
       } finally {
         loading.stop;
@@ -201,6 +203,7 @@ export default defineComponent({
 
     return {
       loading,
+      rules,
 
       availableProjects,
       availableProjectUsers,

@@ -3,7 +3,6 @@
     close-text="Назад"
     confirm-text="Создать доску"
     :title="computedTitle"
-    :show="show"
     :show-back-button="step !== 1"
     :back-text="step === 1 ? 'Отмена' : 'Назад'"
     :hide-confirm-button="step === 2"
@@ -117,8 +116,8 @@
     </div>
 
     <BaseDialog
+      v-if="dialog.openedName.value === 'deleteBoard'"
       type="delete"
-      :show="dialog.openedName.value === 'deleteBoard'"
       :title="`Удалить ${dialog.openedItem.value.name}?`"
       :confirm-loading="dialog.loading.value"
       :confirm-disabled="dialog.openedItem.value.name !== confirmBoardName"
@@ -154,10 +153,6 @@ export default defineComponent({
   },
 
   props: {
-    show: {
-      type: Boolean,
-      required: true,
-    },
     project: {
       type: Object as PropType<ProjectModel>,
       required: true,
@@ -249,7 +244,7 @@ export default defineComponent({
         const board = (await store.dispatch('project/createBoard', form)) as BoardModel;
         const isCreatedInCurrentProject = board.projectID === store.state.project.projectDetail?.id;
         if (isCreatedInCurrentProject) selectBoard(board);
-        else close()
+        else close();
       } finally {
         loading.stop();
       }
