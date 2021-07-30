@@ -2,20 +2,23 @@
   <q-page class="work-page">
     <CommonPageTitle title="Ваша работа" />
 
-    <div class="q-px-xl q-py-md bg-grey-1">
+    <BaseLoader v-if="!availableProjects" />
+    <div v-else class="q-px-xl q-py-md bg-grey-1">
       <WorkProjectHeader />
 
       <WorkProjectList>
-        <WorkProjectCard v-for="project in projects" :key="project.id" :project="project" />
+        <WorkProjectCard v-for="project in availableProjects" :key="project.id" :project="project" />
       </WorkProjectList>
     </div>
   </q-page>
 </template>
 
 <script lang="ts">
-import { defineComponent } from 'vue';
+import { defineComponent, computed, onBeforeMount } from 'vue';
+import { useStore } from 'src/store';
 import useLoading from 'src/composables/common/useLoading';
 
+import BaseLoader from 'components/base/BaseLoader.vue';
 import CommonPageTitle from 'components/common/CommonPageTitle.vue';
 
 import WorkProjectHeader from 'components/work/WorkProjectHeader.vue';
@@ -26,6 +29,7 @@ export default defineComponent({
   name: 'PageIndex',
 
   components: {
+    BaseLoader,
     CommonPageTitle,
     WorkProjectHeader,
     WorkProjectList,
@@ -33,18 +37,18 @@ export default defineComponent({
   },
 
   setup() {
-    const loading = useLoading({ customNames: ['test'] });
-    const projects = [
-      {
-        id: 1,
-        title: 'Jira project',
-        type: 'Программное обеспечение, управляемое компанией',
-        key: 'JP',
-      },
-    ];
+    const store = useStore();
+    const loading = useLoading();
+
+    const availableProjects = computed(() => store.state.project.projects);
+
+    onBeforeMount(async () => {
+      if (!availableProjects.value) await store.dispatch('project/getAll');
+    });
 
     return {
-      projects,
+      loading,
+      availableProjects,
     };
   },
 });
