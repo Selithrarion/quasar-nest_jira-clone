@@ -222,7 +222,7 @@ export default defineComponent({
     }
 
     async function openBoardByID(boardID: number) {
-      await router.push({ name: 'board', params: { boardID } });
+      await router.replace({ name: 'board', params: { boardID } });
     }
     async function openSelectedBoard() {
       const boardID = selectedBoard.value?.id;
