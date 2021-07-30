@@ -2,6 +2,8 @@ import { ApiProperty } from '@nestjs/swagger';
 import { IsNotEmpty, IsNumber, IsString, MaxLength } from 'class-validator';
 import { IssuePriorityEnum, IssueTypeEnum } from '../entity/issue.entity';
 import { UserEntity } from '../../user/entity/user.entity';
+import { BoardEntity } from '../../boards/entity/board.entity';
+import { ProjectEntity } from '../../projects/entity/project.entity';
 
 export class CreateIssueDTO {
   @ApiProperty({ required: true })
@@ -34,11 +36,7 @@ export class CreateIssueDTO {
 
   @ApiProperty({ required: true })
   @IsNotEmpty()
-  projectName: string;
-
-  @ApiProperty({ required: true })
-  @IsNotEmpty()
-  projectKey: string;
+  project: ProjectEntity;
 
   @ApiProperty({ required: true })
   @IsNotEmpty()
@@ -49,7 +47,6 @@ export class CreateIssueDTO {
   assigned: UserEntity;
 
   @ApiProperty({ required: true })
-  @IsNumber()
   @IsNotEmpty()
-  columnID: number;
+  board: BoardEntity;
 }

@@ -1,6 +1,8 @@
 import { BaseModel } from 'src/models/common/base.model';
 import { CommentModel } from 'src/models/project/comment.model';
 import { UserModel } from 'src/models/user/user.model';
+import { BoardModel } from 'src/models/project/board.model';
+import { ProjectModel } from 'src/models/project/project.model';
 
 export interface IssueModel extends BaseModel {
   name: string;
@@ -40,11 +42,10 @@ export interface IssueDTO {
   environment?: string;
   attachments?: string;
 
-  projectKey: string;
-  boardKey: string;
+  project: ProjectModel;
+  board: BoardModel;
 
   priority: IssuePriorityEnum;
   author: UserModel;
   assigned: UserModel;
-  columnID: number;
 }
