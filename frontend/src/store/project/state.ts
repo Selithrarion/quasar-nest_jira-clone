@@ -5,9 +5,9 @@ import { IssueModel } from 'src/models/project/issue.model';
 export interface ProjectStateInterface {
   projects?: ProjectModel[] | null;
 
-  projectDetail?: ProjectModel | null;
-  boardDetail?: BoardModel | null;
-  issueDetail?: IssueModel | null;
+  projectDetail: ProjectModel | null;
+  boardDetail: BoardModel | null;
+  issueDetail: IssueModel | null;
 
   availableIssueTypes: IssuePropertyItem[];
   availableIssuePriorities: IssuePropertyItem[];
