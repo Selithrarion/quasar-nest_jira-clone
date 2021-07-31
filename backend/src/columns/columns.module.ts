@@ -3,20 +3,12 @@ import { TypeOrmModule } from '@nestjs/typeorm';
 
 import { ColumnsService } from './columns.service';
 import { ColumnsController } from './columns.controller';
+import { ColumnEntity } from './entity/column.entity';
 
 import { BoardsModule } from '../boards/boards.module';
 
-import { ColumnEntity } from './entity/column.entity';
-import { BoardEntity } from '../boards/entity/board.entity';
-import { CommentEntity } from './entity/comment.entity';
-import { IssueEntity } from '../issues/entity/issue.entity';
-import { UserEntity } from '../user/entity/user.entity';
-
 @Module({
-  imports: [
-    TypeOrmModule.forFeature([ColumnEntity, BoardEntity, CommentEntity, IssueEntity, UserEntity]),
-    forwardRef(() => BoardsModule),
-  ],
+  imports: [TypeOrmModule.forFeature([ColumnEntity]), forwardRef(() => BoardsModule)],
   exports: [ColumnsService],
   controllers: [ColumnsController],
   providers: [ColumnsService],
