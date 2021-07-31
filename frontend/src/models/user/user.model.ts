@@ -13,3 +13,13 @@ export interface UserModel extends BaseModel {
   projectsIDs: number[];
   favoriteProjectsIDs: number[];
 }
+
+export interface LoginDTO {
+  email: string;
+  password: string
+}
+export interface RegisterDTO {
+  name: string;
+  password: string
+  email: string
+}
