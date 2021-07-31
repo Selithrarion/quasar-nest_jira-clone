@@ -8,8 +8,17 @@
           <q-input
             v-if="authTypes[type].fields.includes('name')"
             v-model="form.name"
-            label="Имя"
-            :rules="[rules.required]"
+            label="Отображаемое имя"
+            :rules="[rules.required, rules.max64]"
+            hide-bottom-space
+            lazy-rules
+            filled
+          />
+          <q-input
+            v-if="authTypes[type].fields.includes('username')"
+            v-model="form.username"
+            label="Имя пользователя"
+            :rules="[rules.required, rules.max24]"
             hide-bottom-space
             lazy-rules
             filled
@@ -30,6 +39,14 @@
             :rules="[rules.required]"
             hide-bottom-space
             lazy-rules
+            filled
+          />
+          <q-input
+            v-if="authTypes[type].fields.includes('passwordRepeat')"
+            v-model="form.passwordRepeat"
+            label="Подтвердите пароль"
+            :rules="[rules.required, equalPasswords]"
+            hide-bottom-space
             filled
           />
         </q-card-section>
@@ -96,7 +113,7 @@ export default defineComponent({
         action: login,
       },
       register: {
-        fields: ['name', 'email', 'password'],
+        fields: ['name', 'username', 'email', 'password', 'passwordRepeat'],
         buttons: ['login'],
         title: 'Создать новый аккаунт Jira',
         actionWord: 'Зарегистрироваться',
@@ -110,11 +127,16 @@ export default defineComponent({
         action: sendForgotPasswordEmail,
       },
     };
+    function equalPasswords(): boolean | string {
+      return form.passwordRepeat === form.password || 'Пароли не совпадают';
+    }
 
     const form = reactive({
       name: '',
+      username: '',
       email: '',
       password: '',
+      passwordRepeat: '',
     });
 
     async function login() {
@@ -150,6 +172,7 @@ export default defineComponent({
       authTypes,
       AuthTypeEnum,
       form,
+      equalPasswords,
 
       login,
       register,
