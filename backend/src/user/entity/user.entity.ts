@@ -8,8 +8,11 @@ import { ProjectEntity } from '../../projects/entity/project.entity';
 
 @Entity()
 export class UserEntity extends BaseEntity {
-  @Column({ unique: true })
+  @Column({ length: 64 })
   name: string;
+
+  @Column({ unique: true, length: 24 })
+  username: string;
 
   @Column({ unique: true })
   @IsEmail()

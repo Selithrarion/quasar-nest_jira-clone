@@ -19,6 +19,7 @@ export class ProjectsService {
   private mockUser: UserEntity = {
     id: 1,
     name: 'Mock',
+    username: 'mock123',
     password: 'password',
     email: 'mock@yande.xru',
     locale: 'ru',

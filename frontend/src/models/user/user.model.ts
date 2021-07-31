@@ -3,6 +3,7 @@ import { IssueModel } from 'src/models/project/issue.model';
 
 export interface UserModel extends BaseModel {
   name: string;
+  username: string;
   password: string;
   email: string;
   locale: string;
@@ -16,10 +17,11 @@ export interface UserModel extends BaseModel {
 
 export interface LoginDTO {
   email: string;
-  password: string
+  password: string;
 }
 export interface RegisterDTO {
   name: string;
-  password: string
-  email: string
+  username: string;
+  password: string;
+  email: string;
 }
