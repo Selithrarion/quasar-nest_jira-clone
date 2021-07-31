@@ -1,32 +1,30 @@
 <template>
   <div class="project-board-column bg-grey-2 flex-grow-1 full-height rounded-md">
-    <div class="text-caption text-uppercase text-weight-medium q-pa-sm">{{ columnName }}</div>
+    <div class="text-caption text-uppercase text-weight-medium q-pa-sm">
+      {{ selectedColumn.name }} {{ selectedColumnIssues.length }}
+    </div>
 
-    <div v-if="columnIssues.length" class="full-height">
+    <div class="full-height">
       <Draggable
-        v-model="columnIssues"
+        v-model="selectedColumnIssues"
         class="list-group"
         item-key="id"
-        tag="transition-group"
-        :component-data="{
-          tag: 'div',
-          type: 'transition-group',
-          name: isDrag ? null : 'flip-list',
-        }"
-        :class="{ 'list-group--drag': isDrag }"
+        :class="computedDraggableClasses"
         v-bind="dragOptions"
-        @start="isDrag = true"
-        @end="isDrag = false"
+        @start="handleDragStart"
+        @end="handleDragEnd"
       >
         <template #item="{ element }">
           <q-card class="list-group-item" @click="openIssue(element.id)">
             <q-card-section class="q-px-sm q-pt-sm q-pb-none">
-              <span> {{ element.name }} </span>
-              <BaseTooltip v-if="!isDrag" :label="element.name" />
+              <span>
+                {{ element.name }}
+                <BaseTooltip v-if="!isDrag" :label="element.name" />
+              </span>
             </q-card-section>
             <q-card-section class="flex-center-between q-pa-sm">
               <div>
-                <ProjectBoardIconIssueType type="bug" />
+                <ProjectBoardIconIssueType :type="element.type" />
               </div>
 
               <div class="row gap-2">
@@ -35,10 +33,10 @@
                   <BaseTooltip :label="element.key" />
                 </span>
 
-                <q-avatar size="24px">
+                <q-avatar v-if="element.assigned" size="24px">
                   <img
-                    src="https://secure.gravatar.com/avatar/d1cb0ee26c499154d46f1ab7b61cf44f?d=https%3A%2F%2Favatar-management--avatars.us-west-2.prod.public.atl-paas.net%2Fdefault-avatar-1.png"
-                    alt="User Avatar"
+                    :src="element.avatarURL || require('src/assets/img/default-avatar-1.png')"
+                    :alt="`${element.assigned.name} Avatar`"
                   />
                   <BaseTooltip :label="`Исполнитель: ${element.assigned.name}`" />
                 </q-avatar>
@@ -52,7 +50,8 @@
 </template>
 
 <script lang="ts">
-import { defineComponent, reactive, ref, PropType } from 'vue';
+import { defineComponent, ref, computed } from 'vue';
+import { useStore } from 'src/store';
 
 import Draggable from 'vuedraggable';
 import BaseTooltip from 'components/base/BaseTooltip.vue';
@@ -71,12 +70,8 @@ export default defineComponent({
   },
 
   props: {
-    columnName: {
-      type: String,
-      required: true,
-    },
-    columnIssues: {
-      type: Object as PropType<IssueModel[]>,
+    columnIndex: {
+      type: Number,
       required: true,
     },
   },
@@ -84,23 +79,60 @@ export default defineComponent({
   emits: ['open'],
 
   setup(props, { emit }) {
+    const store = useStore();
+
     function openIssue(issueID: number) {
       emit('open', issueID);
     }
 
     const isDrag = ref(false);
+    function handleDragStart() {
+      isDrag.value = true;
+      store.commit('project/SET_ISSUE_DRAGGING_STATUS', true);
+    }
+    function handleDragEnd() {
+      isDrag.value = false;
+      store.commit('project/SET_ISSUE_DRAGGING_STATUS', false);
+    }
+
     const dragOptions = {
       animation: 200,
-      group: 'description',
+      group: 'issues',
       disabled: false,
       ghostClass: 'ghost',
     };
+    const globalIssueDraggingStatus = computed(() => store.state.project.isIssueDragging);
+    const computedDraggableClasses = computed(() => {
+      const classes = [];
+
+      if (isDrag.value) classes.push('list-group--drag');
+      if (isDrag.value !== globalIssueDraggingStatus.value) classes.push('list-group--can-drop-item');
+
+      return classes;
+    });
+
+    const selectedColumn = computed(() => store.state.project.boardDetail?.columns?.[props.columnIndex]);
+    const selectedColumnIssues = computed({
+      get(): IssueModel[] | undefined {
+        return selectedColumn.value?.issues;
+      },
+      async set(issues: IssueModel[] | undefined) {
+        const id = selectedColumn.value?.id;
+        if (id) await store.dispatch('project/updateColumn', { id, data: issues });
+      },
+    });
 
     return {
       openIssue,
 
       isDrag,
+      handleDragStart,
+      handleDragEnd,
       dragOptions,
+      computedDraggableClasses,
+
+      selectedColumn,
+      selectedColumnIssues,
     };
   },
 });
@@ -113,9 +145,6 @@ export default defineComponent({
 .flip-list-move {
   transition: transform 0.5s;
 }
-.no-move {
-  transition: transform 0s;
-}
 .ghost {
   opacity: 0.5;
   background: #c8e3fb;
@@ -123,16 +152,21 @@ export default defineComponent({
 .list-group {
   display: flex;
   flex-flow: column;
-  padding: 0 4px 12px;
   gap: 4px;
+  padding: 0 4px 12px;
   height: calc(100% - 36px);
   border: 2px dashed transparent;
+  border-radius: 4px;
+  transition: border-color 200ms ease;
   &--drag {
     border-color: $blue-4;
-    border-radius: 4px;
+  }
+  &--can-drop-item {
+    border-color: $green-13;
   }
 }
 .list-group-item {
+  user-select: none;
   cursor: grab;
   transition: background-color 150ms ease-in;
   &:hover {

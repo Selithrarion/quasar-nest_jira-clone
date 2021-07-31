@@ -2,17 +2,16 @@
   <BaseLoader v-if="loading.active.value" page-margin />
 
   <div v-else>
-    <ProjectBoardColumnWrapper>
+    <ProjectBoardColumnWrapper v-if="isAnyIssues">
       <ProjectBoardColumn
-        v-for="column in boardColumns"
+        v-for="(column, index) in boardColumns"
         :key="column"
-        :column-name="column.name"
-        :column-issues="column.issues"
+        :column-index="index"
         @open="dialog.open('viewIssue')"
-      ></ProjectBoardColumn>
+      />
     </ProjectBoardColumnWrapper>
 
-    <div v-if="!isAnyIssues" class="no-active-issues__wrapper">
+    <div v-else class="no-active-issues__wrapper">
       <div class="no-active-issues__image q-mb-md" />
       <h6 class="no-margin">Нет видимых текущих задач</h6>
       <div class="flex-center gap-1">
@@ -22,12 +21,8 @@
       </div>
     </div>
 
-    <ProjectBoardDialogCreateIssue :show="dialog.openedName.value === 'createIssue'" @close="dialog.close" />
-    <ProjectBoardDialogViewIssue
-      v-if="dialog.openedName.value === 'viewIssue'"
-      :show="dialog.openedName.value === 'viewIssue'"
-      @close="dialog.close"
-    />
+    <ProjectBoardDialogCreateIssue v-if="dialog.openedName.value === 'createIssue'" @close="dialog.close" />
+    <ProjectBoardDialogViewIssue v-if="dialog.openedName.value === 'viewIssue'" @close="dialog.close" />
   </div>
 </template>
 
@@ -73,12 +68,11 @@ export default defineComponent({
 
     const boardColumns = computed(() => store.state.project.boardDetail?.columns);
     const isAnyIssues = computed(() => {
-      // let result = false;
+      let result = false;
       boardColumns.value?.forEach((c) => {
-        if (c.issues.length) return true;
+        if (c.issues.length) result = true;
       });
-      return false;
-      // return result;
+      return result;
     });
 
     return {
