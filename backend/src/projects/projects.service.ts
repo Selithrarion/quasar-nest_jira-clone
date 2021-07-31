@@ -26,8 +26,8 @@ export class ProjectsService {
     avatarURL: null,
     assignedIssues: [],
     watchingIssues: [],
-    projects: [],
-    favoriteProjects: [],
+    projectIDs: [],
+    favoriteProjectIDs: [],
     createdAt: new Date(),
     updatedAt: new Date(),
   };
@@ -36,7 +36,7 @@ export class ProjectsService {
     const allProjects = await this.projects.find({ order: { createdAt: 'DESC' } });
     const formattedProjects = allProjects.map((p) => ({
       ...p,
-      // favorite: this.mockUser.favoriteProjectsIDs.includes(p.id)
+      // favorite: this.mockUser.favoriteProjectIDs.includes(p.id)
     }));
     return formattedProjects;
   }

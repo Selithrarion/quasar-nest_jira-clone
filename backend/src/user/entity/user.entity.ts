@@ -41,13 +41,13 @@ export class UserEntity extends BaseEntity {
   @JoinTable()
   projects: ProjectEntity[];
 
-  // @RelationId((self: ProjectEntity) => self.projects)
-  // projectIDs: number[];
+  @RelationId((user: UserEntity) => user.projects)
+  projectIDs: number[];
 
   @ManyToMany(() => ProjectEntity)
   @JoinTable()
   favoriteProjects: ProjectEntity[];
-  //
-  // @RelationId((self: ProjectEntity) => self.favoriteProjects)
-  // favoriteProjectsIDs: number[];
+
+  @RelationId((user: UserEntity) => user.favoriteProjects)
+  favoriteProjectIDs: number[];
 }
