@@ -24,8 +24,7 @@ export class BoardsService {
   }
 
   async create(boardData: CreateBoardDTO): Promise<BoardEntity> {
-    const project = await this.projectsService.getByID(boardData.projectID);
-    const createdBoard = await this.boards.save({ ...boardData, project });
+    const createdBoard = await this.boards.save(boardData);
     await this.columnsService.createDefaultColumns(createdBoard);
     return createdBoard;
   }

@@ -7,3 +7,5 @@ export interface ColumnModel extends BaseModel {
   board: BoardModel;
   issues: IssueModel[];
 }
+
+export interface ColumnDTO extends ColumnModel {}

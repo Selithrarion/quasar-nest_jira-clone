@@ -30,7 +30,7 @@
       </template>
 
       <template #body-cell-leader="props">
-        <q-td :props="props">
+        <q-td v-if="props.row.leader" :props="props">
           <q-avatar
             class="q-mr-sm"
             size="md"
@@ -48,6 +48,7 @@
             flat
           />
         </q-td>
+        <q-td v-else> — </q-td>
       </template>
 
       <template #body-cell-actions="props">

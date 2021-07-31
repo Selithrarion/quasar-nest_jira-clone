@@ -236,7 +236,7 @@ export default defineComponent({
 
     const form = reactive({
       name: '',
-      projectID: props.project.id,
+      project: props.project,
     });
     async function createBoard() {
       try {

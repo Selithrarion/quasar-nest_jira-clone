@@ -3,7 +3,6 @@ import { BaseEntity } from '../../common/base.entity';
 import { BoardEntity } from '../../boards/entity/board.entity';
 import { UserEntity } from '../../user/entity/user.entity';
 import { AccessEnum } from '../../common/access.model';
-import { IssueEntity } from '../../issues/entity/issue.entity';
 
 export enum ProjectTemplateEnum {
   KANBAN = 1,
@@ -51,6 +50,10 @@ export class ProjectEntity extends BaseEntity {
   @JoinColumn({ name: 'leaderID' })
   leader: UserEntity;
 
-  @ManyToMany(() => UserEntity, (user) => user.projectsIDs)
+  @ManyToMany(() => UserEntity, (user) => user.projects, {
+    cascade: true,
+    onUpdate: 'CASCADE',
+    onDelete: 'CASCADE',
+  })
   users: UserEntity[];
 }

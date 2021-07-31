@@ -1,5 +1,6 @@
-import { IsNotEmpty, IsNumber, IsString, MaxLength } from 'class-validator';
+import { IsNotEmpty, IsString, MaxLength } from 'class-validator';
 import { ApiProperty } from '@nestjs/swagger';
+import { ProjectEntity } from '../../projects/entity/project.entity';
 
 export class CreateBoardDTO {
   @ApiProperty({ required: true })
@@ -9,7 +10,6 @@ export class CreateBoardDTO {
   name: string;
 
   @ApiProperty({ required: true })
-  @IsNumber()
   @IsNotEmpty()
-  projectID: number
+  project: ProjectEntity;
 }

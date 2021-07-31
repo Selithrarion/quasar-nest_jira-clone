@@ -1,4 +1,4 @@
-import { IsString, MaxLength } from 'class-validator';
+import { IsString } from 'class-validator';
 import { ApiProperty, PartialType } from '@nestjs/swagger';
 
 import { BoardEntity } from '../../boards/entity/board.entity';

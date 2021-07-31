@@ -1,4 +1,4 @@
-import { Column, Entity, JoinTable, ManyToMany, OneToMany } from 'typeorm';
+import { Column, Entity, JoinTable, ManyToMany, OneToMany, RelationId } from 'typeorm';
 import { IsEmail } from 'class-validator';
 import { Exclude } from 'class-transformer';
 
@@ -39,9 +39,15 @@ export class UserEntity extends BaseEntity {
     onDelete: 'CASCADE',
   })
   @JoinTable()
-  projectsIDs: number[];
+  projects: ProjectEntity[];
+
+  // @RelationId((self: ProjectEntity) => self.projects)
+  // projectIDs: number[];
 
   @ManyToMany(() => ProjectEntity)
   @JoinTable()
-  favoriteProjectsIDs: number[];
+  favoriteProjects: ProjectEntity[];
+  //
+  // @RelationId((self: ProjectEntity) => self.favoriteProjects)
+  // favoriteProjectsIDs: number[];
 }

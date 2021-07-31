@@ -37,7 +37,7 @@
           filled
         />
         <q-select
-          v-model="form.type"
+          v-model="form.typeID"
           style="max-width: 250px"
           label="Тип задачи"
           option-label="name"
@@ -70,7 +70,7 @@
         <q-separator />
 
         <q-select
-          v-model="form.priority"
+          v-model="form.priorityID"
           style="max-width: 250px"
           label="Приоритет"
           option-label="name"
@@ -173,8 +173,8 @@ export default defineComponent({
 
     const form = reactive({
       project: currentProject.value,
-      type: IssueTypeEnum['BUG'],
-      priority: IssuePriorityEnum['MEDIUM'],
+      typeID: IssueTypeEnum['BUG'],
+      priorityID: IssuePriorityEnum['MEDIUM'],
       name: '',
       description: '',
       assigned: null as UserModel | null,

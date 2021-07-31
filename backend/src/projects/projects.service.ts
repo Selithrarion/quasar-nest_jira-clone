@@ -26,8 +26,8 @@ export class ProjectsService {
     avatarURL: null,
     assignedIssues: [],
     watchingIssues: [],
-    projectsIDs: [],
-    favoriteProjectsIDs: [1, 7, 8, 12, 15],
+    projects: [],
+    favoriteProjects: [],
     createdAt: new Date(),
     updatedAt: new Date(),
   };
@@ -36,23 +36,29 @@ export class ProjectsService {
     const allProjects = await this.projects.find({ order: { createdAt: 'DESC' } });
     const formattedProjects = allProjects.map((p) => ({
       ...p,
-      favorite: this.mockUser.favoriteProjectsIDs.includes(p.id),
+      // favorite: this.mockUser.favoriteProjectsIDs.includes(p.id)
     }));
     return formattedProjects;
   }
 
   async getByID(id: number): Promise<ProjectEntity> {
-    return await this.projects.findOneOrFail(id, { relations: ['users'] });
+    // return await this.projects.findOneOrFail(id, { relations: ['users'] });
+    const project = await this.projects.findOneOrFail(id);
+    const formattedMockProject = { ...project, leader: this.mockUser, users: [this.mockUser] };
+    console.log(formattedMockProject);
+    return formattedMockProject;
   }
 
   async create(projectData: CreateProjectDTO): Promise<ProjectEntity> {
-    const leader = this.mockUser;
-    const createdProject = await this.projects.save({ ...projectData, leader, users: [leader] });
-
+    // const leader = this.mockUser;
+    // const payload = { ...projectData, leader, users: [leader] };
+    const payload = { ...projectData };
+    const createdProject = await this.projects.save(payload);
+    // console.log(createdProject);
     const defaultBoard = {
       name: projectData.key + projectData.name,
       favorite: false,
-      projectID: createdProject.id,
+      project: createdProject,
     };
 
     await this.boardsService.create(defaultBoard);

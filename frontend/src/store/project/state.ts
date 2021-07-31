@@ -9,6 +9,8 @@ export interface ProjectStateInterface {
   boardDetail: BoardModel | null;
   issueDetail: IssueModel | null;
 
+  isIssueDragging: boolean;
+
   availableIssueTypes: IssuePropertyItem[];
   availableIssuePriorities: IssuePropertyItem[];
 }
@@ -27,6 +29,8 @@ function state(): ProjectStateInterface {
     projectDetail: null,
     boardDetail: null,
     issueDetail: null,
+
+    isIssueDragging: false,
 
     availableIssueTypes: [
       {

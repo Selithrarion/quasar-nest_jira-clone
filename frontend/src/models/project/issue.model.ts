@@ -14,8 +14,8 @@ export interface IssueModel extends BaseModel {
   watchers: UserModel[];
   comments: CommentModel[];
 
-  type: IssueTypeEnum;
-  priority: IssuePriorityEnum;
+  typeID: IssueTypeEnum;
+  priorityID: IssuePriorityEnum;
   author: UserModel;
   assigned: UserModel;
   columnID: number;
@@ -45,7 +45,8 @@ export interface IssueDTO {
   project: ProjectModel;
   board: BoardModel;
 
-  priority: IssuePriorityEnum;
+  priorityID: IssuePriorityEnum;
+  typeID: IssueTypeEnum;
   author: UserModel;
   assigned: UserModel;
 }

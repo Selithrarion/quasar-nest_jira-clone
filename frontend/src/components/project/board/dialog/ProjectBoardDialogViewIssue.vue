@@ -119,7 +119,7 @@
           <div>
             <q-select
               v-model="selectedColumn"
-              class="q-mb-md w-fit"
+              class="q-mb-md w-fit-content"
               :options="availableColumns"
               option-label="name"
               option-value="id"
@@ -208,13 +208,6 @@ export default defineComponent({
     BaseButtonCloseIcon,
     ProjectBoardIconIssueType,
     ProjectBoardIconPriorityType,
-  },
-
-  props: {
-    show: {
-      type: Boolean,
-      required: true,
-    },
   },
 
   emits: ['close'],

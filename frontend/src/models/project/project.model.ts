@@ -27,7 +27,7 @@ export interface ProjectModel extends BaseModel {
   boards: BoardModel[];
 
   leader: UserModel;
-  users: UserModel[]
+  users: UserModel[];
 }
 
 export interface ProjectDTO {
@@ -38,5 +38,5 @@ export interface ProjectDTO {
   typeID: number;
   boards: BoardModel;
   avatarURL: string;
-  leaderID: number;
+  leader: UserModel;
 }
