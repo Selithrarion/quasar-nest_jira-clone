@@ -1,5 +1,5 @@
 <template>
-  <q-card class="project-card flex-grow-1 hover-shadow-sm" flat bordered>
+  <q-card class="project-card hover-shadow-sm" flat bordered>
     <q-avatar class="project-card__avatar" />
 
     <q-card-section>
