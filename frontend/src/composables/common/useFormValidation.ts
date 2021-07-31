@@ -4,10 +4,12 @@ interface RulesInterface {
   email: (v: FormValueInterface) => ValidationResultInterface;
 
   min10: (v: FormValueInterface) => ValidationResultInterface;
-  max10: (v: FormValueInterface) => ValidationResultInterface;
-
   min40: (v: FormValueInterface) => ValidationResultInterface;
+
+  max10: (v: FormValueInterface) => ValidationResultInterface;
+  max24: (v: FormValueInterface) => ValidationResultInterface;
   max40: (v: FormValueInterface) => ValidationResultInterface;
+  max64: (v: FormValueInterface) => ValidationResultInterface;
 }
 
 type FormValueInterface = string | number;
@@ -26,15 +28,21 @@ export default function useFormValidation(): RulesInterface {
   function min10(v: FormValueInterface): ValidationResultInterface {
     return String(v).length >= 10 || 'Минимум 10 символов';
   }
-  function max10(v: FormValueInterface): ValidationResultInterface {
-    return String(v).length <= 10 || 'Максимум 10 символов';
-  }
-
   function min40(v: FormValueInterface): ValidationResultInterface {
     return String(v).length >= 40 || 'Минимум 40 символов';
   }
+
+  function max10(v: FormValueInterface): ValidationResultInterface {
+    return String(v).length <= 10 || 'Максимум 10 символов';
+  }
+  function max24(v: FormValueInterface): ValidationResultInterface {
+    return String(v).length <= 24 || 'Максимум 10 символов';
+  }
   function max40(v: FormValueInterface): ValidationResultInterface {
     return String(v).length <= 40 || 'Максимум 40 символов';
+  }
+  function max64(v: FormValueInterface): ValidationResultInterface {
+    return String(v).length <= 64 || 'Максимум 40 символов';
   }
 
   return {
@@ -43,9 +51,11 @@ export default function useFormValidation(): RulesInterface {
     email,
 
     min10,
-    max10,
-
     min40,
+
+    max10,
+    max24,
     max40,
+    max64,
   };
 }
