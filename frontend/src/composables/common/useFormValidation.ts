@@ -1,32 +1,42 @@
-type FormValue = string | number;
-type RuleValue = boolean | string;
-
 interface RulesInterface {
-  required: (v: FormValue) => RuleValue;
-  min10: (v: FormValue) => RuleValue;
-  max10: (v: FormValue) => RuleValue;
-  min40: (v: FormValue) => RuleValue;
-  max40: (v: FormValue) => RuleValue;
+  required: (v: FormValueInterface) => ValidationResultInterface;
+
+  min10: (v: FormValueInterface) => ValidationResultInterface;
+  max10: (v: FormValueInterface) => ValidationResultInterface;
+
+  min40: (v: FormValueInterface) => ValidationResultInterface;
+  max40: (v: FormValueInterface) => ValidationResultInterface;
 }
 
+type FormValueInterface = string | number;
+type ValidationResultInterface = boolean | string;
+
 export default function useFormValidation(): RulesInterface {
-  function required(v: FormValue): RuleValue {
+  function required(v: FormValueInterface): ValidationResultInterface {
     return !!v || 'Обязательное поле';
   }
 
-  function min10(v: FormValue): RuleValue {
+  function min10(v: FormValueInterface): ValidationResultInterface {
     return String(v).length >= 10 || 'Минимум 10 символов';
   }
-  function max10(v: FormValue): RuleValue {
+  function max10(v: FormValueInterface): ValidationResultInterface {
     return String(v).length <= 10 || 'Максимум 10 символов';
   }
 
-  function min40(v: FormValue): RuleValue {
+  function min40(v: FormValueInterface): ValidationResultInterface {
     return String(v).length >= 40 || 'Минимум 40 символов';
   }
-  function max40(v: FormValue): RuleValue {
+  function max40(v: FormValueInterface): ValidationResultInterface {
     return String(v).length <= 40 || 'Максимум 40 символов';
   }
 
-  return { required, min10, max10, min40, max40 };
+  return {
+    required,
+
+    min10,
+    max10,
+
+    min40,
+    max40,
+  };
 }
