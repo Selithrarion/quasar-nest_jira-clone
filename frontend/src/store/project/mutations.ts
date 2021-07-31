@@ -3,6 +3,7 @@ import { ProjectStateInterface } from './state';
 import { ProjectModel } from 'src/models/project/project.model';
 import { BoardModel } from 'src/models/project/board.model';
 import { IssueModel } from 'src/models/project/issue.model';
+import { ColumnModel } from 'src/models/project/column.model';
 
 const mutation: MutationTree<ProjectStateInterface> = {
   SET_PROJECTS(state, projects: ProjectModel[]) {
@@ -77,6 +78,16 @@ const mutation: MutationTree<ProjectStateInterface> = {
     if (!column) return;
     const issueIndex = column.issues.findIndex((i) => i.id === issue.id);
     if (issueIndex) column.issues.splice(issueIndex, 1);
+  },
+  SET_ISSUE_DRAGGING_STATUS(state: ProjectStateInterface, status: boolean) {
+    state.isIssueDragging = status;
+  },
+
+  UPDATE_COLUMN(state: ProjectStateInterface, payload: ColumnModel) {
+    if (!state.boardDetail) return;
+    const columns = state.boardDetail.columns;
+    const columnIndex = columns.findIndex((c) => c.id === payload.id);
+    if (columnIndex !== -1) state.boardDetail.columns[columnIndex] = payload;
   },
 };
 

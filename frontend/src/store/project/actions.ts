@@ -4,6 +4,7 @@ import { ProjectStateInterface } from './state';
 import projectService from 'src/service/projectService';
 import boardService from 'src/service/boardService';
 import issueService from 'src/service/issueService';
+import columnService from 'src/service/columnService';
 
 const actions: ActionTree<ProjectStateInterface, StateInterface> = {
   async getAll({ commit }) {
@@ -69,6 +70,11 @@ const actions: ActionTree<ProjectStateInterface, StateInterface> = {
   async deleteIssue({ commit }, issueID) {
     await issueService.delete(issueID);
     commit('DELETE_ISSUE', issueID);
+  },
+
+  async updateColumn({ commit }, { id, payload }) {
+    const data = await columnService.update(id, payload);
+    commit('UPDATE_COLUMN', data);
   },
 };
 
