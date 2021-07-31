@@ -12,11 +12,11 @@ export class UserService {
   ) {}
 
   async getByEmail(email: string): Promise<UserEntity> {
-    return await this.users.findOneOrFail({ where: { email } });
+    return await this.users.findOne({ where: { email } });
   }
 
   async getById(id: number): Promise<UserEntity> {
-    return await this.users.findOneOrFail(id);
+    return await this.users.findOne(id);
   }
 
   async create(userData: CreateUserDTO): Promise<UserEntity> {
