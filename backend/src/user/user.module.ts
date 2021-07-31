@@ -9,6 +9,7 @@ import { IssueEntity } from '../issues/entity/issue.entity';
 
 @Module({
   imports: [TypeOrmModule.forFeature([UserEntity, IssueEntity])],
+  exports: [UserService],
   providers: [UserService],
   controllers: [UserController],
 })

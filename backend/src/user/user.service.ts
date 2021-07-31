@@ -12,7 +12,7 @@ export class UserService {
   ) {}
 
   async getByEmail(email: string): Promise<UserEntity> {
-    return await this.users.findOneOrFail(email);
+    return await this.users.findOneOrFail({ where: { email } });
   }
 
   async getById(id: number): Promise<UserEntity> {
