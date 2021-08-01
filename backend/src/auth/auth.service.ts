@@ -1,16 +1,31 @@
-import { Injectable } from '@nestjs/common';
+import { HttpException, HttpStatus, Injectable, UnauthorizedException } from '@nestjs/common';
 import { UserService } from '../user/user.service';
+import { JwtService } from '@nestjs/jwt';
+import { UserEntity, UserTokenResponse, UserValidationInterface } from '../user/entity/user.entity';
 
 @Injectable()
 export class AuthService {
-  constructor(private readonly userService: UserService) {}
+  constructor(private readonly userService: UserService, private readonly jwtService: JwtService) {}
 
-  async validateUser(email: string, pass: string): Promise<any> {
+  async validateUser({ email, password }: UserValidationInterface): Promise<UserEntity> {
+    console.log('VALIDATE USER, AUTH SERVICE', email, password);
     const user = await this.userService.getByEmail(email);
-    if (user && user.password === pass) {
-      const { password, ...result } = user;
-      return result;
-    }
-    return null;
+    if (!user) throw new HttpException('USER_NOT_FOUND', HttpStatus.UNAUTHORIZED);
+
+    const isPasswordValid = await user.validatePassword(password);
+    console.log('AUTH SERVICE isPasswordValid', isPasswordValid);
+    if (isPasswordValid) return user;
+    else throw new HttpException('USER_INVALID_CREDENTIALS', HttpStatus.UNAUTHORIZED);
+  }
+
+  async login(payload: UserValidationInterface): Promise<{ user: UserEntity; accessToken: string }> {
+    const user = await this.validateUser(payload);
+    console.log('AUTH SERVICE, login', user);
+    const accessToken = await this.jwtService.sign({ email: user.email });
+    console.log(accessToken);
+    return {
+      user,
+      accessToken,
+    };
   }
 }
