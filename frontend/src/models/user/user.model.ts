@@ -15,13 +15,21 @@ export interface UserModel extends BaseModel {
   favoriteProjectsIDs: number[];
 }
 
-export interface LoginDTO {
+export interface UserLoginDTO {
   email: string;
   password: string;
 }
-export interface RegisterDTO {
+export interface UserRegisterDTO {
   name: string;
   username: string;
   password: string;
   email: string;
+}
+export interface UserAuthResponse {
+  user: UserModel;
+  token: string;
+}
+export interface UserUpdateTokenResponse {
+  accessToken: string;
+  refreshToken: string;
 }
