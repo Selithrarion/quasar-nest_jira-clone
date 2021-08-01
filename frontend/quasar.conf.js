@@ -85,7 +85,7 @@ module.exports = configure(function (ctx) {
       // directives: [],
 
       // Quasar plugins
-      plugins: ['Notify'],
+      plugins: ['Notify', 'Cookies'],
     },
 
     animations: ['fadeIn', 'fadeOut'],
