@@ -86,6 +86,8 @@
 <script lang="ts">
 import { defineComponent, ref, reactive } from 'vue';
 
+import { useStore } from 'src/store';
+import { useRouter } from 'vue-router';
 import useLoading from 'src/composables/common/useLoading';
 import useFormValidation from 'src/composables/common/useFormValidation';
 
@@ -100,10 +102,12 @@ export default defineComponent({
   name: 'AuthPage',
 
   setup() {
+    const store = useStore();
+    const router = useRouter();
     const loading = useLoading();
     const rules = useFormValidation();
 
-    const type = ref<AuthTypeEnum>(AuthTypeEnum.REGISTER);
+    const type = ref<AuthTypeEnum>(AuthTypeEnum.LOGIN);
     const authTypes = {
       login: {
         fields: ['email', 'password'],
@@ -134,8 +138,8 @@ export default defineComponent({
     const form = reactive({
       name: '',
       username: '',
-      email: '',
-      password: '',
+      email: 'TEST@TEST.TEST',
+      password: 'TEST',
       passwordRepeat: '',
     });
 
@@ -144,6 +148,10 @@ export default defineComponent({
         loading.start();
         const payload = { email: form.email, password: form.password };
         await userService.login(payload);
+        await openMainPage();
+      } catch (e) {
+        // TODO
+        console.error(e);
       } finally {
         loading.stop();
       }
@@ -151,7 +159,12 @@ export default defineComponent({
     async function register() {
       try {
         loading.start();
-        await userService.register(form);
+        const payload = { name: form.name, username: form.username, email: form.email, password: form.password };
+        await store.dispatch('user/register', payload);
+        await openMainPage();
+      } catch (e) {
+        // TODO
+        console.error(e);
       } finally {
         loading.stop();
       }
@@ -163,6 +176,10 @@ export default defineComponent({
       } finally {
         loading.stop();
       }
+    }
+
+    async function openMainPage() {
+      await router.push('/');
     }
 
     return {
