@@ -1,31 +1,38 @@
-import { Column, Entity, JoinTable, ManyToMany, OneToMany, RelationId } from 'typeorm';
+import { BeforeInsert, Column, Entity, JoinTable, ManyToMany, OneToMany, RelationId } from 'typeorm';
+import * as bcrypt from 'bcrypt';
 import { IsEmail } from 'class-validator';
-import { Exclude } from 'class-transformer';
 
 import { BaseEntity } from '../../common/base.entity';
 import { IssueEntity } from '../../issues/entity/issue.entity';
 import { ProjectEntity } from '../../projects/entity/project.entity';
+
+export interface UserValidationInterface {
+  readonly email: string;
+  readonly password: string;
+}
+export interface UserTokenResponse {
+  accessToken: string;
+}
 
 @Entity()
 export class UserEntity extends BaseEntity {
   @Column({ length: 64 })
   name: string;
 
-  @Column({ unique: true, length: 24 })
+  @Column({ length: 24, unique: true })
   username: string;
 
   @Column({ unique: true })
   @IsEmail()
   email: string;
 
-  @Column()
-  @Exclude()
+  @Column({ length: 128 })
   password: string;
 
-  @Column()
+  @Column({ nullable: true })
   locale: string;
 
-  @Column()
+  @Column({ default: true })
   isActive: boolean;
 
   @Column({ nullable: true })
@@ -53,4 +60,12 @@ export class UserEntity extends BaseEntity {
 
   @RelationId((user: UserEntity) => user.favoriteProjects)
   favoriteProjectIDs: number[];
+
+  @BeforeInsert()
+  async hashPassword(): Promise<void> {
+    this.password = await bcrypt.hash(this.password, 10);
+  }
+  async validatePassword(password: string): Promise<boolean> {
+    return bcrypt.compare(password, this.password);
+  }
 }
