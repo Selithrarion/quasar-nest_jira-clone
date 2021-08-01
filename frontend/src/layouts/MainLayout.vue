@@ -45,7 +45,10 @@
           <q-btn icon="notifications" unelevated dense round />
           <q-btn icon="help" unelevated dense round />
           <q-btn icon="settings" unelevated dense round />
-          <q-avatar size="24px" color="orange">J</q-avatar>
+          <q-avatar v-if="currentUserAvatarURL" size="24px">
+            <img :src="currentUserAvatarURL" alt="Profile Avatar" />
+          </q-avatar>
+          <q-avatar v-else size="24px" color="orange">{{ currentUserInitials }}</q-avatar>
         </div>
       </q-toolbar>
     </q-header>
@@ -60,6 +63,7 @@
 
 <script lang="ts">
 import { defineComponent, ref, reactive, computed } from 'vue';
+import { useStore } from 'src/store';
 import { useRoute } from 'vue-router';
 import useDialog from 'src/composables/common/useDialog';
 
@@ -75,6 +79,7 @@ export default defineComponent({
   },
 
   setup() {
+    const store = useStore();
     const route = useRoute();
     const dialog = useDialog();
 
@@ -120,6 +125,9 @@ export default defineComponent({
 
     const isShowCreateIssueButton = computed(() => route.path.includes('/projects/'));
 
+    const currentUserInitials = computed(() => store.state.user.currentUser?.name?.[0]);
+    const currentUserAvatarURL = computed(() => store.state.user.currentUser?.avatarURL);
+
     return {
       dialog,
 
@@ -130,6 +138,9 @@ export default defineComponent({
       selectedTab,
 
       isShowCreateIssueButton,
+
+      currentUserInitials,
+      currentUserAvatarURL,
     };
   },
 });
