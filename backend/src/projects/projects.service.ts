@@ -16,25 +16,6 @@ export class ProjectsService {
     private readonly boardsService: BoardsService
   ) {}
 
-  private mockUser: UserEntity = {
-    id: 1,
-    name: 'Mock',
-    username: 'mock123',
-    password: 'password',
-    email: 'mock@yande.xru',
-    locale: 'ru',
-    isActive: true,
-    avatarURL: null,
-    assignedIssues: [],
-    watchingIssues: [],
-    projects: [],
-    projectIDs: [],
-    favoriteProjects: [],
-    favoriteProjectIDs: [],
-    createdAt: new Date(),
-    updatedAt: new Date(),
-  };
-
   async getAll(query): Promise<ProjectEntity[]> {
     const allProjects = await this.projects.find({ order: { createdAt: 'DESC' } });
     const formattedProjects = allProjects.map((p) => ({
@@ -47,9 +28,7 @@ export class ProjectsService {
   async getByID(id: number): Promise<ProjectEntity> {
     // return await this.projects.findOneOrFail(id, { relations: ['users'] });
     const project = await this.projects.findOneOrFail(id);
-    const formattedMockProject = { ...project, leader: this.mockUser, users: [this.mockUser] };
-    console.log(formattedMockProject);
-    return formattedMockProject;
+    return project;
   }
 
   async create(projectData: CreateProjectDTO): Promise<ProjectEntity> {
