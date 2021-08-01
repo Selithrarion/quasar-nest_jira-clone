@@ -5,8 +5,13 @@ export class CreateUserDTO {
   @ApiProperty({ required: true })
   @IsString()
   @IsNotEmpty()
-  @MaxLength(24)
+  @MaxLength(64)
   name: string;
+
+  @ApiProperty({ required: true })
+  @IsNotEmpty()
+  @MaxLength(24)
+  username: string;
 
   @ApiProperty({ required: true })
   @IsString()
@@ -15,7 +20,6 @@ export class CreateUserDTO {
   email: string;
 
   @ApiProperty({ required: true })
-  @IsString()
   @IsNotEmpty()
   password: string;
 }
