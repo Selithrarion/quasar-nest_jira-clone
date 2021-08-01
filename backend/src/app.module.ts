@@ -1,4 +1,5 @@
 import { Module } from '@nestjs/common';
+import { ConfigModule } from '@nestjs/config';
 import { TypeOrmModule } from '@nestjs/typeorm';
 
 import { ProjectsModule } from './projects/projects.module';
@@ -9,7 +10,27 @@ import { IssuesModule } from './issues/issues.module';
 import { AuthModule } from './auth/auth.module';
 
 @Module({
-  imports: [TypeOrmModule.forRoot(), ProjectsModule, UserModule, BoardsModule, ColumnsModule, IssuesModule, AuthModule],
+  imports: [
+    ConfigModule.forRoot({
+      isGlobal: true,
+    }),
+    TypeOrmModule.forRoot({
+      type: 'postgres',
+      host: process.env.POSTGRES_HOST,
+      port: Number(process.env.POSTGRES_PORT),
+      username: process.env.POSTGRES_USER,
+      password: process.env.POSTGRES_PASSWORD,
+      database: process.env.POSTGRES_DATABASE,
+      entities: ['dist/**/entity/*.entity{.ts,.js}'],
+      synchronize: true,
+    }),
+    ProjectsModule,
+    UserModule,
+    BoardsModule,
+    ColumnsModule,
+    IssuesModule,
+    AuthModule,
+  ],
   controllers: [],
   providers: [],
 })
