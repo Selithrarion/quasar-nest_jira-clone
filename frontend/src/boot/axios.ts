@@ -1,6 +1,5 @@
 import axios, { AxiosError, AxiosInstance, AxiosRequestConfig, AxiosResponse } from 'axios';
-import { Cookies } from 'quasar';
-import userService from 'src/service/userService';
+// import userService from 'src/service/userService';
 import userState from 'src/store/user/state';
 
 declare module '@vue/runtime-core' {
@@ -10,7 +9,7 @@ declare module '@vue/runtime-core' {
 }
 
 interface AxiosRequestConfigWithRetryField extends AxiosRequestConfig {
-  _retry: boolean;
+  _isRetry: boolean;
 }
 
 // Be careful when using SSR for cross-request state pollution
@@ -32,7 +31,7 @@ http.interceptors.request.use(
   (config: AxiosRequestConfig) => {
     const token = getUserAccessToken();
     // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access
-    if (token) config.headers['Authorization'] = `Bearer ${token}`;
+    if (token) http.defaults.headers['Authorization'] = `Bearer ${token}`;
 
     return config;
   },
@@ -49,20 +48,21 @@ http.interceptors.response.use(
   },
   async (error: AxiosError) => {
     console.log('error', error);
+    // TODO: add BaseSnackbar and snackbar store
     // store.dispatch('showSnackbar', { error: error.response.data });
     const originalRequest = error.config as AxiosRequestConfigWithRetryField;
 
     const isAuthError = error.response?.status === 403;
-    const isNotRetry = !originalRequest._retry;
+    const isNotRetry = !originalRequest._isRetry;
 
     if (isAuthError && isNotRetry) {
-      originalRequest._retry = true;
+      originalRequest._isRetry = true;
       // const { accessToken, refreshToken } = await userService.updateTokens();
       // console.log(accessToken, refreshToken);
       // Cookies.set('authToken', accessToken);
       // Cookies.set('authRefreshToken', refreshToken);
       // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access
-      // http.defaults.headers.common['Authorization'] = `Bearer ${accessToken}`;
+      http.defaults.headers.common['Authorization'] = '';
       return http(originalRequest);
     }
 
