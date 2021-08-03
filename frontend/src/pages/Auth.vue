@@ -97,7 +97,8 @@ enum AuthTypeEnum {
   REGISTER = 'register',
   FORGOT_PASSWORD = 'forgotPassword',
 }
-
+// TODO: add OAuth with github or google
+// TODO: add two-factor auth (?)
 export default defineComponent({
   name: 'AuthPage',
 
@@ -147,7 +148,7 @@ export default defineComponent({
       try {
         loading.start();
         const payload = { email: form.email, password: form.password };
-        await userService.login(payload);
+        await store.dispatch('user/login', payload);
         await openMainPage();
       } catch (e) {
         // TODO
