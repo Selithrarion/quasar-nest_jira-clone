@@ -1,11 +1,13 @@
-import { Body, Controller, Delete, Get, Param, Patch, Post, Query } from '@nestjs/common';
+import { Body, Controller, Delete, Get, Param, Patch, Post, Query, Request, UseGuards } from '@nestjs/common';
 import { ApiBearerAuth, ApiOperation, ApiResponse, ApiTags } from '@nestjs/swagger';
 import { ProjectEntity } from './entity/project.entity';
 import { CreateProjectDTO, UpdateProjectDTO } from './dto';
 import { ProjectsService } from './projects.service';
+import { JwtAuthGuard } from '../auth/guard/jwt-auth.guard';
 
 @ApiBearerAuth()
 @ApiTags('projects')
+@UseGuards(JwtAuthGuard)
 @Controller('projects')
 export class ProjectsController {
   constructor(private readonly projectsService: ProjectsService) {}
@@ -13,8 +15,9 @@ export class ProjectsController {
   @ApiOperation({ summary: 'Get all projects' })
   @ApiResponse({ status: 200, description: 'Return all projects' })
   @Get()
-  async getAll(@Query() query): Promise<ProjectEntity[]> {
-    return await this.projectsService.getAll(query);
+  async getAll(@Query() query, @Request() req): Promise<ProjectEntity[]> {
+    console.log(req.user);
+    return await this.projectsService.getAll(query, req.user);
   }
 
   @ApiOperation({ summary: 'Get project by ID' })
@@ -28,8 +31,8 @@ export class ProjectsController {
   @ApiResponse({ status: 201, description: 'Project was created' })
   @ApiResponse({ status: 403, description: 'Forbidden' })
   @Post()
-  async create(@Body() projectData: CreateProjectDTO): Promise<ProjectEntity> {
-    return await this.projectsService.create(projectData);
+  async create(@Body() projectData: CreateProjectDTO, @Request() req): Promise<ProjectEntity> {
+    return await this.projectsService.create(projectData, req.user);
   }
 
   @ApiOperation({ summary: 'Update project' })
@@ -52,7 +55,7 @@ export class ProjectsController {
   @ApiResponse({ status: 200, description: 'Project favorite was toggled' })
   @ApiResponse({ status: 403, description: 'Forbidden' })
   @Post('favorite/:id')
-  async toggleFavorite(@Param('id') id: number): Promise<void> {
-    return await this.projectsService.toggleFavorite(id);
+  async toggleFavorite(@Param('id') id: number, @Request() req): Promise<void> {
+    return await this.projectsService.toggleFavorite(id, req.user);
   }
 }

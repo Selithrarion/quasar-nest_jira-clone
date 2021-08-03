@@ -5,6 +5,7 @@ import { Repository } from 'typeorm';
 import { CreateProjectDTO, UpdateProjectDTO } from './dto';
 import { UserEntity } from '../user/entity/user.entity';
 import { BoardsService } from '../boards/boards.service';
+import { UserService } from '../user/user.service';
 
 @Injectable()
 export class ProjectsService {
@@ -13,30 +14,29 @@ export class ProjectsService {
     private projects: Repository<ProjectEntity>,
 
     @Inject(forwardRef(() => BoardsService))
-    private readonly boardsService: BoardsService
+    private readonly boardsService: BoardsService,
+
+    @Inject(UserService)
+    private readonly userService: UserService
   ) {}
 
-  async getAll(query): Promise<ProjectEntity[]> {
+  async getAll(query, user: UserEntity): Promise<ProjectEntity[]> {
     const allProjects = await this.projects.find({ order: { createdAt: 'DESC' } });
     const formattedProjects = allProjects.map((p) => ({
       ...p,
-      // favorite: this.mockUser.favoriteProjectIDs.includes(p.id)
+      favorite: user.favoriteProjectIDs.includes(p.id),
     }));
     return formattedProjects;
   }
 
   async getByID(id: number): Promise<ProjectEntity> {
-    // return await this.projects.findOneOrFail(id, { relations: ['users'] });
-    const project = await this.projects.findOneOrFail(id);
-    return project;
+    return await this.projects.findOneOrFail(id, { relations: ['users'] });
   }
 
-  async create(projectData: CreateProjectDTO): Promise<ProjectEntity> {
-    // const leader = this.mockUser;
-    // const payload = { ...projectData, leader, users: [leader] };
-    const payload = { ...projectData };
+  async create(projectData: CreateProjectDTO, user: UserEntity): Promise<ProjectEntity> {
+    const payload = { ...projectData, leader: user, users: [user] };
     const createdProject = await this.projects.save(payload);
-    // console.log(createdProject);
+    console.log(createdProject);
     const defaultBoard = {
       name: projectData.key + projectData.name,
       favorite: false,
@@ -59,9 +59,8 @@ export class ProjectsService {
     await this.projects.delete(id);
   }
 
-  async toggleFavorite(id: number): Promise<void> {
-    // const user = this.mockUser
-    // const filteredFavorites = user.favoriteProjectsIDs.filter(p => p.id !== id)
-    // await this.users.update(id);
+  async toggleFavorite(id: number, user: UserEntity): Promise<void> {
+    const favoriteProjectIDs = user.favoriteProjectIDs.filter((id) => id !== id);
+    await this.userService.update(user.id, { favoriteProjectIDs });
   }
 }

@@ -7,12 +7,12 @@ import { UserEntity, UserValidationInterface } from '../../user/entity/user.enti
 @Injectable()
 export class LocalStrategy extends PassportStrategy(Strategy) {
   constructor(private authService: AuthService) {
-    super({ usernameField: 'email' });
+    super({ usernameField: 'email', passwordField: 'password' });
   }
 
-  async validate(payload: UserValidationInterface): Promise<UserEntity | UnauthorizedException> {
-    console.log('LOCAL STRATEGY', payload)
-    const user = await this.authService.validateUser(payload);
+  async validate(email: string, password: string): Promise<UserEntity | UnauthorizedException> {
+    console.log('LOCAL STRATEGY', email, password);
+    const user = await this.authService.validateUser({ email, password });
     if (!user) throw new UnauthorizedException();
     return user;
   }

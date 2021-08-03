@@ -18,11 +18,11 @@ export class AuthService {
     else throw new HttpException('USER_INVALID_CREDENTIALS', HttpStatus.UNAUTHORIZED);
   }
 
-  async login(payload: UserValidationInterface): Promise<{ user: UserEntity; accessToken: string }> {
-    const user = await this.validateUser(payload);
-    console.log('AUTH SERVICE, login', user);
+  async login(user: UserEntity): Promise<{ user: UserEntity; accessToken: string }> {
+    // const user = await this.validateUser(payload);
+    // console.log('AUTH SERVICE, login', user);
     const accessToken = await this.jwtService.sign({ email: user.email });
-    console.log(accessToken);
+    console.log(accessToken, user);
     return {
       user,
       accessToken,

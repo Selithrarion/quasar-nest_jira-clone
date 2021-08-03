@@ -44,7 +44,7 @@ export class IssuesService {
   async update(id: number, payload: UpdateIssueDTO): Promise<IssueEntity> {
     const toUpdate = await this.issues.findOneOrFail(id);
     const updated = { ...toUpdate, ...payload };
-    await this.issues.save(updated);
+    await this.issues.update(id, { ...payload });
     return updated;
   }
 
