@@ -135,57 +135,7 @@ export default defineComponent({
         align: 'right',
       },
     ]);
-    const filters: FilterInterface[] = reactive([
-      {
-        id: 1,
-        name: 'Jira Filter',
-        favorite: true,
-        favoriteCount: 123,
-        project: {
-          id: 1,
-          name: 'Jira project',
-          key: 'JP',
-          type: 'Software',
-          favorite: true,
-          avatarURLs: {
-            x16: 'https://png.pngtree.com/element_our/20190604/ourlarge/pngtree-gradient-square-border-illustration-image_1467225.jpg',
-            x24: 'https://png.pngtree.com/element_our/20190604/ourlarge/pngtree-gradient-square-border-illustration-image_1467225.jpg',
-            x32: 'https://png.pngtree.com/element_our/20190604/ourlarge/pngtree-gradient-square-border-illustration-image_1467225.jpg',
-            x48: 'https://png.pngtree.com/element_our/20190604/ourlarge/pngtree-gradient-square-border-illustration-image_1467225.jpg',
-          },
-          leader: {
-            id: 1,
-            name: 'Jira Jira',
-            avatarURLs: {
-              x16: 'https://thumbs.dreamstime.com/b/creative-illustration-default-avatar-profile-placeholder-isolated-background-art-design-grey-photo-blank-template-mockup-144849704.jpg',
-              x24: 'https://thumbs.dreamstime.com/b/creative-illustration-default-avatar-profile-placeholder-isolated-background-art-design-grey-photo-blank-template-mockup-144849704.jpg',
-              x32: 'https://thumbs.dreamstime.com/b/creative-illustration-default-avatar-profile-placeholder-isolated-background-art-design-grey-photo-blank-template-mockup-144849704.jpg',
-              x48: 'https://thumbs.dreamstime.com/b/creative-illustration-default-avatar-profile-placeholder-isolated-background-art-design-grey-photo-blank-template-mockup-144849704.jpg',
-            },
-            email: 'jirajiraemail@gmail.com',
-            locale: 'ru_RU',
-            isActive: true,
-          },
-        },
-        access: {
-          id: 1,
-          name: 'Для всех ролей',
-        },
-        leader: {
-          id: 1,
-          name: 'Jira Jira',
-          avatarURLs: {
-            x16: 'https://thumbs.dreamstime.com/b/creative-illustration-default-avatar-profile-placeholder-isolated-background-art-design-grey-photo-blank-template-mockup-144849704.jpg',
-            x24: 'https://thumbs.dreamstime.com/b/creative-illustration-default-avatar-profile-placeholder-isolated-background-art-design-grey-photo-blank-template-mockup-144849704.jpg',
-            x32: 'https://thumbs.dreamstime.com/b/creative-illustration-default-avatar-profile-placeholder-isolated-background-art-design-grey-photo-blank-template-mockup-144849704.jpg',
-            x48: 'https://thumbs.dreamstime.com/b/creative-illustration-default-avatar-profile-placeholder-isolated-background-art-design-grey-photo-blank-template-mockup-144849704.jpg',
-          },
-          email: 'jirajiraemail@gmail.com',
-          locale: 'ru_RU',
-          isActive: true,
-        },
-      },
-    ]);
+    const filters = reactive<FilterInterface[]>([]);
 
     function toggleFavorite(filterID: number) {
       const filter = filters.find((f) => f.id === filterID);

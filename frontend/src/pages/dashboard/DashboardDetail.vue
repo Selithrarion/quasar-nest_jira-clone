@@ -224,65 +224,7 @@ export default defineComponent({
 
     // const dashboardID = route.params.id;
     // await store.dispatch('dashboard/fetchDashboardDetail', dashboardID);
-    // const dashboard = computed((): DashboardInterface | null | undefined => store.state.dashboard.dashboardDetail);
-    const dashboard = reactive<DashboardModel>({
-      id: 1,
-      name: 'Jira dashboard',
-      favorite: true,
-      marksCount: 666,
-      project: {
-        id: 1,
-        name: 'Jira project',
-        key: 'JP',
-        type: 'Software',
-        favorite: true,
-        avatarURLs: {
-          x16: 'https://png.pngtree.com/element_our/20190604/ourlarge/pngtree-gradient-square-border-illustration-image_1467225.jpg',
-          x24: 'https://png.pngtree.com/element_our/20190604/ourlarge/pngtree-gradient-square-border-illustration-image_1467225.jpg',
-          x32: 'https://png.pngtree.com/element_our/20190604/ourlarge/pngtree-gradient-square-border-illustration-image_1467225.jpg',
-          x48: 'https://png.pngtree.com/element_our/20190604/ourlarge/pngtree-gradient-square-border-illustration-image_1467225.jpg',
-        },
-        leader: {
-          id: 1,
-          name: 'Jira Jira',
-          avatarURLs: {
-            x16: 'https://thumbs.dreamstime.com/b/creative-illustration-default-avatar-profile-placeholder-isolated-background-art-design-grey-photo-blank-template-mockup-144849704.jpg',
-            x24: 'https://thumbs.dreamstime.com/b/creative-illustration-default-avatar-profile-placeholder-isolated-background-art-design-grey-photo-blank-template-mockup-144849704.jpg',
-            x32: 'https://thumbs.dreamstime.com/b/creative-illustration-default-avatar-profile-placeholder-isolated-background-art-design-grey-photo-blank-template-mockup-144849704.jpg',
-            x48: 'https://thumbs.dreamstime.com/b/creative-illustration-default-avatar-profile-placeholder-isolated-background-art-design-grey-photo-blank-template-mockup-144849704.jpg',
-          },
-          email: 'jirajiraemail@gmail.com',
-          locale: 'ru_RU',
-          isActive: true,
-        },
-      },
-      gadgets: [
-        {
-          id: 1,
-          label: 'Пузырьковая диаграмма',
-          color: 'blue',
-        },
-        null,
-        null,
-      ],
-      access: {
-        id: 1,
-        name: 'Для всех ролей',
-      },
-      leader: {
-        id: 1,
-        name: 'Jira Jira',
-        avatarURLs: {
-          x16: 'https://thumbs.dreamstime.com/b/creative-illustration-default-avatar-profile-placeholder-isolated-background-art-design-grey-photo-blank-template-mockup-144849704.jpg',
-          x24: 'https://thumbs.dreamstime.com/b/creative-illustration-default-avatar-profile-placeholder-isolated-background-art-design-grey-photo-blank-template-mockup-144849704.jpg',
-          x32: 'https://thumbs.dreamstime.com/b/creative-illustration-default-avatar-profile-placeholder-isolated-background-art-design-grey-photo-blank-template-mockup-144849704.jpg',
-          x48: 'https://thumbs.dreamstime.com/b/creative-illustration-default-avatar-profile-placeholder-isolated-background-art-design-grey-photo-blank-template-mockup-144849704.jpg',
-        },
-        email: 'jirajiraemail@gmail.com',
-        locale: 'ru_RU',
-        isActive: true,
-      },
-    });
+    const dashboard = computed((): DashboardModel | null => store.state.dashboard.dashboardDetail);
 
     const isDeleteDashboardLoading = ref(false);
     async function deleteDashboard() {
@@ -304,7 +246,7 @@ export default defineComponent({
       await router.push('/dashboards');
     }
 
-    const filteredGadgets = computed(() => dashboard.gadgets.filter((g) => g !== null));
+    const filteredGadgets = computed(() => dashboard.value?.gadgets.filter((g) => g !== null));
     const colors = [
       {
         key: 'blue',
@@ -340,6 +282,7 @@ export default defineComponent({
       },
     ];
     function selectGadgetColor(id: number, colorKey: string) {
+      if (!filteredGadgets.value) return;
       const index = filteredGadgets.value.findIndex((g) => g?.id === id);
       const gadget = filteredGadgets.value[index];
       if (gadget) gadget.color = colorKey;
@@ -350,7 +293,9 @@ export default defineComponent({
     }
 
     function toggleFavoriteDashboard() {
-      dashboard.favorite = !dashboard.favorite;
+      if (dashboard.value) {
+        dashboard.value.favorite = !dashboard.value.favorite;
+      }
     }
 
     return {

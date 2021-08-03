@@ -2,7 +2,7 @@
   <q-page class="work-page">
     <CommonPageTitle title="Ваша работа" />
 
-    <BaseLoader v-if="!availableProjects" />
+    <BaseLoader v-if="!availableProjects" page-margin />
     <div v-else class="q-px-xl q-py-md bg-grey-1">
       <WorkProjectHeader />
 
