@@ -185,7 +185,7 @@
 </template>
 
 <script lang="ts">
-import { defineComponent, ref, reactive, computed, onBeforeMount, onBeforeUnmount } from 'vue';
+import { defineComponent, ref, computed, onBeforeMount, onBeforeUnmount } from 'vue';
 import { useStore } from 'src/store';
 import { useRoute } from 'vue-router';
 // import useLoading from 'src/composables/common/useLoading';
@@ -195,9 +195,6 @@ import BaseTooltip from 'components/base/BaseTooltip.vue';
 import BaseButtonCloseIcon from 'components/base/button/BaseButtonCloseIcon.vue';
 import ProjectBoardIconIssueType from 'components/project/board/icon/ProjectBoardIconIssueType.vue';
 import ProjectBoardIconPriorityType from 'components/project/board/icon/ProjectBoardIconPriorityType.vue';
-
-import { ColumnModel } from 'src/models/project/column.model';
-import { IssueModel } from 'src/models/project/issue.model';
 
 export default defineComponent({
   name: 'ProjectBoardDialogViewIssue',
