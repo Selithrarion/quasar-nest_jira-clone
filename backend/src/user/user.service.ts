@@ -3,6 +3,9 @@ import { InjectRepository } from '@nestjs/typeorm';
 import { UserEntity } from './entity/user.entity';
 import { Repository } from 'typeorm';
 import { CreateUserDTO } from './dto';
+import { UpdateProjectDTO } from '../projects/dto';
+import { ProjectEntity } from '../projects/entity/project.entity';
+import * as bcrypt from 'bcrypt';
 
 @Injectable()
 export class UserService {
@@ -29,5 +32,19 @@ export class UserService {
     const createdUser = await this.users.save(user);
     // delete createdUser.password
     return createdUser;
+  }
+
+  async update(id: number, userData: Partial<UserEntity>): Promise<Partial<UserEntity>> {
+    const toUpdate = await this.users.findOne(id);
+    const updated = { ...toUpdate, ...userData };
+    await this.users.save(updated);
+    return updated;
+  }
+
+  async setRefreshToken(id: number, refreshToken: string): Promise<void> {
+    const hashedRefreshToken = await bcrypt.hash(refreshToken, 10);
+    await this.users.update(id, {
+      hashedRefreshToken,
+    });
   }
 }

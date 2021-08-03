@@ -30,6 +30,9 @@ export class UserEntity extends BaseEntity {
   password: string;
 
   @Column({ nullable: true })
+  hashedRefreshToken: string;
+
+  @Column({ nullable: true })
   locale: string;
 
   @Column({ default: true })
