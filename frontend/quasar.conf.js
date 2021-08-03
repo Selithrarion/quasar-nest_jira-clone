@@ -21,24 +21,12 @@ module.exports = configure(function (ctx) {
     // https://v2.quasar.dev/quasar-cli/prefetch-feature
     // preFetch: true,
 
-    // app boot file (/src/boot)
-    // --> boot files are part of "main.js"
-    // https://v2.quasar.dev/quasar-cli/boot-files
-    boot: ['axios', 'notify-defaults'],
+    boot: ['axios', 'notify-defaults', 'auth-user'],
 
     css: ['app.sass'],
 
     extras: [
-      // 'ionicons-v4',
-      // 'mdi-v5',
-      // 'fontawesome-v5',
-      // 'eva-icons',
-      // 'themify',
-      // 'line-awesome',
-      // 'roboto-font-latin-ext', // this or either 'roboto-font', NEVER both!
-      // 'roboto-font',
-
-      'material-icons', // optional, you are not bound to it
+      'material-icons',
     ],
 
     build: {
@@ -70,7 +58,7 @@ module.exports = configure(function (ctx) {
     devServer: {
       https: false,
       port: 8080,
-      open: true,
+      open: false,
     },
 
     framework: {
