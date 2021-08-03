@@ -1,5 +1,7 @@
 <template>
   <div class="q-px-xl q-mt-md">
+    <BaseLoader v-if="!projects" page-margin />
+
     <q-table row-key="name" :rows="projects" :columns="columns">
       <template #header-cell-favorite="props">
         <q-th style="width: 20px" :props="props">
@@ -83,10 +85,11 @@
 </template>
 
 <script lang="ts">
-import { defineComponent, reactive, computed } from 'vue';
+import { defineComponent, reactive, computed, onBeforeMount } from 'vue';
 import { useStore } from 'src/store';
 import useDialog from 'src/composables/common/useDialog';
 
+import BaseLoader from 'components/base/BaseLoader.vue';
 import BaseDialog from 'components/base/BaseDialog.vue';
 import BaseButtonFavorite from 'components/base/button/BaseButtonFavorite.vue';
 import BaseButtonMore from 'components/base/button/BaseButtonMore.vue';
@@ -97,12 +100,13 @@ export default defineComponent({
   name: 'ProjectsPageTable',
 
   components: {
+    BaseLoader,
     BaseDialog,
     BaseButtonFavorite,
     BaseButtonMore,
   },
 
-  async setup() {
+  setup() {
     const store = useStore();
     const dialog = useDialog();
 
@@ -153,7 +157,10 @@ export default defineComponent({
     ]);
 
     const projects = computed(() => store.state.project.projects);
-    await store.dispatch('project/getAll');
+
+    onBeforeMount(async () => {
+      if (!projects.value) await store.dispatch('project/getAll');
+    });
 
     async function deleteProject(projectID: number) {
       try {
