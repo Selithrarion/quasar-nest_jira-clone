@@ -1,6 +1,6 @@
+import { boot } from 'quasar/wrappers';
 import axios, { AxiosError, AxiosInstance, AxiosRequestConfig, AxiosResponse } from 'axios';
-// import userService from 'src/service/userService';
-import userState from 'src/store/user/state';
+import { UserUpdateTokenResponse } from 'src/models/user/user.model';
 
 declare module '@vue/runtime-core' {
   interface ComponentCustomProperties {
@@ -12,62 +12,53 @@ interface AxiosRequestConfigWithRetryField extends AxiosRequestConfig {
   _isRetry: boolean;
 }
 
-// Be careful when using SSR for cross-request state pollution
-// due to creating a Singleton instance here;
-// If any client changes this (global) instance, it might be a
-// good idea to move this instance creation inside of the
-// "export default () => {}" function below (which runs individually
-// for each client)
 const http: AxiosInstance = axios.create({
   baseURL: 'http://localhost:8081/',
 });
 
-function getUserAccessToken() {
-  return userState().token;
-}
-
-// TODO: add refresh tokens
-http.interceptors.request.use(
-  (config: AxiosRequestConfig) => {
-    const token = getUserAccessToken();
-    // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access
-    if (token) http.defaults.headers['Authorization'] = `Bearer ${token}`;
-
-    return config;
-  },
-  (error: AxiosError) => {
-    console.error('INTERCEPTOR REQUEST ERROR', error);
-    return Promise.reject(error);
-  }
-);
-
-http.interceptors.response.use(
-  (response: AxiosResponse) => {
-    console.log('RESPONSE DATA -', response?.data);
-    return response;
-  },
-  async (error: AxiosError) => {
-    console.log('error', error);
-    // TODO: add BaseSnackbar and snackbar store
-    // store.dispatch('showSnackbar', { error: error.response.data });
-    const originalRequest = error.config as AxiosRequestConfigWithRetryField;
-
-    const isAuthError = error.response?.status === 403;
-    const isNotRetry = !originalRequest._isRetry;
-
-    if (isAuthError && isNotRetry) {
-      originalRequest._isRetry = true;
-      // const { accessToken, refreshToken } = await userService.updateTokens();
-      // console.log(accessToken, refreshToken);
-      // Cookies.set('authToken', accessToken);
-      // Cookies.set('authRefreshToken', refreshToken);
+export default boot(({ store, redirect }) => {
+  http.interceptors.request.use(
+    (config: AxiosRequestConfig) => {
       // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access
-      http.defaults.headers.common['Authorization'] = '';
-      return http(originalRequest);
-    }
+      const token = store.state.user.accessToken as string;
+      // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access
+      if (token) http.defaults.headers['Authorization'] = `Bearer ${token}`;
 
-    return Promise.reject(error);
-  }
-);
+      return config;
+    },
+    (error: AxiosError) => {
+      console.error('INTERCEPTOR REQUEST ERROR', error);
+      return Promise.reject(error);
+    }
+  );
+
+  http.interceptors.response.use(
+    (response: AxiosResponse) => {
+      console.log('RESPONSE DATA -', response?.data);
+      return response;
+    },
+    async (error: AxiosError) => {
+      console.error('RESPONSE error', error);
+
+      // TODO: add BaseSnackbar and snackbar store
+      // store.dispatch('snackbar/showSnackbar', { error: error.response.data });
+      const originalRequest = error.config as AxiosRequestConfigWithRetryField;
+
+      const isAuthError = error.response?.status === 401;
+      const isNotRetry = !originalRequest._isRetry;
+
+      if (isAuthError && isNotRetry) {
+        originalRequest._isRetry = true;
+        const { accessToken } = (await store.dispatch('user/updateTokens')) as UserUpdateTokenResponse;
+        console.log('NEW AT', accessToken);
+        // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access
+        http.defaults.headers.common['Authorization'] = `Bearer ${accessToken}`;
+        return http(originalRequest);
+      } else if (!isNotRetry) redirect('/auth');
+
+      return Promise.reject(error);
+    }
+  );
+});
 
 export { http };
