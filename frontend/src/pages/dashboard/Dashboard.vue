@@ -90,7 +90,7 @@
 </template>
 
 <script lang="ts">
-import { defineComponent, ref, reactive, computed } from 'vue';
+import { defineComponent, reactive, computed } from 'vue';
 import { useStore } from 'src/store';
 import useDialog from 'src/composables/common/useDialog';
 

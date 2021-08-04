@@ -17,6 +17,19 @@ const actions: ActionTree<UserStateInterface, StateInterface> = {
     await userService.logout();
     commit('LOGOUT_USER');
   },
+  async updateTokens({ state, commit }) {
+    if (!state.refreshToken || !state.currentUser) return;
+
+    const payload = {
+      userID: state.currentUser.id,
+      email: state.currentUser.email,
+      refreshToken: state.refreshToken,
+    };
+    const tokens = await userService.updateTokens(payload);
+    commit('UPDATE_TOKENS', tokens);
+
+    return tokens;
+  },
 };
 
 export default actions;

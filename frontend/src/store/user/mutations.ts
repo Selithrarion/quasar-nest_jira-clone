@@ -1,19 +1,26 @@
 import { MutationTree } from 'vuex';
 import { Cookies } from 'quasar';
 import { UserStateInterface } from './state';
-import { UserAuthResponse } from 'src/models/user/user.model';
+import { UserAuthResponse, UserUpdateTokenResponse } from 'src/models/user/user.model';
 
 const mutation: MutationTree<UserStateInterface> = {
-  AUTH_USER(state: UserStateInterface, { user, accessToken }: UserAuthResponse) {
+  AUTH_USER(state: UserStateInterface, { user, accessToken, refreshToken }: UserAuthResponse) {
     state.currentUser = user;
     state.token = accessToken;
-    Cookies.set('user', JSON.stringify({ ...user, accessToken }));
+    state.refreshToken = refreshToken;
+    Cookies.set('user', JSON.stringify({ ...user, accessToken, refreshToken }));
     // TODO: add refresh tokens
   },
   LOGOUT_USER(state: UserStateInterface) {
     state.currentUser = null;
     state.token = null;
     Cookies.remove('user');
+  },
+  UPDATE_TOKENS(state: UserStateInterface, { accessToken, refreshToken }: UserUpdateTokenResponse) {
+    console.log('UPD TOK MUT', accessToken, refreshToken, state.currentUser);
+    state.token = accessToken;
+    state.refreshToken = refreshToken;
+    Cookies.set('user', JSON.stringify({ ...state.currentUser, accessToken, refreshToken }));
   },
 };
 

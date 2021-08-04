@@ -1,5 +1,11 @@
 import { http } from 'boot/axios';
-import { UserAuthResponse, UserLoginDTO, UserRegisterDTO, UserUpdateTokenResponse } from 'src/models/user/user.model';
+import {
+  UserAuthResponse,
+  UserLoginDTO,
+  UserRegisterDTO,
+  UserUpdateTokenDTO,
+  UserUpdateTokenResponse,
+} from 'src/models/user/user.model';
 import { ApiResponseModel } from 'src/models/common/apiResponse.model';
 
 export default {
@@ -18,7 +24,8 @@ export default {
     return await http.post('/auth/logout');
   },
 
-  async updateTokens(): Promise<UserUpdateTokenResponse> {
-    return await http.post('/auth/token');
+  async updateTokens(payload: UserUpdateTokenDTO): Promise<UserUpdateTokenResponse> {
+    const { data }: ApiResponseModel = await http.post('/auth/update-tokens', payload);
+    return data as UserUpdateTokenResponse;
   },
 };

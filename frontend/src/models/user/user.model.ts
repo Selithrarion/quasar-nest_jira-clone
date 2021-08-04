@@ -13,7 +13,9 @@ export interface UserModel extends BaseModel {
   watchingIssues: IssueModel[];
   projectsIDs: number[];
   favoriteProjectsIDs: number[];
+
   accessToken?: string;
+  refreshToken?: string;
 }
 
 export interface UserLoginDTO {
@@ -33,5 +35,9 @@ export interface UserAuthResponse {
 }
 export interface UserUpdateTokenResponse {
   accessToken: string;
+  refreshToken: string;
+}
+export interface UserUpdateTokenDTO {
+  userID: number;
   refreshToken: string;
 }
