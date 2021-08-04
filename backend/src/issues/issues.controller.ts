@@ -12,6 +12,7 @@ export class IssuesController {
 
   @ApiOperation({ summary: 'Get issue by ID' })
   @ApiResponse({ status: 200, description: 'Return issue' })
+  @ApiResponse({ status: 401, description: 'Unauthorized' })
   @Get(':id')
   async getByID(@Param('id') id: number): Promise<IssueEntity> {
     return await this.issuesService.getByID(id);
@@ -19,7 +20,7 @@ export class IssuesController {
 
   @ApiOperation({ summary: 'Create issue' })
   @ApiResponse({ status: 201, description: 'Issue was created' })
-  @ApiResponse({ status: 403, description: 'Forbidden' })
+  @ApiResponse({ status: 401, description: 'Unauthorized' })
   @Post()
   async create(@Body() payload: CreateIssueDTO): Promise<IssueEntity> {
     return await this.issuesService.create(payload);
@@ -27,7 +28,7 @@ export class IssuesController {
 
   @ApiOperation({ summary: 'Update issue' })
   @ApiResponse({ status: 201, description: 'Issue was updated' })
-  @ApiResponse({ status: 403, description: 'Forbidden' })
+  @ApiResponse({ status: 401, description: 'Unauthorized' })
   @Patch(':id')
   async update(@Param('id') id: number, @Body() payload: UpdateIssueDTO): Promise<IssueEntity> {
     return await this.issuesService.update(id, payload);
@@ -35,7 +36,7 @@ export class IssuesController {
 
   @ApiOperation({ summary: 'Delete issue' })
   @ApiResponse({ status: 201, description: 'Issue was deleted' })
-  @ApiResponse({ status: 403, description: 'Forbidden' })
+  @ApiResponse({ status: 401, description: 'Unauthorized' })
   @Delete(':id')
   async delete(@Param('id') id: number): Promise<void> {
     return await this.issuesService.delete(id);
