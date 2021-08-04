@@ -15,7 +15,7 @@ export class IssuesController {
   @ApiResponse({ status: 401, description: 'Unauthorized' })
   @Get(':id')
   async getByID(@Param('id') id: number): Promise<IssueEntity> {
-    return await this.issuesService.getByID(id);
+    return await this.issuesService.getByID(Number(id));
   }
 
   @ApiOperation({ summary: 'Create issue' })
@@ -27,7 +27,7 @@ export class IssuesController {
   }
 
   @ApiOperation({ summary: 'Update issue' })
-  @ApiResponse({ status: 201, description: 'Issue was updated' })
+  @ApiResponse({ status: 200, description: 'Issue was updated' })
   @ApiResponse({ status: 401, description: 'Unauthorized' })
   @Patch(':id')
   async update(@Param('id') id: number, @Body() payload: UpdateIssueDTO): Promise<IssueEntity> {
@@ -35,7 +35,7 @@ export class IssuesController {
   }
 
   @ApiOperation({ summary: 'Delete issue' })
-  @ApiResponse({ status: 201, description: 'Issue was deleted' })
+  @ApiResponse({ status: 204, description: 'Issue was deleted' })
   @ApiResponse({ status: 401, description: 'Unauthorized' })
   @Delete(':id')
   async delete(@Param('id') id: number): Promise<void> {

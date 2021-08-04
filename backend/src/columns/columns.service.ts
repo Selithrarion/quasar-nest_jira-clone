@@ -16,8 +16,8 @@ export class ColumnsService {
     private readonly boardsService: BoardsService
   ) {}
 
-  async create(columnData: CreateColumnDTO): Promise<ColumnEntity> {
-    const board = await this.boardsService.getByID(columnData.boardID);
+  async create(columnData: CreateColumnDTO, userID: number): Promise<ColumnEntity> {
+    const board = await this.boardsService.getByID(columnData.boardID, userID);
     const createdColumn = await this.columns.save({ ...columnData, board });
     return createdColumn;
   }

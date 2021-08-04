@@ -21,7 +21,7 @@ export class ProjectsService {
   ) {}
 
   async getAll(query, userID: number): Promise<ProjectEntity[]> {
-    const currentUser = await this.userService.getById(userID);
+    const currentUser = await this.userService.getByID(userID);
     const allProjects = await this.projects.find({ order: { createdAt: 'DESC' } });
     const formattedProjects = allProjects.map((p) => ({
       ...p,

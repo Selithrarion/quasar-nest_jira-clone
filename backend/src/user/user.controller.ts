@@ -13,6 +13,6 @@ export class UserController {
 
   @Get('self')
   async getSelf(@Request() req): Promise<UserEntity> {
-    return await this.userService.getById(req.user.id);
+    return await this.userService.getByID(req.user.id);
   }
 }

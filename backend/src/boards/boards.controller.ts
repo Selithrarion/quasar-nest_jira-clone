@@ -1,4 +1,4 @@
-import { Body, Controller, Get, Post, Patch, Delete, Param, Request } from '@nestjs/common';
+import { Body, Controller, Get, Post, Patch, Delete, Param, Request, HttpCode, HttpStatus } from '@nestjs/common';
 import { ApiBearerAuth, ApiOperation, ApiResponse, ApiTags } from '@nestjs/swagger';
 import { BoardsService } from './boards.service';
 import { BoardEntity } from './entity/board.entity';
@@ -13,8 +13,8 @@ export class BoardsController {
   @ApiOperation({ summary: 'Get board' })
   @ApiResponse({ status: 200, description: 'Return board' })
   @Get(':id')
-  async getBoardByID(@Param('id') id: number): Promise<BoardEntity> {
-    return await this.boardsService.getByID(id);
+  async getBoardByID(@Param('id') id: number, @Request() req): Promise<BoardEntity> {
+    return await this.boardsService.getByID(Number(id), req.user.id);
   }
 
   @ApiOperation({ summary: 'Create board' })
@@ -26,7 +26,7 @@ export class BoardsController {
   }
 
   @ApiOperation({ summary: 'Update board' })
-  @ApiResponse({ status: 201, description: 'Board was updated' })
+  @ApiResponse({ status: 200, description: 'Board was updated' })
   @ApiResponse({ status: 401, description: 'Unauthorized' })
   @Patch(':id')
   async update(@Param('id') id: number, @Body() boardData: UpdateBoardDTO): Promise<BoardEntity> {
@@ -34,7 +34,7 @@ export class BoardsController {
   }
 
   @ApiOperation({ summary: 'Delete board' })
-  @ApiResponse({ status: 201, description: 'Board was deleted' })
+  @ApiResponse({ status: 204, description: 'Board was deleted' })
   @ApiResponse({ status: 401, description: 'Unauthorized' })
   @Delete(':id')
   async delete(@Param('id') id: number): Promise<void> {
@@ -42,9 +42,10 @@ export class BoardsController {
   }
 
   @ApiOperation({ summary: 'Toggle board favorite' })
-  @ApiResponse({ status: 200, description: 'Board favorite was toggled' })
+  @ApiResponse({ status: 204, description: 'Board favorite was toggled' })
   @ApiResponse({ status: 401, description: 'Unauthorized' })
   @Post('favorite/:id')
+  @HttpCode(HttpStatus.NO_CONTENT)
   async toggleFavorite(@Param('id') id: number, @Request() req): Promise<void> {
     return await this.boardsService.toggleFavorite(Number(id), req.user.id);
   }

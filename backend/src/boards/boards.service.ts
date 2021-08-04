@@ -23,8 +23,10 @@ export class BoardsService {
     private readonly userService: UserService
   ) {}
 
-  async getByID(id: number): Promise<BoardEntity> {
-    return await this.boards.findOneOrFail(id, { relations: ['columns'] });
+  async getByID(boardID: number, userID: number): Promise<BoardEntity> {
+    const currentUser = await this.userService.getByID(userID);
+    const board = await this.boards.findOneOrFail(boardID, { relations: ['columns'] });
+    return { ...board, favorite: currentUser.favoriteBoardIDs.includes(boardID) };
   }
 
   async create(boardData: CreateBoardDTO): Promise<BoardEntity> {

@@ -19,7 +19,7 @@ export class UserService {
     return await this.users.findOne({ where: { email } });
   }
 
-  async getById(id: number): Promise<UserEntity> {
+  async getByID(id: number): Promise<UserEntity> {
     return await this.users.findOne(id);
   }
 

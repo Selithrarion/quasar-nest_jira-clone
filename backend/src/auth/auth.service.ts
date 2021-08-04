@@ -30,7 +30,7 @@ export class AuthService {
   }
 
   async updateTokens({ userID, email, refreshToken }: UserUpdateTokensDTO): Promise<UserTokensInterface> {
-    const user = await this.userService.getById(userID);
+    const user = await this.userService.getByID(userID);
     // if (user.hashedRefreshToken !== refreshToken) {
     //   throw new HttpException('USER_EXPIRED_REFRESH', HttpStatus.UNAUTHORIZED);
     // }

@@ -1,4 +1,16 @@
-import { Body, Controller, Delete, Get, Param, Patch, Post, Query, Request } from '@nestjs/common';
+import {
+  Body,
+  Controller,
+  Delete,
+  Get,
+  HttpCode,
+  HttpStatus,
+  Param,
+  Patch,
+  Post,
+  Query,
+  Request,
+} from '@nestjs/common';
 import { ApiBearerAuth, ApiOperation, ApiResponse, ApiTags } from '@nestjs/swagger';
 import { ProjectEntity } from './entity/project.entity';
 import { CreateProjectDTO, UpdateProjectDTO } from './dto';
@@ -33,15 +45,15 @@ export class ProjectsController {
   }
 
   @ApiOperation({ summary: 'Update project' })
-  @ApiResponse({ status: 201, description: 'Project was updated' })
+  @ApiResponse({ status: 200, description: 'Project was updated' })
   @ApiResponse({ status: 401, description: 'Unauthorized' })
   @Patch(':id')
   async update(@Param('id') id: number, @Body() projectData: UpdateProjectDTO): Promise<ProjectEntity> {
-    return await this.projectsService.update(id, projectData);
+    return await this.projectsService.update(Number(id), projectData);
   }
 
   @ApiOperation({ summary: 'Delete project' })
-  @ApiResponse({ status: 201, description: 'Project was deleted' })
+  @ApiResponse({ status: 204, description: 'Project was deleted' })
   @ApiResponse({ status: 401, description: 'Unauthorized' })
   @Delete(':id')
   async delete(@Param('id') id: number): Promise<void> {
@@ -49,9 +61,10 @@ export class ProjectsController {
   }
 
   @ApiOperation({ summary: 'Toggle project favorite' })
-  @ApiResponse({ status: 200, description: 'Project favorite was toggled' })
+  @ApiResponse({ status: 204, description: 'Project favorite was toggled' })
   @ApiResponse({ status: 401, description: 'Unauthorized' })
   @Post('favorite/:id')
+  @HttpCode(HttpStatus.NO_CONTENT)
   async toggleFavorite(@Param('id') id: number, @Request() req): Promise<void> {
     return await this.projectsService.toggleFavorite(Number(id), req.user.id);
   }
