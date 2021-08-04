@@ -216,8 +216,9 @@ export default defineComponent({
       const board = boardObject || defaultBoard;
       if (board) await selectBoard(board);
     }
-    function toggleSelectedBoardFavorite() {
-      if (selectedBoard.value === undefined) return;
+    async function toggleSelectedBoardFavorite() {
+      if (!selectedBoard.value) return;
+      await store.dispatch('project/toggleBoardFavorite', selectedBoard.value.id);
       selectedBoard.value.favorite = !selectedBoard.value.favorite;
     }
 

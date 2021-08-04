@@ -31,7 +31,7 @@ export class ProjectsController {
   @ApiResponse({ status: 403, description: 'Forbidden' })
   @Post()
   async create(@Body() projectData: CreateProjectDTO, @Request() req): Promise<ProjectEntity> {
-    return await this.projectsService.create(projectData, req.user);
+    return await this.projectsService.create(projectData, req.user.id);
   }
 
   @ApiOperation({ summary: 'Update project' })
@@ -55,6 +55,6 @@ export class ProjectsController {
   @ApiResponse({ status: 403, description: 'Forbidden' })
   @Post('favorite/:id')
   async toggleFavorite(@Param('id') id: number, @Request() req): Promise<void> {
-    return await this.projectsService.toggleFavorite(id, req.user);
+    return await this.projectsService.toggleFavorite(Number(id), req.user.id);
   }
 }

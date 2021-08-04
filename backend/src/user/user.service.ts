@@ -47,4 +47,9 @@ export class UserService {
       hashedRefreshToken,
     });
   }
+
+  async getFavoriteProjects(id: number): Promise<ProjectEntity[]> {
+    const user = await this.users.findOne(id, { relations: ['favoriteProjects'] });
+    return user.favoriteProjects;
+  }
 }

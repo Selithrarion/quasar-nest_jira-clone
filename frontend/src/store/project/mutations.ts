@@ -25,7 +25,6 @@ const mutation: MutationTree<ProjectStateInterface> = {
     const index = state.projects.findIndex((p) => p.id === id);
     state.projects.splice(index, 1);
   },
-
   TOGGLE_FAVORITE(state: ProjectStateInterface, id: number) {
     const project = state.projects?.find((p) => p.id === id);
     if (project) project.favorite = !project.favorite;

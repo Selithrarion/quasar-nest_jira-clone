@@ -2,7 +2,7 @@
   <div class="q-px-xl q-mt-md">
     <BaseLoader v-if="!projects" page-margin />
 
-    <q-table row-key="name" :rows="projects" :columns="columns">
+    <q-table v-else row-key="name" :rows="projects" :columns="columns">
       <template #header-cell-favorite="props">
         <q-th style="width: 20px" :props="props">
           <q-icon name="star" size="16px" color="grey-6" />
@@ -110,6 +110,12 @@ export default defineComponent({
     const store = useStore();
     const dialog = useDialog();
 
+    const projects = computed(() => store.state.project.projects);
+
+    onBeforeMount(async () => {
+      if (!projects.value) await store.dispatch('project/getAll');
+    });
+
     const columns = reactive([
       {
         name: 'favorite',
@@ -155,12 +161,6 @@ export default defineComponent({
         align: 'right',
       },
     ]);
-
-    const projects = computed(() => store.state.project.projects);
-
-    onBeforeMount(async () => {
-      if (!projects.value) await store.dispatch('project/getAll');
-    });
 
     async function deleteProject(projectID: number) {
       try {

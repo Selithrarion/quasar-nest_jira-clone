@@ -60,8 +60,18 @@ export class ProjectsService {
     await this.projects.delete(id);
   }
 
-  async toggleFavorite(id: number, user: UserEntity): Promise<void> {
-    const favoriteProjectIDs = user.favoriteProjectIDs.filter((id) => id !== id);
-    await this.userService.update(user.id, { favoriteProjectIDs });
+  async toggleFavorite(projectID: number, userID: number): Promise<void> {
+    const userFavoriteProjects = await this.userService.getFavoriteProjects(userID);
+    const projectIndex = userFavoriteProjects.findIndex((p) => p.id === projectID);
+
+    if (projectIndex !== -1) {
+      userFavoriteProjects.splice(projectIndex, 1);
+      console.log('SPLICED', projectIndex, userFavoriteProjects);
+    } else {
+      const project = await this.projects.findOne(projectID);
+      userFavoriteProjects.push(project);
+    }
+
+    await this.userService.update(userID, { favoriteProjects: userFavoriteProjects });
   }
 }
