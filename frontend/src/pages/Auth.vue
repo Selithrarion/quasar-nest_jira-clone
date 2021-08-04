@@ -149,9 +149,9 @@ export default defineComponent({
         loading.start();
         const payload = { email: form.email, password: form.password };
         await store.dispatch('user/login', payload);
-        await openMainPage();
+        openMainPage();
       } catch (e) {
-        // TODO
+        // TODO: snackbar
         console.error(e);
       } finally {
         loading.stop();
@@ -162,9 +162,9 @@ export default defineComponent({
         loading.start();
         const payload = { name: form.name, username: form.username, email: form.email, password: form.password };
         await store.dispatch('user/register', payload);
-        await openMainPage();
+        openMainPage();
       } catch (e) {
-        // TODO
+        // TODO: snackbar
         console.error(e);
       } finally {
         loading.stop();
@@ -179,8 +179,8 @@ export default defineComponent({
       }
     }
 
-    async function openMainPage() {
-      await router.push('/');
+    function openMainPage() {
+      router.go(0);
     }
 
     return {
