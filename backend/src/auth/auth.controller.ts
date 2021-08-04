@@ -2,11 +2,13 @@ import { Controller, Post, Body, UseGuards, Request } from '@nestjs/common';
 import { AuthService } from './auth.service';
 import { UserService } from '../user/user.service';
 import { CreateUserDTO } from '../user/dto';
-import { UserTokensInterface, UserUpdateTokensDTO, UserValidationDTO } from '../user/entity/user.entity';
+import { UserTokensInterface, UserUpdateTokensDTO } from '../user/entity/user.entity';
 import { Public } from './decorators/public.decorator';
 import { LocalAuthGuard } from './guard/local-auth.guard';
+import { ApiTags } from '@nestjs/swagger';
 
 @Public()
+@ApiTags('auth')
 @Controller('auth')
 export class AuthController {
   constructor(private readonly authService: AuthService, private readonly userService: UserService) {}

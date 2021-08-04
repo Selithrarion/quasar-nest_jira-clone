@@ -6,6 +6,7 @@ import { CreateUserDTO } from './dto';
 import { UpdateProjectDTO } from '../projects/dto';
 import { ProjectEntity } from '../projects/entity/project.entity';
 import * as bcrypt from 'bcrypt';
+import { BoardEntity } from '../boards/entity/board.entity';
 
 @Injectable()
 export class UserService {
@@ -51,5 +52,9 @@ export class UserService {
   async getFavoriteProjects(id: number): Promise<ProjectEntity[]> {
     const user = await this.users.findOne(id, { relations: ['favoriteProjects'] });
     return user.favoriteProjects;
+  }
+  async getFavoriteBoards(id: number): Promise<BoardEntity[]> {
+    const user = await this.users.findOne(id, { relations: ['favoriteBoards'] });
+    return user.favoriteBoards;
   }
 }

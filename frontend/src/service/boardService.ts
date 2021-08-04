@@ -18,4 +18,8 @@ export default {
   async delete(id: number): Promise<void> {
     return await http.delete(`/boards/${id}`);
   },
+
+  async toggleFavorite(id: number): Promise<void> {
+    return await http.post(`/boards/favorite/${id}`);
+  },
 };

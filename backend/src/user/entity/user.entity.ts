@@ -5,6 +5,7 @@ import { IsEmail } from 'class-validator';
 import { BaseEntity } from '../../common/base.entity';
 import { IssueEntity } from '../../issues/entity/issue.entity';
 import { ProjectEntity } from '../../projects/entity/project.entity';
+import { BoardEntity } from '../../boards/entity/board.entity';
 
 export interface UserValidationDTO {
   readonly email: string;
@@ -68,12 +69,17 @@ export class UserEntity extends BaseEntity {
   @RelationId((user: UserEntity) => user.projects)
   projectIDs: number[];
 
-  @ManyToMany(() => ProjectEntity)
+  @ManyToMany(() => ProjectEntity, (project) => project.users)
   @JoinTable()
   favoriteProjects: ProjectEntity[];
-
   @RelationId((user: UserEntity) => user.favoriteProjects)
   favoriteProjectIDs: number[];
+
+  @ManyToMany(() => BoardEntity, (board) => board.users)
+  @JoinTable()
+  favoriteBoards: BoardEntity[];
+  @RelationId((user: UserEntity) => user.favoriteBoards)
+  favoriteBoardIDs: number[];
 
   @BeforeInsert()
   async hashPassword(): Promise<void> {

@@ -65,6 +65,7 @@
 
           <BaseButtonFavorite
             padding="4px"
+            tooltip-add="Пометить доску"
             :favorite="selectedBoard.favorite"
             :round="false"
             @click="toggleSelectedBoardFavorite"

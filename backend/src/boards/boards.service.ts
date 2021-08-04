@@ -5,6 +5,7 @@ import { Repository } from 'typeorm';
 import { CreateBoardDTO, UpdateBoardDTO } from './dto';
 import { ProjectsService } from '../projects/projects.service';
 import { ColumnsService } from '../columns/columns.service';
+import { UserService } from '../user/user.service';
 
 @Injectable()
 export class BoardsService {
@@ -16,7 +17,10 @@ export class BoardsService {
     private readonly projectsService: ProjectsService,
 
     @Inject(forwardRef(() => ColumnsService))
-    private readonly columnsService: ColumnsService
+    private readonly columnsService: ColumnsService,
+
+    @Inject(UserService)
+    private readonly userService: UserService
   ) {}
 
   async getByID(id: number): Promise<BoardEntity> {
@@ -38,5 +42,22 @@ export class BoardsService {
 
   async delete(id: number): Promise<void> {
     await this.boards.delete(id);
+  }
+
+  async toggleFavorite(boardID: number, userID: number): Promise<void> {
+    console.log(boardID, userID);
+    const userFavoriteBoards = await this.userService.getFavoriteBoards(userID);
+    console.log(userFavoriteBoards);
+    const boardIndex = userFavoriteBoards.findIndex((b) => b.id === boardID);
+
+    if (boardIndex !== -1) {
+      userFavoriteBoards.splice(boardIndex, 1);
+      console.log('SPLICED', boardIndex, userFavoriteBoards);
+    } else {
+      const project = await this.boards.findOne(boardID);
+      userFavoriteBoards.push(project);
+    }
+
+    await this.userService.update(userID, { favoriteBoards: userFavoriteBoards });
   }
 }

@@ -51,6 +51,10 @@ const actions: ActionTree<ProjectStateInterface, StateInterface> = {
     await boardService.delete(boardID);
     commit('DELETE_BOARD', boardID);
   },
+  async toggleBoardFavorite({ commit }, id) {
+    commit('TOGGLE_BOARD_FAVORITE', id);
+    await boardService.toggleFavorite(id);
+  },
 
   // issue
   async getIssueByID({ commit }, issueID) {

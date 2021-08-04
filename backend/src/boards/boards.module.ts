@@ -3,17 +3,18 @@ import { TypeOrmModule } from '@nestjs/typeorm';
 
 import { BoardsService } from './boards.service';
 import { BoardsController } from './boards.controller';
+import { BoardEntity } from './entity/board.entity';
 
 import { ProjectsModule } from '../projects/projects.module';
 import { ColumnsModule } from '../columns/columns.module';
-
-import { BoardEntity } from './entity/board.entity';
+import { UserModule } from '../user/user.module';
 
 @Module({
   imports: [
     TypeOrmModule.forFeature([BoardEntity]),
     forwardRef(() => ProjectsModule),
     forwardRef(() => ColumnsModule),
+    UserModule,
   ],
   exports: [BoardsService],
   providers: [BoardsService],

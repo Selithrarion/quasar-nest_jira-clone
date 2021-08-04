@@ -51,6 +51,17 @@ const mutation: MutationTree<ProjectStateInterface> = {
     const boardIndex = projectBoards.findIndex((b) => b.id === boardID);
     projectBoards.splice(boardIndex, 1);
   },
+  TOGGLE_BOARD_FAVORITE(state: ProjectStateInterface, id: number) {
+    const board = state.boardDetail;
+    if (!board) return;
+
+    const boardID = board.id;
+    const boardInProject = state.projectDetail?.boards.find((b) => b.id === boardID);
+    if (!boardInProject) return;
+
+    boardInProject.favorite = !boardInProject.favorite;
+    board.favorite = !board.favorite;
+  },
 
   // issue
   SET_ISSUE_DETAIL(state: ProjectStateInterface, issue: IssueModel) {

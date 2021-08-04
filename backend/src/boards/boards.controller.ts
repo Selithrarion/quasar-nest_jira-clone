@@ -1,4 +1,4 @@
-import { Body, Controller, Get, Post, Patch, Delete, Param } from '@nestjs/common';
+import { Body, Controller, Get, Post, Patch, Delete, Param, Request } from '@nestjs/common';
 import { ApiBearerAuth, ApiOperation, ApiResponse, ApiTags } from '@nestjs/swagger';
 import { BoardsService } from './boards.service';
 import { BoardEntity } from './entity/board.entity';
@@ -19,7 +19,7 @@ export class BoardsController {
 
   @ApiOperation({ summary: 'Create board' })
   @ApiResponse({ status: 201, description: 'Board was created' })
-  @ApiResponse({ status: 403, description: 'Forbidden' })
+  @ApiResponse({ status: 401, description: 'Unauthorized' })
   @Post()
   async create(@Body() boardData: CreateBoardDTO): Promise<BoardEntity> {
     return await this.boardsService.create(boardData);
@@ -27,7 +27,7 @@ export class BoardsController {
 
   @ApiOperation({ summary: 'Update board' })
   @ApiResponse({ status: 201, description: 'Board was updated' })
-  @ApiResponse({ status: 403, description: 'Forbidden' })
+  @ApiResponse({ status: 401, description: 'Unauthorized' })
   @Patch(':id')
   async update(@Param('id') id: number, @Body() boardData: UpdateBoardDTO): Promise<BoardEntity> {
     return await this.boardsService.update(id, boardData);
@@ -35,9 +35,17 @@ export class BoardsController {
 
   @ApiOperation({ summary: 'Delete board' })
   @ApiResponse({ status: 201, description: 'Board was deleted' })
-  @ApiResponse({ status: 403, description: 'Forbidden' })
+  @ApiResponse({ status: 401, description: 'Unauthorized' })
   @Delete(':id')
   async delete(@Param('id') id: number): Promise<void> {
     return await this.boardsService.delete(id);
+  }
+
+  @ApiOperation({ summary: 'Toggle board favorite' })
+  @ApiResponse({ status: 200, description: 'Board favorite was toggled' })
+  @ApiResponse({ status: 401, description: 'Unauthorized' })
+  @Post('favorite/:id')
+  async toggleFavorite(@Param('id') id: number, @Request() req): Promise<void> {
+    return await this.boardsService.toggleFavorite(Number(id), req.user.id);
   }
 }

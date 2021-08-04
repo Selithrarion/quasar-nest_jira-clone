@@ -2,6 +2,7 @@ import { http } from 'boot/axios';
 import {
   UserAuthResponse,
   UserLoginDTO,
+  UserModel,
   UserRegisterDTO,
   UserUpdateTokenDTO,
   UserUpdateTokenResponse,
@@ -9,6 +10,15 @@ import {
 import { ApiResponseModel } from 'src/models/common/apiResponse.model';
 
 export default {
+  async getSelf(): Promise<UserModel> {
+    const { data }: ApiResponseModel = await http.get('/user/self');
+    return data as UserModel;
+  },
+  async getByID(id: number): Promise<UserModel> {
+    const { data }: ApiResponseModel = await http.get(`/user/${id}`);
+    return data as UserModel;
+  },
+
   async login(payload: UserLoginDTO): Promise<UserAuthResponse> {
     const { data }: ApiResponseModel = await http.post('/auth/login', payload);
     return data as UserAuthResponse;
