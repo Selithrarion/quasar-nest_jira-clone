@@ -187,7 +187,7 @@ export default defineComponent({
 
     const project = computed(() => store.state.project.projectDetail);
     const availableProjects = computed(() => store.state.project.projects);
-    const selectedBoard = ref<BoardModel>();
+    const selectedBoard = computed(() => store.state.project.boardDetail)
 
     onBeforeMount(async () => {
       try {
@@ -204,7 +204,7 @@ export default defineComponent({
     });
 
     async function selectBoard(board: BoardModel) {
-      selectedBoard.value = board;
+      store.commit('project/SET_BOARD_DETAIL', board)
       storage.save(board.id, 'selectedBoardID');
       await openBoardByID(board.id);
     }
@@ -218,9 +218,7 @@ export default defineComponent({
       if (board) await selectBoard(board);
     }
     async function toggleSelectedBoardFavorite() {
-      if (!selectedBoard.value) return;
-      await store.dispatch('project/toggleBoardFavorite', selectedBoard.value.id);
-      selectedBoard.value.favorite = !selectedBoard.value.favorite;
+      await store.dispatch('project/toggleBoardFavorite', selectedBoard.value?.id);
     }
 
     async function openBoardByID(boardID: number) {

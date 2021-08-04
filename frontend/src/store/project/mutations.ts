@@ -45,22 +45,15 @@ const mutation: MutationTree<ProjectStateInterface> = {
     const boardIndex = projectBoards.findIndex((b) => b.id === board.id);
     projectBoards[boardIndex] = board;
   },
-  DELETE_BOARD(state: ProjectStateInterface, boardID) {
+  DELETE_BOARD(state: ProjectStateInterface, boardID: number) {
     if (!state.projectDetail) return;
     const projectBoards = state.projectDetail.boards;
     const boardIndex = projectBoards.findIndex((b) => b.id === boardID);
     projectBoards.splice(boardIndex, 1);
   },
-  TOGGLE_BOARD_FAVORITE(state: ProjectStateInterface, id: number) {
-    const board = state.boardDetail;
-    if (!board) return;
-
-    const boardID = board.id;
+  TOGGLE_BOARD_FAVORITE(state: ProjectStateInterface, boardID: number) {
     const boardInProject = state.projectDetail?.boards.find((b) => b.id === boardID);
-    if (!boardInProject) return;
-
-    boardInProject.favorite = !boardInProject.favorite;
-    board.favorite = !board.favorite;
+    if (boardInProject) boardInProject.favorite = !boardInProject.favorite;
   },
 
   // issue
