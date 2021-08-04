@@ -6,12 +6,23 @@ import { BaseEntity } from '../../common/base.entity';
 import { IssueEntity } from '../../issues/entity/issue.entity';
 import { ProjectEntity } from '../../projects/entity/project.entity';
 
-export interface UserValidationInterface {
+export interface UserValidationDTO {
   readonly email: string;
   readonly password: string;
 }
-export interface UserTokenResponse {
-  accessToken: string;
+export interface UserTokensInterface {
+  readonly user?: UserEntity;
+  readonly accessToken: string;
+  readonly refreshToken: string;
+}
+export interface UserUpdateTokensDTO {
+  readonly userID: number;
+  readonly email: string;
+  readonly refreshToken: string;
+}
+export interface UserJwtPayload {
+  readonly userID: number;
+  readonly email: string;
 }
 
 @Entity()

@@ -16,8 +16,7 @@ export class ProjectsController {
   @ApiResponse({ status: 200, description: 'Return all projects' })
   @Get()
   async getAll(@Query() query, @Request() req): Promise<ProjectEntity[]> {
-    console.log(req.user);
-    return await this.projectsService.getAll(query, req.user);
+    return await this.projectsService.getAll(query, req.user.id);
   }
 
   @ApiOperation({ summary: 'Get project by ID' })
