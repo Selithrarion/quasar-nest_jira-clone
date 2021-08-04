@@ -9,7 +9,6 @@ const mutation: MutationTree<UserStateInterface> = {
     state.token = accessToken;
     state.refreshToken = refreshToken;
     Cookies.set('user', JSON.stringify({ ...user, accessToken, refreshToken }));
-    // TODO: add refresh tokens
   },
   LOGOUT_USER(state: UserStateInterface) {
     state.currentUser = null;

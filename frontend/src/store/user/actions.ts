@@ -1,7 +1,7 @@
 import { ActionTree } from 'vuex';
 import { StateInterface } from '../index';
 import { UserStateInterface } from 'src/store/user/state';
-import { UserLoginDTO, UserRegisterDTO } from 'src/models/user/user.model';
+import { UserLoginDTO, UserRegisterDTO, UserUpdateTokenResponse } from 'src/models/user/user.model';
 import userService from 'src/service/userService';
 
 const actions: ActionTree<UserStateInterface, StateInterface> = {
@@ -16,6 +16,11 @@ const actions: ActionTree<UserStateInterface, StateInterface> = {
   async logout({ commit }) {
     await userService.logout();
     commit('LOGOUT_USER');
+  },
+
+  async loadUser({ commit }, { accessToken, refreshToken }: UserUpdateTokenResponse) {
+    const user = await userService.getSelf();
+    commit('AUTH_USER', { user, accessToken, refreshToken });
   },
   async updateTokens({ state, commit }) {
     if (!state.refreshToken || !state.currentUser) return;

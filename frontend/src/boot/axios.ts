@@ -45,16 +45,15 @@ export default boot(({ store, redirect }) => {
       const originalRequest = error.config as AxiosRequestConfigWithRetryField;
 
       const isAuthError = error.response?.status === 401;
-      const isNotRetry = !originalRequest._isRetry;
 
-      if (isAuthError && isNotRetry) {
-        originalRequest._isRetry = true;
+      if (error.config.url?.includes('update-tokens')) redirect('/auth?redirect');
+      else if (isAuthError) {
         const { accessToken } = (await store.dispatch('user/updateTokens')) as UserUpdateTokenResponse;
         console.log('NEW AT', accessToken);
         // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access
         http.defaults.headers.common['Authorization'] = `Bearer ${accessToken}`;
         return http(originalRequest);
-      } else if (!isNotRetry) redirect('/auth');
+      }
 
       return Promise.reject(error);
     }

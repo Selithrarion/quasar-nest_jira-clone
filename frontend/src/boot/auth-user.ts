@@ -6,12 +6,13 @@ import { UserModel } from '../models/user/user.model';
 export default boot(async ({ router, store }) => {
   const savedUserData: UserModel = Cookies.get('user');
   if (savedUserData && savedUserData.accessToken && savedUserData.refreshToken) {
-    const { refreshToken, accessToken, ...user } = savedUserData;
-    store.commit('user/AUTH_USER', { user, accessToken, refreshToken });
+    const { accessToken } = savedUserData;
     // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access
     http.defaults.headers.common.Authorization = `Bearer ${accessToken}`;
+
+    await store.dispatch('user/loadUser', savedUserData);
   } else {
-    await router.push('/auth');
+    await router.push('/auth?redirect');
   }
 
   router.beforeEach((to, from, next) => {
@@ -23,7 +24,8 @@ export default boot(async ({ router, store }) => {
       if (!savedUserData) next('/auth');
       else next();
     } else if (isNeedGuest) {
-      if (savedUserData) next('/');
+      if (to.query.redirect !== undefined) next();
+      else if (savedUserData) next('/');
       next();
     } else {
       next();
