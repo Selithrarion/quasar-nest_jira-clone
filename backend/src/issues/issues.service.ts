@@ -1,36 +1,26 @@
-import { Injectable } from '@nestjs/common';
+import { Inject, Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { IssueEntity } from './entity/issue.entity';
 import { CreateIssueDTO, UpdateIssueDTO } from './dto';
 import { Repository } from 'typeorm';
+import { UserService } from '../user/user.service';
 
 @Injectable()
 export class IssuesService {
   constructor(
     @InjectRepository(IssueEntity)
-    private readonly issues: Repository<IssueEntity>
+    private readonly issues: Repository<IssueEntity>,
+
+    @Inject(UserService)
+    private readonly userService: UserService
   ) {}
 
   async getByID(id: number): Promise<IssueEntity> {
     return await this.issues.findOneOrFail(id);
   }
 
-  async create(payload: CreateIssueDTO): Promise<IssueEntity> {
-    const author = {
-      id: 1,
-      name: 'Mock',
-      password: 'password',
-      email: 'mock@yande.xru',
-      locale: 'ru',
-      isActive: true,
-      avatarURL: null,
-      assignedIssues: [],
-      watchingIssues: [],
-      projectsIDs: [],
-      favoriteProjectsIDs: [1, 7, 8, 12, 15],
-      createdAt: new Date(),
-      updatedAt: new Date(),
-    };
+  async create(payload: CreateIssueDTO, userID: number): Promise<IssueEntity> {
+    const author = await this.userService.getByID(userID);
     const watchers = [author];
 
     const issue = await this.issues.save({ ...payload, author, watchers, column: payload.board.columns[0] });

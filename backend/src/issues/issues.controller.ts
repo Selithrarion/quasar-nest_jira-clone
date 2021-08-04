@@ -1,4 +1,4 @@
-import { Controller, Get, Post, Body, Patch, Param, Delete } from '@nestjs/common';
+import { Controller, Get, Post, Body, Patch, Param, Delete, Request } from '@nestjs/common';
 import { IssuesService } from './issues.service';
 import { ApiBearerAuth, ApiOperation, ApiResponse, ApiTags } from '@nestjs/swagger';
 import { CreateIssueDTO, UpdateIssueDTO } from './dto';
@@ -22,8 +22,8 @@ export class IssuesController {
   @ApiResponse({ status: 201, description: 'Issue was created' })
   @ApiResponse({ status: 401, description: 'Unauthorized' })
   @Post()
-  async create(@Body() payload: CreateIssueDTO): Promise<IssueEntity> {
-    return await this.issuesService.create(payload);
+  async create(@Body() payload: CreateIssueDTO, @Request() req): Promise<IssueEntity> {
+    return await this.issuesService.create(payload, req.user.id);
   }
 
   @ApiOperation({ summary: 'Update issue' })
@@ -31,7 +31,7 @@ export class IssuesController {
   @ApiResponse({ status: 401, description: 'Unauthorized' })
   @Patch(':id')
   async update(@Param('id') id: number, @Body() payload: UpdateIssueDTO): Promise<IssueEntity> {
-    return await this.issuesService.update(id, payload);
+    return await this.issuesService.update(Number(id), payload);
   }
 
   @ApiOperation({ summary: 'Delete issue' })
