@@ -160,7 +160,7 @@
             <div class="item-row">
               <label>Приоритет</label>
               <q-item clickable dense>
-                <ProjectBoardIconPriorityType :type="issue.priorityID" />
+                <ProjectBoardIconIssuePriority :priority="issue.priorityID" />
                 {{ store.getters.getIssuePriorityName(issue.priorityID) }}
               </q-item>
             </div>
@@ -194,7 +194,7 @@ import BaseDialog from 'components/base/BaseDialog.vue';
 import BaseTooltip from 'components/base/BaseTooltip.vue';
 import BaseButtonCloseIcon from 'components/base/button/BaseButtonCloseIcon.vue';
 import ProjectBoardIconIssueType from 'components/project/board/icon/ProjectBoardIconIssueType.vue';
-import ProjectBoardIconPriorityType from 'components/project/board/icon/ProjectBoardIconPriorityType.vue';
+import ProjectBoardIconIssuePriority from 'components/project/board/icon/ProjectBoardIconIssuePriority.vue';
 
 export default defineComponent({
   name: 'ProjectBoardDialogViewIssue',
@@ -204,7 +204,7 @@ export default defineComponent({
     BaseTooltip,
     BaseButtonCloseIcon,
     ProjectBoardIconIssueType,
-    ProjectBoardIconPriorityType,
+    ProjectBoardIconIssuePriority,
   },
 
   emits: ['close'],

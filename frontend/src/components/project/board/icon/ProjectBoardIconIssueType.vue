@@ -20,8 +20,8 @@ export default defineComponent({
     type: {
       type: [Number, String],
       required: true,
-      validator: (value: string): boolean => {
-        return ['BUG', 'TASK', 'HISTORY', 'EPIC', 'INVESTIGATION'].includes(value);
+      validator: (value: number | string): boolean => {
+        return ['BUG', 'TASK', 'HISTORY', 'EPIC', 'INVESTIGATION'].includes(String(value)) || typeof value === 'number';
       },
     },
     small: Boolean,

@@ -85,7 +85,7 @@
           <template #option="{ itemProps, itemEvents, opt }">
             <q-item v-bind="itemProps" v-on="itemEvents">
               <div class="flex-center q-pr-sm">
-                <ProjectBoardIconPriorityType :type="opt.id" hide-tooltip small />
+                <ProjectBoardIconIssuePriority :priority="opt.id" hide-tooltip small />
               </div>
 
               <q-item-section>
@@ -142,7 +142,7 @@ import useFormValidation from 'src/composables/common/useFormValidation';
 
 import BaseDialog from 'components/base/BaseDialog.vue';
 import ProjectBoardIconIssueType from 'components/project/board/icon/ProjectBoardIconIssueType.vue';
-import ProjectBoardIconPriorityType from 'components/project/board/icon/ProjectBoardIconPriorityType.vue';
+import ProjectBoardIconIssuePriority from 'components/project/board/icon/ProjectBoardIconIssuePriority.vue';
 import { UserModel } from 'src/models/user/user.model';
 import { IssuePriorityEnum, IssueTypeEnum } from 'src/models/project/issue.model';
 
@@ -152,7 +152,7 @@ export default defineComponent({
   components: {
     BaseDialog,
     ProjectBoardIconIssueType,
-    ProjectBoardIconPriorityType,
+    ProjectBoardIconIssuePriority,
   },
 
   emits: ['close'],
