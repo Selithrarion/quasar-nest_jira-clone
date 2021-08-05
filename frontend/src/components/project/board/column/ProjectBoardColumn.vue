@@ -27,7 +27,7 @@
                 <ProjectBoardIconIssueType :type="element.type" />
               </div>
 
-              <div class="row gap-2">
+              <div class="row items-center gap-2">
                 <span class="cursor-pointer">
                   {{ element.key }}
                   <BaseTooltip :label="element.key" />
