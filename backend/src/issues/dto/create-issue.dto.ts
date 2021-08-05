@@ -36,15 +36,15 @@ export class CreateIssueDTO {
 
   @ApiProperty({ required: true })
   @IsNotEmpty()
-  project: ProjectEntity;
-
-  @ApiProperty({ required: true })
-  @IsNotEmpty()
   author: UserEntity;
 
   @ApiProperty({ required: true })
   @IsNotEmpty()
   assigned: UserEntity;
+
+  @ApiProperty({ required: true })
+  @IsNotEmpty()
+  project: ProjectEntity;
 
   @ApiProperty({ required: true })
   @IsNotEmpty()

@@ -62,6 +62,7 @@ export class IssueEntity extends BaseEntity {
   assigned: UserEntity;
 
   @ManyToOne(() => ColumnEntity, (column) => column.issues, {
+    nullable: false,
     onUpdate: 'CASCADE',
     onDelete: 'CASCADE',
   })

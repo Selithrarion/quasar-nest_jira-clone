@@ -1,9 +1,12 @@
 import { Controller, Post, Body, Patch, Param, Delete, Request } from '@nestjs/common';
 import { ColumnsService } from './columns.service';
 import { CreateColumnDTO, UpdateColumnDTO } from './dto';
-import { ApiOperation, ApiResponse } from '@nestjs/swagger';
+import { ApiBearerAuth, ApiOperation, ApiResponse, ApiTags } from '@nestjs/swagger';
 import { ColumnEntity } from './entity/column.entity';
 
+
+@ApiBearerAuth()
+@ApiTags('columns')
 @Controller('columns')
 export class ColumnsController {
   constructor(private readonly columnsService: ColumnsService) {}
@@ -12,16 +15,16 @@ export class ColumnsController {
   @ApiResponse({ status: 201, description: 'Column was created' })
   @ApiResponse({ status: 401, description: 'Unauthorized' })
   @Post()
-  async create(@Body() columnData: CreateColumnDTO, @Request() req): Promise<ColumnEntity> {
-    return await this.columnsService.create(columnData, req.user.id);
+  async create(@Body() payload: CreateColumnDTO, @Request() req): Promise<ColumnEntity> {
+    return await this.columnsService.create(payload, req.user.id);
   }
 
   @ApiOperation({ summary: 'Update column' })
   @ApiResponse({ status: 200, description: 'Column was updated' })
   @ApiResponse({ status: 401, description: 'Unauthorized' })
   @Patch(':id')
-  async update(@Param('id') id: number, @Body() columnData: UpdateColumnDTO): Promise<ColumnEntity> {
-    return await this.columnsService.update(Number(id), columnData);
+  async update(@Param('id') id: number, @Body() payload: UpdateColumnDTO): Promise<ColumnEntity> {
+    return await this.columnsService.update(Number(id), payload);
   }
 
   @ApiOperation({ summary: 'Delete column' })

@@ -16,9 +16,9 @@ export class ColumnsService {
     private readonly boardsService: BoardsService
   ) {}
 
-  async create(columnData: CreateColumnDTO, userID: number): Promise<ColumnEntity> {
-    const board = await this.boardsService.getByID(columnData.boardID, userID);
-    const createdColumn = await this.columns.save({ ...columnData, board });
+  async create(payload: CreateColumnDTO, userID: number): Promise<ColumnEntity> {
+    const board = await this.boardsService.getByID(payload.boardID, userID);
+    const createdColumn = await this.columns.save({ ...payload, board });
     return createdColumn;
   }
 
@@ -29,13 +29,12 @@ export class ColumnsService {
     await this.columns.save({ name: 'Готово', board });
   }
 
-  async update(id: number, columnData: UpdateColumnDTO): Promise<ColumnEntity> {
-    const toUpdate = await this.columns.findOneOrFail(id);
-    const updated = { ...toUpdate, ...columnData };
-    await this.columns.save(updated);
+  async update(id: number, payload: UpdateColumnDTO): Promise<ColumnEntity> {
+    const toUpdate = await this.columns.findOne(id);
+    const newColumn = { ...toUpdate, ...payload };
+    const updated = await this.columns.save(newColumn);
     return updated;
   }
-
   async delete(id: number): Promise<void> {
     await this.columns.delete(id);
   }

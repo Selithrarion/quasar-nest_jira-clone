@@ -18,6 +18,8 @@ export class ColumnEntity extends BaseEntity {
   @OneToMany(() => IssueEntity, (issue) => issue.column, {
     eager: true,
     cascade: true,
+    onUpdate: 'CASCADE',
+    onDelete: 'CASCADE',
   })
   issues: IssueEntity[];
 }

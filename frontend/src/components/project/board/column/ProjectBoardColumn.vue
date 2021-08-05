@@ -118,7 +118,10 @@ export default defineComponent({
       },
       async set(issues: IssueModel[] | undefined) {
         const id = selectedColumn.value?.id;
-        if (id) await store.dispatch('project/updateColumn', { id, data: issues });
+        if (!id) return;
+
+        const payload = { issues };
+        await store.dispatch('project/updateColumn', { id, payload });
       },
     });
 

@@ -3,6 +3,7 @@ import { CommentModel } from 'src/models/project/comment.model';
 import { UserModel } from 'src/models/user/user.model';
 import { BoardModel } from 'src/models/project/board.model';
 import { ProjectModel } from 'src/models/project/project.model';
+import { ColumnModel } from 'src/models/project/column.model';
 
 export interface IssueModel extends BaseModel {
   name: string;
@@ -44,6 +45,7 @@ export interface IssueDTO {
 
   project: ProjectModel;
   board: BoardModel;
+  column: ColumnModel;
 
   priorityID: IssuePriorityEnum;
   typeID: IssueTypeEnum;

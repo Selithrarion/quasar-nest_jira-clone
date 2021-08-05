@@ -5,6 +5,7 @@ import projectService from 'src/service/projectService';
 import boardService from 'src/service/boardService';
 import issueService from 'src/service/issueService';
 import columnService from 'src/service/columnService';
+import { ColumnDTO } from 'src/models/project/column.model';
 
 const actions: ActionTree<ProjectStateInterface, StateInterface> = {
   async getAll({ commit }) {
@@ -75,9 +76,9 @@ const actions: ActionTree<ProjectStateInterface, StateInterface> = {
     commit('DELETE_ISSUE', issueID);
   },
 
-  async updateColumn({ commit }, { id, payload }) {
-    const data = await columnService.update(id, payload);
-    commit('UPDATE_COLUMN', data);
+  async updateColumn({ commit }, { id, payload }: { id: number; payload: ColumnDTO }) {
+    commit('UPDATE_COLUMN', { id, payload });
+    await columnService.update(id, payload);
   },
 };
 

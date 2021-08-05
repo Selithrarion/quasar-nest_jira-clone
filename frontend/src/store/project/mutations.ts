@@ -86,11 +86,12 @@ const mutation: MutationTree<ProjectStateInterface> = {
     state.isIssueDragging = status;
   },
 
-  UPDATE_COLUMN(state: ProjectStateInterface, payload: ColumnModel) {
+  UPDATE_COLUMN(state: ProjectStateInterface, { id, payload }: { id: number; payload: ColumnModel }) {
     if (!state.boardDetail) return;
     const columns = state.boardDetail.columns;
-    const columnIndex = columns.findIndex((c) => c.id === payload.id);
-    if (columnIndex !== -1) state.boardDetail.columns[columnIndex] = payload;
+    const columnIndex = columns.findIndex((c) => c.id === id);
+    if (columnIndex !== -1)
+      state.boardDetail.columns[columnIndex] = { ...state.boardDetail.columns[columnIndex], ...payload };
   },
 };
 

@@ -18,6 +18,7 @@ export class BoardEntity extends BaseEntity {
   columns: ColumnEntity[];
 
   @ManyToOne(() => ProjectEntity, (project) => project.boards, {
+    nullable: false,
     onUpdate: 'CASCADE',
     onDelete: 'CASCADE',
   })
