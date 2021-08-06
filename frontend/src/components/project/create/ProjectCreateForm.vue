@@ -10,29 +10,15 @@
       filled
     />
 
-    <q-select
-      v-model="form.accessID"
-      label="Доступ"
-      :options="accessOptions"
-      option-label="name"
-      option-value="id"
-      emit-value
-      map-options
-      filled
-    >
-      <template #option="{ itemProps, itemEvents, opt }">
-        <q-item v-bind="itemProps" v-on="itemEvents">
-          <div class="flex-center q-md-sm">
-            <q-icon :name="opt.icon" />
-          </div>
-
-          <q-item-section>
-            <q-item-label>{{ opt.name }}</q-item-label>
-            <q-item-label style="max-width: 600px" caption>{{ opt.description }}</q-item-label>
-          </q-item-section>
-        </q-item>
+    <BaseSelect v-model="form.accessID" label="Доступ" :options="accessOptions">
+      <template #optionPrepend="{ opt }">
+        <q-icon :name="opt.icon" />
       </template>
-    </q-select>
+      <template #optionLabel="{ opt }">
+        <q-item-label>{{ opt.name }}</q-item-label>
+        <q-item-label style="max-width: 600px" caption>{{ opt.description }}</q-item-label>
+      </template>
+    </BaseSelect>
 
     <q-input
       v-model="form.key"
@@ -43,17 +29,7 @@
       :rules="[rules.required, rules.max10]"
     />
 
-    <q-select
-      v-model="form.templateID"
-      label="Шаблон"
-      :options="templateOptions"
-      option-label="name"
-      option-value="id"
-      option-disable="disabled"
-      map-options
-      emit-value
-      filled
-    />
+    <BaseSelect v-model="form.templateID" label="Шаблон" :options="templateOptions" option-disable="disabled" />
 
     <div class="dialog-action-buttons">
       <q-btn label="Назад" color="primary" flat @click="back" />
@@ -70,10 +46,15 @@ import { useStore } from 'src/store';
 import useFormValidation from 'src/composables/common/useFormValidation';
 import useLoading from 'src/composables/common/useLoading';
 
+import BaseSelect from 'components/base/BaseSelect.vue';
 import { ProjectModel, ProjectTypeEnum } from 'src/models/project/project.model';
 
 export default defineComponent({
   name: 'ProjectCreateForm',
+
+  components: {
+    BaseSelect,
+  },
 
   props: {
     typeId: {

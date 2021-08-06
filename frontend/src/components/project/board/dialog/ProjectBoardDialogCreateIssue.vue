@@ -26,41 +26,25 @@
 
     <template #default>
       <q-form>
-        <q-select
+        <BaseSelect
           v-model="form.project"
-          style="max-width: 250px"
           label="Проект"
-          option-label="name"
+          width="250"
           :options="availableProjects"
           :rules="[rules.required]"
-          hide-bottom-space
-          filled
         />
-        <q-select
+
+        <BaseSelect
           v-model="form.typeID"
-          style="max-width: 250px"
           label="Тип задачи"
-          option-label="name"
-          option-value="id"
+          width="250"
           :options="availableIssueTypes"
           :rules="[rules.required]"
-          hide-bottom-space
-          emit-value
-          map-options
-          filled
         >
-          <template #option="{ itemProps, itemEvents, opt }">
-            <q-item v-bind="itemProps" v-on="itemEvents">
-              <div class="flex-center q-pr-sm">
-                <ProjectBoardIconIssueType :type="opt.id" small />
-              </div>
-
-              <q-item-section>
-                <q-item-label>{{ opt.name }}</q-item-label>
-              </q-item-section>
-            </q-item>
+          <template #optionPrepend="{ opt }">
+            <ProjectBoardIconIssueType :type="opt.id" small />
           </template>
-        </q-select>
+        </BaseSelect>
 
         <q-separator />
 
@@ -69,62 +53,30 @@
 
         <q-separator />
 
-        <q-select
+        <BaseSelect
           v-model="form.priorityID"
-          style="max-width: 250px"
           label="Приоритет"
-          option-label="name"
-          option-value="id"
+          width="250"
           :options="availableIssuePriorities"
           :rules="[rules.required]"
-          hide-bottom-space
-          emit-value
-          map-options
-          filled
         >
-          <template #option="{ itemProps, itemEvents, opt }">
-            <q-item v-bind="itemProps" v-on="itemEvents">
-              <div class="flex-center q-pr-sm">
-                <ProjectBoardIconIssuePriority :priority="opt.id" hide-tooltip small />
-              </div>
-
-              <q-item-section>
-                <q-item-label>{{ opt.name }}</q-item-label>
-              </q-item-section>
-            </q-item>
+          <template #optionPrepend="{ opt }">
+            <ProjectBoardIconIssuePriority :priority="opt.id" hide-tooltip small />
           </template>
-        </q-select>
+        </BaseSelect>
         <q-input v-model="form.marks" style="max-width: 250px" label="Метки" disable filled />
 
         <div class="column gap-1">
-          <q-select
-            v-model="form.assigned"
-            style="max-width: 250px"
-            label="Исполнитель"
-            option-label="name"
-            option-value="id"
-            :options="availableProjectUsers"
-            emit-value
-            map-options
-            filled
-          >
-            <template #option="{ itemProps, itemEvents, opt }">
-              <q-item v-bind="itemProps" v-on="itemEvents">
-                <div class="flex-center q-pr-sm">
-                  <q-avatar size="24px">
-                    <img
-                      :src="opt.avatarURL || require('src/assets/img/default-avatar-1.png')"
-                      :alt="`${opt.name} Avatar`"
-                    />
-                  </q-avatar>
-                </div>
-
-                <q-item-section>
-                  <q-item-label>{{ opt.name }}</q-item-label>
-                </q-item-section>
-              </q-item>
+          <BaseSelect v-model="form.assigned" label="Исполнитель" width="250" :options="availableProjectUsers">
+            <template #optionPrepend="{ opt }">
+              <q-avatar size="24px">
+                <img
+                  :src="opt.avatarURL || require('src/assets/img/default-avatar-1.png')"
+                  :alt="`${opt.name} Avatar`"
+                />
+              </q-avatar>
             </template>
-          </q-select>
+          </BaseSelect>
           <div>
             <q-btn label="Назначить мне" dense no-caps no-wrap flat @click="assignToCurrentUser" />
           </div>
@@ -141,6 +93,7 @@ import useLoading from 'src/composables/common/useLoading';
 import useFormValidation from 'src/composables/common/useFormValidation';
 
 import BaseDialog from 'components/base/BaseDialog.vue';
+import BaseSelect from 'components/base/BaseSelect.vue';
 import ProjectBoardIconIssueType from 'components/project/board/icon/ProjectBoardIconIssueType.vue';
 import ProjectBoardIconIssuePriority from 'components/project/board/icon/ProjectBoardIconIssuePriority.vue';
 import { UserModel } from 'src/models/user/user.model';
@@ -151,6 +104,7 @@ export default defineComponent({
 
   components: {
     BaseDialog,
+    BaseSelect,
     ProjectBoardIconIssueType,
     ProjectBoardIconIssuePriority,
   },

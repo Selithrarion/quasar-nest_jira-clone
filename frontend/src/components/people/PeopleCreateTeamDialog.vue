@@ -26,7 +26,7 @@
             :rules="[rules.required, rules.max40]"
           />
 
-          <q-select
+          <BaseSelect
             v-model="form.team"
             :options="options"
             label="Их имя или @упоминание"
@@ -36,14 +36,7 @@
             fill-input
             use-input
             use-chips
-            filled
-          >
-            <template #no-option>
-              <q-item>
-                <q-item-section class="text-grey"> Результатов нет </q-item-section>
-              </q-item>
-            </template>
-          </q-select>
+          />
         </q-form>
       </div>
     </div>
@@ -52,17 +45,20 @@
 
 <script lang="ts">
 import { defineComponent, reactive, ref } from 'vue';
-import BaseDialog from 'components/base/BaseDialog.vue';
 
 import { useRouter } from 'vue-router';
 import useFormValidation from 'src/composables/common/useFormValidation';
 import useLoading from 'src/composables/common/useLoading';
+
+import BaseDialog from 'components/base/BaseDialog.vue';
+import BaseSelect from 'components/base/BaseSelect.vue';
 
 export default defineComponent({
   name: 'PeopleCreateTeamDialog',
 
   components: {
     BaseDialog,
+    BaseSelect,
   },
 
   setup() {

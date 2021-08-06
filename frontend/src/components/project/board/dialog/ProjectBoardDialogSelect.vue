@@ -102,16 +102,7 @@
     <div v-else-if="step === 3">
       <q-form>
         <q-input v-model="form.name" label="Имя доски" autofocus lazy-rules filled />
-        <q-select
-          v-model="form.projectID"
-          label="Проект"
-          :options="availableProjects"
-          option-label="name"
-          option-value="id"
-          emit-value
-          map-options
-          filled
-        />
+        <BaseSelect v-model="form.projectID" label="Проект" :options="availableProjects" />
       </q-form>
     </div>
 
@@ -139,16 +130,18 @@ import useDialog from 'src/composables/common/useDialog';
 import useLoading from 'src/composables/common/useLoading';
 
 import BaseDialog from 'components/base/BaseDialog.vue';
+import BaseSelect from 'components/base/BaseSelect.vue';
 import CommonSearch from 'components/common/CommonSearch.vue';
 
 import { BoardModel } from 'src/models/project/board.model';
-import { ProjectModel } from 'src/models/project/project.model';
+import { ProjectModel, ProjectTemplateEnum } from 'src/models/project/project.model';
 
 export default defineComponent({
   name: 'ProjectBoardDialogSelect',
 
   components: {
     BaseDialog,
+    BaseSelect,
     CommonSearch,
   },
 
@@ -227,11 +220,11 @@ export default defineComponent({
     const templateType = ref();
     function showKanbanCreateForm() {
       step.value = 3;
-      templateType.value = 'KANBAN';
+      templateType.value = ProjectTemplateEnum.KANBAN;
     }
     function showScrumCreateForm() {
       step.value = 3;
-      templateType.value = 'SCRUM';
+      templateType.value = ProjectTemplateEnum.SCRUM;
     }
 
     const form = reactive({

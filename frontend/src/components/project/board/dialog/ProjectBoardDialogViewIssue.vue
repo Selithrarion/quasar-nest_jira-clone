@@ -124,15 +124,7 @@
 
         <div class="col-5 gap-4 full-height overflow-auto">
           <div>
-            <q-select
-              v-model="selectedColumn"
-              class="q-mb-md w-fit-content"
-              :options="availableColumns"
-              option-label="name"
-              option-value="id"
-              filled
-              dense
-            />
+            <BaseSelect v-model="selectedColumn" class="q-mb-md w-fit-content" :options="availableColumns" dense />
 
             <div class="item-row">
               <label>Исполнитель</label>
@@ -200,6 +192,7 @@ import { useRoute } from 'vue-router';
 import useLoading from 'src/composables/common/useLoading';
 
 import BaseDialog from 'components/base/BaseDialog.vue';
+import BaseSelect from 'components/base/BaseSelect.vue';
 import BaseTooltip from 'components/base/BaseTooltip.vue';
 import BaseButtonCloseIcon from 'components/base/button/BaseButtonCloseIcon.vue';
 import ProjectBoardIconIssueType from 'components/project/board/icon/ProjectBoardIconIssueType.vue';
@@ -210,6 +203,7 @@ export default defineComponent({
 
   components: {
     BaseDialog,
+    BaseSelect,
     BaseTooltip,
     BaseButtonCloseIcon,
     ProjectBoardIconIssueType,

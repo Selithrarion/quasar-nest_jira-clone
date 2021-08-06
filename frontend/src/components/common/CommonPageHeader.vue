@@ -8,40 +8,48 @@
     <div class="q-px-xl flex gap-4">
       <CommonSearch v-model="searchValue" append-icon @search="search" />
 
-      <q-select
+      <BaseSelect
         v-if="isShowFilter('type')"
         v-model="selectedType"
-        class="select-filter-input"
+        width="240"
         label="Тип"
+        option-label="label"
         :options="availableTypes"
-        filled
+        :emit-value="false"
+        :map-options="false"
         dense
       />
-      <q-select
+      <BaseSelect
         v-if="isShowFilter('leader')"
         v-model="selectedLeader"
-        class="select-filter-input"
+        width="240"
         label="Владелец"
+        option-label="label"
         :options="availableLeaders"
-        filled
+        :emit-value="false"
+        :map-options="false"
         dense
       />
-      <q-select
+      <BaseSelect
         v-if="isShowFilter('project')"
         v-model="selectedProjects"
-        class="select-filter-input"
+        width="240"
         label="Проект"
+        option-label="label"
         :options="availableProjects"
-        filled
+        :emit-value="false"
+        :map-options="false"
         dense
       />
-      <q-select
+      <BaseSelect
         v-if="isShowFilter('group')"
         v-model="selectedGroup"
-        class="select-filter-input"
+        width="240"
         label="Группа"
+        option-label="label"
         :options="availableGroups"
-        filled
+        :emit-value="false"
+        :map-options="false"
         dense
       />
 
@@ -63,13 +71,18 @@
 <script lang="ts">
 import { defineComponent, reactive, ref } from 'vue';
 
+import BaseSelect from 'components/base/BaseSelect.vue';
 import CommonPageTitle from 'components/common/CommonPageTitle.vue';
 import CommonSearch from 'components/common/CommonSearch.vue';
 
 export default defineComponent({
   name: 'CommonPageHeader',
 
-  components: { CommonPageTitle, CommonSearch },
+  components: {
+    BaseSelect,
+    CommonPageTitle,
+    CommonSearch,
+  },
 
   props: {
     pageTitle: {
@@ -160,9 +173,3 @@ export default defineComponent({
   },
 });
 </script>
-
-<style lang="sass" scoped>
-.common-page-header
-  .select-filter-input
-    width: 240px
-</style>
