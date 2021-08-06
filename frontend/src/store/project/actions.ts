@@ -16,13 +16,13 @@ const actions: ActionTree<ProjectStateInterface, StateInterface> = {
     const project = await projectService.getByID(id);
     commit('SET_PROJECT_DETAIL', project);
   },
-  async create({ commit }, projectData) {
-    const project = await projectService.create(projectData);
+  async create({ commit }, payload) {
+    const project = await projectService.create(payload);
     commit('ADD_PROJECT', project);
     return project;
   },
-  async update({ commit }, { id, projectData }) {
-    const project = await projectService.update(id, projectData);
+  async update({ commit }, { id, payload }) {
+    const project = await projectService.update(id, payload);
     commit('UPDATE_PROJECT', project);
   },
   async delete({ commit }, id) {
@@ -39,18 +39,18 @@ const actions: ActionTree<ProjectStateInterface, StateInterface> = {
     const board = await boardService.getByID(id);
     commit('SET_BOARD_DETAIL', board);
   },
-  async createBoard({ commit }, boardData) {
-    const board = await boardService.create(boardData);
+  async createBoard({ commit }, payload) {
+    const board = await boardService.create(payload);
     commit('ADD_BOARD', board);
     return board;
   },
-  async updateBoard({ commit }, { id, boardData }) {
-    const board = await boardService.update(id, boardData);
+  async updateBoard({ commit }, { id, payload }) {
+    const board = await boardService.update(id, payload);
     commit('UPDATE_BOARD', board);
   },
-  async deleteBoard({ commit }, boardID) {
-    await boardService.delete(boardID);
-    commit('DELETE_BOARD', boardID);
+  async deleteBoard({ commit }, id) {
+    await boardService.delete(id);
+    commit('DELETE_BOARD', id);
   },
   async toggleBoardFavorite({ commit }, id) {
     commit('TOGGLE_BOARD_FAVORITE', id);
@@ -58,22 +58,22 @@ const actions: ActionTree<ProjectStateInterface, StateInterface> = {
   },
 
   // issue
-  async getIssueByID({ commit }, issueID) {
-    const issue = await issueService.getByID(issueID);
+  async getIssueByID({ commit }, id) {
+    const issue = await issueService.getByID(id);
     commit('SET_ISSUE_DETAIL', issue);
   },
-  async createIssue({ commit }, issueData) {
-    const issue = await issueService.create(issueData);
+  async createIssue({ commit }, payload) {
+    const issue = await issueService.create(payload);
     commit('ADD_ISSUE', issue);
     return issue;
   },
-  async updateIssue({ commit }, { id, issueData }) {
-    const issue = await issueService.update(id, issueData);
+  async updateIssue({ commit }, { id, payload }) {
+    const issue = await issueService.update(id, payload);
     commit('UPDATE_ISSUE', issue);
   },
-  async deleteIssue({ commit }, issueID) {
-    await issueService.delete(issueID);
-    commit('DELETE_ISSUE', issueID);
+  async deleteIssue({ commit }, id) {
+    await issueService.delete(id);
+    commit('DELETE_ISSUE', id);
   },
 
   async updateColumn({ commit }, { id, payload }: { id: number; payload: ColumnDTO }) {
