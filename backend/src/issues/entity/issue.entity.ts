@@ -1,4 +1,4 @@
-import { Column, Entity, JoinColumn, JoinTable, ManyToMany, ManyToOne, OneToMany } from 'typeorm';
+import { Column, Entity, JoinColumn, JoinTable, ManyToMany, ManyToOne, OneToMany, RelationId } from 'typeorm';
 import { BaseEntity } from '../../common/base.entity';
 import { UserEntity } from '../../user/entity/user.entity';
 import { CommentEntity } from '../../columns/entity/comment.entity';
@@ -43,10 +43,10 @@ export class IssueEntity extends BaseEntity {
   comments: CommentEntity[];
 
   @Column({ type: 'enum', enum: IssueTypeEnum, default: IssueTypeEnum.BUG })
-  type: IssueTypeEnum;
+  typeID: IssueTypeEnum;
 
   @Column({ type: 'enum', enum: IssuePriorityEnum, default: IssuePriorityEnum.MEDIUM })
-  priority: IssuePriorityEnum;
+  priorityID: IssuePriorityEnum;
 
   @ManyToOne(() => UserEntity, {
     eager: true,
@@ -68,4 +68,7 @@ export class IssueEntity extends BaseEntity {
   })
   @JoinColumn({ name: 'columnID' })
   column: ColumnEntity;
+
+  @RelationId('column')
+  columnID: number;
 }
