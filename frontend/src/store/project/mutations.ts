@@ -68,17 +68,23 @@ const mutation: MutationTree<ProjectStateInterface> = {
   },
   UPDATE_ISSUE(state: ProjectStateInterface, issue: IssueModel) {
     if (!state.boardDetail) return;
+    state.issueDetail = issue;
+
     const columns = state.boardDetail.columns;
-    const column = columns.find((c) => c.id === issue.columnID);
-    if (!column) return;
-    const issueIndex = column.issues.findIndex((i) => i.id === issue.id);
-    if (issueIndex) column.issues[issueIndex] = issue;
+    const columnIndex = columns.findIndex((c) => c.id === issue.columnID);
+    if (columnIndex === -1) return;
+
+    const issues = columns[columnIndex].issues;
+    const issueIndex = issues.findIndex((i) => i.id === issue.id);
+    if (issueIndex !== -1) state.boardDetail.columns[columnIndex].issues[issueIndex] = issue;
   },
   DELETE_ISSUE(state: ProjectStateInterface, issue: IssueModel) {
     if (!state.boardDetail) return;
+
     const columns = state.boardDetail.columns;
     const column = columns.find((c) => c.id === issue.columnID);
     if (!column) return;
+
     const issueIndex = column.issues.findIndex((i) => i.id === issue.id);
     if (issueIndex) column.issues.splice(issueIndex, 1);
   },
@@ -88,8 +94,10 @@ const mutation: MutationTree<ProjectStateInterface> = {
 
   UPDATE_COLUMN(state: ProjectStateInterface, { id, payload }: { id: number; payload: ColumnModel }) {
     if (!state.boardDetail) return;
+
     const columns = state.boardDetail.columns;
     const columnIndex = columns.findIndex((c) => c.id === id);
+
     if (columnIndex !== -1)
       state.boardDetail.columns[columnIndex] = { ...state.boardDetail.columns[columnIndex], ...payload };
   },
