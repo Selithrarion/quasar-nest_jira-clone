@@ -1,5 +1,9 @@
 <template>
-  <div class="base-loader text-center" :style="[pageMargin ? 'margin-top: 128px' : '']">
+  <div
+    class="base-loader text-center"
+    :style="[pageMargin ? 'margin-top: 128px' : '']"
+    :class="{ 'flex-center full-height': center }"
+  >
     <q-circular-progress size="40px" color="primary" :thickness="0.11" indeterminate v-bind="$attrs" />
   </div>
 </template>
@@ -14,6 +18,7 @@ export default defineComponent({
 
   props: {
     pageMargin: Boolean,
+    center: Boolean,
   },
 });
 </script>
