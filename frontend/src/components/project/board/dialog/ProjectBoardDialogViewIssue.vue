@@ -1,8 +1,8 @@
 <template>
-  <BaseDialog :actions="false" :content-loading="!issue" hide-close-icon large @close="close">
+  <BaseDialog :actions="false" :content-loading="loading.active.value" hide-close-icon large @close="close">
     <template #title>
       <div class="flex-center-between full-width">
-        <div>
+        <div class="flex-center gap-1">
           <ProjectBoardIconIssueType :type="issue.typeID" />
           {{ issue.key }}
         </div>
@@ -32,12 +32,15 @@
           <div class="column gap-2">
             <div>
               <q-input
-                v-model="issue.name"
+                ref="nameInput"
+                v-model="localIssueName"
                 class="text-h6"
-                :placeholder="issue.name ? 'Изменить название' : 'Добавить название'"
+                :placeholder="localIssueName ? 'Изменить название' : 'Добавить название'"
                 filled
+                @blur="updateIssueName"
+                @keydown.enter="$event.target.blur()"
               />
-              <BaseTooltip :label="issue.name" />
+              <BaseTooltip :label="localIssueName" />
             </div>
 
             <div class="row gap-2">
@@ -51,13 +54,17 @@
 
           <div>
             <div class="text-subtitle2 q-pb-sm">Описание</div>
+            <!-- TODO: add editor on focus-->
             <q-input
-              v-model="issue.description"
+              ref="descriptionInput"
+              v-model="localIssueDescription"
               type="textarea"
               :placeholder="issue.description ? 'Изменить описание' : 'Добавить описание'"
               autogrow
               filled
               dense
+              @blur="updateIssueDescription"
+              @keydown.enter="$event.target.blur()"
             />
           </div>
 
@@ -130,13 +137,15 @@
             <div class="item-row">
               <label>Исполнитель</label>
               <q-item clickable dense>
-                <q-avatar size="24px">
+                <q-avatar v-if="issue.assigned" size="24px">
                   <img
-                    src="https://secure.gravatar.com/avatar/d1cb0ee26c499154d46f1ab7b61cf44f?d=https%3A%2F%2Favatar-management--avatars.us-west-2.prod.public.atl-paas.net%2Fdefault-avatar-1.png"
-                    alt="User Avatar"
+                    :src="issue.assigned.avatarURL || require('src/assets/img/default-avatar-1.png')"
+                    :alt="`${issue.assigned.name} Avatar`"
                   />
                 </q-avatar>
-                Sergey Maltsev
+                <q-avatar v-else icon="group" color="blue-grey-6" font-size="16px" text-color="white" size="24px" />
+
+                {{ issue.assigned ? issue.assigned.name : 'Без назначения' }}
               </q-item>
             </div>
             <div class="item-row">
@@ -161,7 +170,7 @@
               <label>Приоритет</label>
               <q-item clickable dense>
                 <ProjectBoardIconIssuePriority :priority="issue.priorityID" />
-                {{ store.getters.getIssuePriorityName(issue.priorityID) }}
+                {{ formatPriorityName(issue.priorityID) }}
               </q-item>
             </div>
 
@@ -188,7 +197,7 @@
 import { defineComponent, ref, computed, onBeforeMount, onBeforeUnmount } from 'vue';
 import { useStore } from 'src/store';
 import { useRoute } from 'vue-router';
-// import useLoading from 'src/composables/common/useLoading';
+import useLoading from 'src/composables/common/useLoading';
 
 import BaseDialog from 'components/base/BaseDialog.vue';
 import BaseTooltip from 'components/base/BaseTooltip.vue';
@@ -212,14 +221,56 @@ export default defineComponent({
   setup(props, { emit }) {
     const store = useStore();
     const route = useRoute();
+    const loading = useLoading();
+
+    onBeforeMount(async () => {
+      await fetchIssue();
+      setIssueData();
+    });
+    onBeforeUnmount(() => {
+      document.removeEventListener('keydown', handleKeydown);
+    });
 
     const issue = computed(() => store.state.project.issueDetail);
 
-    onBeforeMount(async () => {
-      const { issueID } = route.params;
-      await store.dispatch('project/getIssueByID', issueID);
-      console.log(issue);
-    });
+    const localIssueName = ref('');
+    const localIssueDescription = ref('');
+
+    const nameInput = ref<HTMLInputElement | null>(null);
+    const descriptionInput = ref<HTMLInputElement | null>(null);
+
+    async function updateIssueName() {
+      nameInput.value?.blur();
+      const payload = {
+        id: issue.value?.id,
+        payload: { name: localIssueName.value },
+      };
+      await store.dispatch('project/updateIssue', payload);
+    }
+    async function updateIssueDescription() {
+      descriptionInput.value?.blur();
+      const payload = {
+        id: issue.value?.id,
+        payload: { description: localIssueDescription.value },
+      };
+      await store.dispatch('project/updateIssue', payload);
+    }
+
+    async function fetchIssue() {
+      const { issueID } = route.query;
+      const currentIssueID = issue.value?.id;
+
+      const isShouldUpdateIssue = currentIssueID !== Number(issueID);
+      if (isShouldUpdateIssue) {
+        loading.start();
+        await store.dispatch('project/getIssueByID', issueID);
+        loading.stop();
+      }
+    }
+    function setIssueData() {
+      localIssueName.value = issue.value?.name || '';
+      localIssueDescription.value = issue.value?.description || '';
+    }
 
     function close() {
       emit('close');
@@ -253,15 +304,20 @@ export default defineComponent({
       }
     }
 
-    onBeforeUnmount(() => {
-      document.removeEventListener('keydown', handleKeydown);
-    });
+    function formatPriorityName(priorityID: number) {
+      return store.state.project.availableIssuePriorities.find((p) => p.id === priorityID)?.name;
+    }
 
     return {
-      store,
+      loading,
 
       issue,
-      comment,
+      localIssueName,
+      localIssueDescription,
+      nameInput,
+      descriptionInput,
+      updateIssueName,
+      updateIssueDescription,
 
       close,
 
@@ -272,7 +328,10 @@ export default defineComponent({
       availableColumns,
       selectedColumn,
 
+      comment,
       commentInput,
+
+      formatPriorityName,
     };
   },
 });
@@ -288,13 +347,13 @@ export default defineComponent({
     font-size: 12px;
     font-weight: 500;
     padding-right: 4px;
-    width: 50%;
+    width: 35%;
   }
   .q-item {
     display: flex;
     align-items: center;
+    flex-grow: 1;
     gap: 8px;
-    width: 50%;
     padding-left: 6px;
   }
 }

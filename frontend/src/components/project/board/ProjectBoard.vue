@@ -7,7 +7,7 @@
         v-for="(column, index) in boardColumns"
         :key="column"
         :column-index="index"
-        @open="dialog.open('viewIssue')"
+        @open="openIssue"
       />
     </ProjectBoardColumnWrapper>
 
@@ -29,6 +29,7 @@
 <script lang="ts">
 import { defineComponent, computed, onBeforeMount } from 'vue';
 import { useStore } from 'src/store';
+import { useRoute, useRouter } from 'vue-router';
 import useDialog from 'src/composables/common/useDialog';
 import useLoading from 'src/composables/common/useLoading';
 
@@ -58,6 +59,8 @@ export default defineComponent({
 
   setup(props) {
     const store = useStore();
+    const route = useRoute();
+    const router = useRouter();
     const dialog = useDialog();
     const loading = useLoading({ default: true });
 
@@ -75,12 +78,19 @@ export default defineComponent({
       return result;
     });
 
+    async function openIssue(issueID: number) {
+      await router.push({ query: { issueID } });
+      dialog.open('viewIssue');
+    }
+
     return {
       dialog,
       loading,
 
       boardColumns,
       isAnyIssues,
+
+      openIssue,
     };
   },
 });

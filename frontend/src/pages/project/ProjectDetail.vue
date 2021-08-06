@@ -216,6 +216,7 @@ export default defineComponent({
 
       const board = boardObject || defaultBoard;
       if (board) await selectBoard(board);
+
     }
     async function toggleSelectedBoardFavorite() {
       await store.dispatch('project/toggleBoardFavorite', selectedBoard.value?.id);

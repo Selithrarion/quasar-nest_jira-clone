@@ -24,7 +24,7 @@
             </q-card-section>
             <q-card-section class="flex-center-between q-pa-sm">
               <div>
-                <ProjectBoardIconIssueType :type="element.type" />
+                <ProjectBoardIconIssueType :type="element.typeID" />
               </div>
 
               <div class="row items-center gap-2">
