@@ -56,7 +56,7 @@ export class BoardsService {
       userFavoriteBoards.splice(boardIndex, 1);
       console.log('SPLICED', boardIndex, userFavoriteBoards);
     } else {
-      const project = await this.boards.findOne(boardID);
+      const project = await this.boards.findOneOrFail(boardID);
       userFavoriteBoards.push(project);
     }
 

@@ -30,7 +30,7 @@ export class ColumnsService {
   }
 
   async update(id: number, payload: UpdateColumnDTO): Promise<ColumnEntity> {
-    const toUpdate = await this.columns.findOne(id);
+    const toUpdate = await this.columns.findOneOrFail(id);
     const newColumn = { ...toUpdate, ...payload };
     const updated = await this.columns.save(newColumn);
     return updated;

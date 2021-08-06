@@ -36,7 +36,7 @@ export class UserService {
   }
 
   async update(id: number, userData: Partial<UserEntity>): Promise<Partial<UserEntity>> {
-    const toUpdate = await this.users.findOne(id);
+    const toUpdate = await this.users.findOneOrFail(id);
     const updated = { ...toUpdate, ...userData };
     await this.users.save(updated);
     return updated;
@@ -50,11 +50,11 @@ export class UserService {
   }
 
   async getFavoriteProjects(id: number): Promise<ProjectEntity[]> {
-    const user = await this.users.findOne(id, { relations: ['favoriteProjects'] });
+    const user = await this.users.findOneOrFail(id, { relations: ['favoriteProjects'] });
     return user.favoriteProjects;
   }
   async getFavoriteBoards(id: number): Promise<BoardEntity[]> {
-    const user = await this.users.findOne(id, { relations: ['favoriteBoards'] });
+    const user = await this.users.findOneOrFail(id, { relations: ['favoriteBoards'] });
     return user.favoriteBoards;
   }
 }
