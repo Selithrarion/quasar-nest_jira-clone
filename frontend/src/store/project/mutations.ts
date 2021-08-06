@@ -52,6 +52,7 @@ const mutation: MutationTree<ProjectStateInterface> = {
     projectBoards.splice(boardIndex, 1);
   },
   TOGGLE_BOARD_FAVORITE(state: ProjectStateInterface, boardID: number) {
+    if (state.boardDetail) state.boardDetail.favorite = !state.boardDetail.favorite
     const boardInProject = state.projectDetail?.boards.find((b) => b.id === boardID);
     if (boardInProject) boardInProject.favorite = !boardInProject.favorite;
   },
