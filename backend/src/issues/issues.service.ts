@@ -16,7 +16,9 @@ export class IssuesService {
   ) {}
 
   async getByID(id: number): Promise<IssueEntity> {
-    return await this.issues.findOneOrFail(id);
+    return await this.issues.findOneOrFail(id, {
+      relations: ['author', 'watchers'],
+    });
   }
 
   async create(payload: CreateIssueDTO, userID: number): Promise<IssueEntity> {
@@ -32,7 +34,9 @@ export class IssuesService {
   }
 
   async update(id: number, payload: UpdateIssueDTO): Promise<IssueEntity> {
-    const toUpdate = await this.issues.findOneOrFail(id);
+    const toUpdate = await this.issues.findOneOrFail(id, {
+      relations: ['author', 'watchers'],
+    });
     const updated = { ...toUpdate, ...payload };
     await this.issues.update(id, { ...payload });
     return updated;
