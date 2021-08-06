@@ -6,7 +6,11 @@
       :style="computedCardStyles"
     >
       <slot name="content">
-        <q-card-section class="row items-center no-wrap q-pa-lg" :class="{ 'fixed-section': fixedHeader }">
+        <q-card-section
+          v-if="!contentLoading"
+          class="row items-center no-wrap q-pa-lg"
+          :class="{ 'fixed-section': fixedHeader }"
+        >
           <slot name="title">
             <div class="row items-center gap-2 text-h6 full-width">
               <q-icon v-if="type === 'delete'" color="amber-8" name="warning" />
@@ -19,8 +23,8 @@
           <BaseButtonCloseIcon v-if="!hideCloseIcon" class="close-icon" @click="close" />
         </q-card-section>
 
-        <q-card-section class="q-pt-none q-px-lg q-pb-lg">
-          <BaseLoader v-if="contentLoading" class="q-mt-xl q-mb-lg" />
+        <q-card-section class="q-pt-none q-px-lg q-pb-lg" :style="{ height: contentLoading ? '300px' : 'auto' }">
+          <BaseLoader v-if="contentLoading" center />
           <div v-else>
             <slot>Default slot</slot>
           </div>
