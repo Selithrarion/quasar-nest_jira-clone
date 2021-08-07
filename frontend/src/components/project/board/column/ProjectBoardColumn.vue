@@ -23,8 +23,9 @@
               </span>
             </q-card-section>
             <q-card-section class="flex-center-between q-pa-sm">
-              <div>
-                <ProjectBoardIconIssueType :type="element.typeID" />
+              <div class="flex-center gap-1">
+                <ProjectBoardIconIssueType :type="element.typeID" small />
+                <ProjectBoardIconIssuePriority :priority="element.priorityID" />
               </div>
 
               <div class="row items-center gap-2">
@@ -57,6 +58,7 @@ import Draggable from 'vuedraggable';
 import BaseTooltip from 'components/base/BaseTooltip.vue';
 import CommonListTitle from 'components/common/CommonListTitle.vue';
 import ProjectBoardIconIssueType from 'components/project/board/icon/ProjectBoardIconIssueType.vue';
+import ProjectBoardIconIssuePriority from 'components/project/board/icon/ProjectBoardIconIssuePriority.vue';
 
 import { IssueModel } from 'src/models/project/issue.model';
 
@@ -69,6 +71,7 @@ export default defineComponent({
     BaseTooltip,
     CommonListTitle,
     ProjectBoardIconIssueType,
+    ProjectBoardIconIssuePriority,
   },
 
   props: {
