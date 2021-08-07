@@ -152,11 +152,13 @@
         <div class="col-5 gap-4 full-height overflow-auto">
           <div>
             <BaseSelect
-              v-model="selectedColumn"
               class="q-mb-md w-fit-content"
+              :model-value="selectedColumn"
               :options="availableColumns"
+              :emit-value="false"
               truncate
               dense
+              @update:model-value="updateIssueColumn"
             />
 
             <div class="item-row">
@@ -230,6 +232,8 @@ import { useStore } from 'src/store';
 import { useRoute } from 'vue-router';
 import useLoading from 'src/composables/common/useLoading';
 
+import issueService from 'src/service/issueService';
+
 import BaseDialog from 'components/base/BaseDialog.vue';
 import BaseSelect from 'components/base/BaseSelect.vue';
 import BaseTooltip from 'components/base/BaseTooltip.vue';
@@ -278,7 +282,7 @@ export default defineComponent({
     const nameInput = ref<HTMLInputElement | null>(null);
     const descriptionInput = ref<HTMLInputElement | null>(null);
 
-    async function updateIssue(field: string, value: string | number) {
+    async function updateIssue(field: string, value: unknown) {
       const id = issue.value?.id;
       const columnID = issue.value?.columnID;
       const payload = {
@@ -295,6 +299,23 @@ export default defineComponent({
       descriptionInput.value?.blur();
       await updateIssue('name', localIssueDescription.value);
     }
+    async function updateIssueColumn(column: ColumnModel) {
+      if (!issue.value || !selectedColumn.value) return;
+      const issueID = issue.value.id;
+
+      const oldColumnIssues = selectedColumn.value.issues.filter((i) => i.id !== issueID);
+      const oldColumnID = selectedColumn.value.id;
+
+      const newColumn = { ...column, issues: [...column.issues, issue.value] };
+      const newColumnIssues = newColumn.issues;
+      const newColumnID = newColumn.id;
+
+      store.commit('project/UPDATE_COLUMN', { id: oldColumnID, payload: { issues: oldColumnIssues } });
+      store.commit('project/UPDATE_COLUMN', { id: newColumnID, payload: { issues: newColumnIssues } });
+      store.commit('project/UPDATE_ISSUE', { id: issueID, payload: { columnID: newColumnID } });
+
+      await issueService.update(issueID, { column: newColumn });
+    }
 
     async function fetchIssue() {
       const { issueID } = route.query;
@@ -310,9 +331,6 @@ export default defineComponent({
     function setIssueData() {
       localIssueName.value = issue.value?.name || '';
       localIssueDescription.value = issue.value?.description || '';
-
-      const issueColumn = availableColumns.value?.find((c) => c.id === issue.value?.columnID);
-      selectedColumn.value = issueColumn || null;
     }
 
     function close() {
@@ -328,7 +346,7 @@ export default defineComponent({
     }
 
     const availableColumns = computed(() => store.state.project.boardDetail?.columns);
-    const selectedColumn = ref<ColumnModel | null>(null);
+    const selectedColumn = computed(() => availableColumns.value?.find((c) => c.id === issue.value?.columnID));
 
     const commentInput = ref<HTMLInputElement | null>(null);
     const comment = ref('');
@@ -370,6 +388,7 @@ export default defineComponent({
       updateIssue,
       updateIssueName,
       updateIssueDescription,
+      updateIssueColumn,
 
       close,
 
