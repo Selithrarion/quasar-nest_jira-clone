@@ -2,8 +2,35 @@
   <BaseDialog :actions="false" :content-loading="loading.active.value" hide-close-icon large @close="close">
     <template #title>
       <div class="flex-center-between full-width">
-        <div class="flex-center gap-1">
-          <ProjectBoardIconIssueType :type="issue.typeID" />
+        <div class="flex-center gap-2">
+          <q-btn class="btn--secondary" padding="4px" unelevated>
+            <ProjectBoardIconIssueType
+              :type="issue.typeID"
+              :tooltip="`${formatIssueTypeName(issue.typeID)} – изменить тип задачи`"
+            />
+
+            <q-menu auto-close>
+              <q-list padding dense>
+                <CommonListTitle title="изменить тип задачи" padding />
+                <q-item
+                  v-for="type in availableIssueTypes"
+                  :key="type.id"
+                  class="flex items-center gap-2"
+                  clickable
+                  @click="updateIssue('typeID', type.id)"
+                >
+                  <ProjectBoardIconIssueType
+                    :type="type.id"
+                    :tooltip="`${formatIssueTypeName(type.id)} – изменить тип задачи`"
+                    small
+                  />
+                  <q-item-section>
+                    <q-item-label>{{ type.name }}</q-item-label>
+                  </q-item-section>
+                </q-item>
+              </q-list>
+            </q-menu>
+          </q-btn>
           {{ issue.key }}
         </div>
 
@@ -207,8 +234,13 @@ import BaseDialog from 'components/base/BaseDialog.vue';
 import BaseSelect from 'components/base/BaseSelect.vue';
 import BaseTooltip from 'components/base/BaseTooltip.vue';
 import BaseButtonCloseIcon from 'components/base/button/BaseButtonCloseIcon.vue';
+
+import CommonListTitle from 'components/common/CommonListTitle.vue';
+
 import ProjectBoardIconIssueType from 'components/project/board/icon/ProjectBoardIconIssueType.vue';
 import ProjectBoardIconIssuePriority from 'components/project/board/icon/ProjectBoardIconIssuePriority.vue';
+
+import { ColumnModel } from 'src/models/project/column.model';
 
 export default defineComponent({
   name: 'ProjectBoardDialogViewIssue',
@@ -218,6 +250,7 @@ export default defineComponent({
     BaseSelect,
     BaseTooltip,
     BaseButtonCloseIcon,
+    CommonListTitle,
     ProjectBoardIconIssueType,
     ProjectBoardIconIssuePriority,
   },
@@ -245,21 +278,22 @@ export default defineComponent({
     const nameInput = ref<HTMLInputElement | null>(null);
     const descriptionInput = ref<HTMLInputElement | null>(null);
 
+    async function updateIssue(field: string, value: string | number) {
+      const id = issue.value?.id;
+      const columnID = issue.value?.columnID;
+      const payload = {
+        [field]: value,
+      };
+
+      await store.dispatch('project/updateIssue', { id, columnID, payload });
+    }
     async function updateIssueName() {
       nameInput.value?.blur();
-      const payload = {
-        id: issue.value?.id,
-        payload: { name: localIssueName.value },
-      };
-      await store.dispatch('project/updateIssue', payload);
+      await updateIssue('name', localIssueName.value);
     }
     async function updateIssueDescription() {
       descriptionInput.value?.blur();
-      const payload = {
-        id: issue.value?.id,
-        payload: { description: localIssueDescription.value },
-      };
-      await store.dispatch('project/updateIssue', payload);
+      await updateIssue('name', localIssueDescription.value);
     }
 
     async function fetchIssue() {
@@ -276,6 +310,9 @@ export default defineComponent({
     function setIssueData() {
       localIssueName.value = issue.value?.name || '';
       localIssueDescription.value = issue.value?.description || '';
+
+      const issueColumn = availableColumns.value?.find((c) => c.id === issue.value?.columnID);
+      selectedColumn.value = issueColumn || null;
     }
 
     function close() {
@@ -291,7 +328,7 @@ export default defineComponent({
     }
 
     const availableColumns = computed(() => store.state.project.boardDetail?.columns);
-    const selectedColumn = ref(availableColumns.value?.[0]);
+    const selectedColumn = ref<ColumnModel | null>(null);
 
     const commentInput = ref<HTMLInputElement | null>(null);
     const comment = ref('');
@@ -310,18 +347,27 @@ export default defineComponent({
       }
     }
 
-    function formatPriorityName(priorityID: number) {
-      return store.state.project.availableIssuePriorities.find((p) => p.id === priorityID)?.name;
+    const availableIssuePriorities = computed(() => store.state.project.availableIssuePriorities);
+    const availableIssueTypes = computed(() => store.state.project.availableIssueTypes);
+    function formatIssuePriorityName(priorityID: number) {
+      return availableIssuePriorities.value.find((p) => p.id === priorityID)?.name;
+    }
+    function formatIssueTypeName(typeID: number) {
+      return availableIssueTypes.value.find((p) => p.id === typeID)?.name;
     }
 
     return {
       loading,
 
       issue,
+
       localIssueName,
       localIssueDescription,
+
       nameInput,
       descriptionInput,
+
+      updateIssue,
       updateIssueName,
       updateIssueDescription,
 
@@ -337,7 +383,10 @@ export default defineComponent({
       comment,
       commentInput,
 
-      formatPriorityName,
+      availableIssuePriorities,
+      availableIssueTypes,
+      formatIssuePriorityName,
+      formatIssueTypeName,
     };
   },
 });

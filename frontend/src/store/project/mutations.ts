@@ -2,7 +2,7 @@ import { MutationTree } from 'vuex';
 import { ProjectStateInterface } from './state';
 import { ProjectModel } from 'src/models/project/project.model';
 import { BoardModel } from 'src/models/project/board.model';
-import { IssueModel } from 'src/models/project/issue.model';
+import { IssueDTO, IssueModel } from 'src/models/project/issue.model';
 import { ColumnModel } from 'src/models/project/column.model';
 
 const mutation: MutationTree<ProjectStateInterface> = {
@@ -52,7 +52,7 @@ const mutation: MutationTree<ProjectStateInterface> = {
     projectBoards.splice(boardIndex, 1);
   },
   TOGGLE_BOARD_FAVORITE(state: ProjectStateInterface, boardID: number) {
-    if (state.boardDetail) state.boardDetail.favorite = !state.boardDetail.favorite
+    if (state.boardDetail) state.boardDetail.favorite = !state.boardDetail.favorite;
     const boardInProject = state.projectDetail?.boards.find((b) => b.id === boardID);
     if (boardInProject) boardInProject.favorite = !boardInProject.favorite;
   },
@@ -67,17 +67,22 @@ const mutation: MutationTree<ProjectStateInterface> = {
     const column = columns.find((c) => c.id === issue.columnID) || columns[0];
     column.issues.push(issue);
   },
-  UPDATE_ISSUE(state: ProjectStateInterface, issue: IssueModel) {
+  UPDATE_ISSUE(
+    state: ProjectStateInterface,
+    { id, columnID, payload }: { id: number; columnID: number; payload: Partial<IssueDTO> }
+  ) {
     if (!state.boardDetail) return;
-    state.issueDetail = issue;
+
+    const updatedIssue = { ...state.issueDetail, ...payload } as IssueModel;
+    state.issueDetail = updatedIssue;
 
     const columns = state.boardDetail.columns;
-    const columnIndex = columns.findIndex((c) => c.id === issue.columnID);
+    const columnIndex = columns.findIndex((c) => c.id === columnID);
     if (columnIndex === -1) return;
 
     const issues = columns[columnIndex].issues;
-    const issueIndex = issues.findIndex((i) => i.id === issue.id);
-    if (issueIndex !== -1) state.boardDetail.columns[columnIndex].issues[issueIndex] = issue;
+    const issueIndex = issues.findIndex((i) => i.id === id);
+    if (issueIndex !== -1) state.boardDetail.columns[columnIndex].issues[issueIndex] = updatedIssue;
   },
   DELETE_ISSUE(state: ProjectStateInterface, issue: IssueModel) {
     if (!state.boardDetail) return;
