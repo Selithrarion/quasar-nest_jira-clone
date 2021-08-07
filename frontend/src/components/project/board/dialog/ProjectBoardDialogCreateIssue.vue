@@ -41,8 +41,8 @@
           :options="availableIssueTypes"
           :rules="[rules.required]"
         >
-          <template #optionPrepend="{ opt }">
-            <ProjectBoardIconIssueType :type="opt.id" small />
+          <template #optionPrepend="{ option }">
+            <ProjectBoardIconIssueType :type="option.id" small />
           </template>
         </BaseSelect>
 
@@ -60,19 +60,19 @@
           :options="availableIssuePriorities"
           :rules="[rules.required]"
         >
-          <template #optionPrepend="{ opt }">
-            <ProjectBoardIconIssuePriority :priority="opt.id" hide-tooltip small />
+          <template #optionPrepend="{ option }">
+            <ProjectBoardIconIssuePriority :priority="option.id" hide-tooltip small />
           </template>
         </BaseSelect>
         <q-input v-model="form.marks" style="max-width: 250px" label="Метки" disable filled />
 
         <div class="column gap-1">
           <BaseSelect v-model="form.assigned" label="Исполнитель" width="250" :options="availableProjectUsers">
-            <template #optionPrepend="{ opt }">
+            <template #optionPrepend="{ option }">
               <q-avatar size="24px">
                 <img
-                  :src="opt.avatarURL || require('src/assets/img/default-avatar-1.png')"
-                  :alt="`${opt.name} Avatar`"
+                  :src="option.avatarURL || require('src/assets/img/default-avatar-1.png')"
+                  :alt="`${option.name} Avatar`"
                 />
               </q-avatar>
             </template>

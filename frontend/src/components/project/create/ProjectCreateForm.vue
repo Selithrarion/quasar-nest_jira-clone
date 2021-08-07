@@ -11,12 +11,12 @@
     />
 
     <BaseSelect v-model="form.accessID" label="Доступ" :options="accessOptions">
-      <template #optionPrepend="{ opt }">
-        <q-icon :name="opt.icon" />
+      <template #optionPrepend="{ option }">
+        <q-icon :name="option.icon" />
       </template>
-      <template #optionLabel="{ opt }">
-        <q-item-label>{{ opt.name }}</q-item-label>
-        <q-item-label style="max-width: 600px" caption>{{ opt.description }}</q-item-label>
+      <template #optionLabel="{ option }">
+        <q-item-label>{{ option.name }}</q-item-label>
+        <q-item-label style="max-width: 600px" caption>{{ option.description }}</q-item-label>
       </template>
     </BaseSelect>
 

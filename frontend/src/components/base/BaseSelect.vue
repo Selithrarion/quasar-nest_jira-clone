@@ -1,5 +1,7 @@
 <template>
   <q-select
+    class="base-select"
+    :class="{ 'base-select--truncate': truncate }"
     :model-value="modelValue"
     :style="{ maxWidth: `${maxWidth}px`, width: `${width}px` }"
     :option-label="optionLabel"
@@ -11,14 +13,20 @@
     v-bind="$attrs"
     @update:model-value="$emit('update:model-value', $event)"
   >
+    <template #selected-item="{ opt }">
+      <slot name="selected-item" :option="opt">
+        {{ opt[optionLabel] }}
+      </slot>
+    </template>
+
     <template #option="{ itemProps, itemEvents, opt }">
       <q-item v-bind="itemProps" v-on="itemEvents">
         <div v-if="$slots.optionPrepend" class="flex-center q-pr-sm">
-          <slot name="optionPrepend" :opt="opt" />
+          <slot name="optionPrepend" :option="opt" />
         </div>
 
         <q-item-section>
-          <slot name="optionLabel" :opt="opt">
+          <slot name="optionLabel" :option="opt">
             <q-item-label>{{ opt[optionLabel] }}</q-item-label>
           </slot>
         </q-item-section>
@@ -44,6 +52,12 @@ export default defineComponent({
       type: [Number, String, Array, Object],
       required: false,
       default: null,
+    },
+
+    truncate: {
+      type: Boolean,
+      required: false,
+      default: true,
     },
 
     maxWidth: {
@@ -93,3 +107,13 @@ export default defineComponent({
   emits: ['update:model-value'],
 });
 </script>
+
+<style lang="scss" scoped>
+.base-select {
+  .base-select--truncate ::v-deep .q-field__native > span {
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    overflow: hidden;
+  }
+}
+</style>
