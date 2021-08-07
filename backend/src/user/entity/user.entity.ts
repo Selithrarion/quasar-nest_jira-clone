@@ -6,6 +6,7 @@ import { BaseEntity } from '../../common/base.entity';
 import { IssueEntity } from '../../issues/entity/issue.entity';
 import { ProjectEntity } from '../../projects/entity/project.entity';
 import { BoardEntity } from '../../boards/entity/board.entity';
+import { Exclude } from 'class-transformer';
 
 export interface UserValidationDTO {
   readonly email: string;
@@ -38,9 +39,11 @@ export class UserEntity extends BaseEntity {
   @IsEmail()
   email: string;
 
+  @Exclude()
   @Column({ length: 128 })
   password: string;
 
+  @Exclude()
   @Column({ nullable: true })
   hashedRefreshToken: string;
 
