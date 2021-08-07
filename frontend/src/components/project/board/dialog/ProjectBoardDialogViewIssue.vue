@@ -103,9 +103,9 @@
                     alt="User Avatar"
                   />
                 </q-avatar>
-                <div class="row gap-2">
-                  <div class="row justify-between gap-3 flex-grow-1">
-                    <div class="row gap-2">
+                <div class="column items-center gap-2">
+                  <div class="flex-center-between gap-3 full-width">
+                    <div class="flex-center gap-2">
                       <span class="text-weight-medium">Sergey Maltsev</span>
                       <span class="text-caption text-blue-grey-6">Изменено</span>
                     </div>
@@ -124,7 +124,13 @@
 
         <div class="col-5 gap-4 full-height overflow-auto">
           <div>
-            <BaseSelect v-model="selectedColumn" class="q-mb-md w-fit-content" :options="availableColumns" dense />
+            <BaseSelect
+              v-model="selectedColumn"
+              class="q-mb-md w-fit-content"
+              :options="availableColumns"
+              truncate
+              dense
+            />
 
             <div class="item-row">
               <label>Исполнитель</label>
@@ -137,7 +143,8 @@
                 </q-avatar>
                 <q-avatar v-else icon="group" color="blue-grey-6" font-size="16px" text-color="white" size="24px" />
 
-                {{ issue.assigned ? issue.assigned.name : 'Без назначения' }}
+                <span>{{ issue.assigned ? issue.assigned.name : 'Без назначения' }}</span>
+                <BaseTooltip label="Изменить исполнителя" />
               </q-item>
             </div>
             <div class="item-row">
@@ -149,20 +156,23 @@
                     alt="User Avatar"
                   />
                 </q-avatar>
-                Sergey Maltsev
+                <span>{{ issue.author.name }}</span>
+                <BaseTooltip label="Изменить автора" />
               </q-item>
             </div>
             <div class="item-row">
               <label>Метки</label>
               <q-item clickable dense>
                 <q-chip color="blue-grey-1" label="Frontend" square dense />
+                <BaseTooltip label="Добавить метки" />
               </q-item>
             </div>
             <div class="item-row">
               <label>Приоритет</label>
               <q-item clickable dense>
                 <ProjectBoardIconIssuePriority :priority="issue.priorityID" />
-                {{ formatPriorityName(issue.priorityID) }}
+                <span>{{ formatIssuePriorityName(issue.priorityID) }}</span>
+                <BaseTooltip label="Изменить приоритет" />
               </q-item>
             </div>
 
@@ -174,7 +184,9 @@
                   Создано 22 июня 2021 г., 12:02
                   <BaseTooltip label="22 июня 2021 г. 12:02" />
                 </div>
-                <q-btn icon="settings" label="Настроить" size="small" no-wrap no-caps dense flat />
+                <q-btn icon="settings" label="Настроить" size="small" no-wrap no-caps dense flat>
+                  <BaseTooltip label="Открыть диалог настроек" />
+                </q-btn>
               </div>
               <div :class="{ clickable: false }">Дата обновления 2 часа назад</div>
             </div>
@@ -338,6 +350,7 @@ export default defineComponent({
   justify-content: space-between;
   padding: 4px 0;
   label {
+    flex-shrink: 0;
     font-size: 12px;
     font-weight: 500;
     padding-right: 4px;
@@ -348,7 +361,17 @@ export default defineComponent({
     align-items: center;
     flex-grow: 1;
     gap: 8px;
+
     padding-left: 6px;
+
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    overflow: hidden;
+    > span {
+      text-overflow: ellipsis;
+      white-space: nowrap;
+      overflow: hidden;
+    }
   }
 }
 </style>
