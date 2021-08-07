@@ -19,7 +19,7 @@
     <div v-if="step === 1">
       <CommonSearch v-model="search" :outlined="false" client-search filled />
 
-      <div class="text-caption text-uppercase q-mt-md q-mb-sm">доски в {{ project.name }}</div>
+      <CommonListTitle class="q-mt-md q-mb-sm"> доски в {{ project.name }} </CommonListTitle>
       <q-list>
         <q-item
           v-for="board in filteredBoards"
@@ -132,6 +132,7 @@ import useLoading from 'src/composables/common/useLoading';
 import BaseDialog from 'components/base/BaseDialog.vue';
 import BaseSelect from 'components/base/BaseSelect.vue';
 import CommonSearch from 'components/common/CommonSearch.vue';
+import CommonListTitle from 'components/common/CommonListTitle.vue';
 
 import { BoardModel } from 'src/models/project/board.model';
 import { ProjectModel, ProjectTemplateEnum } from 'src/models/project/project.model';
@@ -143,6 +144,7 @@ export default defineComponent({
     BaseDialog,
     BaseSelect,
     CommonSearch,
+    CommonListTitle,
   },
 
   props: {

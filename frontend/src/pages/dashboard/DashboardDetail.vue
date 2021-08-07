@@ -101,7 +101,7 @@
             <q-btn icon="more_horiz" size="14px" padding="4px" unelevated flat>
               <q-menu>
                 <div class="q-px-md q-pt-md q-pb-sm select-none">
-                  <div class="text-caption text-uppercase">цвет выделения</div>
+                  <CommonListTitle title="цвет выделения"/>
                   <div class="flex gap-2 q-py-sm">
                     <button
                       v-for="color in colors"
@@ -198,6 +198,7 @@ import BaseDialog from 'components/base/BaseDialog.vue';
 import BaseButtonFavorite from 'components/base/button/BaseButtonFavorite.vue';
 import BaseButtonMore from 'components/base/button/BaseButtonMore.vue';
 import BaseTooltip from 'components/base/BaseTooltip.vue';
+import CommonListTitle from 'components/common/CommonListTitle.vue';
 import DashboardCreateDialog from 'components/dashboard/create/DashboardCreateDialog.vue';
 import DashboardGadgetAddDialog from 'components/dashboard/gadget/DashboardGadgetAddDialog.vue';
 
@@ -211,6 +212,8 @@ export default defineComponent({
     BaseButtonFavorite,
     BaseButtonMore,
     BaseTooltip,
+
+    CommonListTitle,
 
     DashboardCreateDialog,
     DashboardGadgetAddDialog,

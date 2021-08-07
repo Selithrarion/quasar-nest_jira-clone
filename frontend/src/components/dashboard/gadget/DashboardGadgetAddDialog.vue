@@ -11,7 +11,7 @@
       <nav class="col-3">
         <CommonSearch v-model="searchValue" autofocus filled />
 
-        <div class="text-caption text-uppercase q-mt-md">Категории</div>
+        <CommonListTitle class="q-mt-md" title="Категории" />
         <q-list class="category-list" dense>
           <q-item class="flex-center-between" clickable>
             <span>Jira</span>
@@ -77,13 +77,19 @@ import { defineComponent, ref } from 'vue';
 import BaseDialog from 'components/base/BaseDialog.vue';
 import BaseAlert from 'components/base/BaseAlert.vue';
 import CommonSearch from 'components/common/CommonSearch.vue';
+import CommonListTitle from 'components/common/CommonListTitle.vue';
 
 import useLoading from 'src/composables/common/useLoading';
 
 export default defineComponent({
   name: 'DashboardGadgetAddDialog',
 
-  components: { BaseDialog, BaseAlert, CommonSearch },
+  components: {
+    BaseDialog,
+    BaseAlert,
+    CommonSearch,
+    CommonListTitle,
+  },
 
   emits: ['close'],
 

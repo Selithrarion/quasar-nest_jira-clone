@@ -1,8 +1,8 @@
 <template>
   <div class="project-board-column bg-grey-2 flex-grow-1 full-height rounded-md">
-    <div class="text-caption text-uppercase text-weight-medium q-pa-sm">
+    <CommonListTitle class="text-weight-medium q-pa-sm">
       {{ selectedColumn.name }} {{ selectedColumnIssues.length }}
-    </div>
+    </CommonListTitle>
 
     <div class="full-height">
       <Draggable
@@ -55,6 +55,7 @@ import { useStore } from 'src/store';
 
 import Draggable from 'vuedraggable';
 import BaseTooltip from 'components/base/BaseTooltip.vue';
+import CommonListTitle from 'components/common/CommonListTitle.vue';
 import ProjectBoardIconIssueType from 'components/project/board/icon/ProjectBoardIconIssueType.vue';
 
 import { IssueModel } from 'src/models/project/issue.model';
@@ -66,6 +67,7 @@ export default defineComponent({
     // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
     Draggable,
     BaseTooltip,
+    CommonListTitle,
     ProjectBoardIconIssueType,
   },
 
