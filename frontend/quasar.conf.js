@@ -25,9 +25,7 @@ module.exports = configure(function (ctx) {
 
     css: ['app.sass'],
 
-    extras: [
-      'material-icons',
-    ],
+    extras: ['material-icons'],
 
     build: {
       vueRouterMode: 'history', // available values: 'hash', 'history'
@@ -39,7 +37,8 @@ module.exports = configure(function (ctx) {
       // Applies only if "transpile" is set to true.
       // transpileDependencies: [],
 
-      // rtl: true, // https://v2.quasar.dev/options/rtl-support
+      // TODO: https://quasar.dev/options/quasar-language-packs
+      rtl: true, // https://v2.quasar.dev/options/rtl-support
       // preloadChunks: true,
       // showProgress: false,
       // gzip: true,
