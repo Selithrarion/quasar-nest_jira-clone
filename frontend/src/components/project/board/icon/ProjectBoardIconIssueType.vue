@@ -1,6 +1,6 @@
 <template>
   <q-icon :name="selectedType.icon" :color="selectedType.color" :size="small ? 'xs' : 'sm'">
-    <BaseTooltip v-if="!hideTooltip" :label="selectedType.name" />
+    <BaseTooltip v-if="!hideTooltip" :label="tooltip || selectedType.name" />
   </q-icon>
 </template>
 
@@ -23,6 +23,11 @@ export default defineComponent({
       validator: (value: number | string): boolean => {
         return ['BUG', 'TASK', 'HISTORY', 'EPIC', 'INVESTIGATION'].includes(String(value)) || typeof value === 'number';
       },
+    },
+    tooltip: {
+      type: String,
+      required: false,
+      default: null,
     },
     small: Boolean,
     hideTooltip: Boolean,

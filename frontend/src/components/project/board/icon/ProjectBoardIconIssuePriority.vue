@@ -1,6 +1,6 @@
 <template>
   <q-icon :name="selectedPriority.icon" :color="selectedPriority.color" :size="small ? 'xs' : 'sm'">
-    <BaseTooltip v-if="!hideTooltip" :label="selectedPriority.name" />
+    <BaseTooltip v-if="!hideTooltip" :label="tooltip || selectedPriority.name" />
   </q-icon>
 </template>
 
@@ -24,6 +24,13 @@ export default defineComponent({
         return ['LOWEST', 'LOW', 'MEDIUM', 'HIGH', 'HIGHEST'].includes(String(value)) || typeof value === 'number';
       },
     },
+
+    tooltip: {
+      type: String,
+      required: false,
+      default: null,
+    },
+
     small: Boolean,
     hideTooltip: Boolean,
   },
