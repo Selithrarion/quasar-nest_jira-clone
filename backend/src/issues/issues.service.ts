@@ -39,6 +39,8 @@ export class IssuesService {
     });
     const updated = { ...toUpdate, ...payload };
     await this.issues.update(id, { ...payload });
+
+    delete updated.column;
     return updated;
   }
 
