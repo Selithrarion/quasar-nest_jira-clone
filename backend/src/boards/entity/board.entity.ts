@@ -1,4 +1,4 @@
-import { Column, Entity, JoinColumn, ManyToMany, ManyToOne, OneToMany } from 'typeorm';
+import { Column, Entity, JoinColumn, ManyToMany, ManyToOne, OneToMany, RelationId } from 'typeorm';
 import { BaseEntity } from '../../common/base.entity';
 import { ColumnEntity } from '../../columns/entity/column.entity';
 import { ProjectEntity } from '../../projects/entity/project.entity';
@@ -24,6 +24,8 @@ export class BoardEntity extends BaseEntity {
   })
   @JoinColumn({ name: 'projectID' })
   project: ProjectEntity;
+  @RelationId('project')
+  projectID: number;
 
   @ManyToMany(() => UserEntity, (user) => user.favoriteBoards, {
     cascade: true,

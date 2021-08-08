@@ -3,7 +3,6 @@ import { InjectRepository } from '@nestjs/typeorm';
 import { BoardEntity } from './entity/board.entity';
 import { Repository } from 'typeorm';
 import { CreateBoardDTO, UpdateBoardDTO } from './dto';
-import { ProjectsService } from '../projects/projects.service';
 import { ColumnsService } from '../columns/columns.service';
 import { UserService } from '../user/user.service';
 
@@ -12,9 +11,6 @@ export class BoardsService {
   constructor(
     @InjectRepository(BoardEntity)
     private boards: Repository<BoardEntity>,
-
-    @Inject(forwardRef(() => ProjectsService))
-    private readonly projectsService: ProjectsService,
 
     @Inject(forwardRef(() => ColumnsService))
     private readonly columnsService: ColumnsService,
