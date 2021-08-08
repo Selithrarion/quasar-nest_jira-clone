@@ -264,11 +264,12 @@ export default defineComponent({
   setup(props, { emit }) {
     const store = useStore();
     const route = useRoute();
-    const loading = useLoading();
+    const loading = useLoading({ default: true });
 
     onBeforeMount(async () => {
       await fetchIssue();
       setIssueData();
+      loading.stop();
     });
     onBeforeUnmount(() => {
       document.removeEventListener('keydown', handleKeydown);
