@@ -37,13 +37,11 @@ export class ProjectsService {
   async create(projectData: CreateProjectDTO, user: UserEntity): Promise<ProjectEntity> {
     const payload = { ...projectData, leader: user, users: [user] };
     const createdProject = await this.projects.save(payload);
-    console.log(createdProject);
+
     const defaultBoard = {
       name: projectData.key + projectData.name,
-      favorite: false,
       project: createdProject,
     };
-
     await this.boardsService.create(defaultBoard);
 
     return createdProject;
