@@ -12,7 +12,7 @@ export default boot(async ({ router, store }) => {
 
     await store.dispatch('user/loadUser', savedUserData);
   } else {
-    await router.push('/auth?redirect');
+    await router.push(`/auth?redirect=${window.location.pathname}`);
   }
 
   router.beforeEach((to, from, next) => {
@@ -20,12 +20,14 @@ export default boot(async ({ router, store }) => {
     const isNeedAuth = matchedRoutes.some((record) => record.meta.auth);
     const isNeedGuest = matchedRoutes.some((record) => record.meta.guest);
 
+    // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access
+    const user = savedUserData || store.state.user.currentUser;
+
     if (isNeedAuth) {
-      if (!savedUserData) next('/auth');
+      if (!user) next('/auth');
       else next();
     } else if (isNeedGuest) {
-      if (to.query.redirect !== undefined) next();
-      else if (savedUserData) next('/');
+      if (user) next('/');
       next();
     } else {
       next();

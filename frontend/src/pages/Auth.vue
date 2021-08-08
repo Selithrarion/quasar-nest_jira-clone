@@ -52,7 +52,7 @@
         </q-card-section>
 
         <q-card-section>
-          <q-btn class="full-width" type="submit" :label="authTypes[type].actionWord" />
+          <q-btn class="full-width" type="submit" :label="authTypes[type].actionWord" :loading="loading.active.value" />
         </q-card-section>
       </q-card>
       <div class="column flex-center text-blue-grey-5">
@@ -84,10 +84,10 @@
 </template>
 
 <script lang="ts">
-import { defineComponent, ref, reactive } from 'vue';
+import { defineComponent, ref, reactive, onMounted } from 'vue';
 
 import { useStore } from 'src/store';
-import { useRouter } from 'vue-router';
+import { useRouter, useRoute } from 'vue-router';
 import useLoading from 'src/composables/common/useLoading';
 import useFormValidation from 'src/composables/common/useFormValidation';
 
@@ -105,8 +105,14 @@ export default defineComponent({
   setup() {
     const store = useStore();
     const router = useRouter();
+    const route = useRoute();
     const loading = useLoading();
     const rules = useFormValidation();
+
+    onMounted(() => {
+      // TODO: show snackbar
+      if (route.query.redirect) console.log(route.query.redirect);
+    });
 
     const type = ref<AuthTypeEnum>(AuthTypeEnum.LOGIN);
     const authTypes = {
@@ -149,7 +155,7 @@ export default defineComponent({
         loading.start();
         const payload = { email: form.email, password: form.password };
         await store.dispatch('user/login', payload);
-        await openMainPage();
+        await redirectToRequestedOrDefaultPage();
       } catch (e) {
         // TODO: snackbar
         console.error(e);
@@ -162,7 +168,7 @@ export default defineComponent({
         loading.start();
         const payload = { name: form.name, username: form.username, email: form.email, password: form.password };
         await store.dispatch('user/register', payload);
-        await openMainPage();
+        await redirectToRequestedOrDefaultPage();
       } catch (e) {
         // TODO: snackbar
         console.error(e);
@@ -179,12 +185,14 @@ export default defineComponent({
       }
     }
 
-    async function openMainPage() {
-      await router.push('/');
+    async function redirectToRequestedOrDefaultPage() {
+      const url = (route.query.redirect as string) || '/projects';
+      await router.replace(url);
     }
 
     return {
       rules,
+      loading,
 
       type,
       authTypes,
