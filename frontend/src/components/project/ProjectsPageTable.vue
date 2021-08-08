@@ -178,10 +178,7 @@ export default defineComponent({
 
     function getProjectURL(project: ProjectModel) {
       const projectID = project.id;
-      const firstBoardID = project.boards?.[0]?.id;
-
-      if (firstBoardID) return `/projects/${projectID}/board/${firstBoardID}`;
-      else return `/projects/${projectID}`;
+      return `/projects/${projectID}/board`;
     }
 
     return {
