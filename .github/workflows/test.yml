@@ -1,0 +1,37 @@
+name: CI
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+  workflow_dispatch:
+
+jobs:
+  test-frontend:
+    runs-on: ubuntu-latest
+
+    defaults:
+      run:
+        working-directory: ./frontend
+
+    strategy:
+      matrix:
+        node-version: [14.x]
+        architecture: [x64]
+
+    steps:
+      - name: CHECK-OUT GIT REPOSITORY
+        uses: actions/checkout@v2
+
+      - name: USE NODEJS ${{ matrix.node-version }} - ${{ matrix.architecture }}
+        uses: actions/setup-node@v2
+
+      - name: INSTALL DEPENDENCIES
+        run: yarn install
+
+      - name: LINT
+        run: yarn lint
+
+      - name: TEST
+        run: yarn test
