@@ -102,7 +102,7 @@
     <div v-else-if="step === 3">
       <q-form>
         <q-input v-model="form.name" label="Имя доски" autofocus lazy-rules filled />
-        <BaseSelect v-model="form.projectID" label="Проект" :options="availableProjects" />
+        <BaseSelect v-model="form.project" label="Проект" :options="availableProjects" :emit-value="false" />
       </q-form>
     </div>
 
@@ -126,6 +126,7 @@
 <script lang="ts">
 import { defineComponent, ref, reactive, computed, PropType } from 'vue';
 import { useStore } from 'src/store';
+import { useRouter } from 'vue-router';
 import useDialog from 'src/composables/common/useDialog';
 import useLoading from 'src/composables/common/useLoading';
 
@@ -172,6 +173,7 @@ export default defineComponent({
 
   setup(props, { emit }) {
     const store = useStore();
+    const router = useRouter();
     const dialog = useDialog();
     const loading = useLoading();
 
@@ -239,7 +241,7 @@ export default defineComponent({
         const board = (await store.dispatch('project/createBoard', form)) as BoardModel;
         const isCreatedInCurrentProject = board.projectID === store.state.project.projectDetail?.id;
         if (isCreatedInCurrentProject) selectBoard(board);
-        else close();
+        else await router.push(`/projects/${board.projectID}/board/${board.id}`);
       } finally {
         loading.stop();
       }
