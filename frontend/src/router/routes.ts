@@ -17,7 +17,7 @@ const routes: RouteRecordRaw[] = [
     path: '/',
     component: () => import('layouts/MainLayout.vue'),
     children: [
-      { path: '/', component: () => import('pages/Index.vue'), meta: { auth: true } },
+      { path: '/', name: 'work', component: () => import('pages/Index.vue'), meta: { auth: true } },
 
       {
         path: '/projects',
@@ -49,22 +49,29 @@ const routes: RouteRecordRaw[] = [
         ],
       },
 
-      { path: 'filters', component: () => import('pages/Filters.vue'), meta: { auth: true } },
+      { path: 'filters', name: 'filters', component: () => import('pages/Filters.vue'), meta: { auth: true } },
 
       {
         path: 'dashboards',
+        name: 'dashboards',
         component: () => import('pages/dashboard/Dashboard.vue'),
         meta: { auth: true },
       },
       {
         path: 'dashboards/:id',
+        name: 'dashboardsDetail',
         component: () => import('pages/dashboard/DashboardDetail.vue'),
         meta: { auth: true },
       },
 
-      { path: 'people', component: () => import('pages/people/People.vue'), meta: { auth: true } },
-      { path: 'people/team/:id', component: () => import('pages/people/PeopleTeam.vue'), meta: { auth: true } },
-      // { path: 'apps', component: () => import('pages/Apps.vue') },
+      { path: 'people', name: 'people', component: () => import('pages/people/People.vue'), meta: { auth: true } },
+      {
+        path: 'people/team/:id',
+        name: 'peopleTeam',
+        component: () => import('pages/people/PeopleTeam.vue'),
+        meta: { auth: true },
+      },
+      // { path: 'apps', name: 'apps', component: () => import('pages/Apps.vue') },
     ],
   },
 
