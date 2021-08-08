@@ -140,7 +140,7 @@
 </template>
 
 <script lang="ts">
-import { defineComponent, ref, reactive, computed, onBeforeMount, onMounted } from 'vue';
+import { defineComponent, ref, reactive, computed, watch, onBeforeMount, onMounted } from 'vue';
 import { useRouter, useRoute } from 'vue-router';
 import { useStore } from 'src/store';
 import useDialog from 'src/composables/common/useDialog';
@@ -189,28 +189,40 @@ export default defineComponent({
     const availableProjects = computed(() => store.state.project.projects);
     const selectedBoard = computed(() => store.state.project.boardDetail);
 
+    const currentProjectID = computed(() => Number(route.params.projectID));
     onBeforeMount(async () => {
-      try {
-        const { projectID } = route.params;
-        await store.dispatch('project/getByID', projectID);
-        await loadSavedBoard();
-      } finally {
-        loading.stop();
-      }
+      await store.dispatch('project/getByID', currentProjectID.value);
+      await loadBoard();
+      loading.stop();
     });
 
     onMounted(async () => {
       if (!availableProjects.value) await store.dispatch('project/getAll');
     });
 
-    async function loadSavedBoard() {
-      const savedBoard = (await storage.load('selectedBoardID')) as number;
+    watch(currentProjectID, async (value: number) => {
+      loading.start();
+      await store.dispatch('project/getByID', value);
+      loading.stop();
+    });
 
-      const defaultBoard = project.value?.boards[0];
-      const boardObject = project.value?.boards.find((b) => b.id === savedBoard);
+    async function loadBoard() {
+      const availableBoards = project.value?.boards;
+      if (!availableBoards) return;
 
-      const board = boardObject || defaultBoard;
-      if (board) await selectBoard(board);
+      const currentUrlBoardID = Number(route.params.boardID);
+      if (currentUrlBoardID) {
+        const board = availableBoards.find((b) => b.id === currentUrlBoardID);
+        if (board) await selectBoard(board);
+      } else {
+        const savedBoard = (await storage.load('selectedBoardID')) as number;
+
+        const defaultBoard = availableBoards[0];
+        const boardObject = availableBoards.find((b) => b.id === savedBoard);
+
+        const board = boardObject || defaultBoard;
+        await selectBoard(board);
+      }
     }
 
     async function selectBoard(board: BoardModel) {
@@ -223,7 +235,7 @@ export default defineComponent({
     }
 
     async function openBoardByID(boardID: number) {
-      await router.replace({ name: 'board', params: { boardID }, query: { ...route.query } });
+      await router.replace({ name: 'boardDetail', params: { boardID }, query: { ...route.query } });
     }
     async function openSelectedBoard() {
       const boardID = selectedBoard.value?.id;
