@@ -1,14 +1,15 @@
 import { ActionTree } from 'vuex';
 import { StateInterface } from '../index';
 import { ProjectStateInterface } from './state';
+import { ColumnDTO } from 'src/models/project/column.model';
+import { IssueDTO } from 'src/models/project/issue.model';
+import { BoardDTO } from 'src/models/project/board.model';
+import { ProjectDTO } from 'src/models/project/project.model';
+
 import projectService from 'src/service/projectService';
 import boardService from 'src/service/boardService';
 import issueService from 'src/service/issueService';
 import columnService from 'src/service/columnService';
-import { ColumnDTO } from 'src/models/project/column.model';
-import { IssueDTO, IssueModel } from 'src/models/project/issue.model';
-import { BoardDTO } from 'src/models/project/board.model';
-import { ProjectDTO } from 'src/models/project/project.model';
 
 const actions: ActionTree<ProjectStateInterface, StateInterface> = {
   async getAll({ commit }) {
