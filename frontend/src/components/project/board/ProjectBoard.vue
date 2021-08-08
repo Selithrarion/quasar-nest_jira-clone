@@ -22,7 +22,7 @@
     </div>
 
     <ProjectBoardDialogCreateIssue v-if="dialog.openedName.value === 'createIssue'" @close="dialog.close" />
-    <ProjectBoardDialogViewIssue v-if="dialog.openedName.value === 'viewIssue'" @close="dialog.close" />
+    <ProjectBoardDialogViewIssue v-if="dialog.openedName.value === 'viewIssue'" @close="closeIssue" />
   </div>
 </template>
 
@@ -92,6 +92,10 @@ export default defineComponent({
       await router.push({ query: { issueID } });
       dialog.open('viewIssue');
     }
+    async function closeIssue() {
+      await router.push({ query: {} });
+      dialog.close();
+    }
 
     return {
       dialog,
@@ -101,6 +105,7 @@ export default defineComponent({
       isAnyIssues,
 
       openIssue,
+      closeIssue,
     };
   },
 });
