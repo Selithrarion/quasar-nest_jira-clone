@@ -31,12 +31,22 @@ const routes: RouteRecordRaw[] = [
         meta: { auth: true },
         children: [
           {
-            path: 'board/:boardID',
+            path: 'board',
             name: 'board',
             meta: {
               name: 'Доска задач',
             },
             component: () => import('components/project/board/ProjectBoard.vue'),
+            children: [
+              {
+                path: ':boardID',
+                name: 'boardDetail',
+                meta: {
+                  name: 'Доска задач',
+                },
+                component: () => import('components/project/board/ProjectBoard.vue'),
+              },
+            ],
           },
           {
             path: 'roadmap',
