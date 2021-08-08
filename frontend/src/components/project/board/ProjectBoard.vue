@@ -27,7 +27,7 @@
 </template>
 
 <script lang="ts">
-import { defineComponent, computed, onBeforeMount } from 'vue';
+import { defineComponent, computed, onBeforeMount, watch } from 'vue';
 import { useStore } from 'src/store';
 import { useRoute, useRouter } from 'vue-router';
 import useDialog from 'src/composables/common/useDialog';
@@ -69,6 +69,15 @@ export default defineComponent({
       if (route.query.issueID) dialog.open('viewIssue');
       loading.stop();
     });
+
+    watch(
+      () => props.selectedBoardId,
+      async (value: number) => {
+        loading.start();
+        await store.dispatch('project/getBoardByID', value);
+        loading.stop();
+      }
+    );
 
     const boardColumns = computed(() => store.state.project.boardDetail?.columns);
     const isAnyIssues = computed(() => {
