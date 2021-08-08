@@ -187,7 +187,7 @@ export default defineComponent({
 
     const project = computed(() => store.state.project.projectDetail);
     const availableProjects = computed(() => store.state.project.projects);
-    const selectedBoard = computed(() => store.state.project.boardDetail)
+    const selectedBoard = computed(() => store.state.project.boardDetail);
 
     onBeforeMount(async () => {
       try {
@@ -203,11 +203,6 @@ export default defineComponent({
       if (!availableProjects.value) await store.dispatch('project/getAll');
     });
 
-    async function selectBoard(board: BoardModel) {
-      store.commit('project/SET_BOARD_DETAIL', board)
-      storage.save(board.id, 'selectedBoardID');
-      await openBoardByID(board.id);
-    }
     async function loadSavedBoard() {
       const savedBoard = (await storage.load('selectedBoardID')) as number;
 
@@ -216,14 +211,19 @@ export default defineComponent({
 
       const board = boardObject || defaultBoard;
       if (board) await selectBoard(board);
+    }
 
+    async function selectBoard(board: BoardModel) {
+      store.commit('project/SET_BOARD_DETAIL', board);
+      storage.save(board.id, 'selectedBoardID');
+      await openBoardByID(board.id);
     }
     async function toggleSelectedBoardFavorite() {
       await store.dispatch('project/toggleBoardFavorite', selectedBoard.value?.id);
     }
 
     async function openBoardByID(boardID: number) {
-      await router.replace({ name: 'board', params: { boardID } });
+      await router.replace({ name: 'board', params: { boardID }, query: { ...route.query } });
     }
     async function openSelectedBoard() {
       const boardID = selectedBoard.value?.id;

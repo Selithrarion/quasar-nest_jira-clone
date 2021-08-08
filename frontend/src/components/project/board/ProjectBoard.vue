@@ -66,6 +66,7 @@ export default defineComponent({
 
     onBeforeMount(async () => {
       await store.dispatch('project/getBoardByID', props.selectedBoardId);
+      if (route.query.issueID) dialog.open('viewIssue');
       loading.stop();
     });
 
