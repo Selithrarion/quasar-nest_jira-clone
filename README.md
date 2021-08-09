@@ -44,10 +44,13 @@ Github actions CI pipeline
 - Delete project  
 - View project detail with boards  
 - Mark project as favorite  
+- Upload project avatar (not implemented yet ❌)  
 - Projects pagination (not implemented yet ❌)  
-
+- Projects sorting (not implemented yet ❌)  
+- Projects search (not implemented yet ❌) 
+  
 #### Project Detail
-##### Boards (only kanban, no multiple boards on one page)
+##### Boards (only kanban and no multiple boards on one page)
 
 - Add board (with ability to select project and automaticly redirect, interface is slightly different from jira)  
 - Board settings (not implemented yet ❌)  
@@ -55,7 +58,42 @@ Github actions CI pipeline
 - Auto load last viewed board (or load it from URL)  
 - Auto load last viewed issue (from URL)  
 - Mark board as favorite  
+- Drag & drop issues between columns
+- 
+##### Board Issues
 
-##### Roadmap
+- Issues filter by user (not implemented yet ❌)  
+- Issues filter by last changes (not implemented yet ❌)  
+- Issues search (not implemented yet ❌)  
+  
+- Projects search (not implemented yet ❌) 
+- Change name / description
+- WYSYWIG description editor
+- Change column
+- Change assigned user
+- Change author
+- Change issue type
+- Change issue priority
+- Add marks (not implemented yet ❌) 
+- Created at / updated at fields, tooltips on all these actions
+- Add / Edit / Delete comment (not implemented yet ❌) 
+- Reply comment (not implemented yet ❌) 
+
+##### Roadmap    
+  
+#### Filters
+–
+  
+#### Dashboards
+–
+
+#### People
+##### Profile page
+- Upload header image (not implemented yet ❌) 
+- Upload user avatar (not implemented yet ❌) 
+- View / edit user info (not implemented yet ❌) 
+- View all issues in work (not implemented yet ❌) 
+- View all projects (not implemented yet ❌) 
+- View all users you work with (not implemented yet ❌) 
 
 
