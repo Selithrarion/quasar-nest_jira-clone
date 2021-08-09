@@ -18,7 +18,6 @@ export class UserService {
   async getByEmail(email: string): Promise<UserEntity> {
     return await this.users.findOne({ where: { email } });
   }
-
   async getByID(id: number): Promise<UserEntity> {
     return await this.users.findOne(id);
   }
@@ -56,5 +55,10 @@ export class UserService {
   async getFavoriteBoards(id: number): Promise<BoardEntity[]> {
     const user = await this.users.findOneOrFail(id, { relations: ['favoriteBoards'] });
     return user.favoriteBoards;
+  }
+
+  async isUsernameTaken(username: string): Promise<boolean> {
+    const user = await this.users.findOne({ where: { username } });
+    return Boolean(user);
   }
 }
