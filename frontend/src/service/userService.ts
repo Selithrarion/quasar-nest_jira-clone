@@ -33,6 +33,11 @@ export default {
   async logout(): Promise<void> {
     return await http.post('/auth/logout');
   },
+  async isUsernameTaken(username: string): Promise<boolean> {
+    const params = { username };
+    const { data }: ApiResponseModel = await http.get('/user/is-taken', { params });
+    return data as boolean;
+  },
 
   async updateTokens(payload: UserUpdateTokenDTO): Promise<UserUpdateTokenResponse> {
     const { data }: ApiResponseModel = await http.post('/auth/update-tokens', payload);
