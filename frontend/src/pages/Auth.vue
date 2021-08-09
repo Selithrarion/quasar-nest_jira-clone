@@ -33,23 +33,42 @@
             lazy-rules
             filled
           />
+
           <q-input
             v-if="authTypes[type].fields.includes('password')"
             v-model="form.password"
             label="Пароль"
+            :type="isHidePassword ? 'password' : 'text'"
             :rules="[rules.required]"
             hide-bottom-space
             lazy-rules
             filled
-          />
+          >
+            <template #append>
+              <q-icon
+                :name="isHidePassword ? 'visibility_off' : 'visibility'"
+                class="cursor-pointer"
+                @click="isHidePassword = !isHidePassword"
+              />
+            </template>
+          </q-input>
           <q-input
             v-if="authTypes[type].fields.includes('passwordRepeat')"
             v-model="form.passwordRepeat"
             label="Подтвердите пароль"
+            :type="isHidePassword ? 'password' : 'text'"
             :rules="[rules.required, equalPasswords]"
             hide-bottom-space
             filled
-          />
+          >
+            <template #append>
+              <q-icon
+                :name="isHidePassword ? 'visibility_off' : 'visibility'"
+                class="cursor-pointer"
+                @click="isHidePassword = !isHidePassword"
+              />
+            </template>
+          </q-input>
         </q-card-section>
 
         <q-card-section>
@@ -148,6 +167,7 @@ export default defineComponent({
       return !isTaken || 'Имя пользователя уже занято';
     }
 
+    const isHidePassword = ref(true);
     const form = reactive({
       name: '',
       username: '',
@@ -203,6 +223,8 @@ export default defineComponent({
       type,
       authTypes,
       AuthTypeEnum,
+
+      isHidePassword,
       form,
 
       equalPasswords,
