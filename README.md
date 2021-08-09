@@ -1,6 +1,7 @@
 # Jira clone with Quasar (Vue 3 TS) + Nest (Node.js)
 
-#### Frontend stack/features  
+### Stack
+#### Frontend
 
 1. Vue 3
 2. Vuex
@@ -13,7 +14,7 @@
 9. RTL view (haha, even in jira rtl doesn't work very well, but thanks to quasar pretty nice rtl support in this clone and CSS gaps)
 10. other - date-fns, some lodash functions, eslint + tslint + prettier
 
-#### Backend stack/features
+#### Backend stack
 
 1. Nest.js
 2. Typescript
@@ -22,3 +23,39 @@
 5. Passport, JWT auth
 6. Socket.io (not implemented yet ❌)
 7. Jest (testing) (not implemented yet ❌)
+
+#### Other
+
+Github actions CI pipeline
+
+### Features
+#### Auth
+
+- Login / Register / Forgot password  
+- Unique username validation  
+- Send email verification mail (not implemented yet ❌)  
+- Send forgot password mail (not implemented yet ❌)  
+- Automaticly redirect to requested page after login (/auth?redirect=/projects)  
+- JWT access (1d exp) and refresh (30d exp) tokens, auto relogin if access token expired  
+
+#### Projects
+
+- Add new project  
+- Delete project  
+- View project detail with boards  
+- Mark project as favorite  
+- Projects pagination (not implemented yet ❌)  
+
+#### Project Detail
+##### Boards (only kanban, no multiple boards on one page)
+
+- Add board (with ability to select project and automaticly redirect, interface is slightly different from jira)  
+- Board settings (not implemented yet ❌)  
+- Delete board  
+- Auto load last viewed board (or load it from URL)  
+- Auto load last viewed issue (from URL)  
+- Mark board as favorite  
+
+##### Roadmap
+
+
