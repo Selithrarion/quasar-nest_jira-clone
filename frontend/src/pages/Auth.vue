@@ -18,7 +18,8 @@
             v-if="authTypes[type].fields.includes('username')"
             v-model="form.username"
             label="Имя пользователя"
-            :rules="[rules.required, rules.max24]"
+            debounce="500"
+            :rules="[rules.required, rules.max24, uniqueUsername]"
             hide-bottom-space
             lazy-rules
             filled
@@ -138,8 +139,13 @@ export default defineComponent({
         action: sendForgotPasswordEmail,
       },
     };
+
     function equalPasswords(): boolean | string {
       return form.passwordRepeat === form.password || 'Пароли не совпадают';
+    }
+    async function uniqueUsername(): Promise<boolean | string> {
+      const isTaken = await userService.isUsernameTaken(form.username);
+      return !isTaken || 'Имя пользователя уже занято';
     }
 
     const form = reactive({
@@ -198,7 +204,9 @@ export default defineComponent({
       authTypes,
       AuthTypeEnum,
       form,
+
       equalPasswords,
+      uniqueUsername,
 
       login,
       register,
