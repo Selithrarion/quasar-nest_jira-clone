@@ -81,18 +81,31 @@
 
           <div>
             <div class="text-subtitle2 q-pb-sm">Описание</div>
-            <!-- TODO: add editor on focus-->
-            <q-input
-              ref="descriptionInput"
-              v-model="localIssueDescription"
-              type="textarea"
-              :placeholder="issue.description ? 'Изменить описание' : 'Добавить описание'"
-              autogrow
-              filled
-              dense
-              @blur="updateIssueDescription"
-              @keydown.enter="$event.target.blur()"
+            <!--            TODO: add colors-->
+            <div
+              v-show="!isDescriptionEditor"
+              class="issue-description"
+              @click="showDescriptionEditor"
+              v-html="localIssueDescription"
             />
+
+            <q-editor
+              v-show="isDescriptionEditor"
+              ref="descriptionEditor"
+              v-model="localIssueDescription"
+              min-height="5rem"
+            />
+            <div v-show="isDescriptionEditor" class="flex-center-end gap-2 q-mt-sm">
+              <q-btn label="Отмена" color="blue-grey-5" no-caps flat @click="resetIssueDescription" />
+              <q-btn
+                label="Сохранить"
+                color="primary"
+                :loading="loading.custom.saveEditorDescription"
+                unelevated
+                no-caps
+                @click="updateIssueDescription"
+              />
+            </div>
           </div>
 
           <div>
@@ -227,7 +240,7 @@
 </template>
 
 <script lang="ts">
-import { defineComponent, ref, computed, onBeforeMount, onBeforeUnmount } from 'vue';
+import { defineComponent, ref, computed, onBeforeMount, onBeforeUnmount, nextTick } from 'vue';
 import { useStore } from 'src/store';
 import { useRoute } from 'vue-router';
 import useLoading from 'src/composables/common/useLoading';
@@ -264,7 +277,7 @@ export default defineComponent({
   setup(props, { emit }) {
     const store = useStore();
     const route = useRoute();
-    const loading = useLoading({ default: true });
+    const loading = useLoading({ default: true, customNames: ['saveEditorDescription'] });
 
     onBeforeMount(async () => {
       await fetchIssue();
@@ -281,7 +294,18 @@ export default defineComponent({
     const localIssueDescription = ref('');
 
     const nameInput = ref<HTMLInputElement | null>(null);
-    const descriptionInput = ref<HTMLInputElement | null>(null);
+    const descriptionEditor = ref<HTMLInputElement | null>(null);
+    const isDescriptionEditor = ref(false);
+    async function showDescriptionEditor() {
+      isDescriptionEditor.value = true;
+      await nextTick(() => {
+        descriptionEditor.value?.focus();
+      });
+    }
+    function resetIssueDescription() {
+      localIssueDescription.value = issue.value?.description || '';
+      isDescriptionEditor.value = false;
+    }
 
     async function updateIssue(field: string, value: unknown) {
       const id = issue.value?.id;
@@ -297,8 +321,13 @@ export default defineComponent({
       await updateIssue('name', localIssueName.value);
     }
     async function updateIssueDescription() {
-      descriptionInput.value?.blur();
-      await updateIssue('name', localIssueDescription.value);
+      try {
+        loading.start('saveEditorDescription');
+        await updateIssue('description', localIssueDescription.value);
+        isDescriptionEditor.value = false;
+      } finally {
+        loading.stop('saveEditorDescription');
+      }
     }
     async function updateIssueColumn(column: ColumnModel) {
       if (!issue.value || !selectedColumn.value) return;
@@ -384,7 +413,10 @@ export default defineComponent({
       localIssueDescription,
 
       nameInput,
-      descriptionInput,
+      descriptionEditor,
+      isDescriptionEditor,
+      showDescriptionEditor,
+      resetIssueDescription,
 
       updateIssue,
       updateIssueName,
@@ -413,6 +445,18 @@ export default defineComponent({
 </script>
 
 <style lang="scss" scoped>
+.issue-description {
+  padding: 8px;
+  border-radius: 4px 4px 0 0;
+  background-color: $blue-grey-1;
+  transition: background-color 150ms ease-in;
+  word-break: break-word;
+  cursor: text;
+  &:hover {
+    background-color: $grey-3;
+  }
+}
+
 .item-row {
   display: flex;
   align-items: center;
