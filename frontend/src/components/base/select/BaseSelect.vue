@@ -1,7 +1,7 @@
 <template>
   <q-select
     class="base-select"
-    :class="{ 'base-select--truncate': truncate }"
+    :class="computedClasses"
     :model-value="modelValue"
     :style="{ maxWidth: `${maxWidth}px`, width: `${width}px` }"
     :option-label="optionLabel"
@@ -9,14 +9,22 @@
     :hide-bottom-space="hideBottomSpace"
     :emit-value="emitValue"
     :map-options="mapOptions"
-    :filled="filled"
+    :filled="filled && !buttonStyle"
+    :borderless="buttonStyle"
+    :hide-dropdown-icon="buttonStyle"
     v-bind="$attrs"
     @update:model-value="$emit('update:model-value', $event)"
   >
+    <template #default>
+      <BaseTooltip v-if="tooltip" :label="tooltip" delay="700" />
+    </template>
+
     <template #selected-item="{ opt }">
-      <slot name="selected-item" :option="opt">
-        {{ opt[optionLabel] }}
-      </slot>
+      <div class="flex items-center gap-1 no-wrap ellipsis">
+        <slot name="selected-item" :option="opt">
+          {{ opt[optionLabel] }}
+        </slot>
+      </div>
     </template>
 
     <template #option="{ itemProps, itemEvents, opt }">
@@ -42,7 +50,7 @@
 </template>
 
 <script lang="ts">
-import { defineComponent } from 'vue';
+import { defineComponent, computed } from 'vue';
 
 export default defineComponent({
   name: 'BaseSelect',
@@ -58,6 +66,13 @@ export default defineComponent({
       type: Boolean,
       required: false,
       default: true,
+    },
+    buttonStyle: Boolean,
+
+    tooltip: {
+      type: String,
+      required: false,
+      default: null,
     },
 
     maxWidth: {
@@ -105,6 +120,21 @@ export default defineComponent({
   },
 
   emits: ['update:model-value'],
+
+  setup(props) {
+    const computedClasses = computed(() => {
+      const classes = [];
+
+      if (props.truncate) classes.push('base-select--truncate');
+      if (props.buttonStyle) classes.push('base-select--button-style');
+
+      return classes;
+    });
+
+    return {
+      computedClasses,
+    };
+  },
 });
 </script>
 
@@ -114,6 +144,16 @@ export default defineComponent({
     text-overflow: ellipsis;
     white-space: nowrap;
     overflow: hidden;
+  }
+
+  &.base-select--button-style {
+    transition: background-color 0.3s cubic-bezier(0.25, 0.8, 0.5, 1);
+    &:hover {
+      background-color: $blue-grey-1;
+    }
+    &:active {
+      background-color: $blue-grey-2;
+    }
   }
 }
 </style>
