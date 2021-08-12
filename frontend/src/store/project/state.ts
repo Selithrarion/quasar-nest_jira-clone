@@ -65,28 +65,28 @@ function state(): ProjectStateInterface {
     availableIssuePriorities: [
       {
         id: 1,
-        name: 'Очень низкий приоритет',
+        name: 'Очень низкий',
         key: 'LOWEST',
         icon: 'remove',
         color: 'green-5',
       },
       {
         id: 2,
-        name: 'Низкий приоритет',
+        name: 'Низкий',
         key: 'LOW',
         icon: 'expand_more',
         color: 'green-7',
       },
       {
         id: 3,
-        name: 'Средний приоритет',
+        name: 'Средний',
         key: 'MEDIUM',
         icon: 'drag_handle',
         color: 'amber-5',
       },
       {
         id: 4,
-        name: 'Высокий приоритет',
+        name: 'Высокий',
         key: 'HIGH',
         icon: 'expand_less',
         color: 'red-5',
