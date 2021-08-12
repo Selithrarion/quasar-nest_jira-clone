@@ -176,46 +176,42 @@
 
             <div class="item-row">
               <label>Исполнитель</label>
-              <q-item clickable dense>
-                <q-avatar v-if="issue.assigned" size="24px">
-                  <img
-                    :src="issue.assigned.avatarURL || require('src/assets/img/default-avatar-1.png')"
-                    :alt="`${issue.assigned.name} Avatar`"
-                  />
-                </q-avatar>
-                <q-avatar v-else icon="group" color="blue-grey-6" font-size="16px" text-color="white" size="24px" />
-
-                <span>{{ issue.assigned ? issue.assigned.name : 'Без назначения' }}</span>
-                <BaseTooltip label="Изменить исполнителя" />
-              </q-item>
+              <BaseSelectWithAvatar
+                :model-value="issue.assigned"
+                :options="availableProjectUsers"
+                :emit-value="false"
+                tooltip="Изменить исполнителя"
+                button-style
+                @update:model-value="updateIssue('assigned', $event)"
+              />
             </div>
+
             <div class="item-row">
               <label>Автор</label>
-              <q-item clickable dense>
-                <q-avatar size="24px">
-                  <img
-                    src="https://secure.gravatar.com/avatar/d1cb0ee26c499154d46f1ab7b61cf44f?d=https%3A%2F%2Favatar-management--avatars.us-west-2.prod.public.atl-paas.net%2Fdefault-avatar-1.png"
-                    alt="User Avatar"
-                  />
-                </q-avatar>
-                <span>{{ issue.author.name }}</span>
-                <BaseTooltip label="Изменить автора" />
-              </q-item>
+              <BaseSelectWithAvatar
+                :model-value="issue.author"
+                :options="availableProjectUsers"
+                :emit-value="false"
+                tooltip="Изменить автора"
+                button-style
+                @update:model-value="updateIssue('author', $event)"
+              />
             </div>
+
             <div class="item-row">
               <label>Метки</label>
-              <q-item clickable dense>
-                <q-chip color="blue-grey-1" label="Frontend" square dense />
-                <BaseTooltip label="Добавить метки" />
-              </q-item>
+              <BaseSelect :options="issue.marks" tooltip="Добавить метки" disable button-style multiple use-chips />
             </div>
+
             <div class="item-row">
               <label>Приоритет</label>
-              <q-item clickable dense>
-                <ProjectBoardIconIssuePriority :priority="issue.priorityID" />
-                <span>{{ formatIssuePriorityName(issue.priorityID) }}</span>
-                <BaseTooltip label="Изменить приоритет" />
-              </q-item>
+              <BaseSelectIssuePriority
+                :model-value="issue.priorityID"
+                :options="availableIssuePriorities"
+                tooltip="Изменить приоритет"
+                button-style
+                @update:model-value="updateIssue('priorityID', $event.id)"
+              />
             </div>
 
             <q-separator class="q-my-sm" />
@@ -247,15 +243,9 @@ import useLoading from 'src/composables/common/useLoading';
 
 import issueService from 'src/service/issueService';
 
-import BaseDialog from 'components/base/BaseDialog.vue';
-import BaseSelect from 'components/base/BaseSelect.vue';
-import BaseTooltip from 'components/base/BaseTooltip.vue';
-import BaseButtonCloseIcon from 'components/base/button/BaseButtonCloseIcon.vue';
-
 import CommonListTitle from 'components/common/CommonListTitle.vue';
 
 import ProjectBoardIconIssueType from 'components/project/board/icon/ProjectBoardIconIssueType.vue';
-import ProjectBoardIconIssuePriority from 'components/project/board/icon/ProjectBoardIconIssuePriority.vue';
 
 import { ColumnModel } from 'src/models/project/column.model';
 
@@ -263,13 +253,8 @@ export default defineComponent({
   name: 'ProjectBoardDialogViewIssue',
 
   components: {
-    BaseDialog,
-    BaseSelect,
-    BaseTooltip,
-    BaseButtonCloseIcon,
     CommonListTitle,
     ProjectBoardIconIssueType,
-    ProjectBoardIconIssuePriority,
   },
 
   emits: ['close'],
@@ -363,10 +348,6 @@ export default defineComponent({
       localIssueDescription.value = issue.value?.description || '';
     }
 
-    function close() {
-      emit('close');
-    }
-
     const selectedType = ref<string | null>(null);
     function selectType(type: string) {
       selectedType.value = type;
@@ -404,6 +385,12 @@ export default defineComponent({
       return availableIssueTypes.value.find((p) => p.id === typeID)?.name;
     }
 
+    const availableProjectUsers = computed(() => store.state.project.projectDetail?.users);
+
+    function close() {
+      emit('close');
+    }
+
     return {
       loading,
 
@@ -423,8 +410,6 @@ export default defineComponent({
       updateIssueDescription,
       updateIssueColumn,
 
-      close,
-
       selectedType,
       selectType,
       resetType,
@@ -439,6 +424,10 @@ export default defineComponent({
       availableIssueTypes,
       formatIssuePriorityName,
       formatIssueTypeName,
+
+      availableProjectUsers,
+
+      close,
     };
   },
 });
@@ -462,29 +451,35 @@ export default defineComponent({
   align-items: center;
   justify-content: space-between;
   padding: 4px 0;
-  label {
+  label:not(.q-select) {
     flex-shrink: 0;
     font-size: 12px;
     font-weight: 500;
     padding-right: 4px;
     width: 35%;
   }
-  .q-item {
-    display: flex;
-    align-items: center;
-    flex-grow: 1;
-    gap: 8px;
-
-    padding-left: 6px;
-
-    text-overflow: ellipsis;
-    white-space: nowrap;
-    overflow: hidden;
-    > span {
-      text-overflow: ellipsis;
-      white-space: nowrap;
-      overflow: hidden;
+  .q-select {
+    width: 100%;
+    ::v-deep .q-field__native,
+    ::v-deep .q-field__control {
+      min-height: 36px !important;
+    }
+    ::v-deep .q-field__native {
+      padding: 0 8px;
+    }
+    ::v-deep .q-field__control-container {
+      padding-top: 0;
     }
   }
+  .q-btn {
+    width: 100%;
+  }
+}
+
+.q-menu .q-item__section {
+  justify-content: flex-start;
+  align-items: center;
+  gap: 8px;
+  flex-direction: row;
 }
 </style>

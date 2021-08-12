@@ -26,7 +26,7 @@
 
     <template #default>
       <q-form>
-        <BaseSelect
+        <BaseSelectWithAvatar
           v-model="form.project"
           label="Проект"
           width="250"
@@ -34,17 +34,13 @@
           :rules="[rules.required]"
         />
 
-        <BaseSelect
+        <BaseSelectIssueType
           v-model="form.typeID"
           label="Тип задачи"
           width="250"
           :options="availableIssueTypes"
           :rules="[rules.required]"
-        >
-          <template #optionPrepend="{ option }">
-            <ProjectBoardIconIssueType :type="option.id" small />
-          </template>
-        </BaseSelect>
+        />
 
         <q-separator />
 
@@ -53,30 +49,21 @@
 
         <q-separator />
 
-        <BaseSelect
+        <BaseSelectIssuePriority
           v-model="form.priorityID"
-          label="Приоритет"
           width="250"
           :options="availableIssuePriorities"
           :rules="[rules.required]"
-        >
-          <template #optionPrepend="{ option }">
-            <ProjectBoardIconIssuePriority :priority="option.id" hide-tooltip small />
-          </template>
-        </BaseSelect>
+        />
         <q-input v-model="form.marks" style="max-width: 250px" label="Метки" disable filled />
 
         <div class="column gap-1">
-          <BaseSelect v-model="form.assigned" label="Исполнитель" width="250" :options="availableProjectUsers">
-            <template #optionPrepend="{ option }">
-              <q-avatar size="24px">
-                <img
-                  :src="option.avatarURL || require('src/assets/img/default-avatar-1.png')"
-                  :alt="`${option.name} Avatar`"
-                />
-              </q-avatar>
-            </template>
-          </BaseSelect>
+          <BaseSelectWithAvatar
+            v-model="form.assigned"
+            label="Исполнитель"
+            width="250"
+            :options="availableProjectUsers"
+          />
           <div>
             <q-btn label="Назначить мне" dense no-caps no-wrap flat @click="assignToCurrentUser" />
           </div>
@@ -92,22 +79,11 @@ import { useStore } from 'src/store';
 import useLoading from 'src/composables/common/useLoading';
 import useFormValidation from 'src/composables/common/useFormValidation';
 
-import BaseDialog from 'components/base/BaseDialog.vue';
-import BaseSelect from 'components/base/BaseSelect.vue';
-import ProjectBoardIconIssueType from 'components/project/board/icon/ProjectBoardIconIssueType.vue';
-import ProjectBoardIconIssuePriority from 'components/project/board/icon/ProjectBoardIconIssuePriority.vue';
 import { UserModel } from 'src/models/user/user.model';
 import { IssuePriorityEnum, IssueTypeEnum } from 'src/models/project/issue.model';
 
 export default defineComponent({
   name: 'ProjectBoardDialogCreateIssue',
-
-  components: {
-    BaseDialog,
-    BaseSelect,
-    ProjectBoardIconIssueType,
-    ProjectBoardIconIssuePriority,
-  },
 
   emits: ['close'],
 
