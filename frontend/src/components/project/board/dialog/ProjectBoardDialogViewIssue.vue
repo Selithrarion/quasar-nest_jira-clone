@@ -216,17 +216,57 @@
 
             <q-separator class="q-my-sm" />
 
-            <div class="text-caption text-blue-grey-5 q-pb-lg">
+            <div class="text-caption text-blue-grey-10 q-pb-lg">
               <div class="flex-center-between">
-                <div :class="{ clickable: false }">
-                  Создано 22 июня 2021 г., 12:02
-                  <BaseTooltip label="22 июня 2021 г. 12:02" />
+                <div class="flex gap-1">
+                  <span class="opacity-60">Создано</span>
+
+                  <span v-if="getIsDateLessDay(issue.createdAt)">
+                    <span
+                      class="cursor-pointer opacity-60 hover-opacity-100"
+                      @click="isCreatedAtDifference = !isCreatedAtDifference"
+                    >
+                      {{ isUpdatedAtDifference ? formatDate(issue.createdAt, 'DIFF') : formatDate(issue.createdAt) }}
+                    </span>
+                    <BaseTooltip v-if="isCreatedAtDifference" :label="formatDate(issue.createdAt)" />
+                  </span>
+
+                  <span v-else class="opacity-60">
+                    {{ formatDate(issue.createdAt) }}
+                  </span>
                 </div>
-                <q-btn icon="settings" label="Настроить" size="small" no-wrap no-caps dense flat>
+
+                <q-btn
+                  class="text-blue-grey-5"
+                  icon="settings"
+                  label="Настроить"
+                  size="small"
+                  no-wrap
+                  no-caps
+                  dense
+                  flat
+                >
                   <BaseTooltip label="Открыть диалог настроек" />
                 </q-btn>
               </div>
-              <div :class="{ clickable: false }">Дата обновления 2 часа назад</div>
+
+              <div class="flex gap-1">
+                <span class="opacity-60">Дата обновления</span>
+
+                <span v-if="getIsDateLessDay(issue.updatedAt)">
+                  <span
+                    class="cursor-pointer opacity-60 hover-opacity-100"
+                    @click="isUpdatedAtDifference = !isUpdatedAtDifference"
+                  >
+                    {{ isUpdatedAtDifference ? formatDate(issue.updatedAt, 'DIFF') : formatDate(issue.updatedAt) }}
+                  </span>
+                  <BaseTooltip v-if="isUpdatedAtDifference" :label="formatDate(issue.updatedAt)" />
+                </span>
+
+                <span v-else class="opacity-60">
+                  {{ formatDate(issue.updatedAt) }}
+                </span>
+              </div>
             </div>
           </div>
         </div>
@@ -237,9 +277,11 @@
 
 <script lang="ts">
 import { defineComponent, ref, computed, onBeforeMount, onBeforeUnmount, nextTick } from 'vue';
+import { differenceInHours } from 'date-fns';
 import { useStore } from 'src/store';
 import { useRoute } from 'vue-router';
 import useLoading from 'src/composables/common/useLoading';
+import useFormat from 'src/composables/format/useFormat';
 
 import issueService from 'src/service/issueService';
 
@@ -263,6 +305,7 @@ export default defineComponent({
     const store = useStore();
     const route = useRoute();
     const loading = useLoading({ default: true, customNames: ['saveEditorDescription'] });
+    const { formatDate } = useFormat();
 
     onBeforeMount(async () => {
       await fetchIssue();
@@ -387,12 +430,21 @@ export default defineComponent({
 
     const availableProjectUsers = computed(() => store.state.project.projectDetail?.users);
 
+    const isCreatedAtDifference = ref(true);
+    const isUpdatedAtDifference = ref(true);
+    function getIsDateLessDay(date: number | Date) {
+      const formattedDate = new Date(date);
+      const now = new Date();
+      return differenceInHours(now, formattedDate) <= 24;
+    }
+
     function close() {
       emit('close');
     }
 
     return {
       loading,
+      formatDate,
 
       issue,
 
@@ -426,6 +478,10 @@ export default defineComponent({
       formatIssueTypeName,
 
       availableProjectUsers,
+
+      isCreatedAtDifference,
+      isUpdatedAtDifference,
+      getIsDateLessDay,
 
       close,
     };
