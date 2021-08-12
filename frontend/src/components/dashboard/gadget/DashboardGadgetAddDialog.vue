@@ -74,8 +74,6 @@
 <script lang="ts">
 import { defineComponent, ref } from 'vue';
 
-import BaseDialog from 'components/base/BaseDialog.vue';
-import BaseAlert from 'components/base/BaseAlert.vue';
 import CommonSearch from 'components/common/CommonSearch.vue';
 import CommonListTitle from 'components/common/CommonListTitle.vue';
 
@@ -85,8 +83,6 @@ export default defineComponent({
   name: 'DashboardGadgetAddDialog',
 
   components: {
-    BaseDialog,
-    BaseAlert,
     CommonSearch,
     CommonListTitle,
   },

@@ -33,7 +33,6 @@ import { useRoute, useRouter } from 'vue-router';
 import useDialog from 'src/composables/common/useDialog';
 import useLoading from 'src/composables/common/useLoading';
 
-import BaseLoader from 'components/base/BaseLoader.vue';
 import ProjectBoardColumnWrapper from 'components/project/board/column/ProjectBoardColumnWrapper.vue';
 import ProjectBoardColumn from 'components/project/board/column/ProjectBoardColumn.vue';
 import ProjectBoardDialogCreateIssue from 'components/project/board/dialog/ProjectBoardDialogCreateIssue.vue';
@@ -43,7 +42,6 @@ export default defineComponent({
   name: 'ProjectBoard',
 
   components: {
-    BaseLoader,
     ProjectBoardColumnWrapper,
     ProjectBoardColumn,
     ProjectBoardDialogCreateIssue,

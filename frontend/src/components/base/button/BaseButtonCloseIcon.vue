@@ -6,14 +6,9 @@
 
 <script lang="ts">
 import { defineComponent } from 'vue';
-import BaseTooltip from 'components/base/BaseTooltip.vue';
 
 export default defineComponent({
   name: 'BaseButtonCloseIcon',
-
-  components: {
-    BaseTooltip,
-  },
 
   props: {
     round: {

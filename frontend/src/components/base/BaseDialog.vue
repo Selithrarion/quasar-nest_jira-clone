@@ -64,13 +64,8 @@
 <script lang="ts">
 import { defineComponent, computed, ref } from 'vue';
 
-import BaseLoader from 'components/base/BaseLoader.vue';
-import BaseButtonCloseIcon from 'components/base/button/BaseButtonCloseIcon.vue';
-
 export default defineComponent({
   name: 'BaseDialog',
-
-  components: { BaseLoader, BaseButtonCloseIcon },
 
   props: {
     type: {

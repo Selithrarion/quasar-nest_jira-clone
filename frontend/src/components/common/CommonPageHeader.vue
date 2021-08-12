@@ -71,7 +71,6 @@
 <script lang="ts">
 import { defineComponent, reactive, ref } from 'vue';
 
-import BaseSelect from 'components/base/BaseSelect.vue';
 import CommonPageTitle from 'components/common/CommonPageTitle.vue';
 import CommonSearch from 'components/common/CommonSearch.vue';
 
@@ -79,7 +78,6 @@ export default defineComponent({
   name: 'CommonPageHeader',
 
   components: {
-    BaseSelect,
     CommonPageTitle,
     CommonSearch,
   },

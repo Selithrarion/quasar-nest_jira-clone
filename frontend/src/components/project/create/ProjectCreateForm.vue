@@ -46,7 +46,7 @@ import { useStore } from 'src/store';
 import useFormValidation from 'src/composables/common/useFormValidation';
 import useLoading from 'src/composables/common/useLoading';
 
-import BaseSelect from 'components/base/BaseSelect.vue';
+import BaseSelect from 'components/base/select/BaseSelect.vue';
 import { ProjectModel, ProjectTypeEnum } from 'src/models/project/project.model';
 
 export default defineComponent({

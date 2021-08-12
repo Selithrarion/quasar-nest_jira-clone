@@ -21,7 +21,7 @@ module.exports = configure(function (ctx) {
     // https://v2.quasar.dev/quasar-cli/prefetch-feature
     // preFetch: true,
 
-    boot: ['axios', 'notify-defaults', 'auth-user'],
+    boot: ['axios', 'notify-defaults', 'auth-user', 'load-base-components'],
 
     css: ['app.sass'],
 

@@ -9,14 +9,13 @@ import { defineComponent } from 'vue';
 import { useRouter } from 'vue-router';
 import useLoading from 'src/composables/common/useLoading';
 
-import BaseDialog from 'components/base/BaseDialog.vue';
 import DashboardCreateForm from 'components/dashboard/create/DashboardCreateForm.vue';
 import { DashboardDTO } from 'src/models/dashboard/dashboard.model';
 
 export default defineComponent({
   name: 'DashboardCreateDialog',
 
-  components: { BaseDialog, DashboardCreateForm },
+  components: { DashboardCreateForm },
 
   emits: ['close'],
 

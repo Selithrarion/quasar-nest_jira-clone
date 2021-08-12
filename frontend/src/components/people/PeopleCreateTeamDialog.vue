@@ -50,16 +50,8 @@ import { useRouter } from 'vue-router';
 import useFormValidation from 'src/composables/common/useFormValidation';
 import useLoading from 'src/composables/common/useLoading';
 
-import BaseDialog from 'components/base/BaseDialog.vue';
-import BaseSelect from 'components/base/BaseSelect.vue';
-
 export default defineComponent({
   name: 'PeopleCreateTeamDialog',
-
-  components: {
-    BaseDialog,
-    BaseSelect,
-  },
 
   setup() {
     const router = useRouter();

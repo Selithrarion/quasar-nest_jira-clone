@@ -55,7 +55,6 @@ import { defineComponent, ref, computed } from 'vue';
 import { useStore } from 'src/store';
 
 import Draggable from 'vuedraggable';
-import BaseTooltip from 'components/base/BaseTooltip.vue';
 import CommonListTitle from 'components/common/CommonListTitle.vue';
 import ProjectBoardIconIssueType from 'components/project/board/icon/ProjectBoardIconIssueType.vue';
 import ProjectBoardIconIssuePriority from 'components/project/board/icon/ProjectBoardIconIssuePriority.vue';
@@ -68,7 +67,6 @@ export default defineComponent({
   components: {
     // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
     Draggable,
-    BaseTooltip,
     CommonListTitle,
     ProjectBoardIconIssueType,
     ProjectBoardIconIssuePriority,

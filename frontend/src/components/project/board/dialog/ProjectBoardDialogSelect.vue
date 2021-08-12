@@ -130,8 +130,6 @@ import { useRouter } from 'vue-router';
 import useDialog from 'src/composables/common/useDialog';
 import useLoading from 'src/composables/common/useLoading';
 
-import BaseDialog from 'components/base/BaseDialog.vue';
-import BaseSelect from 'components/base/BaseSelect.vue';
 import CommonSearch from 'components/common/CommonSearch.vue';
 import CommonListTitle from 'components/common/CommonListTitle.vue';
 
@@ -142,8 +140,6 @@ export default defineComponent({
   name: 'ProjectBoardDialogSelect',
 
   components: {
-    BaseDialog,
-    BaseSelect,
     CommonSearch,
     CommonListTitle,
   },

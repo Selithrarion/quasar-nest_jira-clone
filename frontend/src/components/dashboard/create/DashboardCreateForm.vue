@@ -33,14 +33,8 @@
 import { defineComponent, reactive } from 'vue';
 import useFormValidation from 'src/composables/common/useFormValidation';
 
-import BaseSelect from 'components/base/BaseSelect.vue';
-
 export default defineComponent({
   name: 'DashboardCreateForm',
-
-  components: {
-    BaseSelect,
-  },
 
   props: {
     loading: Boolean,
