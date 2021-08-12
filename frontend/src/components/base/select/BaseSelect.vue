@@ -10,6 +10,7 @@
     :emit-value="emitValue"
     :map-options="mapOptions"
     :filled="filled && !buttonStyle"
+    :menu-offset="buttonStyle ? [0, 8] : [0, 0]"
     :borderless="buttonStyle"
     :hide-dropdown-icon="buttonStyle"
     v-bind="$attrs"
