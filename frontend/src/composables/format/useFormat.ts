@@ -5,24 +5,33 @@ import {
   differenceInMinutes,
   differenceInSeconds,
   differenceInDays,
+  differenceInMonths,
 } from 'date-fns';
 
-enum DateTypesEnum {
-  DATE_AND_TIME,
-  DATE,
-  DATE_SHORT,
-  TIME,
-  DIFF,
+export enum DateTypes {
+  DATE_AND_TIME = 'dateAndTime',
+  DATE = 'date',
+  DATE_SHORT = 'dateShort',
+  TIME = 'time',
+  DIFF = 'diff',
+}
+export enum DateUnits {
+  MINUTE,
+  HOUR,
+  DAY,
+  WEEK,
+  MONTH,
+}
+interface DateFormatOptions {
+  maxDiffUnit?: DateUnits;
 }
 
-export default function useFormat() {
-  function formatDate(date?: string | number | null | Date, type = 'DATE_AND_TIME'): string | null {
-    const isValidType = type in DateTypesEnum;
-    if (!isValidType) {
-      console.error('Invalid formatDate type, available -', DateTypesEnum);
-      return null;
-    }
-
+export function useFormat() {
+  function formatDate(
+    date?: string | number | null | Date,
+    type: DateTypes = DateTypes.DATE_AND_TIME,
+    options: DateFormatOptions = {}
+  ): string | null {
     if (date) date = new Date(date);
     else date = new Date();
 
@@ -32,21 +41,37 @@ export default function useFormat() {
     const msMinute = 60000;
     const msHour = 3600000;
     const msDay = 86400000;
+    const msMonth = 2678400000;
 
     switch (type) {
-      case 'DATE':
+      case 'date':
         return isCurrentYear ? format(date, 'MMMM d') : format(date, ' d MMMM YYYY');
-      case 'DATE_SHORT':
+
+      case 'dateShort':
         return isCurrentYear ? format(date, 'd.MM') : format(date, ' d.MM.YYYY');
-      case 'TIME':
+
+      case 'time':
         return isCurrentYear ? format(date, 'kk:mm') : format(date, 'kk:mm');
-      case 'DIFF': {
+
+      case 'diff': {
+        // TODO: not natural lang pluralization (one, few, plural in russian and one, plural in english...)
+        // vue-i18n
         const msDiff = differenceInMilliseconds(now, date);
-        if (msDiff < msMinute) return `${differenceInSeconds(now, date)} секунд назад`;
-        else if (msDiff < msHour) return `${differenceInMinutes(now, date)} минут назад`;
-        else if (msDiff < msDay) return `${differenceInHours(now, date)} часов назад`;
-        else return `${differenceInDays(now, date)} дней назад`;
+
+        const isSeconds = msDiff < msMinute;
+        const isMinutes = msDiff < msHour && options.maxDiffUnit !== DateUnits.MINUTE;
+        const isHours = msDiff < msDay && options.maxDiffUnit !== DateUnits.HOUR;
+        const isDays = msDiff < msMonth && options.maxDiffUnit !== DateUnits.DAY;
+        const isMonths = options.maxDiffUnit !== DateUnits.MONTH;
+
+        if (isSeconds) return `${differenceInSeconds(now, date) || 1} секунд назад`;
+        else if (isMinutes) return `${differenceInMinutes(now, date) || 1} минут назад`;
+        else if (isHours) return `${differenceInHours(now, date) || 1} часов назад`;
+        else if (isDays) return `${differenceInDays(now, date) || 1} дней назад`;
+        else if (isMonths) return `${differenceInMonths(now, date) || 1} месяцев назад`;
+        else return isCurrentYear ? format(date, 'MMMM d, kk:mm') : format(date, 'MMMM d YYYY, kk:mm');
       }
+
       default:
         return isCurrentYear ? format(date, 'MMMM d, kk:mm') : format(date, 'MMMM d YYYY, kk:mm');
     }
