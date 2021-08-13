@@ -1,7 +1,7 @@
 import { Column, Entity, JoinColumn, JoinTable, ManyToMany, ManyToOne, OneToMany, RelationId } from 'typeorm';
 import { BaseEntity } from '../../common/base.entity';
 import { UserEntity } from '../../user/entity/user.entity';
-import { CommentEntity } from '../../columns/entity/comment.entity';
+import { CommentEntity } from './comment.entity';
 import { ColumnEntity } from '../../columns/entity/column.entity';
 
 export enum IssueTypeEnum {
@@ -39,7 +39,9 @@ export class IssueEntity extends BaseEntity {
   @JoinTable()
   watchers: UserEntity[];
 
-  @OneToMany(() => CommentEntity, (comment) => comment.issue)
+  @OneToMany(() => CommentEntity, (comment) => comment.issue, {
+    cascade: true,
+  })
   comments: CommentEntity[];
 
   @Column({ type: 'enum', enum: IssueTypeEnum, default: IssueTypeEnum.BUG })
