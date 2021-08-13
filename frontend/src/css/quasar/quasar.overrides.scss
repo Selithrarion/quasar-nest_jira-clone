@@ -1,18 +1,3 @@
-.btn {
-  &--secondary {
-    background-color: $blue-grey-1 !important;
-    color: $blue-grey-8 !important;
-    font-weight: 500 !important;
-  }
-}
-.q-btn__content {
-  gap: 6px;
-  .q-icon {
-    margin-left: 0;
-    margin-right: 0;
-  }
-}
-
 .q-field--filled .q-field__control {
   background: $blue-grey-1 !important;
 }

@@ -1,7 +1,7 @@
 <template>
-  <q-btn icon="more_horiz" :round="round" :flat="flat" v-bind="$attrs">
+  <BaseButton icon="more_horiz" :round="round" :flat="flat" v-bind="$attrs">
     <slot />
-  </q-btn>
+  </BaseButton>
 </template>
 
 <script lang="ts">

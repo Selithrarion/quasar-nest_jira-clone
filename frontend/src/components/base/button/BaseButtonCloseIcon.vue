@@ -1,7 +1,5 @@
 <template>
-  <q-btn v-close-popup icon="close" :flat="flat" :round="round" :dense="dense">
-    <BaseTooltip label="Закрыть" />
-  </q-btn>
+  <BaseButton v-close-popup icon="close" tooltip="Закрыть" :flat="flat" :round="round" :dense="dense" />
 </template>
 
 <script lang="ts">

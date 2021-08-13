@@ -36,7 +36,7 @@
               {{ board.name }}
             </q-item-section>
 
-            <q-btn
+            <BaseButton
               v-show="board.id !== selectedBoard.id"
               icon="more_horiz"
               padding="4px"
@@ -52,7 +52,7 @@
                   </q-item>
                 </q-list>
               </q-menu>
-            </q-btn>
+            </BaseButton>
           </div>
         </q-item>
       </q-list>
@@ -69,12 +69,12 @@
             </div>
           </div>
 
-          <q-btn
-            class="btn--secondary q-mt-xl"
+          <BaseButton
+            class="q-mt-xl"
             label="Создание доски Scrum"
+            secondary-color
             disable
             unelevated
-            no-caps
             @click="showScrumCreateForm"
           />
         </div>
@@ -88,11 +88,11 @@
             </div>
           </div>
 
-          <q-btn
-            class="btn--secondary q-mt-xl"
+          <BaseButton
+            class="q-mt-xl"
             label="Создание доски Kanban"
+            secondary-color
             unelevated
-            no-caps
             @click="showKanbanCreateForm"
           />
         </div>

@@ -23,7 +23,7 @@
 
         <template #body-cell-name="props">
           <q-td :props="props">
-            <q-btn :label="props.row.name" :to="`filters/${props.row.id}`" dense flat />
+            <BaseButton :label="props.row.name" :to="`filters/${props.row.id}`" dense flat />
           </q-td>
         </template>
 
@@ -32,7 +32,13 @@
             <q-avatar size="md">
               <img :src="props.row.leader.avatarURL" alt="Avatar" />
             </q-avatar>
-            <q-btn class="q-mx-sm" :label="props.row.leader.name" :to="`/people/${props.row.leader.id}`" dense flat />
+            <BaseButton
+              class="q-mx-sm"
+              :label="props.row.leader.name"
+              :to="`/people/${props.row.leader.id}`"
+              dense
+              flat
+            />
           </q-td>
         </template>
 

@@ -15,9 +15,9 @@
       <div class="no-active-issues__image q-mb-md" />
       <h6 class="no-margin">Нет видимых текущих задач</h6>
       <div class="flex-center gap-1">
-        <q-btn label="Создайте задачу" color="primary" no-wrap dense flat @click="dialog.open('createIssue')" />
+        <BaseButton label="Создайте задачу" color="primary" dense flat @click="dialog.open('createIssue')" />
         или проверьте
-        <q-btn label="настройки доски" color="primary" no-wrap dense flat @click="dialog.open('settings')" />
+        <BaseButton label="настройки доски" color="primary" dense flat @click="dialog.open('settings')" />
       </div>
     </div>
 

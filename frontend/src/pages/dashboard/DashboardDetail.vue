@@ -13,28 +13,27 @@
           @click="toggleFavoriteDashboard"
         />
 
-        <q-btn
-          class="btn--secondary text-weight-bold"
+        <BaseButton
+          class="text-weight-bold"
           label="Добавить гаджет"
+          secondary-color
           unelevated
-          no-caps
-          no-wrap
           @click="dialog.open('addGadget')"
         />
 
-        <q-btn class="btn--secondary text-weight-bold" label="Изменить схему" unelevated no-caps>
+        <BaseButton class="text-weight-bold" label="Изменить схему" secondary-color unelevated>
           <q-menu>
             <q-list>
               <q-item class="q-pa-sm">
-                <q-btn icon="grid_view" size="12px" padding="6px" color="grey-9" text-color="white" unelevated />
-                <q-btn icon="grid_view" size="12px" padding="6px" unelevated />
-                <q-btn icon="grid_view" size="12px" padding="6px" unelevated />
-                <q-btn icon="grid_view" size="12px" padding="6px" unelevated />
-                <q-btn icon="grid_view" size="12px" padding="6px" unelevated />
+                <BaseButton icon="grid_view" size="12px" padding="6px" color="grey-9" text-color="white" unelevated />
+                <BaseButton icon="grid_view" size="12px" padding="6px" unelevated />
+                <BaseButton icon="grid_view" size="12px" padding="6px" unelevated />
+                <BaseButton icon="grid_view" size="12px" padding="6px" unelevated />
+                <BaseButton icon="grid_view" size="12px" padding="6px" unelevated />
               </q-item>
             </q-list>
           </q-menu>
-        </q-btn>
+        </BaseButton>
 
         <BaseButtonMore class="btn--secondary" padding="6px" :flat="false" :round="false" unelevated>
           <q-menu>
@@ -92,16 +91,12 @@
           </div>
 
           <div>
-            <q-btn icon="close_fullscreen" size="14px" padding="4px" unelevated disable flat>
-              <BaseTooltip> Свернуть </BaseTooltip>
-            </q-btn>
-            <q-btn icon="fullscreen" size="14px" padding="4px" unelevated disable flat>
-              <BaseTooltip> Развернуть </BaseTooltip>
-            </q-btn>
-            <q-btn icon="more_horiz" size="14px" padding="4px" unelevated flat>
+            <BaseButton tooltip="Свернуть" icon="close_fullscreen" size="14px" padding="4px" unelevated disable flat />
+            <BaseButton tooltip="Развернуть" icon="fullscreen" size="14px" padding="4px" unelevated disable flat />
+            <BaseButton icon="more_horiz" size="14px" padding="4px" unelevated flat>
               <q-menu>
                 <div class="q-px-md q-pt-md q-pb-sm select-none">
-                  <CommonListTitle title="цвет выделения"/>
+                  <CommonListTitle title="цвет выделения" />
                   <div class="flex gap-2 q-py-sm">
                     <button
                       v-for="color in colors"
@@ -136,13 +131,13 @@
                   </q-item>
                 </q-list>
               </q-menu>
-            </q-btn>
+            </BaseButton>
           </div>
         </div>
 
         <q-form class="column justify-between full-height">
           <div class="flex justify-end q-mt-auto q-pt-lg">
-            <q-btn class="btn--secondary" label="Сохранить" unelevated no-caps />
+            <BaseButton label="Сохранить" secondary-color unelevated/>
           </div>
         </q-form>
       </div>
@@ -151,12 +146,11 @@
         <div class="flex-center column">
           <div class="text-grey-7">Перетащите гаджет в эту колонку</div>
           <div>или</div>
-          <q-btn
+          <BaseButton
             label="Добавление гаджета"
             color="primary"
             size="14px"
             dense
-            no-caps
             flat
             @click="dialog.open('addGadget')"
           />

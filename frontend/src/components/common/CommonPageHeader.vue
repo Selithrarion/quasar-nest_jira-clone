@@ -2,7 +2,7 @@
   <div class="common-page-header">
     <div class="flex justify-between items-center q-pr-xl">
       <CommonPageTitle :title="pageTitle" />
-      <q-btn color="primary" :label="createButtonLabel" size="0.8rem" unelevated no-caps @click="create" />
+      <BaseButton color="primary" :label="createButtonLabel" size="0.8rem" unelevated @click="create" />
     </div>
 
     <div class="q-px-xl flex gap-4">
@@ -54,12 +54,11 @@
       />
 
       <transition enter-active-class="animated fadeIn" leave-active-class="animated fadeOut">
-        <q-btn
+        <BaseButton
           v-show="searchValue || selectedType || selectedLeader || selectedProjects || selectedGroup"
           class="text-blue-grey-6"
           label="Сбросить фильтры"
           size="small"
-          no-caps
           flat
           @click="resetFilters"
         />

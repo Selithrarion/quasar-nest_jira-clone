@@ -12,7 +12,7 @@
   >
     <template #title-append-buttons>
       <div class="row items-center gap-2 no-wrap">
-        <q-btn class="btn--secondary" label="Импортировать задачи" unelevated disable no-caps no-wrap />
+        <BaseButton label="Импортировать задачи" secondary-color unelevated disable no-wrap />
         <q-btn-dropdown
           class="btn--secondary"
           label="Настроить поля"
@@ -65,7 +65,7 @@
             :options="availableProjectUsers"
           />
           <div>
-            <q-btn label="Назначить мне" dense no-caps no-wrap flat @click="assignToCurrentUser" />
+            <BaseButton label="Назначить мне" dense flat @click="assignToCurrentUser" />
           </div>
         </div>
       </q-form>

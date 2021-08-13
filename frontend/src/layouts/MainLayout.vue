@@ -3,18 +3,16 @@
     <q-header class="bg-white text-blue-grey-7 shadow-3">
       <q-toolbar class="justify-between gap-4" style="min-height: 49px">
         <div class="flex-center gap-4">
-          <q-btn
+          <BaseButton
             class="text-blue-grey-8 text-weight-regular"
             padding="0 4px"
+            label="Jira software"
             size="20px"
             to="/"
             :ripple="{ color: 'primary' }"
             unelevated
             dense
-            no-caps
-          >
-            Jira software
-          </q-btn>
+          />
 
           <q-tabs v-model="selectedTab" active-color="primary" inline-label no-caps>
             <q-route-tab
@@ -27,14 +25,13 @@
             />
           </q-tabs>
 
-          <q-btn
+          <BaseButton
             v-if="isShowCreateIssueButton"
             class="flex-shrink-0"
             label="Создать задачу"
             color="primary"
             padding="4px 12px"
             unelevated
-            no-caps
             @click="dialog.open('createIssue')"
           />
         </div>
@@ -42,9 +39,9 @@
         <div class="flex-center gap-4">
           <CommonSearch v-model="searchValue" prepend-icon @search="search" />
 
-          <q-btn icon="notifications" unelevated dense round />
-          <q-btn icon="help" unelevated dense round />
-          <q-btn icon="settings" unelevated dense round />
+          <BaseButton icon="notifications" unelevated dense round />
+          <BaseButton icon="help" unelevated dense round />
+          <BaseButton icon="settings" unelevated dense round />
           <q-avatar v-if="currentUserAvatarURL" size="24px">
             <img :src="currentUserAvatarURL" alt="Profile Avatar" />
           </q-avatar>

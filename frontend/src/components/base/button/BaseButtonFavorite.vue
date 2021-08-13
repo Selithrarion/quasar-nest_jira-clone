@@ -1,5 +1,5 @@
 <template>
-  <q-btn
+  <BaseButton
     :size="size"
     :icon="favorite ? 'star' : 'star_border'"
     :color="favorite ? 'orange-5' : 'grey-6'"
@@ -8,7 +8,7 @@
     v-bind="$attrs"
   >
     <BaseTooltip :label="favorite ? tooltipRemove : tooltipAdd" :delay="0" />
-  </q-btn>
+  </BaseButton>
 </template>
 
 <script lang="ts">

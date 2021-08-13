@@ -23,8 +23,8 @@
     </BaseSelect>
 
     <div class="dialog-action-buttons">
-      <q-btn label="Назад" color="primary" flat @click="close" />
-      <q-btn label="Сохранить" type="submit" color="primary" :loading="loading" unelevated />
+      <BaseButton label="Назад" color="primary" flat @click="close" />
+      <BaseButton label="Сохранить" type="submit" color="primary" :loading="loading" unelevated />
     </div>
   </q-form>
 </template>

@@ -18,9 +18,14 @@
 
     <!--TODO: i18n-->
     <q-card-section class="text-caption q-py-xs text-center">
-      <q-btn class="q-pa-1" :label="`${project.boards.length} досок`" size="sm" flat @click="openProject(project.id)">
-        <BaseTooltip label="Открыть проект" />
-      </q-btn>
+      <BaseButton
+        class="q-pa-1"
+        :label="`${project.boards.length} досок`"
+        tooltip="Открыть проект"
+        size="sm"
+        flat
+        @click="openProject(project.id)"
+      />
     </q-card-section>
   </q-card>
 </template>

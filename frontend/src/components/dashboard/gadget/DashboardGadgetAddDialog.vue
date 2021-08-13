@@ -50,17 +50,15 @@
 
               <div class="text-body2 q-py-md">Allows for custom spacing between gadgets in a wallboard</div>
 
-              <q-btn label="Показать ссылку XML" text-color="blue-8" size="12px" unelevated dense no-caps />
+              <BaseButton label="Показать ссылку XML" text-color="blue-8" size="12px" unelevated dense />
             </q-card-section>
 
             <q-card-actions class="q-py-md q-pl-md q-pr-none" vertical>
-              <q-btn
-                class="btn--secondary"
+              <BaseButton
                 label="Добавить гаджет"
                 size="12px"
+                secondary-color
                 unelevated
-                no-caps
-                no-wrap
                 @click="add"
               />
             </q-card-actions>

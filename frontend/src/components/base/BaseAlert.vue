@@ -8,7 +8,7 @@
     <div class="alert-padding text-body2 q-mt-sm q-mb-md" :class="getTextColor">{{ text }}</div>
 
     <div class="text-center">
-      <q-btn v-if="actionText" :label="actionText" :color="color" flat @click="$emit('action-click')" />
+      <BaseButton v-if="actionText" :label="actionText" :color="color" flat @click="$emit('action-click')" />
     </div>
   </div>
 </template>

@@ -17,7 +17,7 @@
 
       <template #body-cell-name="props">
         <q-td :props="props">
-          <q-btn
+          <BaseButton
             class="full-width"
             align="left"
             option-value="id"
@@ -41,7 +41,7 @@
           >
             <img v-if="props.row.leader.avatarURL" :src="props.row.leader.avatarURL" alt="Avatar" />
           </q-avatar>
-          <q-btn
+          <BaseButton
             class="full-width"
             align="left"
             :label="props.row.leader.name"

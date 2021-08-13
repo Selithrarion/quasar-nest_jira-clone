@@ -32,8 +32,8 @@
     <BaseSelect v-model="form.templateID" label="Шаблон" :options="templateOptions" option-disable="disabled" />
 
     <div class="dialog-action-buttons">
-      <q-btn label="Назад" color="primary" flat @click="back" />
-      <q-btn label="Создать" type="submit" color="primary" :loading="loading.active.value" unelevated />
+      <BaseButton label="Назад" color="primary" flat @click="back" />
+      <BaseButton label="Создать" type="submit" color="primary" :loading="loading.active.value" unelevated />
     </div>
   </q-form>
 </template>

@@ -37,7 +37,7 @@
         </div>
 
         <div class="row gap-2">
-          <q-btn class="btn--secondary" label="Добавить людей" unelevated no-caps />
+          <BaseButton label="Добавить людей" secondary-color unelevated />
           <BaseButtonMore class="btn--secondary" padding="6px" :round="false" :flat="false" unelevated>
             <q-menu anchor="bottom middle" self="top middle" auto-close dense>
               <q-list>
@@ -87,10 +87,7 @@
 
         <div class="flex-center-between">
           <h6 class="text-body1 q-mb-md">Ссылки</h6>
-
-          <q-btn icon="add" padding="4px" flat>
-            <BaseTooltip> Добавить ссылку </BaseTooltip>
-          </q-btn>
+          <BaseButton icon="add" tooltip="Добавить ссылку" padding="4px" flat />
         </div>
         <q-card>
           <q-card-section class="text-center q-py-xl">
@@ -104,7 +101,7 @@
           <q-card-section class="column gap-2">
             <div>Расскажите, удобно ли вам пользоваться функциями профилей и поиска внутри этого каталога.</div>
             <div class="text-center">
-              <q-btn class="btn--secondary" label="Отправить отзыв по Atlassian" unelevated no-caps />
+              <BaseButton label="Отправить отзыв по Atlassian" secondary-color unelevated />
             </div>
           </q-card-section>
         </q-card>

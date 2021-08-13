@@ -35,8 +35,8 @@
           class="dialog-action-buttons"
           :class="[{ 'dialog-action-buttons--dense': type === 'delete' }, { 'fixed-section': fixedFooter }]"
         >
-          <q-btn v-if="showBackButton" color="blue-grey-6" :label="backText" flat @click="back" />
-          <q-btn
+          <BaseButton v-if="showBackButton" color="blue-grey-6" :label="backText" flat @click="back" />
+          <BaseButton
             v-if="!hideCloseButton"
             v-close-popup
             color="blue-grey-6"
@@ -44,7 +44,7 @@
             flat
             @click="close"
           />
-          <q-btn
+          <BaseButton
             v-if="!hideConfirmButton"
             :class="confirmClasses"
             :color="confirmColor || selectedType.confirmColor"

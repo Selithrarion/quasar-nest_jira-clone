@@ -3,7 +3,7 @@
     <template #title>
       <div class="flex-center-between full-width">
         <div class="flex-center gap-2">
-          <q-btn class="btn--secondary" padding="4px" unelevated>
+          <BaseButton padding="4px" secondary-color unelevated>
             <ProjectBoardIconIssueType
               :type="issue.typeID"
               :tooltip="`${formatIssueTypeName(issue.typeID)} – изменить тип задачи`"
@@ -30,24 +30,24 @@
                 </q-item>
               </q-list>
             </q-menu>
-          </q-btn>
+          </BaseButton>
           {{ issue.key }}
         </div>
 
         <div class="row items-center gap-2">
-          <q-btn size="small" disable no-caps no-wrap flat>
+          <BaseButton size="small" disable flat>
             <q-icon name="reviews" size="xs" />
             Оставить отзыв
-          </q-btn>
+          </BaseButton>
 
-          <q-btn size="small" disable no-caps no-wrap flat>
+          <BaseButton size="small" disable flat>
             <q-icon name="visibility" size="xs" />
             <span class="text-subtitle2">{{ issue.watchers.length }}</span>
-          </q-btn>
+          </BaseButton>
 
-          <q-btn icon="thumb_up" padding="8px" size="sm" disable flat />
-          <q-btn icon="share" padding="8px" size="sm" disable flat />
-          <q-btn icon="more_horiz" padding="8px" size="sm" disable flat />
+          <BaseButton icon="thumb_up" padding="8px" size="sm" disable flat />
+          <BaseButton icon="share" padding="8px" size="sm" disable flat />
+          <BaseButton icon="more_horiz" padding="8px" size="sm" disable flat />
           <BaseButtonCloseIcon padding="5px" size="md" :round="false" :dense="false" />
         </div>
       </div>
@@ -71,11 +71,11 @@
             </div>
 
             <div class="row gap-2">
-              <q-btn class="btn--secondary" icon="attach_file" padding="4px" unelevated disable />
-              <q-btn class="btn--secondary" icon="library_add_check" padding="4px" unelevated disable />
-              <q-btn class="btn--secondary" icon="link" padding="4px" unelevated disable />
-              <q-btn class="btn--secondary" icon="schedule" padding="4px" unelevated disable />
-              <q-btn class="btn--secondary" icon="more_horiz" padding="4px" unelevated disable />
+              <BaseButton icon="attach_file" padding="4px" secondary-color unelevated disable />
+              <BaseButton icon="library_add_check" padding="4px" secondary-color unelevated disable />
+              <BaseButton icon="link" padding="4px" secondary-color unelevated disable />
+              <BaseButton icon="schedule" padding="4px" secondary-color unelevated disable />
+              <BaseButtonbtn icon="more_horiz" padding="4px" secondary-color unelevated disable />
             </div>
           </div>
 
@@ -96,13 +96,12 @@
               min-height="5rem"
             />
             <div v-show="isDescriptionEditor" class="flex-center-end gap-2 q-mt-sm">
-              <q-btn label="Отмена" color="blue-grey-5" no-caps flat @click="resetIssueDescription" />
-              <q-btn
+              <BaseButton label="Отмена" color="blue-grey-5" flat @click="resetIssueDescription" />
+              <BaseButton
                 label="Сохранить"
                 color="primary"
                 :loading="loading.custom.saveEditorDescription.value"
                 unelevated
-                no-caps
                 @click="updateIssueDescription"
               />
             </div>
@@ -144,13 +143,12 @@
                 min-height="5rem"
               />
               <div v-if="isAddCommentEditor" class="flex-center-end gap-2 q-mt-sm full-width">
-                <q-btn label="Отмена" color="blue-grey-5" no-caps flat @click="resetAddComment" />
-                <q-btn
+                <BaseButton label="Отмена" color="blue-grey-5" flat @click="resetAddComment" />
+                <BaseButton
                   label="Сохранить"
                   color="primary"
                   :loading="loading.custom.addComment.value"
                   unelevated
-                  no-caps
                   @click="addComment"
                 />
               </div>
@@ -248,16 +246,13 @@
                   <span class="opacity-60">Создано</span>
 
                   <span v-if="getIsDateLessDay(issue.createdAt)">
-                    <span
-                      class="cursor-pointer opacity-60 hover-opacity-100"
-                      @click="isCreatedAtDifference = !isCreatedAtDifference"
-                    >
+                    <BaseButton plain-style @click="isCreatedAtDifference = !isCreatedAtDifference">
                       {{
                         isUpdatedAtDifference
                           ? formatDate(issue.createdAt, DateTypes.DIFF)
                           : formatDate(issue.createdAt)
                       }}
-                    </span>
+                    </BaseButton>
                     <BaseTooltip v-if="isCreatedAtDifference" :label="formatDate(issue.createdAt)" />
                   </span>
 
@@ -266,32 +261,26 @@
                   </span>
                 </div>
 
-                <q-btn
+                <BaseButton
                   class="text-blue-grey-5"
+                  tooltip="Открыть диалог настроек"
                   icon="settings"
                   label="Настроить"
                   size="small"
-                  no-wrap
-                  no-caps
                   dense
                   flat
-                >
-                  <BaseTooltip label="Открыть диалог настроек" />
-                </q-btn>
+                />
               </div>
 
               <div class="flex gap-1">
                 <span class="opacity-60">Дата обновления</span>
 
                 <span v-if="getIsDateLessDay(issue.updatedAt)">
-                  <span
-                    class="cursor-pointer opacity-60 hover-opacity-100"
-                    @click="isUpdatedAtDifference = !isUpdatedAtDifference"
-                  >
+                  <BaseButton plain-style @click="isUpdatedAtDifference = !isUpdatedAtDifference">
                     {{
                       isUpdatedAtDifference ? formatDate(issue.updatedAt, DateTypes.DIFF) : formatDate(issue.updatedAt)
                     }}
-                  </span>
+                  </BaseButton>
                   <BaseTooltip v-if="isUpdatedAtDifference" :label="formatDate(issue.updatedAt)" />
                 </span>
 

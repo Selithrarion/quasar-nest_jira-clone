@@ -72,26 +72,26 @@
         </q-card-section>
 
         <q-card-section>
-          <q-btn class="full-width" type="submit" :label="authTypes[type].actionWord" :loading="loading.active.value" />
+          <BaseButton class="full-width" type="submit" :label="authTypes[type].actionWord" :loading="loading.active.value" />
         </q-card-section>
       </q-card>
       <div class="column flex-center text-blue-grey-5">
         или
-        <q-btn
+        <BaseButton
           v-if="authTypes[type].buttons.includes('register')"
           label="Зарегистрироваться"
           size="small"
           flat
           @click="type = AuthTypeEnum.REGISTER"
         />
-        <q-btn
+        <BaseButton
           v-if="authTypes[type].buttons.includes('forgotPassword')"
           label="Восстановить пароль"
           size="small"
           flat
           @click="type = AuthTypeEnum.FORGOT_PASSWORD"
         />
-        <q-btn
+        <BaseButton
           v-if="authTypes[type].buttons.includes('login')"
           label="Войти"
           size="small"

@@ -25,15 +25,7 @@
 
             <template #body-cell-name="props">
               <q-td :props="props">
-                <q-btn
-                  :label="props.row.name"
-                  :to="`/dashboards/${props.row.id}`"
-                  option-value="id"
-                  emit-value
-                  map-options
-                  dense
-                  flat
-                />
+                <BaseButton :label="props.row.name" :to="`/dashboards/${props.row.id}`" dense flat />
               </q-td>
             </template>
 
@@ -42,7 +34,7 @@
                 <q-avatar size="md">
                   <img :src="props.row.leader.avatarURL" alt="Avatar" />
                 </q-avatar>
-                <q-btn
+                <BaseButton
                   class="q-mx-sm"
                   :label="props.row.leader.name"
                   :to="`/people/${props.row.leader.id}`"

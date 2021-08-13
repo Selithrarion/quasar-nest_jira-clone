@@ -1,9 +1,7 @@
 <template>
   <div class="flex justify-between text-subtitle2 q-pb-sm">
     <span>Недавние проекты</span>
-    <q-btn label="Все проекты" size="sm" to="/projects" flat>
-      <BaseTooltip label="Открыть страницу проектов" />
-    </q-btn>
+    <BaseButton label="Все проекты" tooltip="Открыть страницу проектов" size="sm" to="/projects" flat />
   </div>
 </template>
 

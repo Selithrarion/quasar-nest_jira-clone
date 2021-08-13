@@ -2,14 +2,13 @@
   <q-page class="people-page big-side-padding">
     <div class="column gap-4 q-mt-lg">
       <div class="flex justify-end gap-2">
-        <q-btn
-          class="btn--secondary"
+        <BaseButton
           label="Создайте новую команду"
+          secondary-color
           unelevated
-          no-caps
           @click="toggleCreateTeamDialog"
         />
-        <q-btn label="Добавить людей" color="primary" unelevated no-caps />
+        <BaseButton label="Добавить людей" color="primary" unelevated />
       </div>
 
       <CommonSearch v-model="searchValue" placeholder="Поиск людей и команд" :outlined="false" filled append-icon />
@@ -45,13 +44,11 @@
 
         <q-card-section class="column items-center q-px-sm q-pt-sm q-pb-md">
           <div class="q-py-sm">Ваша новая команда!</div>
-          <q-btn
-            class="btn--secondary"
+          <BaseButton
             label="Создайте новую команду"
+            secondary-stryle
             unelevated
             dense
-            no-caps
-            no-wrap
             @click="toggleCreateTeamDialog"
           />
         </q-card-section>

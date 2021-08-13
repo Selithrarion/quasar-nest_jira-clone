@@ -20,7 +20,7 @@
         </div>
 
         <div class="flex justify-center">
-          <q-btn label="Выбрать управляемый компанией" size="0.8rem" disable @click="select(ProjectTypeEnum.TEAM)" />
+          <BaseButton label="Выбрать управляемый компанией" size="0.8rem" disable @click="select(ProjectTypeEnum.TEAM)" />
           <div class="project-type__caption q-pt-sm text-blue-grey-6">
             <div>Вы не можете создавать проекты, управляемые компанией.</div>
             <div>Обратитесь к администратору Jira.</div>
@@ -39,7 +39,7 @@
           </div>
         </div>
 
-        <q-btn
+        <BaseButton
           color="primary"
           label="Выбрать управляемый командой"
           size="0.8rem"

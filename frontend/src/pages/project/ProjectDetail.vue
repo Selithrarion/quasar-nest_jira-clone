@@ -59,9 +59,7 @@
         <h5 class="q-mt-sm q-mb-lg text-weight-bold">{{ pageName }}</h5>
 
         <div class="row gap-4">
-          <q-btn icon="bolt" padding="4px" disable flat>
-            <BaseTooltip label="Автоматизация" />
-          </q-btn>
+          <BaseButton icon="bolt" padding="4px" tooltip="Автоматизация" disable flat />
 
           <BaseButtonFavorite
             padding="4px"
@@ -79,9 +77,7 @@
             </q-list>
           </q-btn-dropdown>
 
-          <q-btn icon="share" padding="4px" flat>
-            <BaseTooltip label="Поделиться" />
-
+          <BaseButton icon="share" padding="4px" tooltip="Поделиться" flat>
             <q-menu class="q-px-lg q-py-md column gap-3" style="width: 350px" :offset="[0, 8]">
               <div class="text-subtitle1 text-weight-medium">Поделиться</div>
 
@@ -90,16 +86,16 @@
 
               <div class="flex-center-between gap-2">
                 <CommonClipboard text="123">
-                  <q-btn padding="4px" no-caps flat>
+                  <BaseButton padding="4px" flat>
                     <q-icon name="link" size="20px" />
                     <span>Копировать ссылку</span>
-                  </q-btn>
+                  </BaseButton>
                 </CommonClipboard>
 
-                <q-btn v-close-popup label="Отправить" color="primary" unelevated no-caps />
+                <BaseButton v-close-popup label="Отправить" color="primary" unelevated />
               </div>
             </q-menu>
-          </q-btn>
+          </BaseButton>
         </div>
       </div>
 
@@ -117,11 +113,11 @@
           </q-avatar>
         </CommonAvatarsWrapper>
 
-        <q-btn class="btn--secondary" label="Только мои задачи" unelevated no-caps />
-        <q-btn class="btn--secondary" label="Последние обновления" unelevated no-caps />
+        <BaseButton label="Только мои задачи" secondary-color unelevated />
+        <BaseButton label="Последние обновления" secondary-color unelevated />
 
         <q-separator v-if="selectedUsersFilter.length" vertical />
-        <q-btn v-if="selectedUsersFilter.length" label="Очистить всё" no-caps dense flat />
+        <BaseButton v-if="selectedUsersFilter.length" label="Очистить всё" dense flat />
       </div>
 
       <router-view :project="project" :selected-board-id="selectedBoard.id" />
