@@ -1,8 +1,11 @@
 import { Inject, Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
-import { IssueEntity } from './entity/issue.entity';
-import { CreateIssueDTO, UpdateIssueDTO } from './dto';
 import { Repository } from 'typeorm';
+
+import { CommentEntity } from './entity/comment.entity';
+import { IssueEntity } from './entity/issue.entity';
+import { CreateIssueDTO, UpdateIssueDTO, CreateCommentDTO, UpdateCommentDTO } from './dto';
+
 import { UserService } from '../user/user.service';
 
 @Injectable()
@@ -11,13 +14,16 @@ export class IssuesService {
     @InjectRepository(IssueEntity)
     private readonly issues: Repository<IssueEntity>,
 
+    @InjectRepository(CommentEntity)
+    private readonly comments: Repository<CommentEntity>,
+
     @Inject(UserService)
     private readonly userService: UserService
   ) {}
 
   async getByID(id: number): Promise<IssueEntity> {
     return await this.issues.findOneOrFail(id, {
-      relations: ['author', 'watchers'],
+      relations: ['author', 'watchers', 'comments'],
     });
   }
 
@@ -35,7 +41,7 @@ export class IssuesService {
 
   async update(id: number, payload: UpdateIssueDTO): Promise<IssueEntity> {
     const toUpdate = await this.issues.findOneOrFail(id, {
-      relations: ['author', 'watchers'],
+      relations: ['author', 'watchers', 'comments'],
     });
     const updated = { ...toUpdate, ...payload };
     await this.issues.update(id, { ...payload });
@@ -46,5 +52,23 @@ export class IssuesService {
 
   async delete(id: number): Promise<void> {
     await this.issues.delete(id);
+  }
+
+  async addComment(issueID: number, { text }: CreateCommentDTO, userID: number): Promise<CommentEntity> {
+    const author = await this.userService.getByID(userID);
+    const issue = await this.issues.findOneOrFail(issueID);
+    const comment = {
+      author,
+      text,
+      issue,
+    };
+    return await this.comments.save(comment);
+  }
+  async editComment(commentID: number, payload: UpdateCommentDTO): Promise<CommentEntity> {
+    const comment = this.comments.findOneOrFail(commentID);
+    const updated = { ...comment, ...payload };
+    console.log(commentID, payload, updated);
+    await this.comments.update(commentID, { ...payload });
+    return updated;
   }
 }

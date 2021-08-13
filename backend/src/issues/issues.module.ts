@@ -6,9 +6,10 @@ import { IssuesController } from './issues.controller';
 import { IssueEntity } from './entity/issue.entity';
 
 import { UserModule } from '../user/user.module';
+import { CommentEntity } from './entity/comment.entity';
 
 @Module({
-  imports: [TypeOrmModule.forFeature([IssueEntity]), UserModule],
+  imports: [TypeOrmModule.forFeature([IssueEntity, CommentEntity]), UserModule],
   controllers: [IssuesController],
   providers: [IssuesService],
 })

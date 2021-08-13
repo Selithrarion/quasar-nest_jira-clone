@@ -3,6 +3,9 @@ import { IssuesService } from './issues.service';
 import { ApiBearerAuth, ApiOperation, ApiResponse, ApiTags } from '@nestjs/swagger';
 import { CreateIssueDTO, UpdateIssueDTO } from './dto';
 import { IssueEntity } from './entity/issue.entity';
+import { CommentEntity } from './entity/comment.entity';
+import { CreateCommentDTO } from './dto/create-comment.dto';
+import { UpdateCommentDTO } from './dto/update-comment.dto';
 
 @ApiBearerAuth()
 @ApiTags('issues')
@@ -40,5 +43,24 @@ export class IssuesController {
   @Delete(':id')
   async delete(@Param('id') id: number): Promise<void> {
     return await this.issuesService.delete(id);
+  }
+
+  @ApiOperation({ summary: 'Add issue comment' })
+  @ApiResponse({ status: 201, description: 'Comment was created' })
+  @ApiResponse({ status: 401, description: 'Unauthorized' })
+  @Post(':issueID/comment')
+  async addComment(
+    @Param('issueID') issueID: number,
+    @Body() payload: CreateCommentDTO,
+    @Request() req
+  ): Promise<CommentEntity> {
+    return await this.issuesService.addComment(issueID, payload, req.user.id);
+  }
+  @ApiOperation({ summary: 'Add issue comment' })
+  @ApiResponse({ status: 201, description: 'Comment was created' })
+  @ApiResponse({ status: 401, description: 'Unauthorized' })
+  @Post(':issueID/comment/:commentID')
+  async editComment(@Param('commentID') commentID: number, @Body() payload: UpdateCommentDTO): Promise<CommentEntity> {
+    return await this.issuesService.editComment(commentID, payload);
   }
 }
