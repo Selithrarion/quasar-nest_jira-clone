@@ -4,6 +4,7 @@ import { ProjectModel } from 'src/models/project/project.model';
 import { BoardModel } from 'src/models/project/board.model';
 import { IssueDTO, IssueModel } from 'src/models/project/issue.model';
 import { ColumnModel } from 'src/models/project/column.model';
+import { CommentModel } from 'src/models/project/comment.model';
 
 const mutation: MutationTree<ProjectStateInterface> = {
   SET_PROJECTS(state, projects: ProjectModel[]) {
@@ -96,6 +97,15 @@ const mutation: MutationTree<ProjectStateInterface> = {
   },
   SET_ISSUE_DRAGGING_STATUS(state: ProjectStateInterface, status: boolean) {
     state.isIssueDragging = status;
+  },
+
+  ADD_ISSUE_COMMENT(state: ProjectStateInterface, comment: CommentModel) {
+    if (state.issueDetail) state.issueDetail.comments.push(comment);
+  },
+  UPDATE_ISSUE_COMMENT(state: ProjectStateInterface, comment: CommentModel) {
+    if (!state.issueDetail) return;
+    const commentIndex = state.issueDetail.comments.findIndex((c) => c.id === comment.id);
+    state.issueDetail.comments[commentIndex] = comment;
   },
 
   UPDATE_COLUMN(state: ProjectStateInterface, { id, payload }: { id: number; payload: ColumnModel }) {

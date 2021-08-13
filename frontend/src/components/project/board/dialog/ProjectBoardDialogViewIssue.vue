@@ -81,7 +81,7 @@
 
           <div>
             <div class="text-subtitle2 q-pb-sm">Описание</div>
-            <!--            TODO: add colors-->
+            <!--            TODO: add colors to editor, extract it to BaseEditor-->
             <div
               v-show="!isDescriptionEditor"
               class="issue-description"
@@ -100,7 +100,7 @@
               <q-btn
                 label="Сохранить"
                 color="primary"
-                :loading="loading.custom.saveEditorDescription"
+                :loading="loading.custom.saveEditorDescription.value"
                 unelevated
                 no-caps
                 @click="updateIssueDescription"
@@ -118,6 +118,7 @@
                 />
               </q-avatar>
               <q-input
+                v-if="!isAddCommentEditor"
                 ref="commentInput"
                 v-model="comment"
                 class="flex-grow-1"
@@ -126,6 +127,7 @@
                 outlined
                 autogrow
                 dense
+                @click="isAddCommentEditor = true"
               >
                 <template #hint>
                   <b>Совет:</b> нажмите
@@ -133,28 +135,52 @@
                   , чтобы добавить комментарий
                 </template>
               </q-input>
+
+              <q-editor
+                v-if="isAddCommentEditor"
+                ref="addCommentEditor"
+                v-model="comment"
+                class="flex-grow-1"
+                min-height="5rem"
+              />
+              <div v-if="isAddCommentEditor" class="flex-center-end gap-2 q-mt-sm full-width">
+                <q-btn label="Отмена" color="blue-grey-5" no-caps flat @click="resetAddComment" />
+                <q-btn
+                  label="Сохранить"
+                  color="primary"
+                  :loading="loading.custom.addComment.value"
+                  unelevated
+                  no-caps
+                  @click="addComment"
+                />
+              </div>
             </div>
 
-            <div class="q-mt-lg">
-              <div class="row no-wrap gap-3">
+            <div class="flex flex-col gap-6 q-mt-lg">
+              <div v-for="comment in issue.comments" :key="comment.id" class="row no-wrap gap-3 full-width">
                 <q-avatar size="32px">
                   <img
-                    src="https://secure.gravatar.com/avatar/d1cb0ee26c499154d46f1ab7b61cf44f?d=https%3A%2F%2Favatar-management--avatars.us-west-2.prod.public.atl-paas.net%2Fdefault-avatar-1.png"
-                    alt="User Avatar"
+                    :src="comment.author.avatarURL || require('src/assets/img/default-avatar-1.png')"
+                    :alt="`${comment.author.name} Avatar`"
                   />
                 </q-avatar>
-                <div class="column items-center gap-2">
+
+                <div class="column items-center gap-2 full-width">
                   <div class="flex-center-between gap-3 full-width">
                     <div class="flex-center gap-2">
-                      <span class="text-weight-medium">Sergey Maltsev</span>
-                      <span class="text-caption text-blue-grey-6">Изменено</span>
+                      <span class="text-weight-medium">{{ comment.author.name }}</span>
+                      <span v-if="comment.createdAt !== comment.updatedAt" class="text-caption text-blue-grey-6">
+                        Изменено
+                      </span>
                     </div>
 
-                    <span class="text-caption text-blue-grey-6">4 дня назад</span>
+                    <span class="text-caption text-blue-grey-6">
+                      {{ formatDate(comment.createdAt, DateTypes.DIFF, { maxDiffUnit: DateUnits.MONTH }) }}
+                    </span>
                   </div>
-                  <div>
-                    Lorem ipsum dolor sit amet, consectetur adipisicing elit. Cupiditate eaque enim, esse facilis
-                    inventore officiis
+                  <div class="flex flex-col items-center full-width">
+                    <span v-html="comment.text" />
+                    <!--                    <div class="flex items-center full-width"></div>-->
                   </div>
                 </div>
               </div>
@@ -226,7 +252,11 @@
                       class="cursor-pointer opacity-60 hover-opacity-100"
                       @click="isCreatedAtDifference = !isCreatedAtDifference"
                     >
-                      {{ isUpdatedAtDifference ? formatDate(issue.createdAt, 'DIFF') : formatDate(issue.createdAt) }}
+                      {{
+                        isUpdatedAtDifference
+                          ? formatDate(issue.createdAt, DateTypes.DIFF)
+                          : formatDate(issue.createdAt)
+                      }}
                     </span>
                     <BaseTooltip v-if="isCreatedAtDifference" :label="formatDate(issue.createdAt)" />
                   </span>
@@ -258,7 +288,9 @@
                     class="cursor-pointer opacity-60 hover-opacity-100"
                     @click="isUpdatedAtDifference = !isUpdatedAtDifference"
                   >
-                    {{ isUpdatedAtDifference ? formatDate(issue.updatedAt, 'DIFF') : formatDate(issue.updatedAt) }}
+                    {{
+                      isUpdatedAtDifference ? formatDate(issue.updatedAt, DateTypes.DIFF) : formatDate(issue.updatedAt)
+                    }}
                   </span>
                   <BaseTooltip v-if="isUpdatedAtDifference" :label="formatDate(issue.updatedAt)" />
                 </span>
@@ -276,12 +308,12 @@
 </template>
 
 <script lang="ts">
-import { defineComponent, ref, computed, onBeforeMount, onBeforeUnmount, nextTick } from 'vue';
+import { defineComponent, ref, computed, watch, onBeforeMount, onBeforeUnmount, nextTick } from 'vue';
 import { differenceInHours } from 'date-fns';
 import { useStore } from 'src/store';
 import { useRoute } from 'vue-router';
+import { useFormat, DateUnits, DateTypes } from 'src/composables/format/useFormat';
 import useLoading from 'src/composables/common/useLoading';
-import useFormat from 'src/composables/format/useFormat';
 
 import issueService from 'src/service/issueService';
 
@@ -304,7 +336,7 @@ export default defineComponent({
   setup(props, { emit }) {
     const store = useStore();
     const route = useRoute();
-    const loading = useLoading({ default: true, customNames: ['saveEditorDescription'] });
+    const loading = useLoading({ default: true, customNames: ['saveEditorDescription', 'addComment'] });
     const { formatDate } = useFormat();
 
     onBeforeMount(async () => {
@@ -326,14 +358,48 @@ export default defineComponent({
     const isDescriptionEditor = ref(false);
     async function showDescriptionEditor() {
       isDescriptionEditor.value = true;
-      await nextTick(() => {
-        descriptionEditor.value?.focus();
-      });
     }
     function resetIssueDescription() {
       localIssueDescription.value = issue.value?.description || '';
       isDescriptionEditor.value = false;
     }
+    watch(isDescriptionEditor, async () => {
+      if (!isDescriptionEditor.value) return;
+      await nextTick(() => {
+        descriptionEditor.value?.focus();
+      });
+    });
+
+    const commentInput = ref<HTMLInputElement | null>(null);
+    const addCommentEditor = ref<HTMLInputElement | null>(null);
+    const isAddCommentEditor = ref(false);
+    const comment = ref('');
+    async function addComment() {
+      try {
+        loading.start('addComment');
+        isAddCommentEditor.value = false;
+
+        const payload = {
+          id: issue.value?.id,
+          text: comment.value,
+        };
+        await store.dispatch('project/addIssueComment', payload);
+
+        comment.value = '';
+      } finally {
+        loading.stop('addComment');
+      }
+    }
+    function resetAddComment() {
+      isAddCommentEditor.value = false;
+      comment.value = '';
+    }
+    watch(isAddCommentEditor, async () => {
+      if (!isAddCommentEditor.value) return;
+      await nextTick(() => {
+        addCommentEditor.value?.focus();
+      });
+    });
 
     async function updateIssue(field: string, value: unknown) {
       const id = issue.value?.id;
@@ -402,9 +468,6 @@ export default defineComponent({
     const availableColumns = computed(() => store.state.project.boardDetail?.columns);
     const selectedColumn = computed(() => availableColumns.value?.find((c) => c.id === issue.value?.columnID));
 
-    const commentInput = ref<HTMLInputElement | null>(null);
-    const comment = ref('');
-
     document.addEventListener('keydown', handleKeydown);
     function handleKeydown(e: KeyboardEvent) {
       interface TargetInterface extends EventTarget {
@@ -414,7 +477,7 @@ export default defineComponent({
       const target: TargetInterface | null = e.target;
       const isPressedWhenNoFocus = !target?.className?.includes('q-field__native q-placeholder');
       if (isCommentFocusKey && isPressedWhenNoFocus) {
-        commentInput?.value?.focus();
+        isAddCommentEditor.value = true;
         e.preventDefault();
       }
     }
@@ -445,6 +508,8 @@ export default defineComponent({
     return {
       loading,
       formatDate,
+      DateUnits,
+      DateTypes,
 
       issue,
 
@@ -457,6 +522,13 @@ export default defineComponent({
       showDescriptionEditor,
       resetIssueDescription,
 
+      comment,
+      commentInput,
+      addCommentEditor,
+      isAddCommentEditor,
+      addComment,
+      resetAddComment,
+
       updateIssue,
       updateIssueName,
       updateIssueDescription,
@@ -468,9 +540,6 @@ export default defineComponent({
 
       availableColumns,
       selectedColumn,
-
-      comment,
-      commentInput,
 
       availableIssuePriorities,
       availableIssueTypes,
