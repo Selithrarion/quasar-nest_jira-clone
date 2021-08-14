@@ -8,7 +8,7 @@
     v-bind="$attrs"
   >
     <BaseTooltip v-if="tooltip" :label="tooltip" />
-    <slot />
+    <slot> {{ label }} </slot>
   </component>
 </template>
 
@@ -19,6 +19,11 @@ export default defineComponent({
   name: 'BaseButton',
 
   props: {
+    label: {
+      type: String,
+      required: false,
+      default: null,
+    },
     tooltip: {
       type: String,
       required: false,
@@ -78,7 +83,9 @@ export default defineComponent({
     padding: 0;
     opacity: 0.6;
     &:hover {
+      color: $blue-grey-8;
       opacity: 1;
+      text-decoration: underline;
     }
   }
 }
