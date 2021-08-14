@@ -116,7 +116,7 @@ export default defineComponent({
       animation: 200,
       group: 'issues',
       disabled: false,
-      ghostClass: 'ghost',
+      ghostClass: 'item-ghost',
     };
     const globalIssueDraggingStatus = computed(() => store.state.project.isIssueDragging);
     const computedDraggableClasses = computed(() => {
@@ -199,8 +199,8 @@ export default defineComponent({
 .flip-list-move {
   transition: transform 0.5s;
 }
-.ghost {
-  opacity: 0.5;
+.item-ghost {
+  opacity: 0.6;
   background: #c8e3fb;
 }
 .list-group {
@@ -227,7 +227,7 @@ export default defineComponent({
     background: $grey-1;
   }
   &:active {
-    background: $blue-grey-1;
+    background: $blue-1;
   }
 }
 </style>
