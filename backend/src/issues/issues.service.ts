@@ -65,9 +65,8 @@ export class IssuesService {
     return await this.comments.save(comment);
   }
   async editComment(commentID: number, payload: UpdateCommentDTO): Promise<CommentEntity> {
-    const comment = this.comments.findOneOrFail(commentID);
+    const comment = await this.comments.findOneOrFail(commentID);
     const updated = { ...comment, ...payload };
-    console.log(commentID, payload, updated);
     await this.comments.update(commentID, { ...payload });
     return updated;
   }
