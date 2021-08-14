@@ -1,6 +1,6 @@
 <template>
-  <q-item :clickable="clickable" v-bind="$attrs">
-    <BaseLoader v-if="loading" class="flex-center" gray-color small />
+  <q-item class="base-item" :clickable="clickable" v-bind="$attrs">
+    <BaseLoader v-if="loading" class="flex-center" gray-color medium />
 
     <slot v-else>
       <q-item-section>
@@ -34,3 +34,11 @@ export default defineComponent({
   },
 });
 </script>
+
+<style lang="scss" scoped>
+.base-item {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+</style>
