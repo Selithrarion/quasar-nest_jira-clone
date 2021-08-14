@@ -20,12 +20,15 @@ export default {
     return await http.delete(`/issues/${id}`);
   },
 
-  async addComment(id: number, text: string): Promise<CommentModel> {
-    const { data }: ApiResponseModel = await http.post(`/issues/${id}/comment`, { text });
+  async addComment(issueID: number, text: string): Promise<CommentModel> {
+    const { data }: ApiResponseModel = await http.post(`/issues/comment/${issueID}`, { text });
     return data as CommentModel;
   },
-  async editComment(issueID: number, commentID: number, text: string): Promise<CommentModel> {
-    const { data }: ApiResponseModel = await http.post(`/issues/${issueID}/comment/${commentID}`, { text });
+  async editComment(commentID: number, text: string): Promise<CommentModel> {
+    const { data }: ApiResponseModel = await http.patch(`/issues/comment/${commentID}`, { text });
     return data as CommentModel;
+  },
+  async deleteComment(commentID: number): Promise<void> {
+    return await http.delete(`/issues/comment/${commentID}`);
   },
 };
