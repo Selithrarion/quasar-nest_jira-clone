@@ -48,10 +48,10 @@
             </q-avatar>
             <q-avatar v-else size="24px" color="orange">{{ currentUserInitials }}</q-avatar>
 
-            <q-menu style="width: 300px" auto-close>
+            <q-menu style="width: 300px">
               <q-list>
-                <BaseItem label="Профиль" @click="openProfilePage" />
-                <BaseItem label="Выйти" @click="logout" />
+                <BaseItem v-close-popup label="Профиль" @click="openProfilePage" />
+                <BaseItem label="Выйти" :loading="loading.custom.logout" @click="logout" />
               </q-list>
             </q-menu>
           </BaseButton>
