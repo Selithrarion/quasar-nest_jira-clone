@@ -9,7 +9,7 @@
 4. Quasar (ui)
 5. Socket.io (real-time issues update) (not implemented yet ❌)
 6. Vuedraggable (kanban board)
-7. Vue i18n (for some situations like '1 доскА' '2 доскИ' '6 досОК' (one board, two boards, six boards)) (not implemented yet ❌)
+7. Vue i18n (for pluralization '1 доскА' '2 доскИ' '6 досОК' (one board, two boardS, six boardS)) (not implemented yet ❌)
 8. Vue test utils + Jest (testing) (not implemented ❌)
 9. RTL view (haha, even in jira rtl doesn't work very well, but thanks to quasar pretty nice rtl support in this clone and CSS gaps)
 10. other - date-fns, some lodash functions, eslint + tslint + prettier
@@ -52,14 +52,15 @@ Github actions CI pipeline
 #### Project Detail
 ##### Boards (only kanban and no multiple boards on one page)
 
-- Add board (with ability to select project and automaticly redirect, interface is slightly different from jira)  
+- Add board (with ability to select project and automaticly redirect, interface is slightly different from jira)
 - Board settings (not implemented yet ❌)  
 - Delete board  
 - Auto load last viewed board (or load it from URL)  
 - Auto load last viewed issue (from URL)  
 - Mark board as favorite  
 - Drag & drop issues between columns
-- 
+- Edit column name
+
 ##### Board Issues
 
 - Issues filter by user (not implemented yet ❌)  
@@ -75,8 +76,8 @@ Github actions CI pipeline
 - Change issue type
 - Change issue priority
 - Add marks (not implemented yet ❌) 
-- Created at / updated at fields, tooltips on all these actions
-- Add / Edit / Delete comment (not implemented yet ❌) 
+- Created at / updated at fields with ability to toggle show mode (2 hours ago, 16 seconds ago, etc..) and default (May 15, 13:43)
+- Add / Edit / Delete comments
 - Reply comment (not implemented yet ❌) 
 
 ##### Roadmap    
