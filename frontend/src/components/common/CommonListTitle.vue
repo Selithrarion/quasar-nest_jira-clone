@@ -1,5 +1,5 @@
 <template>
-  <div class="text-caption text-uppercase" :class="{ 'q-py-xs q-px-md': padding }">
+  <div class="flex-center-between text-caption text-uppercase" :class="{ 'q-py-xs q-px-md': padding }">
     <slot>
       {{ title }}
     </slot>
