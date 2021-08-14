@@ -58,12 +58,8 @@
           <BaseButtonMore block>
             <q-menu auto-close>
               <q-list>
-                <q-item clickable>
-                  <q-item-section>Настройки проекта</q-item-section>
-                </q-item>
-                <q-item clickable @click="dialog.open('deleteProject', { item: props.row })">
-                  <q-item-section>Переместить в коризну</q-item-section>
-                </q-item>
+                <BaseItem label="Настройки проекта" />
+                <BaseItem label="Переместить в коризну" @click="dialog.open('deleteProject', { item: props.row })" />
               </q-list>
             </q-menu>
           </BaseButtonMore>
@@ -87,7 +83,7 @@
 <script lang="ts">
 import { defineComponent, reactive, computed, onBeforeMount } from 'vue';
 import { useStore } from 'src/store';
-import useDialog from 'src/composables/common/useDialog';;
+import useDialog from 'src/composables/common/useDialog';
 
 import { ProjectModel, ProjectTypeEnum } from 'src/models/project/project.model';
 

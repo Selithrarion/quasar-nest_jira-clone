@@ -29,7 +29,7 @@
     </template>
 
     <template #option="{ itemProps, itemEvents, opt }">
-      <q-item v-bind="itemProps" v-on="itemEvents">
+      <BaseItem v-bind="itemProps" v-on="itemEvents">
         <div v-if="$slots.optionPrepend" class="flex-center q-pr-sm">
           <slot name="optionPrepend" :option="opt" />
         </div>
@@ -39,13 +39,11 @@
             <q-item-label>{{ opt[optionLabel] }}</q-item-label>
           </slot>
         </q-item-section>
-      </q-item>
+      </BaseItem>
     </template>
 
     <template #no-option>
-      <q-item>
-        <q-item-section class="text-grey"> Результатов нет </q-item-section>
-      </q-item>
+      <BaseItem class="text-grey" label="Результатов нет" />
     </template>
   </q-select>
 </template>

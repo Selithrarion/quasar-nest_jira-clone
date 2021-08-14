@@ -8,7 +8,7 @@
         <transition enter-active-class="animated fadeIn" leave-active-class="animated fadeOut">
           <div v-show="isHeaderMenu" class="header-menu bg-white rounded-md" @click.stop="isHeaderMenu = false">
             <q-list class="text-grey-7" padding dense>
-              <q-item clickable>
+              <BaseItem>
                 <q-item-section>
                   <q-file
                     v-model="headerImage"
@@ -18,10 +18,8 @@
                     dense
                   />
                 </q-item-section>
-              </q-item>
-              <q-item clickable @click="deleteHeaderImage">
-                <q-item-section> Удалить изображение </q-item-section>
-              </q-item>
+              </BaseItem>
+              <BaseItem label="Удалить изображение" @click="deleteHeaderImage" />
             </q-list>
           </div>
         </transition>
@@ -41,9 +39,7 @@
           <BaseButtonMore class="btn--secondary" padding="6px" :round="false" :flat="false" unelevated>
             <q-menu anchor="bottom middle" self="top middle" auto-close dense>
               <q-list>
-                <q-item clickable>
-                  <q-item-section> Удалить команду </q-item-section>
-                </q-item>
+                <BaseItem label="Удалить команду " />
               </q-list>
             </q-menu>
           </BaseButtonMore>

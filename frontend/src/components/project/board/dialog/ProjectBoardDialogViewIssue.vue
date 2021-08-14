@@ -19,18 +19,17 @@
             <q-menu auto-close>
               <q-list padding dense>
                 <CommonListTitle title="изменить тип задачи" padding />
-                <q-item
+                <BaseItem
                   v-for="type in availableIssueTypes"
                   :key="type.id"
                   class="flex items-center gap-2"
-                  clickable
                   @click="updateIssue('typeID', type.id)"
                 >
                   <ProjectBoardIconIssueType :type="type.id" small />
                   <q-item-section>
                     <q-item-label>{{ type.name }}</q-item-label>
                   </q-item-section>
-                </q-item>
+                </BaseItem>
               </q-list>
             </q-menu>
           </BaseButton>

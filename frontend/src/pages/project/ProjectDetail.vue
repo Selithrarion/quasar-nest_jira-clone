@@ -8,7 +8,7 @@
       avatar="https://png.pngtree.com/element_our/20190604/ourlarge/pngtree-gradient-square-border-illustration-image_1467225.jpg"
     >
       <q-list class="select-none">
-        <q-item class="q-pa-sm" clickable @click="dialog.open('selectBoard')">
+        <BaseItem class="q-pa-sm" @click="dialog.open('selectBoard')">
           <div class="flex-center-between no-wrap full-width">
             <div class="row items-center gap-3">
               <q-icon class="text-blue-grey-6" name="table_view" size="sm" />
@@ -19,17 +19,17 @@
             </div>
             <q-icon name="expand_more" size="xs" />
           </div>
-        </q-item>
+        </BaseItem>
 
         <div v-for="item in sidebarItems" :key="item.label">
-          <q-item class="items-center q-pa-sm" clickable @click="handleSidebarItemClick(item)">
+          <BaseItem class="items-center q-pa-sm" @click="handleSidebarItemClick(item)">
             <div class="flex-center-between no-wrap full-width">
               <div class="row items-center gap-3">
                 <q-icon class="text-blue-grey-6" :name="item.icon" size="sm" />
                 <div>{{ item.label }}</div>
               </div>
             </div>
-          </q-item>
+          </BaseItem>
 
           <q-separator v-if="item.lastInGroup" class="q-my-sm" />
         </div>
@@ -71,9 +71,7 @@
 
           <q-btn-dropdown class="btn--secondary" label="Выпуск" :menu-offset="[0, 8]" no-caps flat>
             <q-list v-close-popup dense padding>
-              <q-item clickable>
-                <q-item-section> Новая версия </q-item-section>
-              </q-item>
+              <BaseItem label="Новая версия" />
             </q-list>
           </q-btn-dropdown>
 

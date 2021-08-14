@@ -57,14 +57,10 @@
         <template #body-cell-actions="props">
           <q-td :props="props">
             <BaseButtonMore>
-              <q-menu>
+              <q-menu auto-close>
                 <q-list>
-                  <q-item v-close-popup clickable>
-                    <q-item-section>Управление подписками</q-item-section>
-                  </q-item>
-                  <q-item v-close-popup clickable>
-                    <q-item-section>Копировать фильтр</q-item-section>
-                  </q-item>
+                  <BaseItem label="Управление подписками" />
+                  <BaseItem label="Копировать фильтр" />
                 </q-list>
               </q-menu>
             </BaseButtonMore>

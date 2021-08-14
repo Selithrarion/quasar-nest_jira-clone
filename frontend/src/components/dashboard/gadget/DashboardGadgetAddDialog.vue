@@ -13,14 +13,18 @@
 
         <CommonListTitle class="q-mt-md" title="Категории" />
         <q-list class="category-list" dense>
-          <q-item class="flex-center-between" clickable>
-            <span>Jira</span>
-            <q-chip size="sm">2</q-chip>
-          </q-item>
-          <q-item class="flex-center-between bg-grey-2" clickable>
-            <span class="text-weight-bold">Все</span>
-            <q-chip size="sm" color="blue-2">2</q-chip>
-          </q-item>
+          <BaseItem>
+            <q-item-section>
+              <span>Jira</span>
+              <q-chip size="sm">2</q-chip>
+            </q-item-section>
+          </BaseItem>
+          <BaseItem class="bg-grey-2">
+            <q-item-section>
+              <span class="text-weight-bold">Все</span>
+              <q-chip size="sm" color="blue-2">2</q-chip>
+            </q-item-section>
+          </BaseItem>
         </q-list>
       </nav>
 
@@ -54,13 +58,7 @@
             </q-card-section>
 
             <q-card-actions class="q-py-md q-pl-md q-pr-none" vertical>
-              <BaseButton
-                label="Добавить гаджет"
-                size="12px"
-                secondary-color
-                unelevated
-                @click="add"
-              />
+              <BaseButton label="Добавить гаджет" size="12px" secondary-color unelevated @click="add" />
             </q-card-actions>
           </q-card-section>
         </q-card>

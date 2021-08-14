@@ -22,55 +22,38 @@
         />
 
         <BaseButton class="text-weight-bold" label="Изменить схему" secondary-color unelevated>
-          <q-menu>
+          <q-menu auto-close>
             <q-list>
-              <q-item class="q-pa-sm">
+              <BaseItem class="q-pa-sm">
                 <BaseButton icon="grid_view" size="12px" padding="6px" color="grey-9" text-color="white" unelevated />
                 <BaseButton icon="grid_view" size="12px" padding="6px" unelevated />
                 <BaseButton icon="grid_view" size="12px" padding="6px" unelevated />
                 <BaseButton icon="grid_view" size="12px" padding="6px" unelevated />
                 <BaseButton icon="grid_view" size="12px" padding="6px" unelevated />
-              </q-item>
+              </BaseItem>
             </q-list>
           </q-menu>
         </BaseButton>
 
         <BaseButtonMore class="btn--secondary" padding="6px" :flat="false" :round="false" unelevated>
-          <q-menu>
+          <q-menu auto-close>
             <q-list padding dense>
-              <q-item class="flex items-center text-caption text-uppercase">
-                <q-item-section> {{ dashboard.name }} </q-item-section>
-              </q-item>
-              <q-item v-close-popup disable clickable>
-                <q-item-section> Изменить и поделиться</q-item-section>
-              </q-item>
-              <q-item v-close-popup disable clickable>
-                <q-item-section> Копировать </q-item-section>
-              </q-item>
-              <q-item v-close-popup disable clickable>
-                <q-item-section> Просмотреть в виде настенной панели </q-item-section>
-              </q-item>
-              <q-item v-close-popup clickable @click="dialog.open('deleteDashboard')">
-                <q-item-section> Удалить </q-item-section>
-              </q-item>
+              <!--              TODO: кажется это common list title?-->
+              <BaseItem class="flex items-center text-caption text-uppercase" :label="dashboard.name" />
+              <BaseItem label="Изменить и поделиться" disable />
+              <BaseItem label="Копировать" disable />
+              <BaseItem label="Просмотреть в виде настенной панели" disable />
+              <BaseItem label="Удалить" @click="dialog.open('deleteDashboard')" />
 
               <q-separator class="q-my-sm" />
 
-              <q-item v-close-popup disable clickable>
-                <q-item-section> Просмотреть слайд-шоу на настенной панели </q-item-section>
-              </q-item>
-              <q-item v-close-popup disable clickable>
-                <q-item-section> Настроить слайд-шоу на настенной панели </q-item-section>
-              </q-item>
+              <BaseItem label="Просмотреть слайд-шоу на настенной панели" disable />
+              <BaseItem label="Настроить слайд-шоу на настенной панели" disable />
 
               <q-separator class="q-my-sm" />
 
-              <q-item v-close-popup clickable @click="dialog.open('createDashboard')">
-                <q-item-section> Создать дашбоард </q-item-section>
-              </q-item>
-              <q-item v-close-popup clickable @click="goToDashboardsPage">
-                <q-item-section> Показать все дашбоарды</q-item-section>
-              </q-item>
+              <BaseItem label="Создать дашбоард " @click="dialog.open('createDashboard')" />
+              <BaseItem label="Показать все дашбоарды" @click="goToDashboardsPage" />
             </q-list>
           </q-menu>
         </BaseButtonMore>
@@ -94,7 +77,7 @@
             <BaseButton tooltip="Свернуть" icon="close_fullscreen" size="14px" padding="4px" unelevated disable flat />
             <BaseButton tooltip="Развернуть" icon="fullscreen" size="14px" padding="4px" unelevated disable flat />
             <BaseButton icon="more_horiz" size="14px" padding="4px" unelevated flat>
-              <q-menu>
+              <q-menu auto-close>
                 <div class="q-px-md q-pt-md q-pb-sm select-none">
                   <CommonListTitle title="цвет выделения" />
                   <div class="flex gap-2 q-py-sm">
@@ -117,18 +100,10 @@
                 <q-separator />
 
                 <q-list class="select-none" dense>
-                  <q-item v-close-popup clickable disable>
-                    <q-item-section>Обновить страницу</q-item-section>
-                  </q-item>
-                  <q-item v-close-popup clickable disable>
-                    <q-item-section>Настроить</q-item-section>
-                  </q-item>
-                  <q-item v-close-popup clickable disable>
-                    <q-item-section>Переименовать</q-item-section>
-                  </q-item>
-                  <q-item v-close-popup clickable disable>
-                    <q-item-section>Удалить</q-item-section>
-                  </q-item>
+                  <BaseItem label="Обновить страницу" disable />
+                  <BaseItem label="Настроить" disable />
+                  <BaseItem label="Переименовать" disable />
+                  <BaseItem label="Удалить" disable />
                 </q-list>
               </q-menu>
             </BaseButton>
@@ -137,7 +112,7 @@
 
         <q-form class="column justify-between full-height">
           <div class="flex justify-end q-mt-auto q-pt-lg">
-            <BaseButton label="Сохранить" secondary-color unelevated/>
+            <BaseButton label="Сохранить" secondary-color unelevated />
           </div>
         </q-form>
       </div>
@@ -171,14 +146,6 @@
       Этот дашбоард и его конфигурация будут удалены без возможности восстановления. Использовать этот дашбоард в
       качестве настенной панели или для показа слайд-шоу на настенной панели будет невозможно.
     </BaseDialog>
-    <!--    <Suspense>-->
-    <!--      <template #default>-->
-    <!--        <div></div>-->
-    <!--      </template>-->
-    <!--      <template #fallback>-->
-    <!--        <BaseLoader />-->
-    <!--      </template>-->
-    <!--    </Suspense>-->
   </q-page>
 </template>
 

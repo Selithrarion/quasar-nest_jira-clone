@@ -21,12 +21,11 @@
 
       <CommonListTitle class="q-mt-md q-mb-sm"> доски в {{ project.name }} </CommonListTitle>
       <q-list>
-        <q-item
+        <BaseItem
           v-for="board in filteredBoards"
           :key="board.id"
           class="row items-center gap-3 q-pl-sm"
           :class="{ 'shadow-1': board.id === selectedBoard.id }"
-          clickable
           @click="selectBoard(board)"
         >
           <q-icon name="check" size="sm" :color="board.id === selectedBoard.id ? 'green-6' : 'blue-grey-5'" />
@@ -45,16 +44,14 @@
               flat
               @click.stop=""
             >
-              <q-menu>
+              <q-menu auto-close>
                 <q-list>
-                  <q-item v-close-popup clickable @click.stop="dialog.open('deleteBoard', { item: board })">
-                    <q-item-section> Удалить </q-item-section>
-                  </q-item>
+                  <BaseItem label="Удалить" @click.stop="dialog.open('deleteBoard', { item: board })" />
                 </q-list>
               </q-menu>
             </BaseButton>
           </div>
-        </q-item>
+        </BaseItem>
       </q-list>
     </div>
 

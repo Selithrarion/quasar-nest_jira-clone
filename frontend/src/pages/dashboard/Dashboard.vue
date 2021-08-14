@@ -59,11 +59,9 @@
             <template #body-cell-actions="props">
               <q-td :props="props">
                 <BaseButtonMore>
-                  <q-menu>
+                  <q-menu auto-close>
                     <q-list>
-                      <q-item v-close-popup clickable>
-                        <q-item-section>Копировать дашбоард</q-item-section>
-                      </q-item>
+                      <BaseItem label="Копировать дашбоард" />
                     </q-list>
                   </q-menu>
                 </BaseButtonMore>
