@@ -21,7 +21,18 @@ export class BoardsService {
 
   async getByID(boardID: number, userID: number): Promise<BoardEntity> {
     const currentUser = await this.userService.getByID(userID);
-    const board = await this.boards.findOneOrFail(boardID, { relations: ['columns'] });
+    // TODO: fix issue comments sorting order
+    const board = await this.boards.findOneOrFail(boardID, {
+      relations: ['columns'],
+    });
+    // const board = await this.boards
+    //   .createQueryBuilder('board')
+    //   .where('board.id = :boardID', { boardID })
+    //   .leftJoinAndSelect('board.columns', 'column')
+    //   .leftJoinAndSelect('column.issues', 'issue')
+    //   .leftJoinAndSelect('issue.comments', 'comment')
+    //   .orderBy('comment.id', 'DESC')
+    //   .getOneOrFail();
     return { ...board, favorite: currentUser.favoriteBoardIDs.includes(boardID) };
   }
 

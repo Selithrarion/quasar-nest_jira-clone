@@ -48,7 +48,7 @@ export class IssuesController {
   @ApiOperation({ summary: 'Add issue comment' })
   @ApiResponse({ status: 201, description: 'Comment was created' })
   @ApiResponse({ status: 401, description: 'Unauthorized' })
-  @Post(':issueID/comment')
+  @Post('comment/:issueID')
   async addComment(
     @Param('issueID') issueID: number,
     @Body() payload: CreateCommentDTO,
@@ -56,11 +56,20 @@ export class IssuesController {
   ): Promise<CommentEntity> {
     return await this.issuesService.addComment(issueID, payload, req.user.id);
   }
-  @ApiOperation({ summary: 'Add issue comment' })
-  @ApiResponse({ status: 201, description: 'Comment was created' })
+
+  @ApiOperation({ summary: 'Edit issue comment' })
+  @ApiResponse({ status: 201, description: 'Comment was updated' })
   @ApiResponse({ status: 401, description: 'Unauthorized' })
-  @Post(':issueID/comment/:commentID')
+  @Patch('comment/:commentID')
   async editComment(@Param('commentID') commentID: number, @Body() payload: UpdateCommentDTO): Promise<CommentEntity> {
     return await this.issuesService.editComment(commentID, payload);
+  }
+
+  @ApiOperation({ summary: 'Delete comment' })
+  @ApiResponse({ status: 204, description: 'Comment was deleted' })
+  @ApiResponse({ status: 401, description: 'Unauthorized' })
+  @Delete('comment/:commentID')
+  async deleteComment(@Param('commentID') commentID: number): Promise<void> {
+    return await this.issuesService.deleteComment(commentID);
   }
 }

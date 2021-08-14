@@ -70,4 +70,7 @@ export class IssuesService {
     await this.comments.update(commentID, { ...payload });
     return updated;
   }
+  async deleteComment(commentID: number): Promise<void> {
+    await this.comments.delete(commentID);
+  }
 }
