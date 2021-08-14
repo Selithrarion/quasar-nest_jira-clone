@@ -1,12 +1,18 @@
 <template>
-  <q-editor
-    ref="editor"
-    :model-value="modelValue"
-    class="flex-grow-1"
-    min-height="minHeight"
-    @update:model-value="$emit('update:model-value', modelValue)"
-  >
-  </q-editor>
+  <div class="flex-grow-1">
+    <q-editor
+      ref="editor"
+      :model-value="modelValue"
+      class="flex-grow-1"
+      min-height="minHeight"
+      @update:model-value="$emit('update:model-value', $event)"
+    >
+    </q-editor>
+    <div v-if="actionButtons" class="flex-center-end gap-2 q-mt-sm">
+      <BaseButton label="Отмена" color="blue-grey-5" flat @click="$emit('cancel')" />
+      <BaseButton label="Сохранить" color="primary" :loading="saveLoading" unelevated @click="$emit('save')" />
+    </div>
+  </div>
 </template>
 
 <script lang="ts">
@@ -26,10 +32,21 @@ export default defineComponent({
       required: false,
       default: '5rem',
     },
-    autofocus: Boolean,
+    autofocus: {
+      type: Boolean,
+      required: false,
+      default: true,
+    },
+
+    actionButtons: {
+      type: Boolean,
+      required: false,
+      default: true,
+    },
+    saveLoading: Boolean,
   },
 
-  emits: ['update:model-value'],
+  emits: ['update:model-value', 'cancel', 'save'],
 
   setup(props) {
     const editor = ref<HTMLInputElement | null>(null);
