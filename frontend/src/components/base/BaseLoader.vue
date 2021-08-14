@@ -5,7 +5,7 @@
     :class="{ 'flex-center full-height': center }"
   >
     <q-circular-progress
-      :size="small ? '16px' : '40px'"
+      :size="computedSize"
       :color="grayColor ? 'blue-grey-6' : 'primary'"
       :thickness="0.11"
       indeterminate
@@ -15,7 +15,7 @@
 </template>
 
 <script lang="ts">
-import { defineComponent } from 'vue';
+import { defineComponent, computed } from 'vue';
 
 export default defineComponent({
   name: 'BaseLoader',
@@ -26,7 +26,26 @@ export default defineComponent({
     pageMargin: Boolean,
     center: Boolean,
     grayColor: Boolean,
+
     small: Boolean,
+    medium: Boolean,
+    large: {
+      type: Boolean,
+      required: false,
+      default: true,
+    },
+  },
+
+  setup(props) {
+    const computedSize = computed(() => {
+      if (props.small) return '16px';
+      else if (props.medium) return '24px';
+      else return '40px';
+    });
+
+    return {
+      computedSize,
+    };
   },
 });
 </script>
