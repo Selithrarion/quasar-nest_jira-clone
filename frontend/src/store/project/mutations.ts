@@ -100,7 +100,7 @@ const mutation: MutationTree<ProjectStateInterface> = {
   },
 
   ADD_ISSUE_COMMENT(state: ProjectStateInterface, comment: CommentModel) {
-    if (state.issueDetail) state.issueDetail.comments.push(comment);
+    if (state.issueDetail) state.issueDetail.comments.unshift(comment);
   },
   UPDATE_ISSUE_COMMENT(state: ProjectStateInterface, comment: CommentModel) {
     if (!state.issueDetail) return;
