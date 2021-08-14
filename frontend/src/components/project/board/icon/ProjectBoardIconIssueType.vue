@@ -7,14 +7,9 @@
 <script lang="ts">
 import { defineComponent, computed } from 'vue';
 import { useStore } from 'src/store';
-import BaseTooltip from 'components/base/BaseTooltip.vue';
 
 export default defineComponent({
   name: 'ProjectBoardIconIssueType',
-
-  components: {
-    BaseTooltip,
-  },
 
   props: {
     type: {

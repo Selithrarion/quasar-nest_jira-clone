@@ -79,8 +79,6 @@
 import { defineComponent, reactive } from 'vue';
 import useDialog from 'src/composables/common/useDialog';
 
-import BaseButtonFavorite from 'components/base/button/BaseButtonFavorite.vue';
-import BaseButtonMore from 'components/base/button/BaseButtonMore.vue';
 import CommonPageHeader from 'components/common/CommonPageHeader.vue';
 
 import { FilterInterface } from 'src/models/filter/filter.interface';
@@ -89,7 +87,9 @@ import { AccessEnum } from 'src/models/common/access.model';
 export default defineComponent({
   name: 'Filters',
 
-  components: { BaseButtonFavorite, BaseButtonMore, CommonPageHeader },
+  components: {
+    CommonPageHeader,
+  },
 
   setup() {
     const dialog = useDialog();

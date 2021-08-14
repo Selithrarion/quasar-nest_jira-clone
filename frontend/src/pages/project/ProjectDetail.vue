@@ -145,9 +145,6 @@ import useLoading from 'src/composables/common/useLoading';
 
 import LayoutSidebar from 'components/layout/LayoutSidebar.vue';
 
-import BaseLoader from 'components/base/BaseLoader.vue';
-import BaseTooltip from 'components/base/BaseTooltip.vue';
-import BaseButtonFavorite from 'components/base/button/BaseButtonFavorite.vue';
 import CommonSearch from 'components/common/CommonSearch.vue';
 import CommonAvatarsWrapper from 'components/common/CommonAvatarsWrapper.vue';
 import CommonClipboard from 'components/common/CommonClipboard.vue';
@@ -163,9 +160,6 @@ export default defineComponent({
   components: {
     LayoutSidebar,
 
-    BaseLoader,
-    BaseTooltip,
-    BaseButtonFavorite,
     CommonSearch,
     CommonAvatarsWrapper,
     CommonClipboard,

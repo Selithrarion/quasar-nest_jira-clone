@@ -188,10 +188,6 @@ import { useRoute, useRouter } from 'vue-router';
 import { useStore } from 'src/store';
 import useDialog from 'src/composables/common/useDialog';
 
-import BaseDialog from 'components/base/BaseDialog.vue';
-import BaseButtonFavorite from 'components/base/button/BaseButtonFavorite.vue';
-import BaseButtonMore from 'components/base/button/BaseButtonMore.vue';
-import BaseTooltip from 'components/base/BaseTooltip.vue';
 import CommonListTitle from 'components/common/CommonListTitle.vue';
 import DashboardCreateDialog from 'components/dashboard/create/DashboardCreateDialog.vue';
 import DashboardGadgetAddDialog from 'components/dashboard/gadget/DashboardGadgetAddDialog.vue';
@@ -202,11 +198,6 @@ export default defineComponent({
   name: 'DashboardDetail',
 
   components: {
-    BaseDialog,
-    BaseButtonFavorite,
-    BaseButtonMore,
-    BaseTooltip,
-
     CommonListTitle,
 
     DashboardCreateDialog,

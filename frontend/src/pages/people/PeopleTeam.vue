@@ -109,19 +109,12 @@
     </div>
   </q-page>
 </template>
+
 <script lang="ts">
 import { defineComponent, ref } from 'vue';
 
-import BaseTooltip from 'components/base/BaseTooltip.vue';
-import BaseButtonMore from 'components/base/button/BaseButtonMore.vue';
-
 export default defineComponent({
   name: 'PeopleTeam',
-
-  components: {
-    BaseButtonMore,
-    BaseTooltip,
-  },
 
   setup() {
     const isHeaderMenu = ref(false);

@@ -86,9 +86,6 @@ import { defineComponent, reactive, computed } from 'vue';
 import { useStore } from 'src/store';
 import useDialog from 'src/composables/common/useDialog';
 
-import BaseLoader from 'components/base/BaseLoader.vue';
-import BaseButtonFavorite from 'components/base/button/BaseButtonFavorite.vue';
-import BaseButtonMore from 'components/base/button/BaseButtonMore.vue';
 import CommonPageHeader from 'components/common/CommonPageHeader.vue';
 import DashboardCreateDialog from 'components/dashboard/create/DashboardCreateDialog.vue';
 
@@ -98,7 +95,10 @@ import dashboardService from 'src/service/dashboardService';
 export default defineComponent({
   name: 'Dashboard',
 
-  components: { BaseLoader, BaseButtonFavorite, BaseButtonMore, CommonPageHeader, DashboardCreateDialog },
+  components: {
+    CommonPageHeader,
+    DashboardCreateDialog,
+  },
 
   setup() {
     const dialog = useDialog();

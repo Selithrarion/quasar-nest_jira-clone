@@ -18,9 +18,7 @@ import { defineComponent, computed, onBeforeMount } from 'vue';
 import { useStore } from 'src/store';
 import useLoading from 'src/composables/common/useLoading';
 
-import BaseLoader from 'components/base/BaseLoader.vue';
 import CommonPageTitle from 'components/common/CommonPageTitle.vue';
-
 import WorkProjectHeader from 'components/work/WorkProjectHeader.vue';
 import WorkProjectList from 'components/work/WorkProjectList.vue';
 import WorkProjectCard from 'components/work/WorkProjectCard.vue';
@@ -29,7 +27,6 @@ export default defineComponent({
   name: 'PageIndex',
 
   components: {
-    BaseLoader,
     CommonPageTitle,
     WorkProjectHeader,
     WorkProjectList,

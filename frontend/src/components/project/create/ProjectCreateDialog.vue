@@ -17,14 +17,16 @@
 <script lang="ts">
 import { defineComponent, ref } from 'vue';
 
-import BaseDialog from 'components/base/BaseDialog.vue';
 import ProjectCreateSelectType from 'components/project/create/ProjectCreateSelectType.vue';
 import ProjectCreateForm from 'components/project/create/ProjectCreateForm.vue';
 
 export default defineComponent({
   name: 'ProjectCreateDialog',
 
-  components: { BaseDialog, ProjectCreateSelectType, ProjectCreateForm },
+  components: {
+    ProjectCreateSelectType,
+    ProjectCreateForm,
+  },
 
   emits: ['close'],
 

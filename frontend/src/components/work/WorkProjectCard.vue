@@ -34,14 +34,8 @@
 import { defineComponent } from 'vue';
 import { useRouter } from 'vue-router';
 
-import BaseTooltip from 'components/base/BaseTooltip.vue';
-
 export default defineComponent({
   name: 'WorkProjectCard',
-
-  components: {
-    BaseTooltip,
-  },
 
   props: {
     project: {
