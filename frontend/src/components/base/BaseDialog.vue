@@ -12,7 +12,7 @@
           :class="{ 'fixed-section': fixedHeader }"
         >
           <slot name="title">
-            <div class="row items-center gap-2 text-h6 full-width">
+            <div class="row items-center gap-2 text-h6 full-width no-wrap">
               <q-icon v-if="type === 'delete'" color="amber-8" name="warning" />
               {{ title }}
             </div>
@@ -155,21 +155,13 @@ export default defineComponent({
 
     hideScroll: Boolean,
 
-    small: {
-      type: Boolean,
-      required: false,
-      default: false,
-    },
+    small: Boolean,
     medium: {
       type: Boolean,
       required: false,
-      default: false,
+      default: true,
     },
-    large: {
-      type: Boolean,
-      required: false,
-      default: false,
-    },
+    large: Boolean,
   },
 
   emits: ['confirm', 'close', 'back'],
@@ -214,8 +206,8 @@ export default defineComponent({
       const styles = [];
 
       if (props.small) styles.push({ width: '300px' });
-      else if (props.medium) styles.push({ width: '600px' }, { maxWidth: '600px' });
       else if (props.large) styles.push({ width: '900px' }, { maxWidth: '900px' });
+      else if (props.medium) styles.push({ width: '600px' }, { maxWidth: '600px' });
 
       return styles;
     });
