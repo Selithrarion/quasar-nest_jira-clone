@@ -1,5 +1,5 @@
 <template>
-  <div class="flex-grow-1">
+  <div class="base-editor flex-grow-1">
     <q-editor
       ref="editor"
       :model-value="modelValue"

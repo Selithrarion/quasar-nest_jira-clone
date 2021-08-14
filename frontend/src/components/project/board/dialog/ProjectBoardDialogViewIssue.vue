@@ -26,11 +26,7 @@
                   clickable
                   @click="updateIssue('typeID', type.id)"
                 >
-                  <ProjectBoardIconIssueType
-                    :type="type.id"
-                    :tooltip="`${formatIssueTypeName(type.id)} – изменить тип задачи`"
-                    small
-                  />
+                  <ProjectBoardIconIssueType :type="type.id" small />
                   <q-item-section>
                     <q-item-label>{{ type.name }}</q-item-label>
                   </q-item-section>
@@ -88,25 +84,16 @@
 
           <div>
             <div class="text-subtitle2 q-pb-sm">Описание</div>
-            <!--            TODO: add colors to editor, extract it to BaseEditor-->
-            <div
-              v-show="!isDescriptionEditor"
-              class="issue__description"
-              @click="showDescriptionEditor"
-              v-html="localIssueDescription"
-            />
 
-            <BaseEditor v-if="isDescriptionEditor" ref="descriptionEditor" v-model="localIssueDescription" autofocus />
-            <div v-if="isDescriptionEditor" class="flex-center-end gap-2 q-mt-sm">
-              <BaseButton label="Отмена" color="blue-grey-5" flat @click="resetIssueDescription" />
-              <BaseButton
-                label="Сохранить"
-                color="primary"
-                :loading="loading.custom.saveEditorDescription.value"
-                unelevated
-                @click="updateIssueDescription"
-              />
-            </div>
+            <BaseEditor
+              v-if="isDescriptionEditor"
+              ref="descriptionEditor"
+              v-model="localIssueDescription"
+              :save-loading="loading.custom.saveEditorDescription"
+              @cancel="resetIssueDescription"
+              @save="updateIssueDescription"
+            />
+            <div v-else class="issue__description" @click="showDescriptionEditor" v-html="localIssueDescription" />
           </div>
 
           <div>
@@ -120,7 +107,6 @@
               </q-avatar>
               <q-input
                 v-if="!isAddCommentEditor"
-                ref="commentInput"
                 v-model="comment"
                 class="flex-grow-1"
                 placeholder="Добавить комментарий..."
@@ -137,17 +123,14 @@
                 </template>
               </q-input>
 
-              <BaseEditor v-if="isAddCommentEditor" ref="addCommentEditor" v-model="comment" autofocus />
-              <div v-if="isAddCommentEditor" class="flex-center-end gap-2 q-mt-sm full-width">
-                <BaseButton label="Отмена" color="blue-grey-5" flat @click="resetAddComment" />
-                <BaseButton
-                  label="Сохранить"
-                  color="primary"
-                  :loading="loading.custom.addComment.value"
-                  unelevated
-                  @click="addComment"
-                />
-              </div>
+              <BaseEditor
+                v-if="isAddCommentEditor"
+                ref="addCommentEditor"
+                v-model="comment"
+                :save-loading="loading.custom.addComment"
+                @cancel="resetAddComment"
+                @save="addComment"
+              />
             </div>
 
             <div class="flex flex-col gap-6 q-mt-lg">
@@ -169,12 +152,29 @@
                     </div>
 
                     <span class="text-caption text-blue-grey-6">
-                      {{ formatDate(comment.createdAt, DateTypes.DIFF, { maxDiffUnit: DateUnits.MONTH }) }}
+                      {{ formatDate(comment.updatedAt, DateTypes.DIFF, { maxDiffUnit: DateUnits.MONTH }) }}
                     </span>
                   </div>
-                  <div class="flex flex-col items-center full-width">
+
+                  <BaseEditor
+                    v-if="editCommentID === comment.id"
+                    ref="editCommentEditor"
+                    v-model="editCommentLocalText"
+                    class="full-width"
+                    :save-loading="loading.custom.editComment"
+                    @cancel="editCommentID = null"
+                    @save="editComment(comment.id)"
+                  />
+                  <div v-else class="flex flex-col items-center gap-2 full-width">
                     <span v-html="comment.text" />
-                    <!--                    <div class="flex items-center full-width"></div>-->
+                    <div class="flex items-center gap-3 full-width">
+                      <BaseButton label="Изменить" plain-style @click="showEditCommentEditor(comment)" />
+                      <BaseButton
+                        label="Удалить"
+                        plain-style
+                        @click="dialog.open('deleteComment', { item: comment })"
+                      />
+                    </div>
                   </div>
                 </div>
               </div>
@@ -294,6 +294,7 @@ import { differenceInHours } from 'date-fns';
 import { useStore } from 'src/store';
 import { useRoute } from 'vue-router';
 import { useFormat, DateUnits, DateTypes } from 'src/composables/format/useFormat';
+import useDialog from 'src/composables/common/useDialog';
 import useLoading from 'src/composables/common/useLoading';
 
 import issueService from 'src/service/issueService';
@@ -303,6 +304,8 @@ import CommonListTitle from 'components/common/CommonListTitle.vue';
 import ProjectBoardIconIssueType from 'components/project/board/icon/ProjectBoardIconIssueType.vue';
 
 import { ColumnModel } from 'src/models/project/column.model';
+import { CommentModel } from 'src/models/project/comment.model';
+import { mockAsyncTimeout } from 'app/utils';
 
 export default defineComponent({
   name: 'ProjectBoardDialogViewIssue',
@@ -317,7 +320,8 @@ export default defineComponent({
   setup(props, { emit }) {
     const store = useStore();
     const route = useRoute();
-    const loading = useLoading({ default: true, customNames: ['saveEditorDescription', 'addComment'] });
+    const dialog = useDialog();
+    const loading = useLoading({ default: true, customNames: ['saveEditorDescription', 'addComment', 'editComment'] });
     const { formatDate } = useFormat();
 
     onBeforeMount(async () => {
@@ -337,7 +341,7 @@ export default defineComponent({
     const nameInput = ref<HTMLInputElement | null>(null);
     const descriptionEditor = ref<HTMLInputElement | null>(null);
     const isDescriptionEditor = ref(false);
-    async function showDescriptionEditor() {
+    function showDescriptionEditor() {
       isDescriptionEditor.value = true;
     }
     function resetIssueDescription() {
@@ -351,7 +355,6 @@ export default defineComponent({
       });
     });
 
-    const commentInput = ref<HTMLInputElement | null>(null);
     const addCommentEditor = ref<HTMLInputElement | null>(null);
     const isAddCommentEditor = ref(false);
     const comment = ref('');
@@ -382,7 +385,27 @@ export default defineComponent({
       });
     });
 
-    async function updateIssue(field: string, value: unknown) {
+    const editCommentID = ref<number | null>(null);
+    const editCommentLocalText = ref('');
+    function showEditCommentEditor(comment: CommentModel) {
+      editCommentID.value = comment.id;
+      editCommentLocalText.value = comment.text;
+    }
+    async function editComment(commentID: number) {
+      try {
+        loading.start('editComment');
+
+        const payload = { issueID: issue.value?.id, commentID, text: editCommentLocalText.value };
+        await mockAsyncTimeout();
+        await store.dispatch('project/editIssueComment', payload);
+
+        editCommentID.value = null;
+      } finally {
+        loading.stop('editComment');
+      }
+    }
+
+    async function updateIssue<T>(field: string, value: T) {
       const id = issue.value?.id;
       const columnID = issue.value?.columnID;
       const payload = {
@@ -465,9 +488,6 @@ export default defineComponent({
 
     const availableIssuePriorities = computed(() => store.state.project.availableIssuePriorities);
     const availableIssueTypes = computed(() => store.state.project.availableIssueTypes);
-    function formatIssuePriorityName(priorityID: number) {
-      return availableIssuePriorities.value.find((p) => p.id === priorityID)?.name;
-    }
     function formatIssueTypeName(typeID: number) {
       return availableIssueTypes.value.find((p) => p.id === typeID)?.name;
     }
@@ -487,6 +507,7 @@ export default defineComponent({
     }
 
     return {
+      dialog,
       loading,
       formatDate,
       DateUnits,
@@ -504,11 +525,14 @@ export default defineComponent({
       resetIssueDescription,
 
       comment,
-      commentInput,
       addCommentEditor,
       isAddCommentEditor,
       addComment,
       resetAddComment,
+      editCommentID,
+      editCommentLocalText,
+      showEditCommentEditor,
+      editComment,
 
       updateIssue,
       updateIssueName,
@@ -524,7 +548,6 @@ export default defineComponent({
 
       availableIssuePriorities,
       availableIssueTypes,
-      formatIssuePriorityName,
       formatIssueTypeName,
 
       availableProjectUsers,
