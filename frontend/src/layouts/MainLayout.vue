@@ -42,10 +42,19 @@
           <BaseButton icon="notifications" unelevated dense round />
           <BaseButton icon="help" unelevated dense round />
           <BaseButton icon="settings" unelevated dense round />
-          <q-avatar v-if="currentUserAvatarURL" size="24px">
-            <img :src="currentUserAvatarURL" alt="Profile Avatar" />
-          </q-avatar>
-          <q-avatar v-else size="24px" color="orange">{{ currentUserInitials }}</q-avatar>
+          <BaseButton unelevated dense round>
+            <q-avatar v-if="currentUserAvatarURL" size="24px">
+              <img :src="currentUserAvatarURL" alt="Profile Avatar" />
+            </q-avatar>
+            <q-avatar v-else size="24px" color="orange">{{ currentUserInitials }}</q-avatar>
+
+            <q-menu style="width: 300px" auto-close>
+              <q-list>
+                <BaseItem label="Профиль" @click="openProfilePage" />
+                <BaseItem label="Выйти" @click="logout" />
+              </q-list>
+            </q-menu>
+          </BaseButton>
         </div>
       </q-toolbar>
     </q-header>
@@ -61,11 +70,13 @@
 <script lang="ts">
 import { defineComponent, ref, reactive, computed } from 'vue';
 import { useStore } from 'src/store';
-import { useRoute } from 'vue-router';
+import { useRouter, useRoute } from 'vue-router';
 import useDialog from 'src/composables/common/useDialog';
+import useLoading from 'src/composables/common/useLoading';
 
 import CommonSearch from 'components/common/CommonSearch.vue';
 import ProjectBoardDialogCreateIssue from 'components/project/board/dialog/ProjectBoardDialogCreateIssue.vue';
+import userService from 'src/service/userService';
 
 export default defineComponent({
   name: 'MainLayout',
@@ -77,8 +88,10 @@ export default defineComponent({
 
   setup() {
     const store = useStore();
+    const router = useRouter();
     const route = useRoute();
     const dialog = useDialog();
+    const loading = useLoading({ customNames: ['logout'] });
 
     const searchValue = ref('');
     function search() {
@@ -122,11 +135,26 @@ export default defineComponent({
 
     const isShowCreateIssueButton = computed(() => route.path.includes('/projects/'));
 
-    const currentUserInitials = computed(() => store.state.user.currentUser?.name?.[0]);
-    const currentUserAvatarURL = computed(() => store.state.user.currentUser?.avatarURL);
+    const currentUser = computed(() => store.state.user.currentUser);
+    const currentUserInitials = computed(() => currentUser.value?.name?.[0]);
+    const currentUserAvatarURL = computed(() => currentUser.value?.avatarURL);
+
+    async function openProfilePage() {
+      const userID = currentUser.value?.id;
+      if (userID) await router.push(`/people/${userID}`);
+    }
+    async function logout() {
+      try {
+        loading.start('logout');
+        await userService.logout();
+      } finally {
+        loading.stop('logout');
+      }
+    }
 
     return {
       dialog,
+      loading,
 
       searchValue,
       search,
@@ -138,6 +166,9 @@ export default defineComponent({
 
       currentUserInitials,
       currentUserAvatarURL,
+
+      openProfilePage,
+      logout,
     };
   },
 });
