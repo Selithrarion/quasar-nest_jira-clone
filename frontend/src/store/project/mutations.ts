@@ -107,6 +107,10 @@ const mutation: MutationTree<ProjectStateInterface> = {
     const commentIndex = state.issueDetail.comments.findIndex((c) => c.id === comment.id);
     state.issueDetail.comments[commentIndex] = comment;
   },
+  DELETE_ISSUE_COMMENT(state: ProjectStateInterface, commentID: number) {
+    if (!state.issueDetail) return;
+    state.issueDetail.comments = state.issueDetail.comments.filter((c) => c.id !== commentID);
+  },
 
   UPDATE_COLUMN(state: ProjectStateInterface, { id, payload }: { id: number; payload: ColumnModel }) {
     if (!state.boardDetail) return;

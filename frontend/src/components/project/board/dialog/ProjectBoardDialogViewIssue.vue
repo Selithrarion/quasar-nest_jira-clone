@@ -87,7 +87,6 @@
 
             <BaseEditor
               v-if="isDescriptionEditor"
-              ref="descriptionEditor"
               v-model="localIssueDescription"
               :save-loading="loading.custom.saveEditorDescription"
               @cancel="resetIssueDescription"
@@ -125,7 +124,6 @@
 
               <BaseEditor
                 v-if="isAddCommentEditor"
-                ref="addCommentEditor"
                 v-model="comment"
                 :save-loading="loading.custom.addComment"
                 @cancel="resetAddComment"
@@ -158,7 +156,6 @@
 
                   <BaseEditor
                     v-if="editCommentID === comment.id"
-                    ref="editCommentEditor"
                     v-model="editCommentLocalText"
                     class="full-width"
                     :save-loading="loading.custom.editComment"
@@ -283,13 +280,24 @@
             </div>
           </div>
         </div>
+
+        <BaseDialog
+          v-if="dialog.openedName.value === 'deleteComment'"
+          type="delete"
+          title="Удалить комментарий?"
+          :confirm-loading="dialog.loading.value"
+          @close="dialog.close"
+          @confirm="deleteComment(dialog.openedItem.value.id)"
+        >
+          Удалить комментарий от {{ dialog.openedItem.value.author.name }}
+        </BaseDialog>
       </div>
     </template>
   </BaseDialog>
 </template>
 
 <script lang="ts">
-import { defineComponent, ref, computed, watch, onBeforeMount, onBeforeUnmount, nextTick } from 'vue';
+import { defineComponent, ref, computed, onBeforeMount, onBeforeUnmount } from 'vue';
 import { differenceInHours } from 'date-fns';
 import { useStore } from 'src/store';
 import { useRoute } from 'vue-router';
@@ -305,7 +313,6 @@ import ProjectBoardIconIssueType from 'components/project/board/icon/ProjectBoar
 
 import { ColumnModel } from 'src/models/project/column.model';
 import { CommentModel } from 'src/models/project/comment.model';
-import { mockAsyncTimeout } from 'app/utils';
 
 export default defineComponent({
   name: 'ProjectBoardDialogViewIssue',
@@ -348,16 +355,15 @@ export default defineComponent({
       localIssueDescription.value = issue.value?.description || '';
       isDescriptionEditor.value = false;
     }
-    watch(isDescriptionEditor, async () => {
-      if (!isDescriptionEditor.value) return;
-      await nextTick(() => {
-        descriptionEditor.value?.focus();
-      });
-    });
 
-    const addCommentEditor = ref<HTMLInputElement | null>(null);
     const isAddCommentEditor = ref(false);
     const comment = ref('');
+    const editCommentID = ref<number | null>(null);
+    const editCommentLocalText = ref('');
+    function showEditCommentEditor(comment: CommentModel) {
+      editCommentID.value = comment.id;
+      editCommentLocalText.value = comment.text;
+    }
     async function addComment() {
       try {
         loading.start('addComment');
@@ -378,30 +384,25 @@ export default defineComponent({
       isAddCommentEditor.value = false;
       comment.value = '';
     }
-    watch(isAddCommentEditor, async () => {
-      if (!isAddCommentEditor.value) return;
-      await nextTick(() => {
-        addCommentEditor.value?.focus();
-      });
-    });
-
-    const editCommentID = ref<number | null>(null);
-    const editCommentLocalText = ref('');
-    function showEditCommentEditor(comment: CommentModel) {
-      editCommentID.value = comment.id;
-      editCommentLocalText.value = comment.text;
-    }
     async function editComment(commentID: number) {
       try {
         loading.start('editComment');
 
-        const payload = { issueID: issue.value?.id, commentID, text: editCommentLocalText.value };
-        await mockAsyncTimeout();
+        const payload = { commentID, text: editCommentLocalText.value };
         await store.dispatch('project/editIssueComment', payload);
 
         editCommentID.value = null;
       } finally {
         loading.stop('editComment');
+      }
+    }
+    async function deleteComment(commentID: number) {
+      try {
+        dialog.startLoading();
+        await store.dispatch('project/deleteIssueComment', commentID);
+        dialog.close();
+      } finally {
+        dialog.stopLoading();
       }
     }
 
@@ -525,14 +526,14 @@ export default defineComponent({
       resetIssueDescription,
 
       comment,
-      addCommentEditor,
       isAddCommentEditor,
-      addComment,
-      resetAddComment,
       editCommentID,
       editCommentLocalText,
+      addComment,
+      resetAddComment,
       showEditCommentEditor,
       editComment,
+      deleteComment,
 
       updateIssue,
       updateIssueName,

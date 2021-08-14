@@ -86,12 +86,13 @@ const actions: ActionTree<ProjectStateInterface, StateInterface> = {
     const comment = await issueService.addComment(id, text);
     commit('ADD_ISSUE_COMMENT', comment);
   },
-  async editIssueComment(
-    { commit },
-    { issueID, commentID, text }: { issueID: number; commentID: number; text: string }
-  ) {
-    const comment = await issueService.editComment(issueID, commentID, text);
+  async editIssueComment({ commit }, { commentID, text }: { commentID: number; text: string }) {
+    const comment = await issueService.editComment(commentID, text);
     commit('UPDATE_ISSUE_COMMENT', comment);
+  },
+  async deleteIssueComment({ commit }, commentID: number) {
+    await issueService.deleteComment(commentID);
+    commit('DELETE_ISSUE_COMMENT', commentID);
   },
 
   async updateColumn({ commit }, { id, payload }: { id: number; payload: ColumnDTO }) {
