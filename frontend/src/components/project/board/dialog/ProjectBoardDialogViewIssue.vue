@@ -1,5 +1,12 @@
 <template>
-  <BaseDialog :actions="false" :content-loading="loading.active.value" hide-close-icon large @close="close">
+  <BaseDialog
+    class="issue"
+    :actions="false"
+    :content-loading="loading.active.value"
+    hide-close-icon
+    large
+    @close="close"
+  >
     <template #title>
       <div class="flex-center-between full-width">
         <div class="flex-center gap-2">
@@ -84,18 +91,13 @@
             <!--            TODO: add colors to editor, extract it to BaseEditor-->
             <div
               v-show="!isDescriptionEditor"
-              class="issue-description"
+              class="issue__description"
               @click="showDescriptionEditor"
               v-html="localIssueDescription"
             />
 
-            <q-editor
-              v-show="isDescriptionEditor"
-              ref="descriptionEditor"
-              v-model="localIssueDescription"
-              min-height="5rem"
-            />
-            <div v-show="isDescriptionEditor" class="flex-center-end gap-2 q-mt-sm">
+            <BaseEditor v-if="isDescriptionEditor" ref="descriptionEditor" v-model="localIssueDescription" autofocus />
+            <div v-if="isDescriptionEditor" class="flex-center-end gap-2 q-mt-sm">
               <BaseButton label="Отмена" color="blue-grey-5" flat @click="resetIssueDescription" />
               <BaseButton
                 label="Сохранить"
@@ -135,13 +137,7 @@
                 </template>
               </q-input>
 
-              <q-editor
-                v-if="isAddCommentEditor"
-                ref="addCommentEditor"
-                v-model="comment"
-                class="flex-grow-1"
-                min-height="5rem"
-              />
+              <BaseEditor v-if="isAddCommentEditor" ref="addCommentEditor" v-model="comment" autofocus />
               <div v-if="isAddCommentEditor" class="flex-center-end gap-2 q-mt-sm full-width">
                 <BaseButton label="Отмена" color="blue-grey-5" flat @click="resetAddComment" />
                 <BaseButton
@@ -186,108 +182,104 @@
           </div>
         </div>
 
-        <div class="col-5 gap-4 full-height overflow-auto">
-          <div>
-            <BaseSelect
-              class="q-mb-md w-fit-content"
-              :model-value="selectedColumn"
-              :options="availableColumns"
+        <div class="col-5 issue__right-side">
+          <BaseSelect
+            class="q-mb-md w-fit-content"
+            :model-value="selectedColumn"
+            :options="availableColumns"
+            :emit-value="false"
+            truncate
+            dense
+            @update:model-value="updateIssueColumn"
+          />
+
+          <div class="issue__item-row">
+            <label>Исполнитель</label>
+            <BaseSelectWithAvatar
+              :model-value="issue.assigned"
+              :options="availableProjectUsers"
               :emit-value="false"
-              truncate
-              dense
-              @update:model-value="updateIssueColumn"
+              tooltip="Изменить исполнителя"
+              button-style
+              @update:model-value="updateIssue('assigned', $event)"
             />
+          </div>
 
-            <div class="item-row">
-              <label>Исполнитель</label>
-              <BaseSelectWithAvatar
-                :model-value="issue.assigned"
-                :options="availableProjectUsers"
-                :emit-value="false"
-                tooltip="Изменить исполнителя"
-                button-style
-                @update:model-value="updateIssue('assigned', $event)"
-              />
-            </div>
+          <div class="issue__item-row">
+            <label>Автор</label>
+            <BaseSelectWithAvatar
+              :model-value="issue.author"
+              :options="availableProjectUsers"
+              :emit-value="false"
+              tooltip="Изменить автора"
+              button-style
+              @update:model-value="updateIssue('author', $event)"
+            />
+          </div>
 
-            <div class="item-row">
-              <label>Автор</label>
-              <BaseSelectWithAvatar
-                :model-value="issue.author"
-                :options="availableProjectUsers"
-                :emit-value="false"
-                tooltip="Изменить автора"
-                button-style
-                @update:model-value="updateIssue('author', $event)"
-              />
-            </div>
+          <div class="issue__item-row">
+            <label>Метки</label>
+            <BaseSelect :options="issue.marks" tooltip="Добавить метки" disable button-style multiple use-chips />
+          </div>
 
-            <div class="item-row">
-              <label>Метки</label>
-              <BaseSelect :options="issue.marks" tooltip="Добавить метки" disable button-style multiple use-chips />
-            </div>
+          <div class="issue__item-row">
+            <label>Приоритет</label>
+            <BaseSelectIssuePriority
+              :model-value="issue.priorityID"
+              :options="availableIssuePriorities"
+              tooltip="Изменить приоритет"
+              button-style
+              @update:model-value="updateIssue('priorityID', $event.id)"
+            />
+          </div>
 
-            <div class="item-row">
-              <label>Приоритет</label>
-              <BaseSelectIssuePriority
-                :model-value="issue.priorityID"
-                :options="availableIssuePriorities"
-                tooltip="Изменить приоритет"
-                button-style
-                @update:model-value="updateIssue('priorityID', $event.id)"
-              />
-            </div>
+          <q-separator class="q-my-sm" />
 
-            <q-separator class="q-my-sm" />
-
-            <div class="text-caption text-blue-grey-10 q-pb-lg">
-              <div class="flex-center-between">
-                <div class="flex gap-1">
-                  <span class="opacity-60">Создано</span>
-
-                  <span v-if="getIsDateLessDay(issue.createdAt)">
-                    <BaseButton plain-style @click="isCreatedAtDifference = !isCreatedAtDifference">
-                      {{
-                        isUpdatedAtDifference
-                          ? formatDate(issue.createdAt, DateTypes.DIFF)
-                          : formatDate(issue.createdAt)
-                      }}
-                    </BaseButton>
-                    <BaseTooltip v-if="isCreatedAtDifference" :label="formatDate(issue.createdAt)" />
-                  </span>
-
-                  <span v-else class="opacity-60">
-                    {{ formatDate(issue.createdAt) }}
-                  </span>
-                </div>
-
-                <BaseButton
-                  class="text-blue-grey-5"
-                  tooltip="Открыть диалог настроек"
-                  icon="settings"
-                  label="Настроить"
-                  size="small"
-                  dense
-                  flat
-                />
-              </div>
-
+          <div class="text-caption text-blue-grey-10 q-pb-lg">
+            <div class="flex-center-between">
               <div class="flex gap-1">
-                <span class="opacity-60">Дата обновления</span>
+                <span class="opacity-60">Создано</span>
 
-                <span v-if="getIsDateLessDay(issue.updatedAt)">
-                  <BaseButton plain-style @click="isUpdatedAtDifference = !isUpdatedAtDifference">
+                <span v-if="getIsDateLessDay(issue.createdAt)">
+                  <BaseButton plain-style @click="isCreatedAtDifference = !isCreatedAtDifference">
                     {{
-                      isUpdatedAtDifference ? formatDate(issue.updatedAt, DateTypes.DIFF) : formatDate(issue.updatedAt)
+                      isUpdatedAtDifference ? formatDate(issue.createdAt, DateTypes.DIFF) : formatDate(issue.createdAt)
                     }}
                   </BaseButton>
-                  <BaseTooltip v-if="isUpdatedAtDifference" :label="formatDate(issue.updatedAt)" />
+                  <BaseTooltip v-if="isCreatedAtDifference" :label="formatDate(issue.createdAt)" />
                 </span>
 
                 <span v-else class="opacity-60">
-                  {{ formatDate(issue.updatedAt) }}
+                  {{ formatDate(issue.createdAt) }}
                 </span>
               </div>
+
+              <BaseButton
+                class="text-blue-grey-5"
+                tooltip="Открыть диалог настроек"
+                icon="settings"
+                label="Настроить"
+                size="small"
+                dense
+                flat
+              />
+            </div>
+
+            <div class="flex gap-1">
+              <span class="opacity-60">Дата обновления</span>
+
+              <span v-if="getIsDateLessDay(issue.updatedAt)">
+                <BaseButton plain-style @click="isUpdatedAtDifference = !isUpdatedAtDifference">
+                  {{
+                    isUpdatedAtDifference ? formatDate(issue.updatedAt, DateTypes.DIFF) : formatDate(issue.updatedAt)
+                  }}
+                </BaseButton>
+                <BaseTooltip v-if="isUpdatedAtDifference" :label="formatDate(issue.updatedAt)" />
+              </span>
+
+              <span v-else class="opacity-60">
+                {{ formatDate(issue.updatedAt) }}
+              </span>
             </div>
           </div>
         </div>
@@ -548,52 +540,62 @@ export default defineComponent({
 </script>
 
 <style lang="scss" scoped>
-.issue-description {
-  padding: 8px;
-  border-radius: 4px 4px 0 0;
-  background-color: $blue-grey-1;
-  transition: background-color 150ms ease-in;
-  word-break: break-word;
-  cursor: text;
-  &:hover {
-    background-color: $grey-3;
+.issue {
+  &__description {
+    padding: 8px;
+    border-radius: 4px 4px 0 0;
+    background-color: $blue-grey-1;
+    transition: background-color 150ms ease-in;
+    word-break: break-word;
+    cursor: text;
+    &:hover {
+      background-color: $grey-3;
+    }
   }
-}
 
-.item-row {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  padding: 4px 0;
-  label:not(.q-select) {
-    flex-shrink: 0;
-    font-size: 12px;
-    font-weight: 500;
-    padding-right: 4px;
-    width: 35%;
+  &__right-side {
+    gap: 16px;
+    height: 100%;
+    overflow: auto;
+    position: sticky;
+    top: 66px;
   }
-  .q-select {
-    width: 100%;
-    ::v-deep .q-field__native,
-    ::v-deep .q-field__control {
-      min-height: 36px !important;
-    }
-    ::v-deep .q-field__native {
-      padding: 0 8px;
-    }
-    ::v-deep .q-field__control-container {
-      padding-top: 0;
-    }
-  }
-  .q-btn {
-    width: 100%;
-  }
-}
 
-.q-menu .q-item__section {
-  justify-content: flex-start;
-  align-items: center;
-  gap: 8px;
-  flex-direction: row;
+  &__item-row {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 4px 0;
+    label:not(.q-select) {
+      flex-shrink: 0;
+      font-size: 12px;
+      font-weight: 500;
+      padding-right: 4px;
+      width: 35%;
+    }
+    .q-select {
+      width: 100%;
+      ::v-deep .q-field__native,
+      ::v-deep .q-field__control {
+        min-height: 36px !important;
+      }
+      ::v-deep .q-field__native {
+        padding: 0 8px;
+      }
+      ::v-deep .q-field__control-container {
+        padding-top: 0;
+      }
+    }
+    .q-btn {
+      width: 100%;
+    }
+  }
+
+  .q-menu .q-item__section {
+    justify-content: flex-start;
+    align-items: center;
+    gap: 8px;
+    flex-direction: row;
+  }
 }
 </style>
