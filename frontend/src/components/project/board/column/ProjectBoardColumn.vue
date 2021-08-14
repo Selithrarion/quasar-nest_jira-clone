@@ -1,10 +1,22 @@
 <template>
-  <div class="project-board-column bg-grey-2 flex-grow-1 full-height rounded-md">
-    <CommonListTitle class="text-weight-medium q-pa-sm">
-      {{ selectedColumn.name }} {{ selectedColumnIssues.length }}
+  <div class="board-column bg-grey-2 flex-grow-1 full-height rounded-md">
+    <q-input
+      v-if="isEditName"
+      v-model="selectedColumnLocalName"
+      autofocus
+      autogrow
+      outlined
+      dense
+      @blur="updateColumnName"
+      @keydown.enter="$event.target.blur()"
+      @keydown.esc="resetColumnName"
+    />
+    <CommonListTitle v-else class="column-edit-name q-pa-sm" role="button" @click="isEditName = true">
+      <span>{{ selectedColumnLocalName }} {{ selectedColumnIssues.length }}</span>
+      <BaseLoader v-if="loading.active.value" gray-color small />
     </CommonListTitle>
 
-    <div class="full-height">
+    <div class="full-height" :class="{ 'opacity-60': loading.active.value }">
       <Draggable
         v-model="selectedColumnIssues"
         class="list-group"
@@ -53,6 +65,7 @@
 <script lang="ts">
 import { defineComponent, ref, computed } from 'vue';
 import { useStore } from 'src/store';
+import useLoading from 'src/composables/common/useLoading';
 
 import Draggable from 'vuedraggable';
 import CommonListTitle from 'components/common/CommonListTitle.vue';
@@ -83,6 +96,7 @@ export default defineComponent({
 
   setup(props, { emit }) {
     const store = useStore();
+    const loading = useLoading();
 
     function openIssue(issueID: number) {
       emit('open', issueID);
@@ -121,14 +135,31 @@ export default defineComponent({
       },
       async set(issues: IssueModel[] | undefined) {
         const id = selectedColumn.value?.id;
-        if (!id) return;
-
         const payload = { issues };
         await store.dispatch('project/updateColumn', { id, payload });
       },
     });
 
+    const isEditName = ref(false);
+    const selectedColumnLocalName = ref(selectedColumn.value?.name || '');
+    async function updateColumnName() {
+      try {
+        loading.start();
+        const id = selectedColumn.value?.id;
+        const payload = { name: selectedColumnLocalName.value };
+        await store.dispatch('project/updateColumn', { id, payload });
+      } finally {
+        loading.stop();
+      }
+    }
+    function resetColumnName() {
+      if (!selectedColumn.value) return;
+      isEditName.value = false;
+      selectedColumnLocalName.value = selectedColumn.value.name;
+    }
+
     return {
+      loading,
       openIssue,
 
       isDrag,
@@ -139,12 +170,29 @@ export default defineComponent({
 
       selectedColumn,
       selectedColumnIssues,
+
+      isEditName,
+      selectedColumnLocalName,
+      updateColumnName,
+      resetColumnName,
     };
   },
 });
 </script>
 
 <style lang="scss" scoped>
+.column-edit-name {
+  font-weight: 500;
+  cursor: pointer;
+  transition: background-color 150ms ease;
+  &:hover {
+    background-color: $blue-grey-1;
+  }
+  &:active {
+    color: $blue-grey-10;
+  }
+}
+
 .button {
   margin-top: 35px;
 }
