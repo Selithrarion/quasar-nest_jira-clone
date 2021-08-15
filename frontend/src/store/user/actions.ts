@@ -13,8 +13,7 @@ const actions: ActionTree<UserStateInterface, StateInterface> = {
     const data = await userService.register(payload);
     commit('AUTH_USER', data);
   },
-  async logout({ commit }) {
-    await userService.logout();
+  logout({ commit }) {
     commit('LOGOUT_USER');
   },
 

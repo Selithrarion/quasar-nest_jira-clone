@@ -76,7 +76,6 @@ import useLoading from 'src/composables/common/useLoading';
 
 import CommonSearch from 'components/common/CommonSearch.vue';
 import ProjectBoardDialogCreateIssue from 'components/project/board/dialog/ProjectBoardDialogCreateIssue.vue';
-import userService from 'src/service/userService';
 
 export default defineComponent({
   name: 'MainLayout',
@@ -146,7 +145,8 @@ export default defineComponent({
     async function logout() {
       try {
         loading.start('logout');
-        await userService.logout();
+        await store.dispatch('user/logout');
+        await router.push('/auth');
       } finally {
         loading.stop('logout');
       }
