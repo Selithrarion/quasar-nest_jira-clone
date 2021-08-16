@@ -76,11 +76,18 @@ const routes: RouteRecordRaw[] = [
 
       { path: 'people', name: 'people', component: () => import('pages/people/People.vue'), meta: { auth: true } },
       {
-        path: 'people/team/:id',
+        path: 'people/:userID',
+        name: 'userProfile',
+        component: () => import('pages/people/UserProfile.vue'),
+        meta: { auth: true },
+      },
+      {
+        path: 'people/team/:teamID',
         name: 'peopleTeam',
         component: () => import('pages/people/PeopleTeam.vue'),
         meta: { auth: true },
       },
+
       // { path: 'apps', name: 'apps', component: () => import('pages/Apps.vue') },
     ],
   },
