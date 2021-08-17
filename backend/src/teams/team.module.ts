@@ -5,10 +5,10 @@ import { TeamEntity } from './entity/team.entity';
 import { TeamService } from './team.service';
 import { TeamController } from './team.controller';
 
-import { UserService } from '../user/user.service';
+import { UserModule } from '../user/user.module';
 
 @Module({
-  imports: [TypeOrmModule.forFeature([TeamEntity]), UserService],
+  imports: [TypeOrmModule.forFeature([TeamEntity]), UserModule],
   exports: [TeamService],
   providers: [TeamService],
   controllers: [TeamController],
