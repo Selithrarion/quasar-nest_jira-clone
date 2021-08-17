@@ -17,11 +17,11 @@ const actions: ActionTree<PeopleStateInterface, StateInterface> = {
 
   async updateUser({ commit }, { id, payload }: { id: number; payload: UserDTO }) {
     const user = await userService.updateUser(id, payload);
-    commit('UPDATE_USER', user);
+    commit('SET_USER_DETAIL', user);
   },
   async updateTeam({ commit }, { id, payload }: { id: number; payload: TeamDTO }) {
     const team = await userService.updateTeam(id, payload);
-    commit('UPDATE_TEAM', team);
+    commit('SET_TEAM_DETAIL', team);
   },
 };
 

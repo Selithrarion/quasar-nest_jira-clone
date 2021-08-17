@@ -8,8 +8,8 @@ const mutation: MutationTree<PeopleStateInterface> = {
     state.userDetail = user;
   },
   SET_TEAM_DETAIL(state: PeopleStateInterface, team: TeamModel) {
-    state.teamDetail = team
-}
+    state.teamDetail = team;
+  },
 };
 
 export default mutation;

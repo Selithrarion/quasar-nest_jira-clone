@@ -10,6 +10,7 @@
             outlined
             dense
             @blur="updateUserInfo('position', form.position)"
+            @keydown.enter="$event.target.blur()"
           >
             <BaseTooltip label="Название должности можно изменить" />
           </q-input>
@@ -19,6 +20,7 @@
             outlined
             dense
             @blur="updateUserInfo('department', form.department)"
+            @keydown.enter="$event.target.blur()"
           >
             <BaseTooltip label="Название отдела можно изменить" />
           </q-input>
@@ -28,6 +30,7 @@
             outlined
             dense
             @blur="updateUserInfo('organisation', form.organisation)"
+            @keydown.enter="$event.target.blur()"
           >
             <BaseTooltip label="Название организации можно изменить" />
           </q-input>
@@ -37,6 +40,7 @@
             outlined
             dense
             @blur="updateUserInfo('location', form.location)"
+            @keydown.enter="$event.target.blur()"
           >
             <BaseTooltip label="Данные о местоположении можно изменить" />
           </q-input>
@@ -136,10 +140,10 @@ export default defineComponent({
     }
 
     const form = reactive({
-      position: '',
-      department: '',
-      organisation: '',
-      location: '',
+      position: props.user.position,
+      department: props.user.department,
+      organisation: props.user.organisation,
+      location: props.user.location,
     });
     async function updateUserInfo<T>(field: string, value: T) {
       const id = props.user.id;
