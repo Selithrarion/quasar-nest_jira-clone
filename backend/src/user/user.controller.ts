@@ -1,4 +1,4 @@
-import { Controller, Get, Query, Request } from '@nestjs/common';
+import { Controller, Get, Param, Query, Request } from '@nestjs/common';
 import { ApiBearerAuth, ApiTags } from '@nestjs/swagger';
 
 import { UserEntity } from './entity/user.entity';
@@ -15,6 +15,12 @@ export class UserController {
   @Get('self')
   async getSelf(@Request() req): Promise<UserEntity> {
     return await this.userService.getByID(req.user.id);
+  }
+
+  @ApiBearerAuth()
+  @Get(':id')
+  async getByID(@Param('id') id: number): Promise<UserEntity> {
+    return await this.userService.getByID(id);
   }
 
   @Public()
