@@ -1,11 +1,11 @@
 import { HttpException, HttpStatus, Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
-import { UserEntity } from './entity/user.entity';
 import { Repository } from 'typeorm';
-import { CreateUserDTO } from './dto';
-import { UpdateProjectDTO } from '../projects/dto';
-import { ProjectEntity } from '../projects/entity/project.entity';
 import * as bcrypt from 'bcrypt';
+
+import { CreateUserDTO } from './dto';
+import { UserEntity } from './entity/user.entity';
+import { ProjectEntity } from '../projects/entity/project.entity';
 import { BoardEntity } from '../boards/entity/board.entity';
 
 @Injectable()
@@ -25,18 +25,18 @@ export class UserService {
   async create(payload: CreateUserDTO): Promise<UserEntity> {
     const isUserAlreadyExist = await this.users.findOne({ where: { email: payload.email } });
     // temporarily delete existing user to test
-    if (isUserAlreadyExist) await this.users.delete(isUserAlreadyExist.id);
-    // if (isUserAlreadyExist) throw new HttpException('USER_ALREADY_EXIST', HttpStatus.UNAUTHORIZED);
+    // if (isUserAlreadyExist) await this.users.delete(isUserAlreadyExist.id);
+    if (isUserAlreadyExist) throw new HttpException('USER_ALREADY_EXIST', HttpStatus.BAD_REQUEST);
 
     const user = await this.users.create(payload);
     const createdUser = await this.users.save(user);
-    // delete createdUser.password
+
     return createdUser;
   }
 
-  async update(id: number, userData: Partial<UserEntity>): Promise<Partial<UserEntity>> {
+  async update(id: number, payload: Partial<UserEntity>): Promise<UserEntity> {
     const toUpdate = await this.users.findOneOrFail(id);
-    const updated = { ...toUpdate, ...userData };
+    const updated = this.users.create({ ...toUpdate, ...payload });
     await this.users.save(updated);
     return updated;
   }

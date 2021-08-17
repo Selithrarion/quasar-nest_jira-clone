@@ -1,4 +1,4 @@
-import { BeforeInsert, Column, Entity, JoinTable, ManyToMany, OneToMany, RelationId } from 'typeorm';
+import { BeforeInsert, Column, Entity, JoinTable, ManyToMany, ManyToOne, OneToMany, RelationId } from 'typeorm';
 import * as bcrypt from 'bcrypt';
 import { IsEmail } from 'class-validator';
 
@@ -7,6 +7,8 @@ import { IssueEntity } from '../../issues/entity/issue.entity';
 import { ProjectEntity } from '../../projects/entity/project.entity';
 import { BoardEntity } from '../../boards/entity/board.entity';
 import { Exclude } from 'class-transformer';
+import { UserEntity } from '../../team/entity/user.entity';
+import { TeamEntity } from '../../teams/entity/team.entity';
 
 export interface UserValidationDTO {
   readonly email: string;
@@ -92,6 +94,18 @@ export class UserEntity extends BaseEntity {
   organisation: string;
   @Column({ nullable: true })
   location: string;
+
+  @ManyToMany(() => TeamEntity, (team) => team.users, {
+    onUpdate: 'CASCADE',
+    onDelete: 'CASCADE',
+  })
+  teams: UserEntity[];
+
+  @ManyToOne(() => TeamEntity, (team) => team.leader, {
+    onUpdate: 'CASCADE',
+    onDelete: 'CASCADE',
+  })
+  teamsLeader: TeamEntity[];
 
   @BeforeInsert()
   async hashPassword(): Promise<void> {
