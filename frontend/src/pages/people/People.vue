@@ -2,7 +2,7 @@
   <q-page class="people-page big-side-padding">
     <div class="column gap-4 q-mt-lg">
       <div class="flex justify-end gap-2">
-        <BaseButton label="Создайте новую команду" secondary-color unelevated @click="toggleCreateTeamDialog" />
+        <BaseButton label="Создайте новую команду" secondary-color unelevated @click="dialog.open('createTeam')" />
         <BaseButton label="Добавить людей" color="primary" unelevated />
       </div>
 
@@ -22,7 +22,7 @@
             <img :src="user.avatarURL || require('src/assets/img/default-avatar-1.png')" :alt="`${user.name} Avatar`" />
           </q-avatar>
           <div class="q-pt-sm">{{ user.name }}</div>
-          <div class="text-caption text-grey-7">User Job</div>
+          <div v-if="user.position" class="text-caption text-grey-7">{{ user.position }}</div>
         </q-card-section>
       </q-card>
     </div>
