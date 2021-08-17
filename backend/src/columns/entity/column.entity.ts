@@ -15,6 +15,7 @@ export class ColumnEntity extends BaseEntity {
   @JoinColumn({ name: 'boardID' })
   board: BoardEntity;
 
+  // TODO: узнать точно ли надо onUpdate и onDelete
   @OneToMany(() => IssueEntity, (issue) => issue.column, {
     eager: true,
     cascade: true,

@@ -7,7 +7,6 @@ import { IssueEntity } from '../../issues/entity/issue.entity';
 import { ProjectEntity } from '../../projects/entity/project.entity';
 import { BoardEntity } from '../../boards/entity/board.entity';
 import { Exclude } from 'class-transformer';
-import { UserEntity } from '../../team/entity/user.entity';
 import { TeamEntity } from '../../teams/entity/team.entity';
 
 export interface UserValidationDTO {

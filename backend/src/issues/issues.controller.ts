@@ -58,7 +58,7 @@ export class IssuesController {
   }
 
   @ApiOperation({ summary: 'Edit issue comment' })
-  @ApiResponse({ status: 201, description: 'Comment was updated' })
+  @ApiResponse({ status: 200, description: 'Comment was updated' })
   @ApiResponse({ status: 401, description: 'Unauthorized' })
   @Patch('comment/:commentID')
   async editComment(@Param('commentID') commentID: number, @Body() payload: UpdateCommentDTO): Promise<CommentEntity> {

@@ -5,6 +5,7 @@ import { TypeOrmModule } from '@nestjs/typeorm';
 
 import { ProjectsModule } from './projects/projects.module';
 import { UserModule } from './user/user.module';
+import { TeamModule } from './teams/team.module';
 import { BoardsModule } from './boards/boards.module';
 import { ColumnsModule } from './columns/columns.module';
 import { IssuesModule } from './issues/issues.module';
@@ -29,6 +30,7 @@ import { JwtAuthGuard } from './auth/guard/jwt-auth.guard';
     }),
     ProjectsModule,
     UserModule,
+    TeamModule,
     BoardsModule,
     ColumnsModule,
     IssuesModule,
