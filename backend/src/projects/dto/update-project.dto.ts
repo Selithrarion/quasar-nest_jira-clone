@@ -7,14 +7,12 @@ import { CreateProjectDTO } from './create-project.dto';
 
 export class UpdateProjectDTO extends PartialType(CreateProjectDTO) {
   @ApiProperty({ required: false })
-  @IsString()
-  boards?: BoardEntity[];
+  boards: BoardEntity[];
 
   @ApiProperty({ required: false })
   @IsString()
-  avatarURL?: string;
+  avatarURL: string;
 
   @ApiProperty({ required: false })
-  @IsString()
-  leader?: UserEntity;
+  leader: UserEntity;
 }
