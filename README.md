@@ -89,10 +89,13 @@ Github actions CI pipeline
 –
 
 #### People
-##### Profile page
+- Teams CRUD (not implemented yet ❌) 
+- User info CRUD
+
+##### User / Team profile page
 - Upload header image (not implemented yet ❌) 
-- Upload user avatar (not implemented yet ❌) 
-- View / edit user info (not implemented yet ❌) 
+- Upload user / team avatar (not implemented yet ❌) 
+
 - View all issues in work (not implemented yet ❌) 
 - View all projects (not implemented yet ❌) 
 - View all users you work with (not implemented yet ❌) 
