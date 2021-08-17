@@ -1,4 +1,4 @@
-import { Controller, Get, Param, Query, Request } from '@nestjs/common';
+import { Body, Controller, Get, Param, Patch, Query, Request } from '@nestjs/common';
 import { ApiBearerAuth, ApiTags } from '@nestjs/swagger';
 
 import { UserEntity } from './entity/user.entity';
@@ -21,6 +21,11 @@ export class UserController {
   @Get(':id')
   async getByID(@Param('id') id: number): Promise<UserEntity> {
     return await this.userService.getByID(id);
+  }
+  @ApiBearerAuth()
+  @Patch(':id')
+  async update(@Param('id') id: number, @Body() payload: Partial<UserEntity>): Promise<UserEntity> {
+    return await this.userService.update(id, payload);
   }
 
   @Public()
