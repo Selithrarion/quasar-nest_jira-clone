@@ -2,12 +2,7 @@
   <q-page class="people-page big-side-padding">
     <div class="column gap-4 q-mt-lg">
       <div class="flex justify-end gap-2">
-        <BaseButton
-          label="Создайте новую команду"
-          secondary-color
-          unelevated
-          @click="toggleCreateTeamDialog"
-        />
+        <BaseButton label="Создайте новую команду" secondary-color unelevated @click="toggleCreateTeamDialog" />
         <BaseButton label="Добавить людей" color="primary" unelevated />
       </div>
 
@@ -16,15 +11,17 @@
 
     <h6 class="text-body1">Вы работаете с</h6>
     <div class="people-wrapper">
-      <q-card class="shadow-1 hover-shadow-lg">
+      <q-card
+        v-for="user in availableUsers"
+        :key="user.id"
+        class="shadow-1 hover-shadow-lg cursor-pointer"
+        @click="openUserProfile(user.id)"
+      >
         <q-card-section class="column items-center q-px-lg q-pb-lg q-pt-md">
           <q-avatar size="72px">
-            <img
-              src="https://secure.gravatar.com/avatar/d1cb0ee26c499154d46f1ab7b61cf44f?d=https%3A%2F%2Favatar-management--avatars.us-west-2.prod.public.atl-paas.net%2Fdefault-avatar-1.png"
-              alt="User Avatar"
-            />
+            <img :src="user.avatarURL || require('src/assets/img/default-avatar-1.png')" :alt="`${user.name} Avatar`" />
           </q-avatar>
-          <div class="q-pt-sm">Jira user</div>
+          <div class="q-pt-sm">{{ user.name }}</div>
           <div class="text-caption text-grey-7">User Job</div>
         </q-card-section>
       </q-card>
@@ -49,18 +46,21 @@
             secondary-stryle
             unelevated
             dense
-            @click="toggleCreateTeamDialog"
+            @click="dialog.open('createTeam')"
           />
         </q-card-section>
       </q-card>
     </div>
 
-    <PeopleCreateTeamDialog v-if="isCreateTeamDialog" @close="toggleCreateTeamDialog" />
+    <PeopleCreateTeamDialog v-if="dialog.openedItem.value === 'createTeam'" @close="dialog.close" />
   </q-page>
 </template>
 
 <script lang="ts">
-import { defineComponent, ref } from 'vue';
+import { defineComponent, ref, computed } from 'vue';
+import { useRouter } from 'vue-router';
+import { useStore } from 'src/store';
+import useDialog from 'src/composables/common/useDialog';
 
 import CommonAvatarsWrapper from 'components/common/CommonAvatarsWrapper.vue';
 import CommonSearch from 'components/common/CommonSearch.vue';
@@ -76,18 +76,28 @@ export default defineComponent({
   },
 
   setup() {
+    const router = useRouter();
+    const store = useStore();
+    const dialog = useDialog();
+
     const searchValue = ref('');
 
-    const isCreateTeamDialog = ref(false);
-    function toggleCreateTeamDialog() {
-      isCreateTeamDialog.value = !isCreateTeamDialog.value;
+    const currentUser = computed(() => store.state.user.currentUser);
+    const availableUsers = computed(() => [currentUser.value]);
+
+    async function openUserProfile(userID: number) {
+      await router.push(`/people/${userID}`);
     }
 
     return {
+      dialog,
+
       searchValue,
 
-      isCreateTeamDialog,
-      toggleCreateTeamDialog,
+      currentUser,
+      availableUsers,
+
+      openUserProfile,
     };
   },
 });
