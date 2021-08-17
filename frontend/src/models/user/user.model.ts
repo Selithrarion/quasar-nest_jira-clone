@@ -14,8 +14,20 @@ export interface UserModel extends BaseModel {
   projectsIDs: number[];
   favoriteProjectsIDs: number[];
 
+  position: string;
+  department: string;
+  organisation: string;
+  location: string;
+
   accessToken?: string;
   refreshToken?: string;
+}
+
+export interface UserDTO {
+  position?: string;
+  department?: string;
+  organisation?: string;
+  location?: string;
 }
 
 export interface UserLoginDTO {

@@ -84,6 +84,15 @@ export class UserEntity extends BaseEntity {
   @RelationId((user: UserEntity) => user.favoriteBoards)
   favoriteBoardIDs: number[];
 
+  @Column({ nullable: true })
+  position: string;
+  @Column({ nullable: true })
+  department: string;
+  @Column({ nullable: true })
+  organisation: string;
+  @Column({ nullable: true })
+  location: string;
+
   @BeforeInsert()
   async hashPassword(): Promise<void> {
     this.password = await bcrypt.hash(this.password, 10);
