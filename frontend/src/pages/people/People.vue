@@ -52,7 +52,7 @@
       </q-card>
     </div>
 
-    <PeopleCreateTeamDialog v-if="dialog.openedItem.value === 'createTeam'" @close="dialog.close" />
+    <PeopleDialogTeamCreate v-if="dialog.openedItem.value === 'createTeam'" @close="dialog.close" />
   </q-page>
 </template>
 
@@ -64,7 +64,7 @@ import useDialog from 'src/composables/common/useDialog';
 
 import CommonAvatarsWrapper from 'components/common/CommonAvatarsWrapper.vue';
 import CommonSearch from 'components/common/CommonSearch.vue';
-import PeopleCreateTeamDialog from 'components/people/PeopleCreateTeamDialog.vue';
+import PeopleDialogTeamCreate from 'components/people/PeopleDialogTeamCreate.vue';
 
 export default defineComponent({
   name: 'People',
@@ -72,7 +72,7 @@ export default defineComponent({
   components: {
     CommonAvatarsWrapper,
     CommonSearch,
-    PeopleCreateTeamDialog,
+    PeopleDialogTeamCreate,
   },
 
   setup() {

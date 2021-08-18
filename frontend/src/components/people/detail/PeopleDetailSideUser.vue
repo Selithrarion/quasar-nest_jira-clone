@@ -48,11 +48,14 @@
 
         <q-card-section class="column gap-2">
           <CommonListTitle title="контактные данные" />
-          <BaseItem disable>
+          <BaseItem @click="dialog.open('changeEmail')">
             <q-item-section side>
-              <q-icon name="mail_outline" size="24px" color="blue-grey-6" />
+              <q-icon name="mail_outline" size="24px" color="blue-grey-3" />
             </q-item-section>
             <q-item-section> {{ user.email }} </q-item-section>
+            <q-item-section side>
+              <q-icon name="edit" size="20px" color="blue-grey-3" />
+            </q-item-section>
           </BaseItem>
         </q-card-section>
 
@@ -81,7 +84,8 @@
         </q-card-section>
       </q-card>
 
-      <PeopleCreateTeamDialog v-if="dialog.openedName.value === 'createTeam'" @close="dialog.close" />
+      <PeopleDialogEmailChange v-if="dialog.openedName.value === 'changeEmail'" @close="dialog.close" />
+      <PeopleDialogTeamCreate v-if="dialog.openedName.value === 'createTeam'" @close="dialog.close" />
     </template>
   </PeopleDetailSide>
 </template>
@@ -94,7 +98,8 @@ import useDialog from 'src/composables/common/useDialog';
 
 import CommonListTitle from 'components/common/CommonListTitle.vue';
 import PeopleDetailSide from 'components/people/detail/PeopleDetailSide.vue';
-import PeopleCreateTeamDialog from 'components/people/PeopleCreateTeamDialog.vue';
+import PeopleDialogEmailChange from 'components/people/PeopleDialogEmailChange.vue';
+import PeopleDialogTeamCreate from 'components/people/PeopleDialogTeamCreate.vue';
 
 import { UserModel } from 'src/models/user/user.model';
 
@@ -104,7 +109,8 @@ export default defineComponent({
   components: {
     CommonListTitle,
     PeopleDetailSide,
-    PeopleCreateTeamDialog,
+    PeopleDialogEmailChange,
+    PeopleDialogTeamCreate,
   },
 
   props: {
