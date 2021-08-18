@@ -24,6 +24,8 @@ export interface UserModel extends BaseModel {
 }
 
 export interface UserDTO {
+  username?: string;
+  name?: string;
   position?: string;
   department?: string;
   organisation?: string;
