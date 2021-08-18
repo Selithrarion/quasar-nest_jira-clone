@@ -43,7 +43,7 @@ import { defineComponent, reactive, PropType } from 'vue';
 
 import { useRouter } from 'vue-router';
 import { useStore } from 'src/store';
-import useFormValidation from 'src/composables/common/useFormValidation';
+import useFormValidation from 'src/composables/form/useFormValidation';
 import useLoading from 'src/composables/common/useLoading';
 
 import { ProjectModel, ProjectTypeEnum } from 'src/models/project/project.model';

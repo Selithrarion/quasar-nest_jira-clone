@@ -109,7 +109,7 @@ import { defineComponent, ref, reactive, onMounted } from 'vue';
 import { useStore } from 'src/store';
 import { useRouter, useRoute } from 'vue-router';
 import useLoading from 'src/composables/common/useLoading';
-import useFormValidation from 'src/composables/common/useFormValidation';
+import useFormValidation from 'src/composables/form/useFormValidation';
 
 import userService from 'src/service/userService';
 enum AuthTypeEnum {

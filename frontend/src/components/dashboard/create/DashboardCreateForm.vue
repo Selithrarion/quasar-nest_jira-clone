@@ -31,7 +31,7 @@
 
 <script lang="ts">
 import { defineComponent, reactive } from 'vue';
-import useFormValidation from 'src/composables/common/useFormValidation';
+import useFormValidation from 'src/composables/form/useFormValidation';
 
 export default defineComponent({
   name: 'DashboardCreateForm',

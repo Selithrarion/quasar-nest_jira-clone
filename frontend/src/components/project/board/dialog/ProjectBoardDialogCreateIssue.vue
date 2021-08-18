@@ -77,7 +77,7 @@
 import { defineComponent, reactive, computed } from 'vue';
 import { useStore } from 'src/store';
 import useLoading from 'src/composables/common/useLoading';
-import useFormValidation from 'src/composables/common/useFormValidation';
+import useFormValidation from 'src/composables/form/useFormValidation';
 
 import { UserModel } from 'src/models/user/user.model';
 import { IssuePriorityEnum, IssueTypeEnum } from 'src/models/project/issue.model';

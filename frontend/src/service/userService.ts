@@ -9,7 +9,6 @@ import {
   UserUpdateTokenResponse,
 } from 'src/models/user/user.model';
 import { ApiResponseModel } from 'src/models/common/apiResponse.model';
-import { TeamDTO, TeamModel } from 'src/models/user/team.model';
 
 export default {
   async getSelf(): Promise<UserModel> {
@@ -46,17 +45,15 @@ export default {
     const { data }: ApiResponseModel = await http.get(`/user/${id}`);
     return data as UserModel;
   },
-  async getTeamByID(id: number): Promise<TeamModel> {
-    const { data }: ApiResponseModel = await http.get(`/user/${id}`);
-    return data as TeamModel;
-  },
-
   async updateUser(id: number, payload: UserDTO) {
     const { data }: ApiResponseModel = await http.patch(`/user/${id}`, payload);
     return data as UserModel;
   },
-  async updateTeam(id: number, payload: TeamDTO) {
-    const { data }: ApiResponseModel = await http.patch(`/user/${id}`, payload);
-    return data as TeamModel;
+
+  async sendEmailChange(id: number) {
+    await http.post('/user/change-email', id);
+  },
+  async validateEmailChangeCode(id: number, code: number | string) {
+    await http.post('/user/change-email-validate-code', { id, code });
   },
 };

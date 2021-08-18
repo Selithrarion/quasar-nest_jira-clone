@@ -47,11 +47,11 @@
 import { defineComponent, reactive, ref } from 'vue';
 
 import { useRouter } from 'vue-router';
-import useFormValidation from 'src/composables/common/useFormValidation';
+import useFormValidation from 'src/composables/form/useFormValidation';
 import useLoading from 'src/composables/common/useLoading';
 
 export default defineComponent({
-  name: 'PeopleCreateTeamDialog',
+  name: 'PeopleDialogTeamCreate',
 
   setup() {
     const router = useRouter();
