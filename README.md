@@ -90,9 +90,11 @@ Github actions CI pipeline
 
 #### People
 - Teams CRUD (not implemented yet ❌) 
-- User info CRUD
+- Add users in created team
 
 ##### User / Team profile page
+- Edit user info - change username / display name / email / location / organisation etc...
+
 - Upload header image (not implemented yet ❌) 
 - Upload user / team avatar (not implemented yet ❌) 
 
