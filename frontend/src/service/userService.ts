@@ -45,7 +45,7 @@ export default {
     const { data }: ApiResponseModel = await http.get(`/user/${id}`);
     return data as UserModel;
   },
-  async updateUser(id: number, payload: UserDTO) {
+  async update(id: number, payload: UserDTO) {
     const { data }: ApiResponseModel = await http.patch(`/user/${id}`, payload);
     return data as UserModel;
   },
