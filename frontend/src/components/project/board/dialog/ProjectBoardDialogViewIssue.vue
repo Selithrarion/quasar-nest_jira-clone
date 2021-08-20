@@ -132,7 +132,7 @@
 
             <div class="flex flex-col gap-6 q-mt-lg">
               <div v-for="comment in issue.comments" :key="comment.id" class="row no-wrap gap-3 full-width">
-                <q-avatar size="32px">
+                <q-avatar v-if="comment.author" size="32px">
                   <img
                     :src="comment.author.avatarURL || require('src/assets/img/default-avatar-1.png')"
                     :alt="`${comment.author.name} Avatar`"
@@ -142,7 +142,7 @@
                 <div class="column items-center gap-2 full-width">
                   <div class="flex-center-between gap-3 full-width">
                     <div class="flex-center gap-2">
-                      <span class="text-weight-medium">{{ comment.author.name }}</span>
+                      <span v-if="comment.author" class="text-weight-medium">{{ comment.author.name }}</span>
                       <span v-if="comment.createdAt !== comment.updatedAt" class="text-caption text-blue-grey-6">
                         Изменено
                       </span>
@@ -489,7 +489,8 @@ export default defineComponent({
     const availableIssuePriorities = computed(() => store.state.project.availableIssuePriorities);
     const availableIssueTypes = computed(() => store.state.project.availableIssueTypes);
     function formatIssueTypeName(typeID: number) {
-      return availableIssueTypes.value.find((p) => p.id === typeID)?.name;
+      const type = availableIssueTypes.value.find((p) => p.id === typeID);
+      return type?.name;
     }
 
     const availableProjectUsers = computed(() => store.state.project.projectDetail?.users);
