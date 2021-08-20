@@ -1,6 +1,12 @@
 <template>
   <div class="board-column bg-grey-2 flex-grow-1 full-height rounded-md">
-    <CommonInputEdit v-model="selectedColumnLocalName" autogrow @update="updateColumnName" @reset="resetColumnName">
+    <CommonInputEdit
+      v-model="selectedColumnLocalName"
+      no-button-padding
+      autogrow
+      @update="updateColumnName"
+      @reset="resetColumnName"
+    >
       <template #button>
         <CommonListTitle class="q-pa-sm">
           <span>{{ selectedColumnLocalName }} {{ selectedColumnIssues.length }}</span>

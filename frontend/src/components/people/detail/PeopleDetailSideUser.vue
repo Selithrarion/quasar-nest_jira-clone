@@ -1,5 +1,12 @@
 <template>
-  <PeopleDetailSide button-label="Управлять учётной записью" :name="user.name" @button-click="openAccountSettingsPage">
+  <PeopleDetailSide
+    button-label="Управлять учётной записью"
+    :display-name="user.name"
+    :name="user.username"
+    @button-click="openAccountSettingsPage"
+    @update:name="updateUserInfo('username', $event)"
+    @update:display-name="updateUserInfo('name', $event)"
+  >
     <template #append>
       <q-card>
         <q-card-section class="column gap-2">
