@@ -29,11 +29,11 @@
         </div>
       </header>
 
-      <div class="row big-side-padding q-col-gutter-lg q-my-lg">
+      <div class="people-detail__content q-col-gutter-lg q-my-lg big-side-padding">
         <PeopleDetailSideUser v-if="isUserPageType" :user="currentUser" />
         <PeopleDetailSideTeam v-else :team="currentTeam" />
 
-        <div class="col-8">
+        <div class="flex-grow-2">
           <h6 class="q-mt-none text-body1 text-weight-medium q-mb-md">В работе</h6>
           <q-card class="row flex-2 q-py-md">
             <q-card-section class="q-pl-xl col-3">
@@ -178,6 +178,14 @@ header {
   }
   .header-file-input {
     height: 32px;
+  }
+}
+.people-detail {
+  &__content {
+    display: flex;
+    @media screen and (max-width: $breakpoint-sm-max) {
+      flex-flow: column;
+    }
   }
 }
 </style>
