@@ -17,7 +17,13 @@
       </slot>
     </div>
 
-    <div v-else class="common-input-edit__button" role="button" @click="isShowInput = true">
+    <div
+      v-else
+      class="common-input-edit__button"
+      role="button"
+      :class="{ 'common-input-edit__button-padding': !noButtonPadding }"
+      @click="isShowInput = true"
+    >
       <slot name="button">
         <div>{{ modelValue }}</div>
       </slot>
@@ -42,6 +48,7 @@ export default defineComponent({
       required: false,
       default: null,
     },
+    noButtonPadding: Boolean,
   },
 
   emits: ['update:model-value', 'update', 'reset'],
@@ -68,15 +75,20 @@ export default defineComponent({
 </script>
 
 <style lang="scss" scoped>
-.common-input-edit__button {
-  font-weight: 500;
-  cursor: pointer;
-  transition: background-color 150ms ease;
-  &:hover {
-    background-color: $blue-grey-1;
+.common-input-edit {
+  &__button {
+    font-weight: 500;
+    cursor: pointer;
+    transition: background-color 150ms ease;
+    &:hover {
+      background-color: $blue-grey-1;
+    }
+    &:active {
+      color: $blue-grey-10;
+    }
   }
-  &:active {
-    color: $blue-grey-10;
+  &__button-padding {
+    padding: 4px 10px;
   }
 }
 </style>
