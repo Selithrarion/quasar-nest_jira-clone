@@ -69,7 +69,7 @@ export default defineComponent({
       else await validateCode();
     }
 
-    const step = ref(2);
+    const step = ref(1);
     const valid = ref(false);
     const form = reactive({
       email: '',
