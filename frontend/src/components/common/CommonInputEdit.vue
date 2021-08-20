@@ -54,11 +54,13 @@ export default defineComponent({
   emits: ['update:model-value', 'update', 'reset'],
 
   setup(props, { emit }) {
+    const originalValue = ref(props.modelValue);
     const isShowInput = ref(false);
 
     function handleBlur() {
-      emit('update');
       isShowInput.value = false;
+      if (originalValue.value === props.modelValue) return;
+      else emit('update');
     }
     function handleReset() {
       emit('reset');
