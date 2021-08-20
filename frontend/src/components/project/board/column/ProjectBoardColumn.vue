@@ -1,20 +1,13 @@
 <template>
   <div class="board-column bg-grey-2 flex-grow-1 full-height rounded-md">
-    <q-input
-      v-if="isEditName"
-      v-model="selectedColumnLocalName"
-      autofocus
-      autogrow
-      outlined
-      dense
-      @blur="updateColumnName"
-      @keydown.enter="$event.target.blur()"
-      @keydown.esc="resetColumnName"
-    />
-    <CommonListTitle v-else class="column-edit-name q-pa-sm" role="button" @click="isEditName = true">
-      <span>{{ selectedColumnLocalName }} {{ selectedColumnIssues.length }}</span>
-      <BaseLoader v-if="loading.active.value" gray-color small />
-    </CommonListTitle>
+    <CommonInputEdit v-model="selectedColumnLocalName" autogrow @update="updateColumnName" @reset="resetColumnName">
+      <template #button>
+        <CommonListTitle class="q-pa-sm">
+          <span>{{ selectedColumnLocalName }} {{ selectedColumnIssues.length }}</span>
+          <BaseLoader v-if="loading.active.value" gray-color small />
+        </CommonListTitle>
+      </template>
+    </CommonInputEdit>
 
     <div class="full-height" :class="{ 'opacity-60': loading.active.value }">
       <Draggable
@@ -69,6 +62,7 @@ import useLoading from 'src/composables/common/useLoading';
 
 import Draggable from 'vuedraggable';
 import CommonListTitle from 'components/common/CommonListTitle.vue';
+import CommonInputEdit from 'components/common/CommonInputEdit.vue';
 import ProjectBoardIconIssueType from 'components/project/board/icon/ProjectBoardIconIssueType.vue';
 import ProjectBoardIconIssuePriority from 'components/project/board/icon/ProjectBoardIconIssuePriority.vue';
 
@@ -81,6 +75,7 @@ export default defineComponent({
     // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
     Draggable,
     CommonListTitle,
+    CommonInputEdit,
     ProjectBoardIconIssueType,
     ProjectBoardIconIssuePriority,
   },
@@ -181,18 +176,6 @@ export default defineComponent({
 </script>
 
 <style lang="scss" scoped>
-.column-edit-name {
-  font-weight: 500;
-  cursor: pointer;
-  transition: background-color 150ms ease;
-  &:hover {
-    background-color: $blue-grey-1;
-  }
-  &:active {
-    color: $blue-grey-10;
-  }
-}
-
 .button {
   margin-top: 35px;
 }
