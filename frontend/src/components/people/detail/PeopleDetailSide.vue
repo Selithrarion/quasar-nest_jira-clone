@@ -1,5 +1,15 @@
 <template>
-  <div class="col-4 column gap-4">
+  <div class="column gap-4 flex-grow-1 relative-position">
+    <div class="people-detail-side__avatar">
+      <q-avatar class="bg-green-5" size="128px">
+        <img v-if="avatar" :src="avatar" :alt="`${name} Avatar`" />
+        <span v-else class="text-white">{{ name[0] }}</span>
+      </q-avatar>
+      <div class="people-detail-side__avatar-hover">
+        <q-icon name="photo" size="32px" color="white" />
+      </div>
+    </div>
+
     <div class="column gap-1">
       <CommonInputEdit
         v-model="localDisplayName"
@@ -72,6 +82,11 @@ export default defineComponent({
       required: false,
       default: null,
     },
+    avatar: {
+      type: String,
+      required: false,
+      default: null,
+    },
 
     buttonLabel: {
       type: String,
@@ -112,3 +127,34 @@ export default defineComponent({
   },
 });
 </script>
+
+<style lang="scss" scoped>
+.people-detail-side {
+  &__avatar {
+    position: absolute;
+    top: -128px;
+    left: 24px;
+    cursor: pointer;
+    img {
+      border: 3px solid white;
+    }
+  }
+  &__avatar-hover {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    position: absolute;
+    top: 0;
+    left: 0;
+    height: 128px;
+    width: 128px;
+    background-color: rgba(23, 76, 112, 0.56);
+    transition: background 1000ms ease, opacity 300ms ease;
+    opacity: 0;
+    border-radius: 100%;
+    &:hover {
+      opacity: 1;
+    }
+  }
+}
+</style>

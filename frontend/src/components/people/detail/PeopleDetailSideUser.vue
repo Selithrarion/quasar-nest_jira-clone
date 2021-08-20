@@ -3,6 +3,7 @@
     button-label="Управлять учётной записью"
     :display-name="user.name"
     :name="user.username"
+    :avatar="user.avatarURL"
     @button-click="openAccountSettingsPage"
     @update:name="updateUserInfo('username', $event)"
     @update:display-name="updateUserInfo('name', $event)"
