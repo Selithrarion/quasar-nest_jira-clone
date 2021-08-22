@@ -20,6 +20,6 @@ async function bootstrap(): Promise<void> {
   app.use(json({ limit: '50mb' }));
   app.use(urlencoded({ extended: true, limit: '50mb' }));
 
-  await app.listen(8081);
+  await app.listen(process.env.PORT);
 }
 bootstrap();
