@@ -1,7 +1,13 @@
-import { ClassSerializerInterceptor, Module } from '@nestjs/common';
+import { ClassSerializerInterceptor, Global, HttpException, HttpStatus, Module } from '@nestjs/common';
 import { APP_GUARD, APP_INTERCEPTOR } from '@nestjs/core';
 import { ConfigModule } from '@nestjs/config';
 import { TypeOrmModule } from '@nestjs/typeorm';
+
+import { v4 as uuidv4 } from 'uuid';
+import { extname } from 'path';
+import { Request } from 'express';
+import { MulterModule } from '@nestjs/platform-express';
+import { diskStorage } from 'multer';
 
 import { ProjectsModule } from './projects/projects.module';
 import { UserModule } from './user/user.module';
@@ -13,6 +19,7 @@ import { AuthModule } from './auth/auth.module';
 
 import { JwtAuthGuard } from './auth/guard/jwt-auth.guard';
 
+@Global()
 @Module({
   imports: [
     ConfigModule.forRoot({
@@ -28,6 +35,30 @@ import { JwtAuthGuard } from './auth/guard/jwt-auth.guard';
       entities: ['dist/**/entity/*.entity{.ts,.js}'],
       synchronize: true,
     }),
+    MulterModule.register({
+      storage: diskStorage({
+        destination: './uploads',
+        filename(
+          req: Request,
+          file: Express.Multer.File,
+          callback: (error: Error | null, filename: string) => void
+        ): void {
+          const fileUniqueName = uuidv4() + extname(file.originalname);
+          callback(null, fileUniqueName);
+        },
+      }),
+      fileFilter(req, file, cb) {
+        const extension = extname(file.originalname).toLowerCase();
+        const isInvalidFileType = extension !== '.jpg' && extension !== '.jpeg' && extension !== 'png';
+        if (isInvalidFileType) {
+          cb(new HttpException('ONLY_IMAGES_ALLOWED', HttpStatus.NOT_ACCEPTABLE), false);
+        }
+        cb(null, true);
+      },
+      limits: {
+        fileSize: 1024 * 1024 * 20,
+      },
+    }),
     ProjectsModule,
     UserModule,
     TeamModule,
@@ -36,6 +67,7 @@ import { JwtAuthGuard } from './auth/guard/jwt-auth.guard';
     IssuesModule,
     AuthModule,
   ],
+  exports: [MulterModule],
   controllers: [],
   providers: [
     {
