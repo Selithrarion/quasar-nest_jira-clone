@@ -56,6 +56,8 @@ export class UserEntity extends BaseEntity {
 
   @Column({ nullable: true })
   avatarURL: string | null;
+  @Column({ nullable: true })
+  headerURL: string | null;
 
   @OneToMany(() => IssueEntity, (issue) => issue.assigned)
   assignedIssues: IssueEntity[];

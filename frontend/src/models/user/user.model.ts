@@ -8,7 +8,10 @@ export interface UserModel extends BaseModel {
   email: string;
   locale: string;
   isActive: boolean;
+
   avatarURL: string | null;
+  headerURL: string | null;
+
   assignedIssues: IssueModel[];
   watchingIssues: IssueModel[];
   projectsIDs: number[];
