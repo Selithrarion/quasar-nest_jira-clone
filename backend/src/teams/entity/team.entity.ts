@@ -8,6 +8,13 @@ export class TeamEntity extends BaseEntity {
   @Column({ length: 64 })
   name: string;
 
+  @Column({ default: '#b3e6ff' })
+  color: string;
+  @Column({ nullable: true })
+  avatarURL: string | null;
+  @Column({ nullable: true })
+  headerURL: string | null;
+
   @ManyToMany(() => UserEntity, (user) => user.teams, {
     eager: true,
     cascade: true,

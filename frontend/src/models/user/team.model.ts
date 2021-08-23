@@ -3,7 +3,11 @@ import { UserModel } from 'src/models/user/user.model';
 
 export interface TeamModel extends BaseModel {
   name: string;
+
   color: string;
+  avatarURL: string;
+  headerURL: string
+
   users: UserModel[];
 }
 
