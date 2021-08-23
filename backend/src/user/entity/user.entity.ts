@@ -8,6 +8,7 @@ import { ProjectEntity } from '../../projects/entity/project.entity';
 import { BoardEntity } from '../../boards/entity/board.entity';
 import { Exclude } from 'class-transformer';
 import { TeamEntity } from '../../teams/entity/team.entity';
+import { CommentEntity } from '../../issues/entity/comment.entity';
 
 export interface UserValidationDTO {
   readonly email: string;
@@ -32,10 +33,8 @@ export interface UserJwtPayload {
 export class UserEntity extends BaseEntity {
   @Column({ length: 64 })
   name: string;
-
   @Column({ length: 24, unique: true })
   username: string;
-
   @Column({ unique: true })
   @IsEmail()
   email: string;
@@ -43,14 +42,12 @@ export class UserEntity extends BaseEntity {
   @Exclude()
   @Column({ length: 128 })
   password: string;
-
   @Exclude()
   @Column({ nullable: true })
   hashedRefreshToken: string;
 
   @Column({ nullable: true })
   locale: string;
-
   @Column({ default: true })
   isActive: boolean;
 
@@ -61,7 +58,6 @@ export class UserEntity extends BaseEntity {
 
   @OneToMany(() => IssueEntity, (issue) => issue.assigned)
   assignedIssues: IssueEntity[];
-
   @ManyToMany(() => IssueEntity, (issue) => issue.watchers)
   watchingIssues: IssueEntity[];
 
@@ -71,7 +67,6 @@ export class UserEntity extends BaseEntity {
   })
   @JoinTable()
   projects: ProjectEntity[];
-
   @RelationId((user: UserEntity) => user.projects)
   projectIDs: number[];
 
@@ -95,6 +90,13 @@ export class UserEntity extends BaseEntity {
   organisation: string;
   @Column({ nullable: true })
   location: string;
+
+  @OneToMany(() => CommentEntity, (comment) => comment.author, {
+    cascade: true,
+    onUpdate: 'CASCADE',
+    onDelete: 'CASCADE',
+  })
+  comments: CommentEntity[];
 
   @ManyToMany(() => TeamEntity, (team) => team.users, {
     onUpdate: 'CASCADE',

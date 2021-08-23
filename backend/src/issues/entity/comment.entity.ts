@@ -8,8 +8,11 @@ export class CommentEntity extends BaseEntity {
   @Column()
   text: string;
 
-  @ManyToOne(() => UserEntity, {
+  // TODO: не удаляется пользователь если есть комменты
+  @ManyToOne(() => UserEntity, (user) => user.comments, {
     eager: true,
+    onUpdate: 'CASCADE',
+    onDelete: 'CASCADE',
   })
   @JoinColumn({ name: 'authorID' })
   author: UserEntity;
