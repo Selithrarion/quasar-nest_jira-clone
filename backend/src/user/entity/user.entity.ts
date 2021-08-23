@@ -51,6 +51,8 @@ export class UserEntity extends BaseEntity {
   @Column({ default: true })
   isActive: boolean;
 
+  @Column({ default: '#b3e6ff' })
+  color: string;
   @Column({ nullable: true })
   avatarURL: string | null;
   @Column({ nullable: true })

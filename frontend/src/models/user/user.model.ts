@@ -9,6 +9,7 @@ export interface UserModel extends BaseModel {
   locale: string;
   isActive: boolean;
 
+  color: string;
   avatarURL: string | null;
   headerURL: string | null;
 
