@@ -7,6 +7,7 @@ import { CreateUserDTO } from './dto';
 import { UserEntity } from './entity/user.entity';
 import { ProjectEntity } from '../projects/entity/project.entity';
 import { BoardEntity } from '../boards/entity/board.entity';
+import stringToHslColor from '../utils/stringToHslColor';
 
 @Injectable()
 export class UserService {
@@ -28,7 +29,7 @@ export class UserService {
     // if (isUserAlreadyExist) await this.users.delete(isUserAlreadyExist.id);
     if (isUserAlreadyExist) throw new HttpException('USER_ALREADY_EXIST', HttpStatus.BAD_REQUEST);
 
-    const user = await this.users.create(payload);
+    const user = await this.users.create({ ...payload, color: stringToHslColor(payload.username) });
     const createdUser = await this.users.save(user);
 
     return createdUser;
@@ -39,6 +40,15 @@ export class UserService {
     const updated = this.users.create({ ...toUpdate, ...payload });
     await this.users.save(updated);
     return updated;
+  }
+
+  async setAvatar(fileURL: string, id: number): Promise<string> {
+    await this.users.update(id, { avatarURL: fileURL });
+    return fileURL;
+  }
+  async setProfileHeader(fileURL: string, id: number): Promise<string> {
+    await this.users.update(id, { headerURL: fileURL });
+    return fileURL;
   }
 
   async setRefreshToken(id: number, refreshToken: string): Promise<void> {
