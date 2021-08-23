@@ -35,9 +35,10 @@ import { JwtAuthGuard } from './auth/guard/jwt-auth.guard';
       entities: ['dist/**/entity/*.entity{.ts,.js}'],
       synchronize: true,
     }),
+
     MulterModule.register({
       storage: diskStorage({
-        destination: './uploads',
+        destination: './public',
         filename(
           req: Request,
           file: Express.Multer.File,
@@ -59,6 +60,7 @@ import { JwtAuthGuard } from './auth/guard/jwt-auth.guard';
         fileSize: 1024 * 1024 * 20,
       },
     }),
+
     ProjectsModule,
     UserModule,
     TeamModule,
