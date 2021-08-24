@@ -1,9 +1,11 @@
 <template>
-  <q-avatar :size="size" :color="src ? 'white' : itemColor || color" v-bind="$attrs">
+  <q-avatar :size="size" :style="{ backgroundColor: src ? 'white' : itemColor }" v-bind="$attrs">
     <slot>
       <BaseLoader
         v-if="loading"
         thickness="0.18"
+        :small="parseInt(size) <= 24 || size === 'sm'"
+        :medium="(parseInt(size) <= 36 && parseInt(size) >= 25) || size === 'md'"
         :color="whiteLoader ? 'white' : null"
         :gray-color="!whiteLoader"
         center
@@ -11,7 +13,14 @@
 
       <q-img v-else-if="src" class="rounded-full" ratio="1" :src="src" :alt="`${itemName} Avatar`">
         <template #loading>
-          <BaseLoader thickness="0.18" :color="whiteLoader ? 'white' : null" :gray-color="!whiteLoader" center />
+          <BaseLoader
+            thickness="0.18"
+            :small="parseInt(size) <= 24 || size === 'sm'"
+            :medium="(parseInt(size) <= 36 && parseInt(size) >= 25) || size === 'md'"
+            :color="whiteLoader ? 'white' : null"
+            :gray-color="!whiteLoader"
+            center
+          />
         </template>
       </q-img>
 
@@ -58,11 +67,6 @@ export default defineComponent({
     loading: Boolean,
     whiteLoader: Boolean,
 
-    color: {
-      type: String,
-      required: false,
-      default: null,
-    },
     size: {
       type: String,
       required: false,
