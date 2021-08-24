@@ -9,6 +9,7 @@ import {
   UserUpdateTokenResponse,
 } from 'src/models/user/user.model';
 import { ApiResponseModel } from 'src/models/common/apiResponse.model';
+import { PublicFileModel } from 'src/models/common/public.file.model';
 
 export default {
   async getSelf(): Promise<UserModel> {
@@ -48,6 +49,19 @@ export default {
   async update(id: number, payload: UserDTO) {
     const { data }: ApiResponseModel = await http.patch(`/user/${id}`, payload);
     return data as UserModel;
+  },
+
+  async uploadAvatar(file: File) {
+    const form = new FormData();
+    form.append('file', file);
+    const { data }: ApiResponseModel = await http.post('user/upload-avatar', form);
+    return data as PublicFileModel;
+  },
+  async uploadHeader(file: File) {
+    const form = new FormData();
+    form.append('file', file);
+    const { data }: ApiResponseModel = await http.post('user/upload-header', form);
+    return data as PublicFileModel;
   },
 
   async sendEmailChange(id: number) {
