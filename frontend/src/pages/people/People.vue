@@ -18,12 +18,12 @@
         @click="openUserProfile(user.id)"
       >
         <q-card-section class="column items-center q-px-lg q-pb-lg q-pt-md">
-          <q-avatar size="72px">
-            <img
-              :src="(user.avatar && user.avatar.url) || require('src/assets/img/default-avatar-1.png')"
-              :alt="`${user.name} Avatar`"
-            />
-          </q-avatar>
+          <BaseAvatar
+            size="72px"
+            :src="user.avatar && user.avatar.url"
+            :item-name="user.username"
+            :item-color="user.color"
+          />
           <div class="q-pt-sm">{{ user.name }}</div>
           <div v-if="user.position" class="text-caption text-grey-7">{{ user.position }}</div>
         </q-card-section>
@@ -34,12 +34,7 @@
     <div class="teams-wrapper">
       <q-card class="shadow-1 hover-shadow-lg">
         <CommonAvatarsWrapper class="q-pa-md bg-grey-3">
-          <q-avatar v-for="avatar of 3" :key="avatar" size="36px">
-            <img
-              src="https://secure.gravatar.com/avatar/d1cb0ee26c499154d46f1ab7b61cf44f?d=https%3A%2F%2Favatar-management--avatars.us-west-2.prod.public.atl-paas.net%2Fdefault-avatar-1.png"
-              alt="User Avatar"
-            />
-          </q-avatar>
+          <BaseAvatar v-for="avatar of 3" :key="avatar" size="36px" show-icon />
         </CommonAvatarsWrapper>
 
         <q-card-section class="column items-center q-px-sm q-pt-sm q-pb-md">

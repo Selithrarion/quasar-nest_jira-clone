@@ -1,9 +1,7 @@
 <template>
   <q-drawer v-model="show" class="bg-grey-1" :width="240" :breakpoint="700" bordered>
     <div class="sidebar-header row no-wrap items-center gap-3 q-px-md q-pb-md q-pt-lg">
-      <q-avatar v-if="avatar" size="24px" square>
-        <img :src="avatar" alt="Avatar" />
-      </q-avatar>
+      <BaseAvatar v-if="avatar" :src="avatar" square />
       <div>
         <h6 v-if="title" class="q-my-none text-body2">
           {{ title }}

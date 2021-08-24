@@ -97,12 +97,12 @@
           <div>
             <div class="text-subtitle2 q-pb-sm">Активность</div>
             <div class="row gap-3">
-              <q-avatar size="32px">
-                <img
-                  src="https://secure.gravatar.com/avatar/d1cb0ee26c499154d46f1ab7b61cf44f?d=https%3A%2F%2Favatar-management--avatars.us-west-2.prod.public.atl-paas.net%2Fdefault-avatar-1.png"
-                  alt="User Avatar"
-                />
-              </q-avatar>
+              <BaseAvatar
+                size="32px"
+                :src="currentUser.avatar && currentUser.avatar.url"
+                :item-name="currentUser.username"
+                :item-color="currentUser.color"
+              />
               <q-input
                 v-if="!isAddCommentEditor"
                 v-model="comment"
@@ -132,20 +132,17 @@
 
             <div class="flex flex-col gap-6 q-mt-lg">
               <div v-for="comment in issue.comments" :key="comment.id" class="row no-wrap gap-3 full-width">
-                <q-avatar v-if="comment.author" size="32px">
-                  <img
-                    :src="
-                      (comment.author.avatar && comment.author.avatar.url) ||
-                      require('src/assets/img/default-avatar-1.png')
-                    "
-                    :alt="`${comment.author.name} Avatar`"
-                  />
-                </q-avatar>
+                <BaseAvatar
+                  size="32px"
+                  :src="comment.author.avatar && comment.author.avatar.url"
+                  :item-name="comment.author.username"
+                  :item-color="comment.author.color"
+                />
 
                 <div class="column items-center gap-2 full-width">
                   <div class="flex-center-between gap-3 full-width">
                     <div class="flex-center gap-2">
-                      <span v-if="comment.author" class="text-weight-medium">{{ comment.author.name }}</span>
+                      <span class="text-weight-medium">{{ comment.author.name }}</span>
                       <span v-if="comment.createdAt !== comment.updatedAt" class="text-caption text-blue-grey-6">
                         Изменено
                       </span>
@@ -358,6 +355,7 @@ export default defineComponent({
       isDescriptionEditor.value = false;
     }
 
+    const currentUser = computed(() => store.state.user.currentUser);
     const isAddCommentEditor = ref(false);
     const comment = ref('');
     const editCommentID = ref<number | null>(null);
@@ -528,6 +526,7 @@ export default defineComponent({
       showDescriptionEditor,
       resetIssueDescription,
 
+      currentUser,
       comment,
       isAddCommentEditor,
       editCommentID,

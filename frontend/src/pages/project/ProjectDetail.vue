@@ -101,17 +101,17 @@
         <CommonSearch v-model="search" client-search append-icon />
 
         <CommonAvatarsWrapper margin="small" hover-effects>
-          <q-avatar v-for="user in project.users" :key="user.id" size="36px" @click="toggleUserSelection(user)">
-            <img
-              :src="(user.avatar && user.avatar.url) || require('src/assets/img/default-avatar-1.png')"
-              :alt="`${user.name} Avatar`"
-            />
-            <BaseTooltip> {{ user.name }} </BaseTooltip>
-          </q-avatar>
-          <q-avatar class="bg-blue-grey-1" size="36px">
-            <q-icon name="person" size="20px" />
-            <BaseTooltip> Не назначено </BaseTooltip>
-          </q-avatar>
+          <BaseAvatar
+            v-for="user in project.users"
+            :key="user.id"
+            size="36px"
+            icon-size="20px"
+            :src="user.avatar && user.avatar.url"
+            :item-name="user.username"
+            :item-color="user.color"
+            @click="toggleUserSelection(user)"
+          />
+          <BaseAvatar size="36px" color="blue-grey-1" tooltip="Не назначено" icon-size="20px" show-icon />
         </CommonAvatarsWrapper>
 
         <BaseButton label="Только мои задачи" secondary-color unelevated />

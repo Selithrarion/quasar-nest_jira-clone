@@ -72,9 +72,12 @@
           <CommonListTitle title="команды" />
           <BaseItem v-for="team in availableUserTeams" :key="team.id" @click="handleTeamClick(team.id)">
             <q-item-section side>
-              <q-avatar :color="team.color" text-color="white" size="24px">
-                <q-icon name="person" size="16px" />
-              </q-avatar>
+              <BaseAvatar
+                :src="team.avatar && team.avatar.url"
+                :usenrame="team.name"
+                :user-color="team.color"
+                :show-icon="!team.id"
+              />
             </q-item-section>
             <q-item-section>
               <q-item-label>{{ team.name }}</q-item-label>
@@ -143,7 +146,7 @@ export default defineComponent({
 
     const createNewTeamItem = ref({
       id: 0,
-      color: 'grey-4',
+      color: 'blue-grey-2',
       name: 'Создайте новую команду',
     });
     const availableUserTeams = computed(() => [createNewTeamItem.value]);

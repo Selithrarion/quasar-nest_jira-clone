@@ -16,12 +16,11 @@
           <CommonListTitle title="участники" />
           <BaseItem v-for="user in team.users" :key="user.id" @click="openUserProfile(user.id)">
             <q-item-section side>
-              <q-avatar v-if="user.avatar" size="24px">
-                <img :src="user.avatar.url" :alt="`${user.name} Avatar`" />
-              </q-avatar>
-              <q-avatar v-else :color="user.color" text-color="white" size="24px">
-                <q-icon name="person" size="16px" />
-              </q-avatar>
+              <BaseAvatar
+                :src="user.avatar && user.avatar.url"
+                :item-name="user.name"
+                :item-color="user.color"
+              />
             </q-item-section>
             <q-item-section>
               <q-item-label>{{ user.name }}</q-item-label>

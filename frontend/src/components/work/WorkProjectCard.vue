@@ -1,6 +1,11 @@
 <template>
   <q-card class="project-card hover-shadow-sm" flat bordered>
-    <q-avatar class="project-card__avatar" />
+    <BaseAvatar
+      class="project-card__avatar"
+      :src="project.avatar && project.avatar.url"
+      :item-name="project.name"
+      :item-color="project.color"
+    />
 
     <q-card-section>
       <div class="text-subtitle2 text-weight-bold ellipsis w-max-content">

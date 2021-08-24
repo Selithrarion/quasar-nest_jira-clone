@@ -6,22 +6,21 @@
     @update:model-value="$emit('update:model-value', $event)"
   >
     <template #selected-item="{ option }">
-      <q-avatar size="16px">
-        <img
-          :src="(option.avatar && option.avatar.url) || require('src/assets/img/default-avatar-1.png')"
-          :alt="`${option.name} Avatar`"
-        />
-      </q-avatar>
+      <BaseAvatar
+        size="16px"
+        :src="option.avatar && option.avatar.url"
+        :item-name="option.name"
+        :item-color="option.color"
+      />
       {{ option.name }}
     </template>
 
     <template #optionPrepend="{ option }">
-      <q-avatar size="24px">
-        <img
-          :src="(option.avatar && option.avatar.url) || require('src/assets/img/default-avatar-1.png')"
-          :alt="`${option.name} Avatar`"
-        />
-      </q-avatar>
+      <BaseAvatar
+        :src="option.avatar && option.avatar.url"
+        :item-name="option.name"
+        :item-color="option.color"
+      />
     </template>
   </BaseSelect>
 </template>

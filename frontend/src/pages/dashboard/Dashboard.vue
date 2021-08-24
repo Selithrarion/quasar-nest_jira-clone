@@ -31,9 +31,12 @@
 
             <template #body-cell-leader="props">
               <q-td :props="props">
-                <q-avatar size="md">
-                  <img :src="props.row.leader.avatar && props.row.leader.avatar.url" alt="Avatar" />
-                </q-avatar>
+                <BaseAvatar
+                  size="md"
+                  :src="props.row.leader.avatar && props.row.leader.avatar.url"
+                  :item-name="props.row.leader.username"
+                  :item-color="props.row.leader.color"
+                />
                 <BaseButton
                   class="q-mx-sm"
                   :label="props.row.leader.name"
@@ -47,9 +50,13 @@
             <template #body-cell-access="props">
               <q-td :props="props">
                 <div class="flex items-center gap-2">
-                  <q-avatar size="md" square>
-                    <img :src="props.row.project.avatar && props.row.project.avatar.url" alt="Company avatar" />
-                  </q-avatar>
+                  <BaseAvatar
+                    size="md"
+                    :src="props.row.project.avatar && props.row.project.avatar.url"
+                    :item-name="props.row.project.username"
+                    :item-color="props.row.project.color"
+                    square
+                  />
                   <span>{{ props.row.project.name }},</span>
                   <span>{{ props.row.access.name }}</span>
                 </div>

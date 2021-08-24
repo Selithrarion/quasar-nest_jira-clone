@@ -2,15 +2,13 @@
   <div class="column gap-4 flex-grow-1 relative-position">
     <label class="people-detail-side__avatar">
       <input ref="avatarInput" class="hidden absolute-full" type="file" accept="image/*" @input="uploadAvatar" />
-      <q-avatar size="128px" :style="{ backgroundColor: avatar ? 'white' : color }">
-        <BaseLoader v-if="loading.active.value" thickness="0.18" gray-color center />
-        <q-img v-else-if="avatar" :ratio="1" :src="avatar.url" :alt="`${name} Avatar`">
-          <template #loading>
-            <BaseLoader thickness="0.18" gray-color center />
-          </template>
-        </q-img>
-        <span v-else class="text-white">{{ displayName[0] }}</span>
-      </q-avatar>
+      <BaseAvatar
+        size="128px"
+        :src="avatar.url"
+        :loading="loading.active.value"
+        :item-name="name"
+        :item-color="color"
+      />
       <div class="people-detail-side__avatar-hover">
         <q-icon name="photo" size="32px" color="white" />
       </div>

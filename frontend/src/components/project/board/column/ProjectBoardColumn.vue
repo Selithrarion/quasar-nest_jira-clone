@@ -45,13 +45,13 @@
                   <BaseTooltip :label="element.key" />
                 </span>
 
-                <q-avatar v-if="element.assigned" size="24px">
-                  <img
-                    :src="(element.avatar && element.avatar.url) || require('src/assets/img/default-avatar-1.png')"
-                    :alt="`${element.assigned.name} Avatar`"
-                  />
-                  <BaseTooltip :label="`Исполнитель: ${element.assigned.name}`" />
-                </q-avatar>
+                <BaseAvatar
+                  v-if="element.assigned"
+                  :src="element.avatar && element.avatar.url"
+                  :item-name="element.assigned.username"
+                  :item-color="element.assigned.color"
+                  :tooltip="`Исполнитель: ${element.assigned.name}`"
+                />
               </div>
             </q-card-section>
           </q-card>

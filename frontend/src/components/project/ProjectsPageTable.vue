@@ -33,14 +33,14 @@
 
       <template #body-cell-leader="props">
         <q-td v-if="props.row.leader" :props="props">
-          <q-avatar
+          <BaseAvatar
             class="q-mr-sm"
             size="md"
-            :icon="props.row.leader.avatar ? null : 'people'"
-            :color="props.row.leader.avatar ? null : 'blue-grey-2'"
-          >
-            <img v-if="props.row.leader.avatar" :src="props.row.leader.avatar.url" alt="Avatar" />
-          </q-avatar>
+            :src="props.row.leader.avatar && props.row.leader.avatar.url"
+            :item-name="props.row.leader.username"
+            :item-color="props.row.leader.color"
+            show-icon
+          />
           <BaseButton
             class="full-width"
             align="left"
