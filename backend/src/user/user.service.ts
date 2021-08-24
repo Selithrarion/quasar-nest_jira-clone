@@ -1,4 +1,4 @@
-import { HttpException, HttpStatus, Injectable } from '@nestjs/common';
+import { HttpException, HttpStatus, Inject, Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import * as bcrypt from 'bcrypt';
@@ -7,13 +7,22 @@ import { CreateUserDTO } from './dto';
 import { UserEntity } from './entity/user.entity';
 import { ProjectEntity } from '../projects/entity/project.entity';
 import { BoardEntity } from '../boards/entity/board.entity';
+
 import stringToHslColor from '../utils/stringToHslColor';
+
+import { v4 as uuidv4 } from 'uuid';
+import { extname } from 'path';
+import { FilesService } from '../files/files.service';
+import { PublicFileEntity } from '../files/entity/public-file.entity';
 
 @Injectable()
 export class UserService {
   constructor(
     @InjectRepository(UserEntity)
-    private readonly users: Repository<UserEntity>
+    private readonly users: Repository<UserEntity>,
+
+    @Inject(FilesService)
+    private readonly filesService: FilesService
   ) {}
 
   async getByEmail(email: string): Promise<UserEntity> {
@@ -42,13 +51,45 @@ export class UserService {
     return updated;
   }
 
-  async setAvatar(fileURL: string, id: number): Promise<string> {
-    await this.users.update(id, { avatarURL: fileURL });
-    return fileURL;
+  async setUserImage(file: Express.Multer.File, field: 'avatar' | 'header', id: number): Promise<PublicFileEntity> {
+    const validImageTypes = ['image/jpeg', 'image/jpg', 'image/png'];
+    const validImageSize = 1024 * 1024 * 20;
+    const isInvalidType = !validImageTypes.includes(file.mimetype);
+
+    if (isInvalidType) throw new HttpException('INVALID_FILE_TYPE', HttpStatus.UNPROCESSABLE_ENTITY);
+    if (validImageSize < file.size) throw new HttpException('INVALID_FILE_SIZE', HttpStatus.UNPROCESSABLE_ENTITY);
+
+    const fileBuffer = file.buffer;
+    const filename = uuidv4() + extname(file.originalname);
+
+    const user = await this.users.findOneOrFail(id);
+    const isAlreadyHaveFieldImage = Boolean(user[field]);
+
+    if (isAlreadyHaveFieldImage) {
+      await this.users.update(id, {
+        [field]: null,
+      });
+      await this.filesService.deletePublicFile(user[field].id);
+    }
+
+    const uploadedFile = await this.filesService.uploadPublicFile(fileBuffer, filename);
+    await this.users.update(id, {
+      [field]: uploadedFile,
+    });
+
+    return uploadedFile;
   }
-  async setProfileHeader(fileURL: string, id: number): Promise<string> {
-    await this.users.update(id, { headerURL: fileURL });
-    return fileURL;
+
+  async deleteUserImage(field: 'avatar' | 'header', id: number): Promise<void> {
+    const user = await this.users.findOneOrFail(id);
+    const fileID = user[field]?.id;
+    if (fileID) {
+      await this.users.update(id, {
+        ...user,
+        [field]: null,
+      });
+      await this.filesService.deletePublicFile(fileID);
+    }
   }
 
   async setRefreshToken(id: number, refreshToken: string): Promise<void> {
