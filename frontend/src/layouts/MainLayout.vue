@@ -46,7 +46,9 @@
             <q-avatar v-if="currentUserAvatarURL" size="24px">
               <img :src="currentUserAvatarURL" alt="Profile Avatar" />
             </q-avatar>
-            <q-avatar v-else size="24px" color="orange">{{ currentUserInitials }}</q-avatar>
+            <q-avatar v-else class="text-white" size="24px" :style="{ backgroundColor: currentUserColor }">
+              {{ currentUserInitials }}
+            </q-avatar>
 
             <q-menu style="width: 300px">
               <q-list>
@@ -136,7 +138,8 @@ export default defineComponent({
 
     const currentUser = computed(() => store.state.user.currentUser);
     const currentUserInitials = computed(() => currentUser.value?.name?.[0]);
-    const currentUserAvatarURL = computed(() => currentUser.value?.avatarURL);
+    const currentUserAvatarURL = computed(() => currentUser.value?.avatar?.url);
+    const currentUserColor = computed(() => currentUser.value?.color);
 
     async function openProfilePage() {
       const userID = currentUser.value?.id;
@@ -166,6 +169,7 @@ export default defineComponent({
 
       currentUserInitials,
       currentUserAvatarURL,
+      currentUserColor,
 
       openProfilePage,
       logout,
