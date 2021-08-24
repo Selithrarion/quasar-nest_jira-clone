@@ -28,42 +28,42 @@ export class UserController {
   @ApiBearerAuth()
   @Get('self')
   async getSelf(@Request() req): Promise<UserEntity> {
-    return await this.userRepository.getByID(req.user.id);
+    return await this.userService.getByID(req.user.id);
   }
 
   @ApiBearerAuth()
   @Get(':id')
   async getByID(@Param('id') id: number): Promise<UserEntity> {
-    return await this.userRepository.getByID(id);
+    return await this.userService.getByID(id);
   }
   @ApiBearerAuth()
   @Patch(':id')
   async update(@Param('id') id: number, @Body() payload: Partial<UserEntity>): Promise<UserEntity> {
-    return await this.userRepository.update(id, payload);
+    return await this.userService.update(id, payload);
   }
 
   @ApiBearerAuth()
   @Post('avatar')
   @UseInterceptors(FileInterceptor('file'))
   async uploadAvatar(@UploadedFile() file: Express.Multer.File, @Request() req): Promise<PublicFileEntity> {
-    return await this.userRepository.setUserImage(file, 'avatar', req.user.id);
+    return await this.userService.setUserImage(file, 'avatar', req.user.id);
   }
 
   @ApiBearerAuth()
   @Post('header')
   @UseInterceptors(FileInterceptor('file'))
   async uploadHeader(@UploadedFile() file: Express.Multer.File, @Request() req): Promise<PublicFileEntity> {
-    return await this.userRepository.setUserImage(file, 'header', req.user.id);
+    return await this.userService.setUserImage(file, 'header', req.user.id);
   }
   @ApiBearerAuth()
   @Delete('header')
   async deleteHeader(@Request() req): Promise<void> {
-    return await this.userRepository.deleteUserImage('header', req.user.id);
+    return await this.userService.deleteUserImage('header', req.user.id);
   }
 
   @Public()
   @Get('is-taken')
   async isUsernameTaken(@Query('username') username: string): Promise<boolean> {
-    return await this.userRepository.isUsernameTaken(username);
+    return await this.userService.isUsernameTaken(username);
   }
 }

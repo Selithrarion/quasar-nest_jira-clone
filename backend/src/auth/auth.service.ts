@@ -9,7 +9,7 @@ export class AuthService {
 
   async validateUser({ email, password }: UserValidationDTO): Promise<UserEntity> {
     console.log('VALIDATE USER, AUTH SERVICE', email, password);
-    const user = await this.userRepository.getByEmail(email);
+    const user = await this.userService.getByEmail(email);
     if (!user) throw new HttpException('USER_NOT_FOUND', HttpStatus.UNAUTHORIZED);
 
     const isPasswordValid = await user.validatePassword(password);
@@ -30,7 +30,7 @@ export class AuthService {
   }
 
   async updateTokens({ userID, email, refreshToken }: UserUpdateTokensDTO): Promise<UserTokensInterface> {
-    const user = await this.userRepository.getByID(userID);
+    const user = await this.userService.getByID(userID);
     // if (user.hashedRefreshToken !== refreshToken) {
     //   throw new HttpException('USER_EXPIRED_REFRESH', HttpStatus.UNAUTHORIZED);
     // }

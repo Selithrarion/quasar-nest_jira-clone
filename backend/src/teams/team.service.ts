@@ -20,7 +20,7 @@ export class teamRepository {
   }
 
   async create(payload: CreateTeamDTO, userID: number): Promise<TeamEntity> {
-    const leader = await this.userRepository.getByID(userID);
+    const leader = await this.userService.getByID(userID);
 
     const isTeamAlreadyExist = await this.teams.findOne({ where: { name: payload.name } });
     if (isTeamAlreadyExist) throw new HttpException('TEAM_ALREADY_EXIST', HttpStatus.BAD_REQUEST);
