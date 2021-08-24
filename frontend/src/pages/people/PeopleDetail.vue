@@ -4,7 +4,19 @@
   <div v-else class="people-detail">
     <q-page>
       <header class="relative-position" @click="isHeaderMenu = !isHeaderMenu">
-        <div class="header-hover select-none flex-center column gap-1 text-white relative-position">
+        <BaseLoader v-if="loading.custom.header" color="white" thickness="0.18" center />
+        <q-img
+          v-if="currentUser.header"
+          :src="currentUser.header.url"
+          height="200px"
+          alt="User header image"
+        >
+          <template #loading>
+            <BaseLoader color="white" thickness="0.18" center />
+          </template>
+        </q-img>
+
+        <div class="header-hover absolute-full select-none flex-center column gap-1 text-white relative-position">
           <q-icon name="image" size="2rem" />
           Update your header image
 
@@ -14,11 +26,11 @@
                 <BaseItem>
                   <q-item-section style="margin-top: -8px">
                     <q-file
-                      v-model="headerImage"
                       class="header-file-input"
                       label="Загрузить изображение"
                       borderless
                       dense
+                      @update:model-value="uploadHeaderFile"
                     />
                   </q-item-section>
                 </BaseItem>
@@ -132,6 +144,14 @@ export default defineComponent({
 
     const isHeaderMenu = ref(false);
     const headerImage = ref(null);
+    async function uploadHeaderFile(file: File) {
+      try {
+        loading.start('header');
+        await store.dispatch('people/uploadUserImage', { file, type: 'header' });
+      } finally {
+        loading.stop('header');
+      }
+    }
     function deleteHeaderImage() {
       return;
     }
@@ -146,6 +166,7 @@ export default defineComponent({
 
       isHeaderMenu,
       headerImage,
+      uploadHeaderFile,
       deleteHeaderImage,
     };
   },
@@ -159,11 +180,6 @@ header {
   box-shadow: 0 0 4px 0 rgba(15, 68, 109, 0.18) inset;
   cursor: pointer;
   .header-hover {
-    position: absolute;
-    top: 0;
-    left: 0;
-    right: 0;
-    bottom: 0;
     opacity: 0;
     background: rgba(23, 76, 112, 0.56);
     transition: background 1000ms ease, opacity 300ms ease;
