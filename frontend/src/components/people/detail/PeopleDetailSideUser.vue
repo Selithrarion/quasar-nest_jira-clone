@@ -73,9 +73,10 @@
           <BaseItem v-for="team in availableUserTeams" :key="team.id" @click="handleTeamClick(team.id)">
             <q-item-section side>
               <BaseAvatar
+                size="32px"
                 :src="team.avatar && team.avatar.url"
-                :usenrame="team.name"
-                :user-color="team.color"
+                :item-name="team.name"
+                :item-color="team.color"
                 :show-icon="!team.id"
               />
             </q-item-section>
