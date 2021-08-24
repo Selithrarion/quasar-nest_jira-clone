@@ -47,7 +47,7 @@
 
                 <BaseAvatar
                   v-if="element.assigned"
-                  :src="element.avatar && element.avatar.url"
+                  :src="element.assigned.avatar && element.assigned.avatar.url"
                   :item-name="element.assigned.username"
                   :item-color="element.assigned.color"
                   :tooltip="`Исполнитель: ${element.assigned.name}`"
