@@ -1,5 +1,6 @@
 import { BaseModel } from 'src/models/common/base.model';
 import { IssueModel } from 'src/models/project/issue.model';
+import { PublicFileModel } from '../common/public.file.model';
 
 export interface UserModel extends BaseModel {
   name: string;
@@ -10,8 +11,8 @@ export interface UserModel extends BaseModel {
   isActive: boolean;
 
   color: string;
-  avatarURL: string | null;
-  headerURL: string | null;
+  avatar: PublicFileModel | null;
+  header: PublicFileModel | null;
 
   assignedIssues: IssueModel[];
   watchingIssues: IssueModel[];
@@ -30,6 +31,8 @@ export interface UserModel extends BaseModel {
 export interface UserDTO {
   username?: string;
   name?: string;
+  avatar?: PublicFileModel;
+  header?: PublicFileModel;
   position?: string;
   department?: string;
   organisation?: string;

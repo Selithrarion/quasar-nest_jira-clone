@@ -1,7 +1,8 @@
-import { Column, Entity, JoinColumn, JoinTable, ManyToMany, OneToMany, RelationId } from 'typeorm';
+import { Column, Entity, JoinColumn, JoinTable, ManyToMany, OneToMany, OneToOne, RelationId } from 'typeorm';
 
 import { BaseEntity } from '../../common/base.entity';
 import { UserEntity } from '../../user/entity/user.entity';
+import { PublicFileEntity } from '../../files/entity/public-file.entity';
 
 @Entity()
 export class TeamEntity extends BaseEntity {
@@ -10,10 +11,20 @@ export class TeamEntity extends BaseEntity {
 
   @Column({ default: '#b3e6ff' })
   color: string;
-  @Column({ nullable: true })
-  avatarURL: string | null;
-  @Column({ nullable: true })
-  headerURL: string | null;
+
+  @OneToOne(() => PublicFileEntity, {
+    eager: true,
+    nullable: true,
+  })
+  @JoinColumn()
+  avatar: PublicFileEntity;
+
+  @OneToOne(() => PublicFileEntity, {
+    eager: true,
+    nullable: true,
+  })
+  @JoinColumn()
+  header: PublicFileEntity;
 
   @ManyToMany(() => UserEntity, (user) => user.teams, {
     eager: true,

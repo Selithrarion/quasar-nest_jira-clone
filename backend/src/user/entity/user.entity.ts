@@ -1,4 +1,16 @@
-import { BeforeInsert, Column, Entity, JoinTable, ManyToMany, ManyToOne, OneToMany, RelationId } from 'typeorm';
+import {
+  AfterLoad,
+  BeforeInsert,
+  Column,
+  Entity,
+  JoinColumn,
+  JoinTable,
+  ManyToMany,
+  ManyToOne,
+  OneToMany,
+  OneToOne,
+  RelationId,
+} from 'typeorm';
 import * as bcrypt from 'bcrypt';
 import { IsEmail } from 'class-validator';
 
@@ -9,6 +21,7 @@ import { BoardEntity } from '../../boards/entity/board.entity';
 import { Exclude } from 'class-transformer';
 import { TeamEntity } from '../../teams/entity/team.entity';
 import { CommentEntity } from '../../issues/entity/comment.entity';
+import { PublicFileEntity } from '../../files/entity/public-file.entity';
 
 export interface UserValidationDTO {
   readonly email: string;
@@ -53,10 +66,20 @@ export class UserEntity extends BaseEntity {
 
   @Column({ default: '#b3e6ff' })
   color: string;
-  @Column({ nullable: true })
-  avatarURL: string | null;
-  @Column({ nullable: true })
-  headerURL: string | null;
+
+  @OneToOne(() => PublicFileEntity, {
+    eager: true,
+    nullable: true,
+  })
+  @JoinColumn()
+  avatar: PublicFileEntity;
+
+  @OneToOne(() => PublicFileEntity, {
+    eager: true,
+    nullable: true,
+  })
+  @JoinColumn()
+  header: PublicFileEntity;
 
   @OneToMany(() => IssueEntity, (issue) => issue.assigned)
   assignedIssues: IssueEntity[];
