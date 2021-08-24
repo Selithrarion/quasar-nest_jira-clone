@@ -1,5 +1,5 @@
 <template>
-  <q-avatar :size="size" :color="src ? 'white' : itemColor" v-bind="$attrs">
+  <q-avatar :size="size" :color="src ? 'white' : itemColor || color" v-bind="$attrs">
     <slot>
       <BaseLoader
         v-if="loading"
@@ -58,6 +58,11 @@ export default defineComponent({
     loading: Boolean,
     whiteLoader: Boolean,
 
+    color: {
+      type: String,
+      required: false,
+      default: null,
+    },
     size: {
       type: String,
       required: false,
