@@ -47,7 +47,7 @@
 
                 <q-avatar v-if="element.assigned" size="24px">
                   <img
-                    :src="element.avatarURL || require('src/assets/img/default-avatar-1.png')"
+                    :src="(element.avatar && element.avatar.url) || require('src/assets/img/default-avatar-1.png')"
                     :alt="`${element.assigned.name} Avatar`"
                   />
                   <BaseTooltip :label="`Исполнитель: ${element.assigned.name}`" />

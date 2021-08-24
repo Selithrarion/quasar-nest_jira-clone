@@ -19,7 +19,10 @@
       >
         <q-card-section class="column items-center q-px-lg q-pb-lg q-pt-md">
           <q-avatar size="72px">
-            <img :src="user.avatarURL || require('src/assets/img/default-avatar-1.png')" :alt="`${user.name} Avatar`" />
+            <img
+              :src="(user.avatar && user.avatar.url) || require('src/assets/img/default-avatar-1.png')"
+              :alt="`${user.name} Avatar`"
+            />
           </q-avatar>
           <div class="q-pt-sm">{{ user.name }}</div>
           <div v-if="user.position" class="text-caption text-grey-7">{{ user.position }}</div>

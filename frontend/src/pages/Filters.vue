@@ -30,7 +30,7 @@
         <template #body-cell-leader="props">
           <q-td :props="props">
             <q-avatar size="md">
-              <img :src="props.row.leader.avatarURL" alt="Avatar" />
+              <img :src="props.row.leader.avatar && props.row.leader.avatar.url" alt="Avatar" />
             </q-avatar>
             <BaseButton
               class="q-mx-sm"
@@ -46,7 +46,7 @@
           <q-td :props="props">
             <div class="flex items-center gap-2">
               <q-avatar size="md" square>
-                <img :src="props.row.project.avatarURL" alt="Company avatar" />
+                <img :src="props.row.project.avatar && props.row.project.avatar.url" alt="Company avatar" />
               </q-avatar>
               <span>{{ props.row.project.name }},</span>
               <span>{{ props.row.access.name }}</span>

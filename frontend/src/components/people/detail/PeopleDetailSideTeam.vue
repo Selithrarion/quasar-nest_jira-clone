@@ -2,6 +2,7 @@
   <PeopleDetailSide
     button-label="Добавить людей"
     :name="team.name"
+    :color="team.color"
     show-more-button
     @button-click="dialog.open('addUsers')"
   >
@@ -15,8 +16,8 @@
           <CommonListTitle title="участники" />
           <BaseItem v-for="user in team.users" :key="user.id" @click="openUserProfile(user.id)">
             <q-item-section side>
-              <q-avatar v-if="user.avatarURL" size="24px">
-                <img :src="user.avatarURL" :alt="`${user.name} Avatar`" />
+              <q-avatar v-if="user.avatar" size="24px">
+                <img :src="user.avatar.url" :alt="`${user.name} Avatar`" />
               </q-avatar>
               <q-avatar v-else :color="user.color" text-color="white" size="24px">
                 <q-icon name="person" size="16px" />

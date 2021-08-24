@@ -36,10 +36,10 @@
           <q-avatar
             class="q-mr-sm"
             size="md"
-            :icon="props.row.leader.avatarURL ? null : 'people'"
-            :color="props.row.leader.avatarURL ? null : 'blue-grey-2'"
+            :icon="props.row.leader.avatar ? null : 'people'"
+            :color="props.row.leader.avatar ? null : 'blue-grey-2'"
           >
-            <img v-if="props.row.leader.avatarURL" :src="props.row.leader.avatarURL" alt="Avatar" />
+            <img v-if="props.row.leader.avatar" :src="props.row.leader.avatar.url" alt="Avatar" />
           </q-avatar>
           <BaseButton
             class="full-width"

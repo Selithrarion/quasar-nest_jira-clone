@@ -7,14 +7,20 @@
   >
     <template #selected-item="{ option }">
       <q-avatar size="16px">
-        <img :src="option.avatarURL || require('src/assets/img/default-avatar-1.png')" :alt="`${option.name} Avatar`" />
+        <img
+          :src="(option.avatar && option.avatar.url) || require('src/assets/img/default-avatar-1.png')"
+          :alt="`${option.name} Avatar`"
+        />
       </q-avatar>
       {{ option.name }}
     </template>
 
     <template #optionPrepend="{ option }">
       <q-avatar size="24px">
-        <img :src="option.avatarURL || require('src/assets/img/default-avatar-1.png')" :alt="`${option.name} Avatar`" />
+        <img
+          :src="(option.avatar && option.avatar.url) || require('src/assets/img/default-avatar-1.png')"
+          :alt="`${option.name} Avatar`"
+        />
       </q-avatar>
     </template>
   </BaseSelect>

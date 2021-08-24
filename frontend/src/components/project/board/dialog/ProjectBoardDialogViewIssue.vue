@@ -134,7 +134,10 @@
               <div v-for="comment in issue.comments" :key="comment.id" class="row no-wrap gap-3 full-width">
                 <q-avatar v-if="comment.author" size="32px">
                   <img
-                    :src="comment.author.avatarURL || require('src/assets/img/default-avatar-1.png')"
+                    :src="
+                      (comment.author.avatar && comment.author.avatar.url) ||
+                      require('src/assets/img/default-avatar-1.png')
+                    "
                     :alt="`${comment.author.name} Avatar`"
                   />
                 </q-avatar>

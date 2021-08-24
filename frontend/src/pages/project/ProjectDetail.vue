@@ -102,7 +102,10 @@
 
         <CommonAvatarsWrapper margin="small" hover-effects>
           <q-avatar v-for="user in project.users" :key="user.id" size="36px" @click="toggleUserSelection(user)">
-            <img :src="user.avatarURL || require('src/assets/img/default-avatar-1.png')" :alt="`${user.name} Avatar`" />
+            <img
+              :src="(user.avatar && user.avatar.url) || require('src/assets/img/default-avatar-1.png')"
+              :alt="`${user.name} Avatar`"
+            />
             <BaseTooltip> {{ user.name }} </BaseTooltip>
           </q-avatar>
           <q-avatar class="bg-blue-grey-1" size="36px">
