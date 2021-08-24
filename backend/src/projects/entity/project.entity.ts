@@ -1,8 +1,9 @@
-import { Column, Entity, JoinColumn, ManyToMany, ManyToOne, OneToMany } from 'typeorm';
+import { Column, Entity, JoinColumn, ManyToMany, ManyToOne, OneToMany, OneToOne } from 'typeorm';
 import { BaseEntity } from '../../common/base.entity';
 import { BoardEntity } from '../../boards/entity/board.entity';
 import { UserEntity } from '../../user/entity/user.entity';
 import { AccessEnum } from '../../common/access.model';
+import { PublicFileEntity } from '../../files/entity/public-file.entity';
 
 export enum ProjectTemplateEnum {
   KANBAN = 1,
@@ -40,8 +41,12 @@ export class ProjectEntity extends BaseEntity {
   })
   boards: BoardEntity[];
 
-  @Column({ nullable: true })
-  avatarURL: string;
+  @JoinColumn()
+  @OneToOne(() => PublicFileEntity, {
+    eager: true,
+    nullable: true,
+  })
+  avatar: PublicFileEntity | null;
 
   @ManyToOne(() => UserEntity, {
     eager: true,
