@@ -4,13 +4,12 @@ import {
   Get,
   Post,
   Patch,
+  Delete,
   Param,
   Query,
-  Response,
   Request,
   UploadedFile,
   UseInterceptors,
-  UploadedFiles,
 } from '@nestjs/common';
 import { ApiBearerAuth, ApiTags } from '@nestjs/swagger';
 
@@ -44,17 +43,22 @@ export class UserController {
   }
 
   @ApiBearerAuth()
-  @Post('upload-avatar')
+  @Post('avatar')
   @UseInterceptors(FileInterceptor('file'))
   async uploadAvatar(@UploadedFile() file: Express.Multer.File, @Request() req): Promise<PublicFileEntity> {
     return await this.userService.setUserImage(file, 'avatar', req.user.id);
   }
 
   @ApiBearerAuth()
-  @Post('upload-header')
+  @Post('header')
   @UseInterceptors(FileInterceptor('file'))
   async uploadHeader(@UploadedFile() file: Express.Multer.File, @Request() req): Promise<PublicFileEntity> {
     return await this.userService.setUserImage(file, 'header', req.user.id);
+  }
+  @ApiBearerAuth()
+  @Delete('header')
+  async deleteHeader(@Request() req): Promise<void> {
+    return await this.userService.deleteUserImage('header', req.user.id);
   }
 
   @Public()
