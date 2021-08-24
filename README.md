@@ -23,6 +23,7 @@
 5. Passport, JWT auth
 6. Socket.io (not implemented yet ❌)
 7. Jest (testing) (not implemented yet ❌)
+8. AWS S3 (Amazon Simple Storage Service)
 
 #### Other
 
@@ -90,13 +91,13 @@ Github actions CI pipeline
 
 #### People
 - Teams CRUD (not implemented yet ❌) 
-- Add users in created team
+- Add users in created team (not implemented yet ❌) 
 
 ##### User / Team profile page
 - Edit user info - change username / display name / email / location / organisation etc...
 
-- Upload header image (not implemented yet ❌) 
-- Upload user / team avatar (not implemented yet ❌) 
+- Upload header image (store in AWS S3)
+- Upload user / team avatar (store in AWS S3)
 
 - View all issues in work (not implemented yet ❌) 
 - View all projects (not implemented yet ❌) 
