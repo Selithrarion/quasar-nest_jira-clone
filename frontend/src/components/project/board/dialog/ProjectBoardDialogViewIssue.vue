@@ -307,7 +307,7 @@ import { useFormat, DateUnits, DateTypes } from 'src/composables/format/useForma
 import useDialog from 'src/composables/common/useDialog';
 import useLoading from 'src/composables/common/useLoading';
 
-import issueService from 'src/service/issueService';
+import issueRepository from 'src/repositories/issueRepository';
 
 import CommonListTitle from 'components/common/CommonListTitle.vue';
 
@@ -445,7 +445,7 @@ export default defineComponent({
       store.commit('project/UPDATE_COLUMN', { id: newColumnID, payload: { issues: newColumnIssues } });
       store.commit('project/UPDATE_ISSUE', { id: issueID, payload: { columnID: newColumnID } });
 
-      await issueService.update(issueID, { column: newColumn });
+      await issueRepository.update(issueID, { column: newColumn });
     }
 
     async function fetchIssue() {

@@ -21,7 +21,7 @@ export class ProjectsService {
   ) {}
 
   async getAll(query, userID: number): Promise<ProjectEntity[]> {
-    const currentUser = await this.userService.getByID(userID);
+    const currentUser = await this.userRepository.getByID(userID);
     const allProjects = await this.projects.find({ order: { createdAt: 'DESC' } });
     const formattedProjects = allProjects.map((p) => ({
       ...p,
@@ -59,7 +59,7 @@ export class ProjectsService {
   }
 
   async toggleFavorite(projectID: number, userID: number): Promise<void> {
-    const userFavoriteProjects = await this.userService.getFavoriteProjects(userID);
+    const userFavoriteProjects = await this.userRepository.getFavoriteProjects(userID);
     const projectIndex = userFavoriteProjects.findIndex((p) => p.id === projectID);
 
     if (projectIndex !== -1) {
@@ -70,6 +70,6 @@ export class ProjectsService {
       userFavoriteProjects.push(project);
     }
 
-    await this.userService.update(userID, { favoriteProjects: userFavoriteProjects });
+    await this.userRepository.update(userID, { favoriteProjects: userFavoriteProjects });
   }
 }

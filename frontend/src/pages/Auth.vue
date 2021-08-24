@@ -111,7 +111,7 @@ import { useRouter, useRoute } from 'vue-router';
 import useLoading from 'src/composables/common/useLoading';
 import useFormValidation from 'src/composables/form/useFormValidation';
 
-import userService from 'src/service/userService';
+import userRepository from 'src/repositories/userRepository';
 enum AuthTypeEnum {
   LOGIN = 'login',
   REGISTER = 'register',
@@ -163,7 +163,7 @@ export default defineComponent({
       return form.passwordRepeat === form.password || 'Пароли не совпадают';
     }
     async function uniqueUsername(): Promise<boolean | string> {
-      const isTaken = await userService.isUsernameTaken(form.username);
+      const isTaken = await userRepository.isUsernameTaken(form.username);
       return !isTaken || 'Имя пользователя уже занято';
     }
 
@@ -205,7 +205,7 @@ export default defineComponent({
     async function sendForgotPasswordEmail() {
       try {
         loading.start();
-        await userService.forgotPassword(form.email);
+        await userRepository.forgotPassword(form.email);
       } finally {
         loading.stop();
       }

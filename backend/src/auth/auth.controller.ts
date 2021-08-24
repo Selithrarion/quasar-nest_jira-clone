@@ -23,7 +23,7 @@ export class AuthController {
   @Post('register')
   async register(@Body() payload: CreateUserDTO): Promise<UserTokensInterface> {
     console.log('REGISTER', payload);
-    const user = await this.userService.create(payload);
+    const user = await this.userRepository.create(payload);
     return await this.authService.login(user);
   }
 

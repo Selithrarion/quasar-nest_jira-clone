@@ -2,15 +2,15 @@ import { ActionTree } from 'vuex';
 import { StateInterface } from '../index';
 import { UserStateInterface } from 'src/store/user/state';
 import { UserLoginDTO, UserRegisterDTO, UserUpdateTokenResponse } from 'src/models/user/user.model';
-import userService from 'src/service/userService';
+import userRepository from 'src/repositories/userRepository';
 
 const actions: ActionTree<UserStateInterface, StateInterface> = {
   async login({ commit }, payload: UserLoginDTO) {
-    const data = await userService.login(payload);
+    const data = await userRepository.login(payload);
     commit('AUTH_USER', data);
   },
   async register({ commit }, payload: UserRegisterDTO) {
-    const data = await userService.register(payload);
+    const data = await userRepository.register(payload);
     commit('AUTH_USER', data);
   },
   logout({ commit }) {
@@ -18,7 +18,7 @@ const actions: ActionTree<UserStateInterface, StateInterface> = {
   },
 
   async loadUser({ commit }, { accessToken, refreshToken }: UserUpdateTokenResponse) {
-    const user = await userService.getSelf();
+    const user = await userRepository.getSelf();
     commit('AUTH_USER', { user, accessToken, refreshToken });
   },
   async updateTokens({ state, commit }) {
@@ -29,7 +29,7 @@ const actions: ActionTree<UserStateInterface, StateInterface> = {
       email: state.currentUser.email,
       refreshToken: state.refreshToken,
     };
-    const tokens = await userService.updateTokens(payload);
+    const tokens = await userRepository.updateTokens(payload);
     commit('UPDATE_TOKENS', tokens);
 
     return tokens;

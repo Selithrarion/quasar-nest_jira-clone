@@ -28,7 +28,7 @@ export class IssuesService {
   }
 
   async create(payload: CreateIssueDTO, userID: number): Promise<IssueEntity> {
-    const author = await this.userService.getByID(userID);
+    const author = await this.userRepository.getByID(userID);
     const watchers = [author];
 
     const issue = await this.issues.save({ ...payload, author, watchers, column: payload.board.columns[0] });
@@ -55,7 +55,7 @@ export class IssuesService {
   }
 
   async addComment(issueID: number, { text }: CreateCommentDTO, userID: number): Promise<CommentEntity> {
-    const author = await this.userService.getByID(userID);
+    const author = await this.userRepository.getByID(userID);
     const issue = await this.issues.findOneOrFail(issueID);
     const comment = {
       author,

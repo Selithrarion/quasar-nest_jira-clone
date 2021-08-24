@@ -20,7 +20,7 @@ export class BoardsService {
   ) {}
 
   async getByID(boardID: number, userID: number): Promise<BoardEntity> {
-    const currentUser = await this.userService.getByID(userID);
+    const currentUser = await this.userRepository.getByID(userID);
     // TODO: fix issue comments sorting order
     const board = await this.boards.findOneOrFail(boardID, {
       relations: ['columns'],
@@ -55,7 +55,7 @@ export class BoardsService {
 
   async toggleFavorite(boardID: number, userID: number): Promise<void> {
     console.log(boardID, userID);
-    const userFavoriteBoards = await this.userService.getFavoriteBoards(userID);
+    const userFavoriteBoards = await this.userRepository.getFavoriteBoards(userID);
     console.log(userFavoriteBoards);
     const boardIndex = userFavoriteBoards.findIndex((b) => b.id === boardID);
 
@@ -67,6 +67,6 @@ export class BoardsService {
       userFavoriteBoards.push(project);
     }
 
-    await this.userService.update(userID, { favoriteBoards: userFavoriteBoards });
+    await this.userRepository.update(userID, { favoriteBoards: userFavoriteBoards });
   }
 }

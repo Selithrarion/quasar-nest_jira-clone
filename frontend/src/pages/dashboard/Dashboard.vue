@@ -88,7 +88,7 @@ import CommonPageHeader from 'components/common/CommonPageHeader.vue';
 import DashboardCreateDialog from 'components/dashboard/create/DashboardCreateDialog.vue';
 
 import { DashboardModel } from 'src/models/dashboard/dashboard.model';
-import dashboardService from 'src/service/dashboardService';
+import dashboardRepository from 'src/repositories/dashboardRepository';
 
 export default defineComponent({
   name: 'Dashboard',

@@ -6,7 +6,7 @@ import { CreateTeamDTO } from './dto';
 import { UserService } from '../user/user.service';
 
 @Injectable()
-export class TeamService {
+export class teamRepository {
   constructor(
     @InjectRepository(TeamEntity)
     private readonly teams: Repository<TeamEntity>,
@@ -20,7 +20,7 @@ export class TeamService {
   }
 
   async create(payload: CreateTeamDTO, userID: number): Promise<TeamEntity> {
-    const leader = await this.userService.getByID(userID);
+    const leader = await this.userRepository.getByID(userID);
 
     const isTeamAlreadyExist = await this.teams.findOne({ where: { name: payload.name } });
     if (isTeamAlreadyExist) throw new HttpException('TEAM_ALREADY_EXIST', HttpStatus.BAD_REQUEST);

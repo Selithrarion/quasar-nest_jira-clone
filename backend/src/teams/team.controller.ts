@@ -2,18 +2,18 @@ import { Body, Controller, Get, Param, Patch, Post, Query, Request } from '@nest
 import { ApiBearerAuth, ApiOperation, ApiResponse, ApiTags } from '@nestjs/swagger';
 
 import { TeamEntity } from './entity/team.entity';
-import { TeamService } from './team.service';
+import { teamRepository } from './team.service';
 import { CreateTeamDTO } from './dto';
 
 @ApiBearerAuth()
 @ApiTags('team')
 @Controller('team')
 export class TeamController {
-  constructor(private readonly teamService: TeamService) {}
+  constructor(private readonly teamRepository: teamRepository) {}
 
   @Get(':id')
   async getByID(@Param('id') id: number): Promise<TeamEntity> {
-    return await this.teamService.getByID(id);
+    return await this.teamRepository.getByID(id);
   }
 
   @ApiOperation({ summary: 'Create team' })
@@ -21,7 +21,7 @@ export class TeamController {
   @ApiResponse({ status: 401, description: 'Unauthorized' })
   @Post()
   async create(@Body() payload: CreateTeamDTO, @Request() req): Promise<TeamEntity> {
-    return await this.teamService.create(payload, req.user.id);
+    return await this.teamRepository.create(payload, req.user.id);
   }
 
   @ApiOperation({ summary: 'Update team' })
@@ -29,11 +29,11 @@ export class TeamController {
   @ApiResponse({ status: 401, description: 'Unauthorized' })
   @Patch(':id')
   async update(@Param('id') id: number, @Body() payload: Partial<TeamEntity>): Promise<TeamEntity> {
-    return await this.teamService.update(id, payload);
+    return await this.teamRepository.update(id, payload);
   }
 
   @Get('is-taken')
   async isTeamNameTaken(@Query('name') name: string): Promise<boolean> {
-    return await this.teamService.isTeamNameTaken(name);
+    return await this.teamRepository.isTeamNameTaken(name);
   }
 }

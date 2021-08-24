@@ -47,7 +47,7 @@ import useLoading from 'src/composables/common/useLoading';
 import useFormValidation from 'src/composables/form/useFormValidation';
 import useInputValidation from 'src/composables/form/useInputValidation';
 
-import userService from 'src/service/userService';
+import userRepository from 'src/repositories/userRepository';
 
 export default defineComponent({
   name: 'PeopleDialogEmailChange',
@@ -81,7 +81,7 @@ export default defineComponent({
 
       try {
         loading.start();
-        if (userID.value) await userService.sendEmailChange(userID.value);
+        if (userID.value) await userRepository.sendEmailChange(userID.value);
         step.value = 2;
       } finally {
         loading.stop();
@@ -91,7 +91,7 @@ export default defineComponent({
     async function validateCode() {
       try {
         loading.start();
-        if (userID.value) await userService.validateEmailChangeCode(userID.value, form.code);
+        if (userID.value) await userRepository.validateEmailChangeCode(userID.value, form.code);
         step.value = 2;
       } finally {
         loading.stop();
