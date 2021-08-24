@@ -3,7 +3,8 @@
     button-label="Управлять учётной записью"
     :display-name="user.name"
     :name="user.username"
-    :avatar="user.avatarURL"
+    :avatar="user.avatar"
+    :color="user.color"
     @button-click="openAccountSettingsPage"
     @update:name="updateUserInfo('username', $event)"
     @update:display-name="updateUserInfo('name', $event)"
@@ -112,7 +113,7 @@ import PeopleDialogTeamCreate from 'components/people/PeopleDialogTeamCreate.vue
 import { UserModel } from 'src/models/user/user.model';
 
 export default defineComponent({
-  name: 'PeopleDetailSideTeam',
+  name: 'PeopleDetailSideUser',
 
   components: {
     CommonListTitle,

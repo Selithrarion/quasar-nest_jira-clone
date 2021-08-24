@@ -1,14 +1,20 @@
 <template>
   <div class="column gap-4 flex-grow-1 relative-position">
-    <div class="people-detail-side__avatar">
-      <q-avatar class="bg-green-5" size="128px">
-        <img v-if="avatar" :src="avatar" :alt="`${name} Avatar`" />
-        <span v-else class="text-white">{{ name[0] }}</span>
+    <label class="people-detail-side__avatar">
+      <input ref="avatarInput" class="hidden absolute-full" type="file" accept="image/*" @input="uploadAvatar" />
+      <q-avatar size="128px" :style="{ backgroundColor: avatar ? 'white' : color }">
+        <BaseLoader v-if="loading.active.value" thickness="0.18" gray-color center />
+        <q-img v-else-if="avatar" :ratio="1" :src="avatar.url" :alt="`${name} Avatar`">
+          <template #loading>
+            <BaseLoader thickness="0.18" gray-color center />
+          </template>
+        </q-img>
+        <span v-else class="text-white">{{ displayName[0] }}</span>
       </q-avatar>
       <div class="people-detail-side__avatar-hover">
         <q-icon name="photo" size="32px" color="white" />
       </div>
-    </div>
+    </label>
 
     <div class="column gap-1">
       <CommonInputEdit
@@ -62,6 +68,9 @@
 
 <script lang="ts">
 import { defineComponent, ref } from 'vue';
+import { useStore } from 'src/store';
+import useLoading from 'src/composables/common/useLoading';
+
 import CommonInputEdit from 'components/common/CommonInputEdit.vue';
 
 export default defineComponent({
@@ -87,6 +96,11 @@ export default defineComponent({
       required: false,
       default: null,
     },
+    color: {
+      type: String,
+      required: false,
+      default: null,
+    },
 
     buttonLabel: {
       type: String,
@@ -99,6 +113,9 @@ export default defineComponent({
   emits: ['button-click', 'update:display-name', 'update:name'],
 
   setup(props, { emit }) {
+    const store = useStore();
+    const loading = useLoading();
+
     const localDisplayName = ref(props.displayName);
     function updateDisplayName() {
       emit('update:display-name', localDisplayName.value);
@@ -115,7 +132,22 @@ export default defineComponent({
       localName.value = props.displayName;
     }
 
+    const avatarInput = ref<HTMLInputElement | null>(null);
+    async function uploadAvatar() {
+      const file = avatarInput.value?.files?.[0];
+      if (!file) return;
+
+      try {
+        loading.start();
+        await store.dispatch('people/uploadUserImage', { file, type: 'avatar' });
+      } finally {
+        loading.stop();
+      }
+    }
+
     return {
+      loading,
+
       localDisplayName,
       updateDisplayName,
       resetDisplayName,
@@ -123,6 +155,9 @@ export default defineComponent({
       localName,
       updateName,
       resetName,
+
+      avatarInput,
+      uploadAvatar,
     };
   },
 });
@@ -135,9 +170,8 @@ export default defineComponent({
     top: -128px;
     left: 24px;
     cursor: pointer;
-    img {
-      border: 3px solid white;
-    }
+    border-radius: 100%;
+    border: 3px solid white;
   }
   &__avatar-hover {
     display: flex;
