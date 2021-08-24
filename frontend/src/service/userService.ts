@@ -54,14 +54,18 @@ export default {
   async uploadAvatar(file: File) {
     const form = new FormData();
     form.append('file', file);
-    const { data }: ApiResponseModel = await http.post('user/upload-avatar', form);
+    const { data }: ApiResponseModel = await http.post('user/avatar', form);
     return data as PublicFileModel;
   },
   async uploadHeader(file: File) {
     const form = new FormData();
     form.append('file', file);
-    const { data }: ApiResponseModel = await http.post('user/upload-header', form);
+    const { data }: ApiResponseModel = await http.post('user/header', form);
     return data as PublicFileModel;
+  },
+  async deleteHeader() {
+    await http.delete('user/header');
+    return null;
   },
 
   async sendEmailChange(id: number) {

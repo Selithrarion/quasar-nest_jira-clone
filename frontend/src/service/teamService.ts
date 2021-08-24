@@ -19,10 +19,15 @@ export default {
     const { data }: ApiResponseModel = await http.post('team/upload-avatar', form);
     return data as PublicFileModel;
   },
+
   async uploadHeader(file: File) {
     const form = new FormData();
     form.append('file', file);
     const { data }: ApiResponseModel = await http.post('team/upload-avatar', form);
     return data as PublicFileModel;
+  },
+  async deleteHeader() {
+    await http.delete('team/header');
+    return null;
   },
 };
