@@ -28,22 +28,33 @@ const actions: ActionTree<PeopleStateInterface, StateInterface> = {
   async uploadUserImage({ commit }, { file, type }: { file: File; type: 'avatar' | 'header' }) {
     if (type === 'avatar') {
       const avatar = await userService.uploadAvatar(file);
-      commit('UPLOAD_USER_IMAGE', { avatar });
+      commit('UPDATE_USER_DETAIL', { avatar });
       commit('user/UPDATE_USER', { avatar }, { root: true });
     } else {
       const header = await userService.uploadHeader(file);
-      commit('UPLOAD_USER_IMAGE', { header });
+      commit('UPDATE_USER_DETAIL', { header });
       commit('user/UPDATE_USER', { header }, { root: true });
     }
   },
   async uploadTeamImage({ commit }, { file, type }: { file: File; type: 'avatar' | 'header' }) {
     if (type === 'avatar') {
       const avatar = await teamService.uploadAvatar(file);
-      commit('UPLOAD_TEAM_IMAGE', { avatar });
+      commit('UPDATE_TEAM_DETAIL', { avatar });
     } else {
       const header = await teamService.uploadHeader(file);
-      commit('UPLOAD_TEAM_IMAGE', { header });
+      commit('UPDATE_TEAM_DETAIL', { header });
     }
+  },
+
+  async deleteUserHeader({ state, commit }) {
+    if (state.userDetail?.header) return;
+    await userService.deleteHeader();
+    commit('UPDATE_USER_DETAIL', { header: null });
+  },
+  async deleteTeamHeader({ state, commit }) {
+    if (state.teamDetail?.header) return;
+    await teamService.deleteHeader();
+    commit('UPDATE_TEAM_DETAIL', { header: null });
   },
 };
 

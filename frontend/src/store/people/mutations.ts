@@ -12,19 +12,12 @@ const mutation: MutationTree<PeopleStateInterface> = {
   },
 
   UPDATE_USER_DETAIL(state: PeopleStateInterface, user: UserDTO) {
+    if (!state.userDetail) return;
     state.userDetail = { ...state.userDetail, ...user } as UserModel;
   },
   UPDATE_TEAM_DETAIL(state: PeopleStateInterface, team: TeamDTO) {
-    state.teamDetail = { ...state.teamDetail, ...team } as TeamModel;
-  },
-
-  UPLOAD_USER_IMAGE(state: PeopleStateInterface, payload: UserDTO) {
-    if (!state.userDetail) return;
-    state.userDetail = { ...state.userDetail, ...payload };
-  },
-  UPLOAD_TEAM_IMAGE(state: PeopleStateInterface, payload: TeamDTO) {
     if (!state.teamDetail) return;
-    state.teamDetail = { ...state.teamDetail, ...payload };
+    state.teamDetail = { ...state.teamDetail, ...team }
   },
 };
 

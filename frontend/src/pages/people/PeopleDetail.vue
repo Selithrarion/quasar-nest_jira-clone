@@ -5,12 +5,7 @@
     <q-page>
       <header class="relative-position" @click="isHeaderMenu = !isHeaderMenu">
         <BaseLoader v-if="loading.custom.header" color="white" thickness="0.18" center />
-        <q-img
-          v-if="currentUser.header"
-          :src="currentUser.header.url"
-          height="200px"
-          alt="User header image"
-        >
+        <q-img v-if="currentUser.header" :src="currentUser.header.url" height="200px" alt="User header image">
           <template #loading>
             <BaseLoader color="white" thickness="0.18" center />
           </template>
@@ -100,7 +95,7 @@ import PeopleDetailSideUser from 'components/people/detail/PeopleDetailSideUser.
 import PeopleDetailSideTeam from 'components/people/detail/PeopleDetailSideTeam.vue';
 
 export default defineComponent({
-  name: 'PeopleTeam',
+  name: 'PeopleDetail',
 
   components: {
     PeopleDetailSideUser,
@@ -147,13 +142,20 @@ export default defineComponent({
     async function uploadHeaderFile(file: File) {
       try {
         loading.start('header');
-        await store.dispatch('people/uploadUserImage', { file, type: 'header' });
+        if (isUserPageType.value) await store.dispatch('people/uploadUserImage', { file, type: 'header' });
+        else await store.dispatch('people/uploadTeamImage', { file, id: currentTeamID.value, type: 'header' });
       } finally {
         loading.stop('header');
       }
     }
-    function deleteHeaderImage() {
-      return;
+    async function deleteHeaderImage() {
+      try {
+        loading.start('header');
+        if (isUserPageType.value) await store.dispatch('people/deleteUserHeader');
+        else await store.dispatch('people/deleteTeamHeader', currentTeamID);
+      } finally {
+        loading.stop('header');
+      }
     }
 
     return {
