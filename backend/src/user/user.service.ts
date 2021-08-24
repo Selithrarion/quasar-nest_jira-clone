@@ -85,7 +85,6 @@ export class UserService {
     const fileID = user[field]?.id;
     if (fileID) {
       await this.users.update(id, {
-        ...user,
         [field]: null,
       });
       await this.filesService.deletePublicFile(fileID);
