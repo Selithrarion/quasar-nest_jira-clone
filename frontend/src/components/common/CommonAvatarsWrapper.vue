@@ -51,7 +51,7 @@ export default defineComponent({
     margin: 0 -12px;
   }
 
-  ::v-deep img {
+  ::v-deep .q-avatar__content {
     border: 2px solid white;
   }
 
@@ -86,11 +86,11 @@ export default defineComponent({
   }
 
   &.hover-effects {
-    ::v-deep > .q-avatar {
+    ::v-deep > .base-avatar {
       cursor: pointer;
       transition: transform 200ms ease;
     }
-    ::v-deep > .q-avatar:hover {
+    ::v-deep > .base-avatar:hover {
       transform: translateY(-8px);
     }
   }

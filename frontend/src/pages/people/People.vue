@@ -1,5 +1,5 @@
 <template>
-  <q-page class="people-page big-side-padding">
+  <q-page class="people-page big-side-padding q-pb-xl">
     <div class="column gap-4 q-mt-lg">
       <div class="flex justify-end gap-2">
         <BaseButton label="Создайте новую команду" secondary-color unelevated @click="dialog.open('createTeam')" />
@@ -34,7 +34,7 @@
     <div class="teams-wrapper">
       <q-card class="shadow-1 hover-shadow-lg">
         <CommonAvatarsWrapper class="q-pa-md bg-grey-3">
-          <BaseAvatar v-for="avatar of 3" :key="avatar" size="36px" show-icon />
+          <BaseAvatar v-for="avatar of 3" :key="avatar" color="blue-grey-3" size="36px" show-icon />
         </CommonAvatarsWrapper>
 
         <q-card-section class="column items-center q-px-sm q-pt-sm q-pb-md">
