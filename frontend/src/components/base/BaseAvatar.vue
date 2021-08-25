@@ -26,7 +26,7 @@
 
       <q-icon v-else-if="showIcon" name="person" :size="iconSize" />
 
-      <span v-else-if="itemName" class="text-white">{{ String(itemName).slice(0, 2) }}</span>
+      <span v-else-if="itemName" class="text-white">{{ itemInitials }}</span>
     </slot>
 
     <BaseTooltip :tooltip="tooltip || username" />
@@ -34,7 +34,7 @@
 </template>
 
 <script lang="ts">
-import { defineComponent } from 'vue';
+import { defineComponent, computed } from 'vue';
 
 export default defineComponent({
   name: 'BaseAvatar',
@@ -80,8 +80,12 @@ export default defineComponent({
     },
   },
 
-  setup() {
-    return {};
+  setup(props) {
+    const itemInitials = computed(() => String(props.itemName).slice(0, 2).toUpperCase());
+
+    return {
+      itemInitials,
+    };
   },
 });
 </script>
