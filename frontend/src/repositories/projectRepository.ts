@@ -4,20 +4,20 @@ import { ApiResponseModel } from 'src/models/common/apiResponse.model';
 
 export default {
   async getAll(): Promise<ProjectModel[]> {
-    const { data }: ApiResponseModel = await http.get('/projects');
-    return data as ProjectModel[];
+    const { data }: ApiResponseModel<ProjectModel[]> = await http.get('/projects');
+    return data;
   },
   async getByID(id: number): Promise<ProjectModel> {
-    const { data }: ApiResponseModel = await http.get(`/projects/${id}`);
-    return data as ProjectModel;
+    const { data }: ApiResponseModel<ProjectModel> = await http.get(`/projects/${id}`);
+    return data;
   },
   async create(projectData: ProjectDTO): Promise<ProjectModel> {
-    const { data }: ApiResponseModel = await http.post('/projects', projectData);
-    return data as ProjectModel;
+    const { data }: ApiResponseModel<ProjectModel> = await http.post('/projects', projectData);
+    return data;
   },
   async update(id: number, projectData: Partial<ProjectDTO>): Promise<ProjectModel> {
-    const { data }: ApiResponseModel = await http.patch(`/projects/${id}`, projectData);
-    return data as ProjectModel;
+    const { data }: ApiResponseModel<ProjectModel> = await http.patch(`/projects/${id}`, projectData);
+    return data;
   },
   async delete(id: number): Promise<void> {
     return await http.delete(`/projects/${id}`);

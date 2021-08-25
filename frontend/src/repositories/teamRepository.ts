@@ -5,26 +5,26 @@ import { PublicFileModel } from 'src/models/common/public.file.model';
 
 export default {
   async getByID(id: number): Promise<TeamModel> {
-    const { data }: ApiResponseModel = await http.get(`/user/${id}`);
-    return data as TeamModel;
+    const { data }: ApiResponseModel<TeamModel> = await http.get(`/user/${id}`);
+    return data;
   },
   async update(id: number, payload: TeamDTO) {
-    const { data }: ApiResponseModel = await http.patch(`/user/${id}`, payload);
-    return data as TeamModel;
+    const { data }: ApiResponseModel<TeamModel> = await http.patch(`/user/${id}`, payload);
+    return data;
   },
 
   async uploadAvatar(file: File) {
     const form = new FormData();
     form.append('file', file);
-    const { data }: ApiResponseModel = await http.post('team/upload-avatar', form);
-    return data as PublicFileModel;
+    const { data }: ApiResponseModel<PublicFileModel> = await http.post('team/upload-avatar', form);
+    return data;
   },
 
   async uploadHeader(file: File) {
     const form = new FormData();
     form.append('file', file);
-    const { data }: ApiResponseModel = await http.post('team/upload-avatar', form);
-    return data as PublicFileModel;
+    const { data }: ApiResponseModel<PublicFileModel> = await http.post('team/upload-avatar', form);
+    return data;
   },
   async deleteHeader() {
     await http.delete('team/header');

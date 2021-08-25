@@ -13,17 +13,17 @@ import { PublicFileModel } from 'src/models/common/public.file.model';
 
 export default {
   async getSelf(): Promise<UserModel> {
-    const { data }: ApiResponseModel = await http.get('/user/self');
-    return data as UserModel;
+    const { data }: ApiResponseModel<UserModel> = await http.get('/user/self');
+    return data;
   },
 
   async login(payload: UserLoginDTO): Promise<UserAuthResponse> {
-    const { data }: ApiResponseModel = await http.post('/auth/login', payload);
-    return data as UserAuthResponse;
+    const { data }: ApiResponseModel<UserAuthResponse> = await http.post('/auth/login', payload);
+    return data;
   },
   async register(payload: UserRegisterDTO): Promise<UserAuthResponse> {
-    const { data }: ApiResponseModel = await http.post('/auth/register', payload);
-    return data as UserAuthResponse;
+    const { data }: ApiResponseModel<UserAuthResponse> = await http.post('/auth/register', payload);
+    return data;
   },
   async forgotPassword(email: string): Promise<void> {
     return await http.post('/auth/forgot-password', { email });
@@ -33,35 +33,35 @@ export default {
   },
   async isUsernameTaken(username: string): Promise<boolean> {
     const params = { username };
-    const { data }: ApiResponseModel = await http.get('/user/is-taken', { params });
-    return data as boolean;
+    const { data }: ApiResponseModel<boolean> = await http.get('/user/is-taken', { params });
+    return data;
   },
 
   async updateTokens(payload: UserUpdateTokenDTO): Promise<UserUpdateTokenResponse> {
-    const { data }: ApiResponseModel = await http.post('/auth/update-tokens', payload);
-    return data as UserUpdateTokenResponse;
+    const { data }: ApiResponseModel<UserUpdateTokenResponse> = await http.post('/auth/update-tokens', payload);
+    return data;
   },
 
   async getByID(id: number): Promise<UserModel> {
-    const { data }: ApiResponseModel = await http.get(`/user/${id}`);
-    return data as UserModel;
+    const { data }: ApiResponseModel<UserModel> = await http.get(`/user/${id}`);
+    return data;
   },
   async update(id: number, payload: UserDTO) {
-    const { data }: ApiResponseModel = await http.patch(`/user/${id}`, payload);
-    return data as UserModel;
+    const { data }: ApiResponseModel<UserModel> = await http.patch(`/user/${id}`, payload);
+    return data;
   },
 
   async uploadAvatar(file: File) {
     const form = new FormData();
     form.append('file', file);
-    const { data }: ApiResponseModel = await http.post('user/avatar', form);
-    return data as PublicFileModel;
+    const { data }: ApiResponseModel<PublicFileModel> = await http.post('user/avatar', form);
+    return data;
   },
   async uploadHeader(file: File) {
     const form = new FormData();
     form.append('file', file);
-    const { data }: ApiResponseModel = await http.post('user/header', form);
-    return data as PublicFileModel;
+    const { data }: ApiResponseModel<PublicFileModel> = await http.post('user/header', form);
+    return data;
   },
   async deleteHeader() {
     await http.delete('user/header');

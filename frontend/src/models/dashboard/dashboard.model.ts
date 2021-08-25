@@ -15,7 +15,7 @@ export interface DashboardModel extends BaseModel{
 }
 
 export interface DashboardDTO {
-  name: string;
-  description: string;
-  accessID: number;
+  name?: string;
+  description?: string;
+  accessID?: number;
 }

@@ -1,6 +1,6 @@
-export interface ApiResponseModel {
+export interface ApiResponseModel<T> {
   config: unknown;
-  data: unknown;
+  data: T;
   headers: unknown;
   request: unknown;
   status: number;
