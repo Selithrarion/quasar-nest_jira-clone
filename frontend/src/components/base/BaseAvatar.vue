@@ -1,5 +1,5 @@
 <template>
-  <q-avatar :size="size" :style="{ backgroundColor: src ? 'white' : itemColor }" v-bind="$attrs">
+  <q-avatar class="base-avatar" :size="size" :style="{ backgroundColor: src ? 'white' : itemColor }" v-bind="$attrs">
     <slot>
       <BaseLoader
         v-if="loading"
