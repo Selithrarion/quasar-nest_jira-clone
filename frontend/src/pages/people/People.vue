@@ -50,7 +50,7 @@
       </q-card>
     </div>
 
-    <PeopleDialogTeamCreate v-if="dialog.openedItem.value === 'createTeam'" @close="dialog.close" />
+    <PeopleDialogTeamCreate v-if="dialog.openedName.value === 'createTeam'" @close="dialog.close" />
   </q-page>
 </template>
 
