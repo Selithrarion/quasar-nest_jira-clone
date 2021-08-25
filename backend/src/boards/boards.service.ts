@@ -54,14 +54,11 @@ export class BoardsService {
   }
 
   async toggleFavorite(boardID: number, userID: number): Promise<void> {
-    console.log(boardID, userID);
     const userFavoriteBoards = await this.userService.getFavoriteBoards(userID);
-    console.log(userFavoriteBoards);
     const boardIndex = userFavoriteBoards.findIndex((b) => b.id === boardID);
 
     if (boardIndex !== -1) {
       userFavoriteBoards.splice(boardIndex, 1);
-      console.log('SPLICED', boardIndex, userFavoriteBoards);
     } else {
       const project = await this.boards.findOneOrFail(boardID);
       userFavoriteBoards.push(project);

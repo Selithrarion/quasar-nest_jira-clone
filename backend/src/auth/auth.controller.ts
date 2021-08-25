@@ -16,13 +16,11 @@ export class AuthController {
   @UseGuards(LocalAuthGuard)
   @Post('login')
   async login(@Request() req): Promise<UserTokensInterface> {
-    console.log('AUTH CONTROLLER LOGIN', req.user);
     return await this.authService.login(req.user);
   }
 
   @Post('register')
   async register(@Body() payload: CreateUserDTO): Promise<UserTokensInterface> {
-    console.log('REGISTER', payload);
     const user = await this.userService.create(payload);
     return await this.authService.login(user);
   }

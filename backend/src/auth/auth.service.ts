@@ -8,12 +8,10 @@ export class AuthService {
   constructor(private readonly userService: UserService, private readonly jwtService: JwtService) {}
 
   async validateUser({ email, password }: UserValidationDTO): Promise<UserEntity> {
-    console.log('VALIDATE USER, AUTH SERVICE', email, password);
     const user = await this.userService.getByEmail(email);
     if (!user) throw new HttpException('USER_NOT_FOUND', HttpStatus.UNAUTHORIZED);
 
     const isPasswordValid = await user.validatePassword(password);
-    console.log('AUTH SERVICE isPasswordValid', isPasswordValid);
     if (isPasswordValid) return user;
     else throw new HttpException('USER_INVALID_CREDENTIALS', HttpStatus.UNAUTHORIZED);
   }

@@ -64,7 +64,6 @@ export class ProjectsService {
 
     if (projectIndex !== -1) {
       userFavoriteProjects.splice(projectIndex, 1);
-      console.log('SPLICED', projectIndex, userFavoriteProjects);
     } else {
       const project = await this.projects.findOne(projectID);
       userFavoriteProjects.push(project);
