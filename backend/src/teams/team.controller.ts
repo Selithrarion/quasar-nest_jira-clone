@@ -1,19 +1,33 @@
-import { Body, Controller, Get, Param, Patch, Post, Query, Request } from '@nestjs/common';
+import {
+  Body,
+  Controller,
+  Delete,
+  Get,
+  Param,
+  Patch,
+  Post,
+  Query,
+  Request,
+  UploadedFile,
+  UseInterceptors,
+} from '@nestjs/common';
 import { ApiBearerAuth, ApiOperation, ApiResponse, ApiTags } from '@nestjs/swagger';
 
 import { TeamEntity } from './entity/team.entity';
-import { teamRepository } from './team.service';
+import { TeamService } from './team.service';
 import { CreateTeamDTO } from './dto';
+import { FileInterceptor } from '@nestjs/platform-express';
+import { PublicFileEntity } from '../files/entity/public-file.entity';
 
 @ApiBearerAuth()
 @ApiTags('team')
 @Controller('team')
 export class TeamController {
-  constructor(private readonly teamRepository: teamRepository) {}
+  constructor(private readonly teamService: TeamService) {}
 
   @Get(':id')
   async getByID(@Param('id') id: number): Promise<TeamEntity> {
-    return await this.teamRepository.getByID(id);
+    return await this.teamService.getByID(id);
   }
 
   @ApiOperation({ summary: 'Create team' })
@@ -21,7 +35,7 @@ export class TeamController {
   @ApiResponse({ status: 401, description: 'Unauthorized' })
   @Post()
   async create(@Body() payload: CreateTeamDTO, @Request() req): Promise<TeamEntity> {
-    return await this.teamRepository.create(payload, req.user.id);
+    return await this.teamService.create(payload, req.user.id);
   }
 
   @ApiOperation({ summary: 'Update team' })
@@ -29,11 +43,30 @@ export class TeamController {
   @ApiResponse({ status: 401, description: 'Unauthorized' })
   @Patch(':id')
   async update(@Param('id') id: number, @Body() payload: Partial<TeamEntity>): Promise<TeamEntity> {
-    return await this.teamRepository.update(id, payload);
+    return await this.teamService.update(id, payload);
+  }
+
+  @ApiBearerAuth()
+  @Post('avatar')
+  @UseInterceptors(FileInterceptor('file'))
+  async uploadAvatar(@UploadedFile() file: Express.Multer.File, @Request() req): Promise<PublicFileEntity> {
+    return await this.teamService.setTeamImage(file, 'avatar', req.user.id);
+  }
+
+  @ApiBearerAuth()
+  @Post('header')
+  @UseInterceptors(FileInterceptor('file'))
+  async uploadHeader(@UploadedFile() file: Express.Multer.File, @Request() req): Promise<PublicFileEntity> {
+    return await this.teamService.setTeamImage(file, 'header', req.user.id);
+  }
+  @ApiBearerAuth()
+  @Delete('header')
+  async deleteHeader(@Request() req): Promise<void> {
+    return await this.teamService.deleteTeamImage('header', req.user.id);
   }
 
   @Get('is-taken')
   async isTeamNameTaken(@Query('name') name: string): Promise<boolean> {
-    return await this.teamRepository.isTeamNameTaken(name);
+    return await this.teamService.isTeamNameTaken(name);
   }
 }

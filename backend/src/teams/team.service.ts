@@ -5,14 +5,22 @@ import { TeamEntity } from './entity/team.entity';
 import { CreateTeamDTO } from './dto';
 import { UserService } from '../user/user.service';
 
+import { v4 as uuidv4 } from 'uuid';
+import { extname } from 'path';
+import { PublicFileEntity } from '../files/entity/public-file.entity';
+import { FilesService } from '../files/files.service';
+
 @Injectable()
-export class teamRepository {
+export class TeamService {
   constructor(
     @InjectRepository(TeamEntity)
     private readonly teams: Repository<TeamEntity>,
 
     @Inject(UserService)
-    private readonly userService: UserService
+    private readonly userService: UserService,
+
+    @Inject(FilesService)
+    private readonly filesService: FilesService
   ) {}
 
   async getByID(id: number): Promise<TeamEntity> {
@@ -36,6 +44,46 @@ export class teamRepository {
     const updated = this.teams.create({ ...toUpdate, ...payload });
     await this.teams.save(updated);
     return updated;
+  }
+
+  async setTeamImage(file: Express.Multer.File, field: 'avatar' | 'header', id: number): Promise<PublicFileEntity> {
+    const validImageTypes = ['image/jpeg', 'image/jpg', 'image/png'];
+    const validImageSize = 1024 * 1024 * 20;
+    const isInvalidType = !validImageTypes.includes(file.mimetype);
+
+    if (isInvalidType) throw new HttpException('INVALID_FILE_TYPE', HttpStatus.UNPROCESSABLE_ENTITY);
+    if (validImageSize < file.size) throw new HttpException('INVALID_FILE_SIZE', HttpStatus.UNPROCESSABLE_ENTITY);
+
+    const fileBuffer = file.buffer;
+    const filename = uuidv4() + extname(file.originalname);
+
+    const team = await this.teams.findOneOrFail(id);
+    const isAlreadyHaveFieldImage = Boolean(team[field]);
+
+    if (isAlreadyHaveFieldImage) {
+      await this.teams.update(id, {
+        [field]: null,
+      });
+      await this.filesService.deletePublicFile(team[field].id);
+    }
+
+    const uploadedFile = await this.filesService.uploadPublicFile(fileBuffer, filename);
+    await this.teams.update(id, {
+      [field]: uploadedFile,
+    });
+
+    return uploadedFile;
+  }
+
+  async deleteTeamImage(field: 'avatar' | 'header', id: number): Promise<void> {
+    const user = await this.teams.findOneOrFail(id);
+    const fileID = user[field]?.id;
+    if (fileID) {
+      await this.teams.update(id, {
+        [field]: null,
+      });
+      await this.filesService.deletePublicFile(fileID);
+    }
   }
 
   async isTeamNameTaken(name: string): Promise<boolean> {
