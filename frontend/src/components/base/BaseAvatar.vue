@@ -29,7 +29,7 @@
       <span v-else-if="itemName" class="text-white">{{ itemInitials }}</span>
     </slot>
 
-    <BaseTooltip :tooltip="tooltip || username" />
+    <BaseTooltip :label="tooltip || itemName" />
   </q-avatar>
 </template>
 
