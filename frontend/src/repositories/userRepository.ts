@@ -12,6 +12,14 @@ import { ApiResponseModel } from 'src/models/common/apiResponse.model';
 import { PublicFileModel } from 'src/models/common/public.file.model';
 
 export default {
+  async searchUsers(search: string): Promise<UserModel[]> {
+    const params = {
+      search,
+    };
+    const { data }: ApiResponseModel<UserModel[]> = await http.get('/user', { params });
+    return data;
+  },
+
   async getSelf(): Promise<UserModel> {
     const { data }: ApiResponseModel<UserModel> = await http.get('/user/self');
     return data;
