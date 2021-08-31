@@ -14,7 +14,7 @@ import {
 import * as bcrypt from 'bcrypt';
 import { IsEmail } from 'class-validator';
 
-import { BaseEntity } from '../../common/base.entity';
+import { BaseEntity } from '../../../common/types/base.entity';
 import { IssueEntity } from '../../issues/entity/issue.entity';
 import { ProjectEntity } from '../../projects/entity/project.entity';
 import { BoardEntity } from '../../boards/entity/board.entity';

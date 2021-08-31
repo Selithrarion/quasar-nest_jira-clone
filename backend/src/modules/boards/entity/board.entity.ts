@@ -1,5 +1,5 @@
 import { Column, Entity, JoinColumn, ManyToMany, ManyToOne, OneToMany, RelationId } from 'typeorm';
-import { BaseEntity } from '../../common/base.entity';
+import { BaseEntity } from '../../../common/types/base.entity';
 import { ColumnEntity } from '../../columns/entity/column.entity';
 import { ProjectEntity } from '../../projects/entity/project.entity';
 import { UserEntity } from '../../user/entity/user.entity';

@@ -1,11 +1,12 @@
 import { Controller, Get, Post, Body, Patch, Param, Delete, Request } from '@nestjs/common';
 import { IssuesService } from './issues.service';
 import { ApiBearerAuth, ApiOperation, ApiResponse, ApiTags } from '@nestjs/swagger';
-import { CreateIssueDTO, UpdateIssueDTO } from './dto';
+
 import { IssueEntity } from './entity/issue.entity';
+import { CreateIssueDTO, UpdateIssueDTO } from './dto';
+
 import { CommentEntity } from './entity/comment.entity';
-import { CreateCommentDTO } from './dto/create-comment.dto';
-import { UpdateCommentDTO } from './dto/update-comment.dto';
+import { CreateCommentDTO, UpdateCommentDTO } from './dto';
 
 @ApiBearerAuth()
 @ApiTags('issues')

@@ -1,8 +1,8 @@
 import { Column, Entity, JoinColumn, ManyToMany, ManyToOne, OneToMany, OneToOne } from 'typeorm';
-import { BaseEntity } from '../../common/base.entity';
+import { BaseEntity } from '../../../common/types/base.entity';
 import { BoardEntity } from '../../boards/entity/board.entity';
 import { UserEntity } from '../../user/entity/user.entity';
-import { AccessEnum } from '../../common/access.model';
+import { AccessEnum } from '../../../common/types/access.model';
 import { PublicFileEntity } from '../../files/entity/public-file.entity';
 
 export enum ProjectTemplateEnum {

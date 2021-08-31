@@ -1,6 +1,6 @@
 import { Column, Entity, JoinColumn, JoinTable, ManyToMany, OneToMany, OneToOne, RelationId } from 'typeorm';
 
-import { BaseEntity } from '../../common/base.entity';
+import { BaseEntity } from '../../../common/types/base.entity';
 import { UserEntity } from '../../user/entity/user.entity';
 import { PublicFileEntity } from '../../files/entity/public-file.entity';
 

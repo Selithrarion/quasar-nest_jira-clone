@@ -3,13 +3,13 @@ import { APP_GUARD, APP_INTERCEPTOR } from '@nestjs/core';
 import { ConfigModule } from '@nestjs/config';
 import { TypeOrmModule } from '@nestjs/typeorm';
 
-import { ProjectsModule } from './projects/projects.module';
-import { UserModule } from './user/user.module';
-import { TeamModule } from './teams/team.module';
-import { BoardsModule } from './boards/boards.module';
-import { ColumnsModule } from './columns/columns.module';
-import { IssuesModule } from './issues/issues.module';
-import { AuthModule } from './auth/auth.module';
+import { ProjectsModule } from './modules/projects/projects.module';
+import { UserModule } from './modules/user/user.module';
+import { TeamModule } from './modules/teams/team.module';
+import { BoardsModule } from './modules/boards/boards.module';
+import { ColumnsModule } from './modules/columns/columns.module';
+import { IssuesModule } from './modules/issues/issues.module';
+import { AuthModule } from './modules/auth/auth.module';
 
 import { JwtAuthGuard } from './modules/auth/guard/jwt-auth.guard';
 import { SearchModule } from './services/search/search.module';

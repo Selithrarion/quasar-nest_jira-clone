@@ -1,7 +1,7 @@
 import { IsNotEmpty, IsNumber, IsString, MaxLength } from 'class-validator';
 import { ApiProperty } from '@nestjs/swagger';
 import { ProjectTypeEnum } from '../entity/project.entity';
-import { AccessEnum } from '../../common/access.model';
+import { AccessEnum } from '../../../common/types/access.model';
 
 export class CreateProjectDTO {
   @ApiProperty({ required: true })
