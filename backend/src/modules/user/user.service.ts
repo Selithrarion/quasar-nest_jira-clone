@@ -1,6 +1,6 @@
 import { HttpException, HttpStatus, Inject, Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
-import { Repository } from 'typeorm';
+import { In, Repository } from 'typeorm';
 import * as bcrypt from 'bcrypt';
 
 import { CreateUserDTO } from './dto';
@@ -8,12 +8,13 @@ import { UserEntity } from './entity/user.entity';
 import { ProjectEntity } from '../projects/entity/project.entity';
 import { BoardEntity } from '../boards/entity/board.entity';
 
-import stringToHslColor from '../utils/stringToHslColor';
+import stringToHslColor from '../../common/utils/stringToHslColor';
 
 import { v4 as uuidv4 } from 'uuid';
 import { extname } from 'path';
 import { FilesService } from '../files/files.service';
 import { PublicFileEntity } from '../files/entity/public-file.entity';
+import { UserSearchService } from './user-search.service';
 
 @Injectable()
 export class UserService {
@@ -21,9 +22,22 @@ export class UserService {
     @InjectRepository(UserEntity)
     private readonly users: Repository<UserEntity>,
 
+    @Inject(UserSearchService)
+    private readonly userSearchService: UserSearchService,
+
     @Inject(FilesService)
     private readonly filesService: FilesService
   ) {}
+
+  async get(searchText: string, userID: number): Promise<UserEntity[]> {
+    const searchResult = await this.userSearchService.search(searchText);
+    const userIDs = searchResult.map((result) => result.id);
+    if (!userIDs.length) return [];
+    return this.users.find({
+      where: { id: In(userIDs) },
+      take: 10,
+    });
+  }
 
   async getByEmail(email: string): Promise<UserEntity> {
     return await this.users.findOne({ where: { email } });
@@ -46,9 +60,17 @@ export class UserService {
 
   async update(id: number, payload: Partial<UserEntity>): Promise<UserEntity> {
     const toUpdate = await this.users.findOneOrFail(id);
-    const updated = this.users.create({ ...toUpdate, ...payload });
-    await this.users.save(updated);
-    return updated;
+    const user = this.users.create({ ...toUpdate, ...payload });
+    const updated = await this.users.save(user);
+    if (updated) {
+      await this.userSearchService.update(user);
+      return updated;
+    }
+  }
+
+  async delete(id: number): Promise<void> {
+    await this.users.delete(id);
+    await this.userSearchService.remove(id);
   }
 
   async setUserImage(file: Express.Multer.File, field: 'avatar' | 'header', id: number): Promise<PublicFileEntity> {
@@ -66,16 +88,20 @@ export class UserService {
     const isAlreadyHaveFieldImage = Boolean(user[field]);
 
     if (isAlreadyHaveFieldImage) {
-      await this.users.update(id, {
+      const updatedUser = await this.users.save({
+        ...user,
         [field]: null,
       });
       await this.filesService.deletePublicFile(user[field].id);
+      await this.userSearchService.update(updatedUser);
     }
 
     const uploadedFile = await this.filesService.uploadPublicFile(fileBuffer, filename);
-    await this.users.update(id, {
+    const updatedUser = await this.users.save({
+      ...user,
       [field]: uploadedFile,
     });
+    await this.userSearchService.update(updatedUser);
 
     return uploadedFile;
   }
@@ -84,10 +110,12 @@ export class UserService {
     const user = await this.users.findOneOrFail(id);
     const fileID = user[field]?.id;
     if (fileID) {
-      await this.users.update(id, {
+      const updatedUser = await this.users.save({
+        ...user,
         [field]: null,
       });
       await this.filesService.deletePublicFile(fileID);
+      await this.userSearchService.update(updatedUser);
     }
   }
 

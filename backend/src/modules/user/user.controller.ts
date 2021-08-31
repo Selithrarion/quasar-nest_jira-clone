@@ -26,6 +26,12 @@ export class UserController {
   constructor(private readonly userService: UserService) {}
 
   @ApiBearerAuth()
+  @Get()
+  async get(@Query('search') search: string, @Request() req): Promise<UserEntity[]> {
+    return await this.userService.get(search, req.user.id);
+  }
+
+  @ApiBearerAuth()
   @Get('self')
   async getSelf(@Request() req): Promise<UserEntity> {
     return await this.userService.getByID(req.user.id);
