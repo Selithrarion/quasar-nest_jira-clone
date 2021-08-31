@@ -76,8 +76,8 @@ export class TeamService {
   }
 
   async deleteTeamImage(field: 'avatar' | 'header', id: number): Promise<void> {
-    const user = await this.teams.findOneOrFail(id);
-    const fileID = user[field]?.id;
+    const team = await this.teams.findOneOrFail(id);
+    const fileID = team[field]?.id;
     if (fileID) {
       await this.teams.update(id, {
         [field]: null,
