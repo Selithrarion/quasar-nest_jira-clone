@@ -11,7 +11,8 @@ import { ColumnsModule } from './columns/columns.module';
 import { IssuesModule } from './issues/issues.module';
 import { AuthModule } from './auth/auth.module';
 
-import { JwtAuthGuard } from './auth/guard/jwt-auth.guard';
+import { JwtAuthGuard } from './modules/auth/guard/jwt-auth.guard';
+import { SearchModule } from './services/search/search.module';
 
 @Global()
 @Module({
@@ -37,6 +38,7 @@ import { JwtAuthGuard } from './auth/guard/jwt-auth.guard';
     ColumnsModule,
     IssuesModule,
     AuthModule,
+    SearchModule,
   ],
   controllers: [],
   providers: [
