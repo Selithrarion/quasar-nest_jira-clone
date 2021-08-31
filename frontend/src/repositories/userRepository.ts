@@ -12,7 +12,7 @@ import { ApiResponseModel } from 'src/models/common/apiResponse.model';
 import { PublicFileModel } from 'src/models/common/public.file.model';
 
 export default {
-  async searchUsers(search: string): Promise<UserModel[]> {
+  async searchUsers(search = ''): Promise<UserModel[]> {
     const params = {
       search,
     };
