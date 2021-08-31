@@ -28,14 +28,15 @@
 
           <BaseSelect
             v-model="form.team"
-            :options="options"
+            :options="availableUsers"
             label="Их имя или @упоминание"
             hint="Вы можете пригласить не более 10 пользователей за раз."
-            input-debounce="0"
+            input-debounce="500"
             hide-selected
             fill-input
             use-input
             use-chips
+            @filter="searchUsers"
           />
         </q-form>
       </div>
@@ -44,19 +45,36 @@
 </template>
 
 <script lang="ts">
-import { defineComponent, reactive, ref } from 'vue';
+import { defineComponent, reactive, ref, computed, onBeforeMount } from 'vue';
 
 import { useRouter } from 'vue-router';
+import { useStore } from 'src/store';
 import useFormValidation from 'src/composables/form/useFormValidation';
 import useLoading from 'src/composables/common/useLoading';
+
+import userRepository from 'src/repositories/userRepository';
+import { UserModel } from 'src/models/user/user.model';
 
 export default defineComponent({
   name: 'PeopleDialogTeamCreate',
 
   setup() {
     const router = useRouter();
+    const store = useStore();
     const loading = useLoading();
     const rules = useFormValidation();
+
+    const availableUsers = ref<UserModel[]>([]);
+    type SelectUpdateFunction = (arg0: () => Promise<void>) => void;
+    function searchUsers(value: string, update: SelectUpdateFunction) {
+      update(async () => {
+        availableUsers.value = await userRepository.searchUsers(value.toLowerCase());
+      });
+    }
+
+    onBeforeMount(async () => {
+      await userRepository.searchUsers();
+    });
 
     const valid = ref(false);
     const form = reactive({
@@ -65,9 +83,7 @@ export default defineComponent({
     });
 
     async function createTeam() {
-      if (!valid.value) {
-        return;
-      }
+      if (!valid.value) return;
 
       try {
         loading.start();
@@ -83,6 +99,9 @@ export default defineComponent({
     return {
       rules,
       loading,
+
+      availableUsers,
+      searchUsers,
 
       valid,
       form,
