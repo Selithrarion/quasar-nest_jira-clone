@@ -1,29 +1,36 @@
-version: "3.4"
+version: "3"
 
 services:
   backend:
     build:
-      dockerfile: frontend/Dockerfile
+      dockerfile: Dockerfile
       context: ./backend
+    ports:
+      - 8081:8081
     volumes:
       - /app/node_modules
       - ./backend:/app
     env_file:
       - ./backend/.env
+    networks:
+      - web
 
   frontend:
     build:
       dockerfile: Dockerfile
       context: ./frontend
+    ports:
+      - 8080:80
     volumes:
       - /app/node_modules
       - ./frontend/web:/app
     env_file:
       - ./frontend/.env
+    networks:
+      - web
   #
   #  postgres:
-  #    container_name: postgres
-  #    image: postgres:latest
+  #    image: postgres:9.6-alphine
   #    ports:
   #      - "5432:5432"
   #    volumes:
@@ -36,7 +43,6 @@ services:
   #  pgadmin:
   #    links:
   #      - postgres:postgres
-  #    container_name: pgadmin
   #    image: dpage/pgadmin4
   #    ports:
   #      - "8080:80"
@@ -49,7 +55,6 @@ services:
 
   elasticsearch:
     image: docker.elastic.co/elasticsearch/elasticsearch:7.9.0
-    container_name: elasticsearch
     environment:
       - node.name=elasticsearch
       - http.port=9200
@@ -138,6 +143,8 @@ volumes:
 #    driver: local
 
 networks:
+  web:
+    driver: bridge
   postgres:
     driver: bridge
   elastic:
