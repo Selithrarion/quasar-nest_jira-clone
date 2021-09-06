@@ -127,7 +127,7 @@ export class UserEntity extends BaseEntity {
     onUpdate: 'CASCADE',
     onDelete: 'CASCADE',
   })
-  teams: UserEntity[];
+  teams: TeamEntity[];
 
   @ManyToOne(() => TeamEntity, (team) => team.leader, {
     onUpdate: 'CASCADE',
