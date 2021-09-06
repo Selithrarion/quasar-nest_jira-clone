@@ -39,8 +39,8 @@ export class UserController {
 
   @ApiBearerAuth()
   @Get(':id')
-  async getByID(@Param('id') id: number): Promise<UserEntity> {
-    return await this.userService.getByID(id);
+  async getProfileByID(@Param('id') id: number): Promise<UserEntity> {
+    return await this.userService.getProfileByID(id);
   }
   @ApiBearerAuth()
   @Patch(':id')

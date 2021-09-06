@@ -45,6 +45,9 @@ export class UserService {
   async getByID(id: number): Promise<UserEntity> {
     return await this.users.findOne(id);
   }
+  async getProfileByID(id: number): Promise<UserEntity> {
+    return await this.users.findOne(id, { relations: ['assignedIssues', 'watchingIssues', 'projects', 'teams'] });
+  }
 
   async create(payload: CreateUserDTO): Promise<UserEntity> {
     const isUserAlreadyExist = await this.users.findOne({ where: { email: payload.email } });
