@@ -1,5 +1,5 @@
 <template>
-  <div class="column gap-4 flex-grow-1 relative-position">
+  <aside class="column gap-4 flex-grow-1 relative-position">
     <label class="people-detail-side__avatar">
       <input ref="avatarInput" class="hidden absolute-full" type="file" accept="image/*" @input="uploadAvatar" />
       <BaseAvatar
@@ -61,7 +61,7 @@
     </div>
 
     <slot name="append" />
-  </div>
+  </aside>
 </template>
 
 <script lang="ts">
