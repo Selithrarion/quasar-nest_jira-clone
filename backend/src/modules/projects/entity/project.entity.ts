@@ -4,6 +4,7 @@ import { BoardEntity } from '../../boards/entity/board.entity';
 import { UserEntity } from '../../user/entity/user.entity';
 import { AccessEnum } from '../../../common/types/access.model';
 import { PublicFileEntity } from '../../files/entity/public-file.entity';
+import { IssueEntity } from '../../issues/entity/issue.entity';
 
 export enum ProjectTemplateEnum {
   KANBAN = 1,
@@ -61,4 +62,11 @@ export class ProjectEntity extends BaseEntity {
     onDelete: 'CASCADE',
   })
   users: UserEntity[];
+
+  @OneToMany(() => IssueEntity, (issue) => issue.project, {
+    cascade: true,
+    onUpdate: 'CASCADE',
+    onDelete: 'CASCADE',
+  })
+  issues: IssueEntity[];
 }

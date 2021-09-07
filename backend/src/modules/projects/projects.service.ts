@@ -49,7 +49,7 @@ export class ProjectsService {
 
   async update(id: number, projectData: UpdateProjectDTO): Promise<ProjectEntity> {
     const toUpdate = await this.projects.findOneOrFail(id);
-    const updated = { ...toUpdate, ...projectData };
+    const updated = this.projects.create({ ...toUpdate, ...projectData });
     await this.projects.save(updated);
     return updated;
   }

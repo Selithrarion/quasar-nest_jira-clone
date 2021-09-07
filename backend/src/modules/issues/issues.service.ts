@@ -43,7 +43,7 @@ export class IssuesService {
     const toUpdate = await this.issues.findOneOrFail(id, {
       relations: ['author', 'watchers', 'comments'],
     });
-    const updated = { ...toUpdate, ...payload };
+    const updated = this.issues.create({ ...toUpdate, ...payload });
     await this.issues.update(id, payload);
 
     delete updated.column;
@@ -66,7 +66,7 @@ export class IssuesService {
   }
   async editComment(commentID: number, payload: UpdateCommentDTO): Promise<CommentEntity> {
     const comment = await this.comments.findOneOrFail(commentID);
-    const updated = { ...comment, ...payload };
+    const updated = this.comments.create({ ...comment, ...payload });
     await this.comments.update(commentID, payload);
     return updated;
   }
