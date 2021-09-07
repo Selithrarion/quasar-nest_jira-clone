@@ -1,5 +1,5 @@
 <template>
-  <q-icon :name="selectedType.icon" :color="selectedType.color" :size="small ? 'xs' : 'sm'">
+  <q-icon v-if="selectedType" :name="selectedType.icon" :color="selectedType.color" :size="small ? 'xs' : 'sm'">
     <BaseTooltip v-if="!hideTooltip" :label="tooltip || selectedType.name" />
   </q-icon>
 </template>

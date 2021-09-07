@@ -1,5 +1,10 @@
 <template>
-  <q-icon :name="selectedPriority.icon" :color="selectedPriority.color" :size="small ? 'xs' : 'sm'">
+  <q-icon
+    v-if="selectedPriority"
+    :name="selectedPriority.icon"
+    :color="selectedPriority.color"
+    :size="small ? 'xs' : 'sm'"
+  >
     <BaseTooltip v-if="!hideTooltip" :label="tooltip || selectedPriority.name" />
   </q-icon>
 </template>
