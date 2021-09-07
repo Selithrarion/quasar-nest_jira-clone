@@ -6,6 +6,7 @@ import { CreateProjectDTO, UpdateProjectDTO } from './dto';
 import { UserEntity } from '../user/entity/user.entity';
 import { BoardsService } from '../boards/boards.service';
 import { UserService } from '../user/user.service';
+import { IssueEntity } from '../issues/entity/issue.entity';
 
 @Injectable()
 export class ProjectsService {
@@ -32,6 +33,11 @@ export class ProjectsService {
 
   async getByID(id: number): Promise<ProjectEntity> {
     return await this.projects.findOneOrFail(id, { relations: ['users'] });
+  }
+
+  async getIssuesByProjectID(id: number): Promise<IssueEntity[]> {
+    const project = await this.projects.findOneOrFail(id, { relations: ['issues'] });
+    return project.issues;
   }
 
   async create(projectData: CreateProjectDTO, user: UserEntity): Promise<ProjectEntity> {

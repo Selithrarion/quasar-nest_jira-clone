@@ -12,9 +12,12 @@ import {
   Request,
 } from '@nestjs/common';
 import { ApiBearerAuth, ApiOperation, ApiResponse, ApiTags } from '@nestjs/swagger';
-import { ProjectEntity } from './entity/project.entity';
+
 import { CreateProjectDTO, UpdateProjectDTO } from './dto';
+import { ProjectEntity } from './entity/project.entity';
 import { ProjectsService } from './projects.service';
+
+import { IssueEntity } from '../issues/entity/issue.entity';
 
 @ApiBearerAuth()
 @ApiTags('projects')
@@ -67,5 +70,12 @@ export class ProjectsController {
   @HttpCode(HttpStatus.NO_CONTENT)
   async toggleFavorite(@Param('id') id: number, @Request() req): Promise<void> {
     return await this.projectsService.toggleFavorite(Number(id), req.user.id);
+  }
+
+  @ApiOperation({ summary: 'Get issues by project ID' })
+  @ApiResponse({ status: 200, description: 'Return project issues' })
+  @Get(':id')
+  async getIssuesByProjectID(@Param('id') id: number): Promise<IssueEntity[]> {
+    return await this.projectsService.getIssuesByProjectID(id);
   }
 }
