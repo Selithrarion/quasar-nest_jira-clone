@@ -56,6 +56,14 @@ const routes: RouteRecordRaw[] = [
             },
             component: () => import('components/project/roadmap/ProjectRoadmap.vue'),
           },
+          {
+            path: 'issues',
+            name: 'issues',
+            meta: {
+              name: 'Задачи',
+            },
+            component: () => import('components/project/issues/ProjectIssues.vue'),
+          },
         ],
       },
 
