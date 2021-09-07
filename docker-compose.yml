@@ -1,33 +1,37 @@
 version: "3"
 
 services:
-  backend:
-    build:
-      dockerfile: Dockerfile
-      context: ./backend
-    ports:
-      - 8081:8081
-    volumes:
-      - /app/node_modules
-      - ./backend:/app
-    env_file:
-      - ./backend/.env
-    networks:
-      - web
-
-  frontend:
-    build:
-      dockerfile: Dockerfile
-      context: ./frontend
-    ports:
-      - 8080:80
-    volumes:
-      - /app/node_modules
-      - ./frontend/web:/app
-    env_file:
-      - ./frontend/.env
-    networks:
-      - web
+#  frontend:
+#    build:
+#      dockerfile: Dockerfile
+#      context: ./frontend
+#    ports:
+#      - 8080:8080
+#    #    volumes:
+#    #      - /app/node_modules
+#    #      - ./frontend/web:/app
+#    env_file:
+#      - ./frontend/.env
+#    depends_on:
+#      - backend
+#    networks:
+#      - web
+#
+#  backend:
+#    build:
+#      dockerfile: Dockerfile
+#      context: ./backend
+#    ports:
+#      - 8081:8081
+#    volumes:
+#      - /app/node_modules
+#      - ./backend:/app
+#    env_file:
+#      - ./backend/.env
+#    depends_on:
+#      - postgres
+#    networks:
+#      - web
   #
   #  postgres:
   #    image: postgres:9.6-alphine
