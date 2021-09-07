@@ -239,7 +239,7 @@
                 <span v-if="getIsDateLessDay(issue.createdAt)">
                   <BaseButton plain-style @click="isCreatedAtDifference = !isCreatedAtDifference">
                     {{
-                      isUpdatedAtDifference ? formatDate(issue.createdAt, DateTypes.DIFF) : formatDate(issue.createdAt)
+                      isCreatedAtDifference ? formatDate(issue.createdAt, DateTypes.DIFF) : formatDate(issue.createdAt)
                     }}
                   </BaseButton>
                   <BaseTooltip v-if="isCreatedAtDifference" :label="formatDate(issue.createdAt)" />
