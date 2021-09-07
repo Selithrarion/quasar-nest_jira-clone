@@ -205,9 +205,9 @@ export default defineComponent({
     const computedCardStyles = computed(() => {
       const styles = [];
 
-      if (props.small) styles.push({ width: '300px' });
-      else if (props.large) styles.push({ width: '900px' }, { maxWidth: '900px' });
-      else if (props.medium) styles.push({ width: '600px' }, { maxWidth: '600px' });
+      if (props.small && !props.maximized) styles.push({ width: '300px' });
+      else if (props.large && !props.maximized) styles.push({ width: '900px' }, { maxWidth: '900px' });
+      else if (props.medium && !props.maximized) styles.push({ width: '600px' }, { maxWidth: '600px' });
 
       return styles;
     });
