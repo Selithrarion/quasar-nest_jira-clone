@@ -1,5 +1,5 @@
 <template>
-  <q-page class="column flex-center gap-6 q-pa-lg bg-blue-grey-1">
+  <q-page class="column flex-center gap-6 q-pa-lg" style="background: #f6f6fb">
     <h6 class="no-margin">{{ authTypes[type].title }}</h6>
 
     <q-form class="row items-center full-width" @submit="authTypes[type].action">
@@ -72,7 +72,12 @@
         </q-card-section>
 
         <q-card-section>
-          <BaseButton class="full-width" type="submit" :label="authTypes[type].actionWord" :loading="loading.active.value" />
+          <BaseButton
+            class="full-width"
+            type="submit"
+            :label="authTypes[type].actionWord"
+            :loading="loading.active.value"
+          />
         </q-card-section>
       </q-card>
       <div class="column flex-center text-blue-grey-5">
