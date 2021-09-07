@@ -8,6 +8,11 @@ export default {
     const { data }: ApiResponseModel<IssueModel> = await http.get(`/issues/${id}`);
     return data;
   },
+  async getIssuesByProjectID(projectID: number): Promise<IssueModel[]> {
+    const { data }: ApiResponseModel<IssueModel[]> = await http.get(`/projects/${projectID}/issues/`);
+    return data;
+  },
+
   async create(payload: IssueDTO): Promise<IssueModel> {
     const { data }: ApiResponseModel<IssueModel> = await http.post('/issues', payload);
     return data;
