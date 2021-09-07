@@ -20,6 +20,7 @@ export interface IssueModel extends BaseModel {
   author: UserModel;
   assigned: UserModel;
   columnID: number;
+  projectID: number;
 }
 
 export enum IssueTypeEnum {
