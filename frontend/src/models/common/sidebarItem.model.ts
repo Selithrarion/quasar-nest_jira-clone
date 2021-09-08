@@ -1,9 +1,12 @@
 export interface SidebarItemModel {
-  label: string;
-  icon: string;
+  label?: string;
+  icon?: string;
 
   routeName?: string;
   action?: () => void;
   dialog?: boolean;
-  lastInGroup?: boolean;
+  separator?: boolean;
+
+  hideHeaderTitleRowActions?: boolean
+  hideHeaderActions?: boolean
 }
