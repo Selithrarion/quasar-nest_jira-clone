@@ -1,7 +1,5 @@
 <template>
-  <div>
-    {{ issue }}
-  </div>
+  <div v-if="issue">детали ID {{ issue.id }} – name {{ issue.name }}</div>
 </template>
 
 <script lang="ts">
@@ -13,10 +11,6 @@ import issueRepository from 'src/repositories/issueRepository';
 
 export default defineComponent({
   name: 'ProjectIssueDetail',
-
-  components: {},
-
-  props: {},
 
   setup() {
     const route = useRoute();
