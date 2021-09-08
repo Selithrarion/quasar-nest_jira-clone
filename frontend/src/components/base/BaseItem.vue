@@ -39,6 +39,5 @@ export default defineComponent({
 .base-item {
   display: flex;
   align-items: center;
-  justify-content: center;
 }
 </style>
