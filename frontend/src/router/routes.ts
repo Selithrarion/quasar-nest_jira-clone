@@ -63,6 +63,16 @@ const routes: RouteRecordRaw[] = [
               name: 'Задачи',
             },
             component: () => import('components/project/issues/ProjectIssues.vue'),
+            children: [
+              {
+                path: ':issueID',
+                name: 'issueDetail',
+                meta: {
+                  name: 'Детали задачи',
+                },
+                component: () => import('components/project/issues/ProjectIssueDetail.vue'),
+              },
+            ],
           },
         ],
       },
