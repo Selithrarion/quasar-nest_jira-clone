@@ -254,7 +254,7 @@ export default defineComponent({
       {
         label: 'Задачи',
         icon: 'splitscreen',
-        dialog: true,
+        routeName: 'issues',
       },
       {
         label: 'Компоненты',
