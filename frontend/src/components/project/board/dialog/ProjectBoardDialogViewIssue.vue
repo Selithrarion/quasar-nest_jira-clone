@@ -225,7 +225,7 @@
               :options="availableIssuePriorities"
               tooltip="Изменить приоритет"
               button-style
-              @update:model-value="updateIssue('priorityID', $event.id)"
+              @update:model-value="updateIssue('priorityID', $event)"
             />
           </div>
 
