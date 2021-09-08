@@ -40,29 +40,29 @@
         <PeopleDetailSideUser v-if="isUserPageType" :user="currentUser" />
         <PeopleDetailSideTeam v-else :team="currentTeam" />
 
-        <div class="flex-grow-2">
-          <h6 class="q-mt-none text-body1 text-weight-medium q-mb-md">В работе</h6>
-          <q-card class="row flex-2 q-py-md">
-            <q-card-section class="q-pl-xl col-3">
-              <img
-                src="https://jira-frontend-static.prod.public.atl-paas.net/assets/WorkListEmpty.4f661661cc7870531cec33801ddb8b45.8.svg"
-                alt="Charts"
-                style="max-width: 144px; max-height: 144px"
-              />
-            </q-card-section>
-            <q-card-section class="col-9">
-              <h6 class="text-weight-regular q-my-md">Здесь ничего нет</h6>
-              <p>
-                Здесь показаны все объекты, которые команда создала, изменила или прокомментировала за последние 90
-                дней.
-              </p>
-            </q-card-section>
-          </q-card>
+        <main class="flex-grow-2">
+          <!--TODO: fix long name-->
+          <PeopleDetailActivitySection
+            title="В работе"
+            :items="currentUser.assignedIssues"
+            show-title-caption
+            @item-click="openProjectIssue"
+          >
+            <template #itemPrepend="{ item }">
+              <q-item-section side>
+                <ProjectBoardIconIssueType :type="item.typeID" />
+              </q-item-section>
+            </template>
+            <template #itemCaptionName="{ item }">
+              {{ getProjectNameByID(item.projectID) }}
+            </template>
+          </PeopleDetailActivitySection>
 
           <div class="flex-center-between">
             <h6 class="text-body1 text-weight-medium q-mb-md">Ссылки</h6>
             <BaseButton icon="add" tooltip="Добавить ссылку" padding="4px" flat />
           </div>
+
           <q-card>
             <q-card-section class="text-center q-py-xl">
               <img
@@ -79,7 +79,7 @@
               </div>
             </q-card-section>
           </q-card>
-        </div>
+        </main>
       </div>
     </q-page>
   </div>
@@ -93,6 +93,9 @@ import useLoading from 'src/composables/common/useLoading';
 
 import PeopleDetailSideUser from 'components/people/detail/PeopleDetailSideUser.vue';
 import PeopleDetailSideTeam from 'components/people/detail/PeopleDetailSideTeam.vue';
+import PeopleDetailActivitySection from 'components/people/detail/PeopleDetailActivitySection.vue';
+import ProjectBoardIconIssueType from 'components/project/board/icon/ProjectBoardIconIssueType.vue';
+import { IssueModel } from 'src/models/project/issue.model';
 
 export default defineComponent({
   name: 'PeopleDetail',
@@ -100,6 +103,8 @@ export default defineComponent({
   components: {
     PeopleDetailSideUser,
     PeopleDetailSideTeam,
+    PeopleDetailActivitySection,
+    ProjectBoardIconIssueType,
   },
 
   setup() {
@@ -110,6 +115,9 @@ export default defineComponent({
 
     const isUserPageType = computed(() => {
       return !route.path.includes('team');
+    });
+    const isTeamPageType = computed(() => {
+      return !isUserPageType.value;
     });
     const currentUserID = computed(() => Number(route.params.userID));
     const currentTeamID = computed(() => Number(route.params.teamID));
@@ -158,10 +166,19 @@ export default defineComponent({
       }
     }
 
+    function getProjectNameByID(projectID: number) {
+      return availableProjects.value?.find((p) => p.id === projectID)?.name;
+    }
+    async function openProjectIssue(issue: IssueModel) {
+      await router.push(`/projects/${issue.projectID}/issues/${issue.id}`);
+    }
+
     return {
       loading,
 
       isUserPageType,
+      isTeamPageType,
+
       currentUser,
       currentTeam,
       availableProjects,
@@ -170,6 +187,9 @@ export default defineComponent({
       headerImage,
       uploadHeaderFile,
       deleteHeaderImage,
+
+      getProjectNameByID,
+      openProjectIssue,
     };
   },
 });
