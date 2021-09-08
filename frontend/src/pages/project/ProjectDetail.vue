@@ -212,14 +212,17 @@ export default defineComponent({
         const boardObject = availableBoards.find((b) => b.id === savedBoard);
 
         const board = boardObject || defaultBoard;
-        await selectBoard(board);
+
+        const isRedirect = route.path.includes('/board');
+        await selectBoard(board, isRedirect);
       }
     }
 
-    async function selectBoard(board: BoardModel) {
+    async function selectBoard(board: BoardModel, isRedirect = true) {
       store.commit('project/SET_BOARD_DETAIL', board);
       storage.save(board.id, 'selectedBoardID');
-      await openBoardByID(board.id);
+
+      if (isRedirect) await openBoardByID(board.id);
     }
     async function toggleSelectedBoardFavorite() {
       await store.dispatch('project/toggleBoardFavorite', selectedBoard.value?.id);
