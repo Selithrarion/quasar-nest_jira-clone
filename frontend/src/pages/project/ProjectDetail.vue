@@ -22,7 +22,9 @@
         </BaseItem>
 
         <div v-for="item in sidebarItems" :key="item.label">
-          <BaseItem class="items-center q-pa-sm" @click="handleSidebarItemClick(item)">
+          <q-separator v-if="item.separator" class="q-my-sm" />
+
+          <BaseItem v-else class="items-center q-pa-sm" @click="handleSidebarItemClick(item)">
             <div class="flex-center-between no-wrap full-width">
               <div class="row items-center gap-3">
                 <q-icon class="text-blue-grey-6" :name="item.icon" size="sm" />
@@ -30,8 +32,6 @@
               </div>
             </div>
           </BaseItem>
-
-          <q-separator v-if="item.lastInGroup" class="q-my-sm" />
         </div>
       </q-list>
 
@@ -58,7 +58,7 @@
       <div class="flex-center-between gap-6">
         <h5 class="q-mt-sm q-mb-lg text-weight-bold">{{ pageName }}</h5>
 
-        <div class="row gap-4">
+        <div v-if="!selectedSidebarTab.hideHeaderTitleRowActions" class="row gap-4">
           <BaseButton icon="bolt" padding="4px" tooltip="Автоматизация" disable flat />
 
           <BaseButtonFavorite
@@ -97,7 +97,7 @@
         </div>
       </div>
 
-      <div class="row gap-4 q-pb-lg">
+      <div v-if="!selectedSidebarTab.hideHeaderActions" class="row gap-4 q-pb-lg">
         <CommonSearch v-model="search" client-search append-icon />
 
         <CommonAvatarsWrapper margin="small" hover-effects>
@@ -121,7 +121,7 @@
         <BaseButton v-if="selectedUsersFilter.length" label="Очистить всё" dense flat />
       </div>
 
-      <router-view :project="project" :selected-board-id="selectedBoard.id" />
+      <router-view :key="routePath" :project="project" :selected-board-id="selectedBoard.id" />
     </q-page>
 
     <ProjectBoardDialogSelect
@@ -252,12 +252,16 @@ export default defineComponent({
         label: 'Отчёты',
         icon: 'show_chart',
         dialog: true,
-        lastInGroup: true,
+      },
+      {
+        separator: true,
       },
       {
         label: 'Задачи',
         icon: 'splitscreen',
         routeName: 'issues',
+        hideHeaderTitleRowActions: true,
+        hideHeaderActions: true,
       },
       {
         label: 'Компоненты',
@@ -297,9 +301,16 @@ export default defineComponent({
     ];
     async function handleSidebarItemClick(item: SidebarItemModel) {
       if (item.routeName) await router.push({ name: item.routeName });
-      else if (item.dialog) dialog.open(item.icon);
+      else if (item.dialog && item.icon) dialog.open(item.icon);
       else if (item.action) item.action();
     }
+    const selectedSidebarTab = computed(() => {
+      let selectedItem = {};
+      sidebarItems.forEach((item) => {
+        if (item.routeName && route.path.includes(item.routeName)) selectedItem = item;
+      });
+      return selectedItem;
+    });
 
     const search = ref('');
     const pageName = computed(() => route.meta.name);
@@ -321,6 +332,8 @@ export default defineComponent({
 
       sidebarItems,
       handleSidebarItemClick,
+      selectedSidebarTab,
+      routePath: route.path,
 
       search,
       pageName,
