@@ -1,0 +1,92 @@
+<template>
+  <section>
+    <div class="q-mb-md">
+      <h6 class="q-my-none text-body1 text-weight-medium">{{ title }}</h6>
+      <div v-if="showTitleCaption" class="text-caption text-grey-6">
+        Другие пользователи увидят только те объекты, к которым у них есть доступ.
+      </div>
+    </div>
+
+    <q-card class="row flex-2 q-py-md">
+      <template v-if="isEmpty">
+        <q-card-section class="q-pl-xl col-3">
+          <img
+            src="https://jira-frontend-static.prod.public.atl-paas.net/assets/WorkListEmpty.4f661661cc7870531cec33801ddb8b45.8.svg"
+            alt="Charts"
+            style="max-width: 144px; max-height: 144px"
+          />
+        </q-card-section>
+        <q-card-section class="col-9">
+          <h6 class="text-weight-regular q-my-md">Здесь ничего нет</h6>
+          <p>
+            Здесь показаны все объекты, которые команда создала, изменила или прокомментировала за последние 90 дней.
+          </p>
+        </q-card-section>
+      </template>
+
+      <q-card-section v-else class="full-width">
+        <q-list>
+          <BaseItem v-for="item in limitedItems" :key="item.id" clickable @click="$emit('item-click', item)">
+            <slot name="itemPrepend" :item="item" />
+
+            <q-item-section>
+              <q-item-label>
+                <slot name="itemName" :item="item">
+                  {{ item.name }}
+                </slot>
+              </q-item-label>
+              <q-item-label caption>
+                <slot name="itemCaptionName" :item="item">{{ item.projectName }}</slot>
+                –
+                <slot name="itemCaptionDate" :item="item">{{ formatDate(item.createdAt, DateTypes.DATE) }}</slot>
+              </q-item-label>
+            </q-item-section>
+          </BaseItem>
+        </q-list>
+      </q-card-section>
+    </q-card>
+  </section>
+</template>
+
+<script lang="ts">
+import { defineComponent, computed } from 'vue';
+import { useFormat, DateTypes } from 'src/composables/format/useFormat';
+
+export default defineComponent({
+  name: 'PeopleDetailActivitySection',
+
+  components: {},
+
+  props: {
+    items: {
+      type: Array,
+      required: false,
+      default: () => [],
+    },
+
+    title: {
+      type: String,
+      required: false,
+      default: null,
+    },
+    showTitleCaption: Boolean,
+
+    isEmpty: Boolean,
+  },
+
+  emits: ['item-click'],
+
+  setup(props) {
+    const { formatDate } = useFormat();
+
+    const limitedItems = computed(() => props.items.slice(0, 5));
+
+    return {
+      formatDate,
+      DateTypes,
+
+      limitedItems,
+    };
+  },
+});
+</script>
