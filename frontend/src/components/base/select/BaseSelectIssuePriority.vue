@@ -2,7 +2,6 @@
   <BaseSelect
     :model-value="modelValue"
     :label="buttonStyle ? null : label"
-    :emit-value="false"
     :button-style="buttonStyle"
     v-bind="$attrs"
     @update:model-value="$emit('update:model-value', $event)"
