@@ -74,7 +74,7 @@ export class ProjectsController {
 
   @ApiOperation({ summary: 'Get issues by project ID' })
   @ApiResponse({ status: 200, description: 'Return project issues' })
-  @Get(':id')
+  @Get(':id/issues')
   async getIssuesByProjectID(@Param('id') id: number): Promise<IssueEntity[]> {
     return await this.projectsService.getIssuesByProjectID(id);
   }

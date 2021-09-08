@@ -28,8 +28,8 @@ export default {
     return await http.post(`/projects/favorite/${id}`);
   },
 
-  async getIssuesByProjectID(projectID: number): Promise<IssueModel[]> {
-    const { data }: ApiResponseModel<IssueModel[]> = await http.get(`/projects/${projectID}/issues/`);
+  async getIssuesByProjectID(id: number): Promise<IssueModel[]> {
+    const { data }: ApiResponseModel<IssueModel[]> = await http.get(`/projects/${id}/issues`);
     return data;
   },
 };
