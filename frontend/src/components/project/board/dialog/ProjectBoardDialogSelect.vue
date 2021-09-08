@@ -25,18 +25,18 @@
           v-for="board in filteredBoards"
           :key="board.id"
           class="row items-center gap-3 q-pl-sm"
-          :class="{ 'shadow-1': board.id === selectedBoard.id }"
+          :class="{ 'shadow-1': isActiveBoard(board.id) }"
           @click="selectBoard(board)"
         >
-          <q-icon name="check" size="sm" :color="board.id === selectedBoard.id ? 'green-6' : 'blue-grey-5'" />
+          <q-icon name="check" size="sm" :color="isActiveBoard(board.id) ? 'green-6' : 'blue-grey-5'" />
 
           <div class="row items-center justify-between no-wrap full-width">
-            <q-item-section :class="{ 'text-weight-bold': board.id === selectedBoard.id }">
+            <q-item-section :class="{ 'text-weight-bold': isActiveBoard(board.id) }">
               {{ board.name }}
             </q-item-section>
 
             <BaseButton
-              v-show="board.id !== selectedBoard.id"
+              v-show="isActiveBoard(board.id)"
               icon="more_horiz"
               padding="4px"
               color="blue-grey-4"
@@ -122,8 +122,8 @@
 
 <script lang="ts">
 import { defineComponent, ref, reactive, computed, PropType } from 'vue';
+import { useRoute, useRouter } from 'vue-router';
 import { useStore } from 'src/store';
-import { useRouter } from 'vue-router';
 import useDialog from 'src/composables/common/useDialog';
 import useLoading from 'src/composables/common/useLoading';
 
@@ -165,10 +165,17 @@ export default defineComponent({
   emits: ['select', 'create', 'close'],
 
   setup(props, { emit }) {
-    const store = useStore();
+    const route = useRoute();
     const router = useRouter();
+    const store = useStore();
     const dialog = useDialog();
     const loading = useLoading();
+
+    const isOpenedBoardsPage = computed(() => route.path.includes('board'));
+    function isActiveBoard(boardID: number) {
+      const isSelectedBoard = boardID === props.selectedBoard.id;
+      return isSelectedBoard && isOpenedBoardsPage.value;
+    }
 
     async function handleDialogConfirmClick() {
       if (step.value === 1) step.value++;
@@ -183,7 +190,7 @@ export default defineComponent({
 
     function selectBoard(board: BoardModel) {
       const isSelectedAnotherBoard = board.id !== props.selectedBoard.id;
-      if (isSelectedAnotherBoard) {
+      if (isSelectedAnotherBoard || !isOpenedBoardsPage.value) {
         emit('select', board);
       }
       close();
@@ -243,6 +250,8 @@ export default defineComponent({
     return {
       dialog,
       loading,
+
+      isActiveBoard,
 
       handleDialogConfirmClick,
 
