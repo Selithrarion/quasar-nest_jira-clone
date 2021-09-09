@@ -45,7 +45,7 @@
 </template>
 
 <script lang="ts">
-import { defineComponent, reactive, ref, computed, onBeforeMount } from 'vue';
+import { defineComponent, reactive, ref, onBeforeMount } from 'vue';
 
 import { useRouter } from 'vue-router';
 import { useStore } from 'src/store';
