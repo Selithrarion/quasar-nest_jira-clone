@@ -1,6 +1,7 @@
 import { HttpException, HttpStatus, Inject, Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
+
 import { TeamEntity } from './entity/team.entity';
 import { CreateTeamDTO } from './dto';
 import { UserService } from '../user/user.service';
@@ -10,6 +11,7 @@ import { v4 as uuidv4 } from 'uuid';
 import { extname } from 'path';
 import { PublicFileEntity } from '../files/entity/public-file.entity';
 import { FilesService } from '../files/files.service';
+import stringToHslColor from '../../common/utils/stringToHslColor';
 
 @Injectable()
 export class TeamService {
@@ -34,7 +36,7 @@ export class TeamService {
     const isTeamAlreadyExist = await this.teams.findOne({ where: { name: payload.name } });
     if (isTeamAlreadyExist) throw new HttpException('TEAM_ALREADY_EXIST', HttpStatus.BAD_REQUEST);
 
-    const team = await this.teams.create({ ...payload, leader });
+    const team = await this.teams.create({ ...payload, color: stringToHslColor(payload.name), leader });
     const createdTeam = await this.teams.save(team);
 
     return createdTeam;

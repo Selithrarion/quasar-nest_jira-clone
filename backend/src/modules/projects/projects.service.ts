@@ -7,6 +7,7 @@ import { UserEntity } from '../user/entity/user.entity';
 import { BoardsService } from '../boards/boards.service';
 import { UserService } from '../user/user.service';
 import { IssueEntity } from '../issues/entity/issue.entity';
+import stringToHslColor from '../../common/utils/stringToHslColor';
 
 @Injectable()
 export class ProjectsService {
@@ -40,12 +41,16 @@ export class ProjectsService {
     return project.issues;
   }
 
-  async create(projectData: CreateProjectDTO, user: UserEntity): Promise<ProjectEntity> {
-    const payload = { ...projectData, leader: user, users: [user] };
-    const createdProject = await this.projects.save(payload);
+  async create(payload: CreateProjectDTO, user: UserEntity): Promise<ProjectEntity> {
+    const createdProject = await this.projects.save({
+      ...payload,
+      leader: user,
+      users: [user],
+      color: stringToHslColor(payload.name),
+    });
 
     const defaultBoard = {
-      name: projectData.key + projectData.name,
+      name: payload.key + payload.name,
       project: createdProject,
     };
     await this.boardsService.create(defaultBoard);
