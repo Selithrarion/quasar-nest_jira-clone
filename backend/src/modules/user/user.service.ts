@@ -46,13 +46,13 @@ export class UserService {
     return await this.users.findOne(id);
   }
   async getProfileByID(id: number): Promise<UserEntity> {
-    return await this.users.findOne(id, { relations: ['assignedIssues', 'watchingIssues', 'projects', 'teams'] });
+    return await this.users.findOne(id, {
+      relations: ['assignedIssues', 'watchingIssues', 'favoriteProjects', 'teams', 'teamsLeader'],
+    });
   }
 
   async create(payload: CreateUserDTO): Promise<UserEntity> {
     const isUserAlreadyExist = await this.users.findOne({ where: { email: payload.email } });
-    // temporarily delete existing user to test
-    // if (isUserAlreadyExist) await this.users.delete(isUserAlreadyExist.id);
     if (isUserAlreadyExist) throw new HttpException('USER_ALREADY_EXIST', HttpStatus.BAD_REQUEST);
 
     const user = await this.users.create({ ...payload, color: stringToHslColor(payload.username) });
