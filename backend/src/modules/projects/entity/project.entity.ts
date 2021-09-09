@@ -20,19 +20,15 @@ export enum ProjectTypeEnum {
 export class ProjectEntity extends BaseEntity {
   @Column()
   name: string;
-
   @Column()
   key: string;
-
   @Column({ default: false })
   favorite: boolean;
 
   @Column({ type: 'enum', enum: AccessEnum })
   accessID: AccessEnum;
-
   @Column({ type: 'enum', enum: ProjectTemplateEnum })
   templateID: ProjectTemplateEnum;
-
   @Column({ type: 'enum', enum: ProjectTypeEnum })
   typeID: ProjectTypeEnum;
 
@@ -48,6 +44,9 @@ export class ProjectEntity extends BaseEntity {
     nullable: true,
   })
   avatar: PublicFileEntity | null;
+
+  @Column({ default: '#b3e6ff' })
+  color: string;
 
   @ManyToOne(() => UserEntity, {
     eager: true,
