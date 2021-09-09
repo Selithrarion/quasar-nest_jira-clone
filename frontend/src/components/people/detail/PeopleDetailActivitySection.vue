@@ -8,7 +8,7 @@
     </div>
 
     <q-card class="row flex-2 q-py-md">
-      <template v-if="isEmpty">
+      <template v-if="!items.length">
         <q-card-section class="q-pl-xl col-3">
           <img
             src="https://jira-frontend-static.prod.public.atl-paas.net/assets/WorkListEmpty.4f661661cc7870531cec33801ddb8b45.8.svg"
@@ -71,8 +71,6 @@ export default defineComponent({
     },
     hidePadding: Boolean,
     showTitleCaption: Boolean,
-
-    isEmpty: Boolean,
   },
 
   emits: ['item-click'],
