@@ -1,5 +1,5 @@
 <template>
-  <q-item v-ripple class="base-item" :clickable="clickable" v-bind="$attrs">
+  <q-item v-ripple="clickable" class="base-item" :clickable="clickable" v-bind="$attrs">
     <BaseLoader v-if="loading" class="flex-center" gray-color medium />
 
     <slot v-else>
