@@ -5,6 +5,7 @@ import { TeamEntity } from './entity/team.entity';
 import { CreateTeamDTO } from './dto';
 import { UserService } from '../user/user.service';
 
+import * as sharp from 'sharp';
 import { v4 as uuidv4 } from 'uuid';
 import { extname } from 'path';
 import { PublicFileEntity } from '../files/entity/public-file.entity';
@@ -54,7 +55,8 @@ export class TeamService {
     if (isInvalidType) throw new HttpException('INVALID_FILE_TYPE', HttpStatus.UNPROCESSABLE_ENTITY);
     if (validImageSize < file.size) throw new HttpException('INVALID_FILE_SIZE', HttpStatus.UNPROCESSABLE_ENTITY);
 
-    const fileBuffer = file.buffer;
+    const quality = field === 'avatar' ? 5 : 20;
+    const fileBuffer = await sharp(file.buffer).webp({ quality }).toBuffer();
     const filename = uuidv4() + extname(file.originalname);
 
     const team = await this.teams.findOneOrFail(id);

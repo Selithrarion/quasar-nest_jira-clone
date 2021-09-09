@@ -10,6 +10,7 @@ import { BoardEntity } from '../boards/entity/board.entity';
 
 import stringToHslColor from '../../common/utils/stringToHslColor';
 
+import * as sharp from 'sharp';
 import { v4 as uuidv4 } from 'uuid';
 import { extname } from 'path';
 import { FilesService } from '../files/files.service';
@@ -35,7 +36,7 @@ export class UserService {
     if (!userIDs.length) return [];
     return this.users.find({
       where: { id: In(userIDs) },
-      take: 10,
+      take: 11,
     });
   }
 
@@ -76,6 +77,7 @@ export class UserService {
     await this.userSearchService.remove(id);
   }
 
+  // TODO: refactor (code duplication in team.service)
   async setUserImage(file: Express.Multer.File, field: 'avatar' | 'header', id: number): Promise<PublicFileEntity> {
     const validImageTypes = ['image/jpeg', 'image/jpg', 'image/png'];
     const validImageSize = 1024 * 1024 * 20;
@@ -84,7 +86,8 @@ export class UserService {
     if (isInvalidType) throw new HttpException('INVALID_FILE_TYPE', HttpStatus.UNPROCESSABLE_ENTITY);
     if (validImageSize < file.size) throw new HttpException('INVALID_FILE_SIZE', HttpStatus.UNPROCESSABLE_ENTITY);
 
-    const fileBuffer = file.buffer;
+    const quality = field === 'avatar' ? 5 : 20;
+    const fileBuffer = await sharp(file.buffer).webp({ quality }).toBuffer();
     const filename = uuidv4() + extname(file.originalname);
 
     const user = await this.users.findOneOrFail(id);
