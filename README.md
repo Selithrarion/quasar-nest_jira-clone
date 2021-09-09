@@ -103,7 +103,6 @@ Github actions CI pipeline
 - View assigned issues
 - View watching issues
 - View favorite projects
-- View all users you work with (not implemented yet ❌) 
 
 - View user teams / team users
 
