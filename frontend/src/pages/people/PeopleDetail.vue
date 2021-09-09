@@ -43,7 +43,7 @@
         <main class="flex-grow-2">
           <!--TODO: fix long name-->
           <PeopleDetailActivitySection
-            title="В работе"
+            title="Назначенные задачи"
             :items="currentUser.assignedIssues"
             show-title-caption
             @item-click="openProjectIssue"
