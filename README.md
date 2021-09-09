@@ -18,7 +18,7 @@
 
 1. Nest.js
 2. Typescript
-3. PostreSQL + TypeORM (database)
+3. PostgreSQL + TypeORM (database)
 4. Swagger, Swagger UI (docs)
 5. Passport, JWT auth
 6. Socket.io (not implemented yet ❌)
