@@ -27,6 +27,7 @@ const routes: RouteRecordRaw[] = [
       },
       {
         path: '/projects/:projectID',
+        name: 'projectDetail',
         component: () => import('pages/project/ProjectDetail.vue'),
         meta: { auth: true },
         children: [

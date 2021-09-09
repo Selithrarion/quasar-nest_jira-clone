@@ -217,7 +217,7 @@ export default defineComponent({
 
         const board = boardObject || defaultBoard;
 
-        const isRedirect = route.path.includes('/board');
+        const isRedirect = route.path.includes('/board') || route.name === 'projectDetail';
         await selectBoard(board, isRedirect);
       }
     }
