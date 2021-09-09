@@ -91,6 +91,7 @@
               @cancel="resetIssueDescription"
               @save="updateIssueDescription"
             />
+            <!--eslint-disable-next-line vue/no-v-html-->
             <div v-else class="issue__description" @click="showDescriptionEditor" v-html="localIssueDescription" />
           </div>
 
