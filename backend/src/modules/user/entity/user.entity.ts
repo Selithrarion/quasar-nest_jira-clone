@@ -92,19 +92,19 @@ export class UserEntity extends BaseEntity {
   })
   @JoinTable()
   projects: ProjectEntity[];
-  @RelationId((user: UserEntity) => user.projects)
+  @RelationId('projects')
   projectIDs: number[];
 
   @ManyToMany(() => ProjectEntity, (project) => project.users)
   @JoinTable()
   favoriteProjects: ProjectEntity[];
-  @RelationId((user: UserEntity) => user.favoriteProjects)
+  @RelationId('favoriteProjects')
   favoriteProjectIDs: number[];
 
   @ManyToMany(() => BoardEntity, (board) => board.users)
   @JoinTable()
   favoriteBoards: BoardEntity[];
-  @RelationId((user: UserEntity) => user.favoriteBoards)
+  @RelationId('favoriteBoards')
   favoriteBoardIDs: number[];
 
   @Column({ nullable: true })
@@ -134,6 +134,8 @@ export class UserEntity extends BaseEntity {
     onDelete: 'CASCADE',
   })
   teamsLeader: TeamEntity[];
+  @RelationId('teamsLeader')
+  teamsLeaderIDs: number[];
 
   @BeforeInsert()
   async hashPassword(): Promise<void> {
