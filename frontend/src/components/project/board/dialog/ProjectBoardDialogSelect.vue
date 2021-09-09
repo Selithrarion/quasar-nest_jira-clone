@@ -185,7 +185,7 @@ export default defineComponent({
     const search = ref('');
     const filteredBoards = computed(() => {
       if (!search.value) return props.boards;
-      return props.boards.filter((b) => b.name.toLowerCase().includes(search.value));
+      return props.boards.filter((b) => b.name.toLowerCase().includes(search.value.toLowerCase()));
     });
 
     function selectBoard(board: BoardModel) {
