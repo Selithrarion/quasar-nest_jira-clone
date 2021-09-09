@@ -52,7 +52,11 @@
       <q-breadcrumbs class="text-blue-grey-5" active-color="blue-8">
         <q-breadcrumbs-el label="Проекты" to="/projects" />
         <q-breadcrumbs-el :label="project.name" :to="{ name: 'board', params: { id: selectedBoard.id } }" />
-        <q-breadcrumbs-el :label="selectedBoard.name" :to="{ name: 'board', params: { id: selectedBoard.id } }" />
+        <q-breadcrumbs-el
+          v-if="selectedSidebarTab.routeName === 'board'"
+          :label="selectedBoard.name"
+          :to="{ name: 'board', params: { id: selectedBoard.id } }"
+        />
       </q-breadcrumbs>
 
       <div class="flex-center-between gap-6">
