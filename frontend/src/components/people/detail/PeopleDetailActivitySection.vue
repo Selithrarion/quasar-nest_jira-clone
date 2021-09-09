@@ -36,9 +36,11 @@
                 </slot>
               </q-item-label>
               <q-item-label caption>
-                <slot name="itemCaptionName" :item="item">{{ item.projectName }}</slot>
-                –
-                <slot name="itemCaptionDate" :item="item">{{ formatDate(item.createdAt, DateTypes.DATE) }}</slot>
+                <slot name="itemCaption" :item="item">
+                  <slot name="itemCaptionName" :item="item">{{ item.name }}</slot>
+                  –
+                  <slot name="itemCaptionDate" :item="item">{{ formatDate(item.createdAt, DateTypes.DATE) }}</slot>
+                </slot>
               </q-item-label>
             </q-item-section>
           </BaseItem>
