@@ -1,5 +1,5 @@
 <template>
-  <section>
+  <section :class="{ 'q-mt-xl': !hidePadding }">
     <div class="q-mb-md">
       <h6 class="q-my-none text-body1 text-weight-medium">{{ title }}</h6>
       <div v-if="showTitleCaption" class="text-caption text-grey-6">
@@ -69,6 +69,7 @@ export default defineComponent({
       required: false,
       default: null,
     },
+    hidePadding: Boolean,
     showTitleCaption: Boolean,
 
     isEmpty: Boolean,
