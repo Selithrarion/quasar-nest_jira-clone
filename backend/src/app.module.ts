@@ -9,10 +9,12 @@ import { TeamModule } from './modules/teams/team.module';
 import { BoardsModule } from './modules/boards/boards.module';
 import { ColumnsModule } from './modules/columns/columns.module';
 import { IssuesModule } from './modules/issues/issues.module';
-import { AuthModule } from './modules/auth/auth.module';
 
+import { AuthModule } from './modules/auth/auth.module';
 import { JwtAuthGuard } from './modules/auth/guard/jwt-auth.guard';
+
 import { SearchModule } from './services/search/search.module';
+import { EmailModule } from './services/email/email.module';
 
 @Global()
 @Module({
@@ -38,7 +40,9 @@ import { SearchModule } from './services/search/search.module';
     ColumnsModule,
     IssuesModule,
     AuthModule,
+
     SearchModule,
+    EmailModule,
   ],
   controllers: [],
   providers: [
