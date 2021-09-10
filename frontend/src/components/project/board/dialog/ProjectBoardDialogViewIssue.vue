@@ -132,7 +132,7 @@
             </div>
 
             <div class="flex flex-col gap-6 q-mt-lg">
-              <div v-for="comment in issue.comments" :key="comment.id" class="row no-wrap gap-3 full-width">
+              <div v-for="comment in sortedComments" :key="comment.id" class="row no-wrap gap-3 full-width">
                 <BaseAvatar
                   size="32px"
                   :src="comment.author.avatar && comment.author.avatar.url"
@@ -163,6 +163,7 @@
                     @save="editComment(comment.id)"
                   />
                   <div v-else class="flex flex-col items-center gap-2 full-width">
+                    <!--eslint-disable-next-line vue/no-v-html-->
                     <span v-html="comment.text" />
                     <div class="flex items-center gap-3 full-width">
                       <BaseButton label="Изменить" plain-style @click="showEditCommentEditor(comment)" />
@@ -341,6 +342,10 @@ export default defineComponent({
     });
 
     const issue = computed(() => store.state.project.issueDetail);
+    const sortedComments = computed(() => {
+      const comments = issue.value?.comments?.slice();
+      return comments?.sort((a, b) => (a.createdAt > b.createdAt ? -1 : 1));
+    });
 
     const localIssueName = ref('');
     const localIssueDescription = ref('');
@@ -517,6 +522,7 @@ export default defineComponent({
       DateTypes,
 
       issue,
+      sortedComments,
 
       localIssueName,
       localIssueDescription,
