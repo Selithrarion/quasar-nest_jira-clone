@@ -63,6 +63,8 @@ export class UserEntity extends BaseEntity {
   locale: string;
   @Column({ default: true })
   isActive: boolean;
+  @Column({ default: false })
+  isEmailConfirmed: boolean;
 
   @Column({ default: '#b3e6ff' })
   color: string;
