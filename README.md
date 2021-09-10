@@ -25,7 +25,8 @@
 7. Jest (testing) (not implemented yet ❌)
 8. AWS S3 (Amazon Simple Storage Service)
 9. Elasticsearch (just for app complexity 😄) 
-10. Nodemailer, schedule and cron (annoying email messages with very-very-very interisting news or email confirmation)
+10. Nodemailer, @nestjs/schedule and cron (annoying email messages with very-very-very interisting news or email confirmation)
+11. Mailtrap as free dev smtp server
 
 #### Other
 
@@ -36,7 +37,8 @@ Github actions CI pipeline
 
 - Login / Register / Forgot password  
 - Unique username validation  
-- Send email verification mail (not implemented yet ❌)  
+- Send email verification mail (not implemented yet ❌) 
+- Send (news) emails with schedule (not implemented yet ❌)
 - Send forgot password mail (not implemented yet ❌)  
 - Automaticly redirect to requested page after login (/auth?redirect=/projects)  
 - JWT access (1d exp) and refresh (30d exp) tokens, auto relogin if access token expired  
