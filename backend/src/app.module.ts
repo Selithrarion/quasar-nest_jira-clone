@@ -13,6 +13,9 @@ import { IssuesModule } from './modules/issues/issues.module';
 import { AuthModule } from './modules/auth/auth.module';
 import { JwtAuthGuard } from './modules/auth/guard/jwt-auth.guard';
 
+import { ScheduleModule } from '@nestjs/schedule';
+import { EmailScheduleModule } from './modules/email-schedule/email-schedule.module';
+
 import { SearchModule } from './services/search/search.module';
 import { EmailModule } from './services/email/email.module';
 
@@ -40,6 +43,9 @@ import { EmailModule } from './services/email/email.module';
     ColumnsModule,
     IssuesModule,
     AuthModule,
+
+    ScheduleModule.forRoot(),
+    EmailScheduleModule,
 
     SearchModule,
     EmailModule,
