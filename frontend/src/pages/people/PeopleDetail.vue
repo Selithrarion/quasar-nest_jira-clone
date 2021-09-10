@@ -58,6 +58,36 @@
             </template>
           </PeopleDetailActivitySection>
 
+          <PeopleDetailActivitySection
+            title="Наблюдаемые задачи"
+            :items="currentUser.watchingIssues"
+            show-title-caption
+            @item-click="openProjectIssue"
+          >
+            <template #itemPrepend="{ item }">
+              <q-item-section side>
+                <ProjectBoardIconIssueType :type="item.typeID" />
+              </q-item-section>
+            </template>
+            <template #itemCaptionName="{ item }">
+              {{ getProjectNameByID(item.projectID) }}
+            </template>
+          </PeopleDetailActivitySection>
+
+          <PeopleDetailActivitySection
+            title="Любимые проекты"
+            :items="currentUser.favoriteProjects"
+            @item-click="openProject"
+          >
+            <template #itemPrepend="{ item }">
+              <q-item-section side>
+                <BaseAvatar :src="item.avatar && item.avatar.url" :item-name="item.name" :item-color="item.color" />
+              </q-item-section>
+            </template>
+            <!--TODO: pluralization-->
+            <template #itemCaption="{ item }"> {{ item.users.length }} участников </template>
+          </PeopleDetailActivitySection>
+
           <div class="flex-center-between">
             <h6 class="text-body1 text-weight-medium q-mb-md">Ссылки</h6>
             <BaseButton icon="add" tooltip="Добавить ссылку" padding="4px" flat />
@@ -95,7 +125,9 @@ import PeopleDetailSideUser from 'components/people/detail/PeopleDetailSideUser.
 import PeopleDetailSideTeam from 'components/people/detail/PeopleDetailSideTeam.vue';
 import PeopleDetailActivitySection from 'components/people/detail/PeopleDetailActivitySection.vue';
 import ProjectBoardIconIssueType from 'components/project/board/icon/ProjectBoardIconIssueType.vue';
+
 import { IssueModel } from 'src/models/project/issue.model';
+import { ProjectModel } from 'src/models/project/project.model';
 
 export default defineComponent({
   name: 'PeopleDetail',
@@ -172,6 +204,9 @@ export default defineComponent({
     async function openProjectIssue(issue: IssueModel) {
       await router.push(`/projects/${issue.projectID}/issues/${issue.id}`);
     }
+    async function openProject(project: ProjectModel) {
+      await router.push(`/projects/${project.id}`);
+    }
 
     return {
       loading,
@@ -190,6 +225,7 @@ export default defineComponent({
 
       getProjectNameByID,
       openProjectIssue,
+      openProject,
     };
   },
 });
