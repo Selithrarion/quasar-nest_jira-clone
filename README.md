@@ -18,12 +18,13 @@
 
 1. Nest.js
 2. Typescript
-3. PostreSQL + TypeORM (database)
+3. PostgreSQL + TypeORM (database)
 4. Swagger, Swagger UI (docs)
 5. Passport, JWT auth
 6. Socket.io (not implemented yet ❌)
 7. Jest (testing) (not implemented yet ❌)
 8. AWS S3 (Amazon Simple Storage Service)
+9. Elasticsearch (just for app complexity 😄) 
 
 #### Other
 
@@ -96,11 +97,13 @@ Github actions CI pipeline
 ##### User / Team profile page
 - Edit user info - change username / display name / email / location / organisation etc...
 
-- Upload header image (store in AWS S3)
-- Upload user / team avatar (store in AWS S3)
+- Upload header image (store in AWS S3, compression with [sharp](https://github.com/lovell/sharp))
+- Upload user / team avatar (store in AWS S3, compression with [sharp](https://github.com/lovell/sharp))
 
-- View all issues in work (not implemented yet ❌) 
-- View all projects (not implemented yet ❌) 
-- View all users you work with (not implemented yet ❌) 
+- View assigned issues
+- View watching issues
+- View favorite projects
+
+- View user teams / team users
 
 
