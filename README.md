@@ -25,6 +25,7 @@
 7. Jest (testing) (not implemented yet ❌)
 8. AWS S3 (Amazon Simple Storage Service)
 9. Elasticsearch (just for app complexity 😄) 
+10. Nodemailer, schedule and cron (annoying email messages with very-very-very interisting news or email confirmation)
 
 #### Other
 
