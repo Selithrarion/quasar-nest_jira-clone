@@ -25,14 +25,6 @@ export class BoardsService {
     const board = await this.boards.findOneOrFail(boardID, {
       relations: ['columns'],
     });
-    // const board = await this.boards
-    //   .createQueryBuilder('board')
-    //   .where('board.id = :boardID', { boardID })
-    //   .leftJoinAndSelect('board.columns', 'column')
-    //   .leftJoinAndSelect('column.issues', 'issue')
-    //   .leftJoinAndSelect('issue.comments', 'comment')
-    //   .orderBy('comment.createdAt', 'DESC')
-    //   .getOneOrFail();
     return { ...board, favorite: currentUser.favoriteBoardIDs.includes(boardID) };
   }
 

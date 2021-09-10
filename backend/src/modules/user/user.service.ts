@@ -48,7 +48,14 @@ export class UserService {
   }
   async getProfileByID(id: number): Promise<UserEntity> {
     return await this.users.findOne(id, {
-      relations: ['assignedIssues', 'watchingIssues', 'favoriteProjects', 'teams', 'teamsLeader'],
+      relations: [
+        'assignedIssues',
+        'watchingIssues',
+        'favoriteProjects',
+        'favoriteProjects.users',
+        'teams',
+        'teamsLeader',
+      ],
     });
   }
 
