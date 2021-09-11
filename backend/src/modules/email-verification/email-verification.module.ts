@@ -14,6 +14,7 @@ import { EmailModule } from '../../services/email/email.module';
       }),
     }),
   ],
+  exports: [EmailVerificationService],
   providers: [EmailVerificationService],
   controllers: [EmailVerificationController],
 })
