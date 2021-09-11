@@ -1,12 +1,16 @@
 import { Module } from '@nestjs/common';
+import { JwtModule } from '@nestjs/jwt';
+
 import { EmailVerificationService } from './email-verification.service';
 import { EmailVerificationController } from './email-verification.controller';
-import { JwtModule } from '@nestjs/jwt';
+
 import { EmailModule } from '../../services/email/email.module';
+import { UserModule } from '../user/user.module';
 
 @Module({
   imports: [
     EmailModule,
+    UserModule,
     JwtModule.registerAsync({
       useFactory: async () => ({
         secret: process.env.JWT_EMAIL_VERIFICATION_SECRET,
