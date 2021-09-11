@@ -38,7 +38,7 @@ export class EmailVerificationService {
   async confirmEmail(email: string): Promise<boolean> {
     const user = await this.userService.getByEmail(email);
     if (user.isEmailConfirmed) throw new BadRequestException('EMAIL_ALREADY_CONFIRMED');
-    return await this.userService.markEmailAsConfirmed(email);
+    return await this.userService.confirmUserEmail(email);
   }
 
   // TODO: need to invalidate previous token (store previous token in database and compare)

@@ -152,4 +152,14 @@ export class UserService {
     const user = await this.users.findOne({ where: { username } });
     return Boolean(user);
   }
+
+  async confirmUserEmail(email: string): Promise<boolean> {
+    await this.users.update(
+      { email },
+      {
+        isEmailConfirmed: true,
+      }
+    );
+    return true;
+  }
 }
