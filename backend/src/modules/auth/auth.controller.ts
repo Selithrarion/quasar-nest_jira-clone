@@ -1,17 +1,16 @@
 import { Controller, Post, Body, UseGuards, Request } from '@nestjs/common';
+import { ApiTags } from '@nestjs/swagger';
 import { AuthService } from './auth.service';
-import { UserService } from '../user/user.service';
 import { CreateUserDTO } from '../user/dto';
 import { UserTokensInterface, UserUpdateTokensDTO } from '../user/entity/user.entity';
 import { Public } from './decorators/public.decorator';
 import { LocalAuthGuard } from './guard/local-auth.guard';
-import { ApiTags } from '@nestjs/swagger';
 
 @Public()
 @ApiTags('auth')
 @Controller('auth')
 export class AuthController {
-  constructor(private readonly authService: AuthService, private readonly userService: UserService) {}
+  constructor(private readonly authService: AuthService) {}
 
   @UseGuards(LocalAuthGuard)
   @Post('login')
@@ -21,7 +20,7 @@ export class AuthController {
 
   @Post('register')
   async register(@Body() payload: CreateUserDTO): Promise<UserTokensInterface> {
-    const user = await this.userService.create(payload);
+    const user = await this.authService.register(payload);
     return await this.authService.login(user);
   }
 

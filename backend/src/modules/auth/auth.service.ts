@@ -2,10 +2,16 @@ import { HttpException, HttpStatus, Injectable, UnauthorizedException } from '@n
 import { UserService } from '../user/user.service';
 import { JwtService } from '@nestjs/jwt';
 import { UserEntity, UserTokensInterface, UserUpdateTokensDTO, UserValidationDTO } from '../user/entity/user.entity';
+import { CreateUserDTO } from '../user/dto';
+import { EmailVerificationService } from '../email-verification/email-verification.service';
 
 @Injectable()
 export class AuthService {
-  constructor(private readonly userService: UserService, private readonly jwtService: JwtService) {}
+  constructor(
+    private readonly userService: UserService,
+    private readonly emailVerificationService: EmailVerificationService,
+    private readonly jwtService: JwtService
+  ) {}
 
   async validateUser({ email, password }: UserValidationDTO): Promise<UserEntity> {
     const user = await this.userService.getByEmail(email);
@@ -25,6 +31,11 @@ export class AuthService {
       accessToken,
       refreshToken: 'TEST',
     };
+  }
+  async register(payload: CreateUserDTO): Promise<UserEntity> {
+    const user = await this.userService.create(payload);
+    await this.emailVerificationService.sendVerificationLink(payload.email);
+    return user;
   }
 
   async updateTokens({ userID, email, refreshToken }: UserUpdateTokensDTO): Promise<UserTokensInterface> {
