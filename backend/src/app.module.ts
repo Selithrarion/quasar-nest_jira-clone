@@ -15,6 +15,7 @@ import { JwtAuthGuard } from './modules/auth/guard/jwt-auth.guard';
 
 import { ScheduleModule } from '@nestjs/schedule';
 import { EmailScheduleModule } from './modules/email-schedule/email-schedule.module';
+import { EmailVerificationModule } from './modules/email-verification/email-verification.module';
 
 import { SearchModule } from './services/search/search.module';
 import { EmailModule } from './services/email/email.module';
@@ -49,6 +50,7 @@ import { EmailModule } from './services/email/email.module';
 
     SearchModule,
     EmailModule,
+    EmailVerificationModule,
   ],
   controllers: [],
   providers: [
