@@ -112,12 +112,14 @@
 <script lang="ts">
 import { defineComponent, ref, reactive, onMounted } from 'vue';
 
+import { useQuasar } from 'quasar';
 import { useStore } from 'src/store';
 import { useRouter, useRoute } from 'vue-router';
 import useLoading from 'src/composables/common/useLoading';
 import useFormValidation from 'src/composables/form/useFormValidation';
 
 import userRepository from 'src/repositories/userRepository';
+
 enum AuthTypeEnum {
   LOGIN = 'login',
   REGISTER = 'register',
@@ -129,6 +131,7 @@ export default defineComponent({
   name: 'AuthPage',
 
   setup() {
+    const q = useQuasar();
     const store = useStore();
     const router = useRouter();
     const route = useRoute();
@@ -136,8 +139,10 @@ export default defineComponent({
     const rules = useFormValidation();
 
     onMounted(() => {
-      // TODO: show snackbar
-      if (route.query.redirect) console.log(route.query.redirect);
+      if (route.query.redirect)
+        q.notify({
+          message: 'You need to auth again to access this page',
+        });
     });
 
     const type = ref<AuthTypeEnum>(AuthTypeEnum.LOGIN);
