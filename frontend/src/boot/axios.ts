@@ -1,5 +1,6 @@
 import { boot } from 'quasar/wrappers';
 import axios, { AxiosError, AxiosInstance, AxiosRequestConfig, AxiosResponse } from 'axios';
+import { Notify } from 'quasar';
 import { UserUpdateTokenResponse } from 'src/models/user/user.model';
 
 declare module '@vue/runtime-core' {
@@ -38,12 +39,19 @@ export default boot(({ store, redirect }) => {
       return response;
     },
     async (error: AxiosError) => {
-      console.error('RESPONSE error', error);
+      console.error('RESPONSE error', error, error.response);
 
-      // TODO: add BaseSnackbar and snackbar store
-      // store.dispatch('snackbar/showSnackbar', { error: error.response.data });
+      // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access
+      const errorMessage = error.response?.data?.message as string;
+      // TODO: add vue-18n error translation
+      if (errorMessage)
+        Notify.create({
+          message: errorMessage,
+          color: 'red-5',
+          textColor: 'white',
+        });
+
       const originalRequest = error.config as AxiosRequestConfigWithRetryField;
-
       const isAuthError = error.response?.status === 401;
 
       if (error.config.url?.includes('update-tokens')) redirect('/auth?redirect');
