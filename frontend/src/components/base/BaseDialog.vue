@@ -235,8 +235,8 @@ export default defineComponent({
 
   .close-icon {
     position: absolute;
-    top: 16px;
-    right: 16px;
+    top: 20px;
+    right: 20px;
   }
 
   .fixed-section {
