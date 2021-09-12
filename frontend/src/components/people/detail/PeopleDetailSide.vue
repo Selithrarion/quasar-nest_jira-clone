@@ -4,7 +4,7 @@
       <input ref="avatarInput" class="hidden absolute-full" type="file" accept="image/*" @input="uploadAvatar" />
       <BaseAvatar
         size="128px"
-        :src="avatar.url"
+        :src="avatar && avatar.url"
         :loading="loading.active.value"
         :item-name="name"
         :item-color="color"
