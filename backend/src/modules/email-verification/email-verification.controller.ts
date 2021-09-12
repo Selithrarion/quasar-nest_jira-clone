@@ -1,4 +1,4 @@
-import { Controller, Post, Query, Request } from '@nestjs/common';
+import { Body, Controller, Post, Request } from '@nestjs/common';
 import { EmailVerificationService } from './email-verification.service';
 import { Public } from '../auth/decorators/public.decorator';
 import { ApiOperation, ApiResponse, ApiTags } from '@nestjs/swagger';
@@ -13,7 +13,7 @@ export class EmailVerificationController {
   @ApiResponse({ status: 400, description: 'Token is expired or incorrect' })
   @Public()
   @Post()
-  async confirm(@Query('token') token: string): Promise<boolean> {
+  async confirm(@Body('token') token: string): Promise<boolean> {
     const email = await this.emailVerificationService.confirmToken(token);
     return await this.emailVerificationService.confirmEmail(email);
   }
