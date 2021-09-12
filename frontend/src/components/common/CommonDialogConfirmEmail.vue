@@ -11,7 +11,10 @@
       </div>
 
       <template v-else>
-        <div>Что-то пошло не так и Email не был подтверждён. Возможно ссылка подтверждения истекла</div>
+        <div>
+          Что-то пошло не так и Email не был подтверждён. Возможно ссылка подтверждения истекла или Email уже
+          подтверждён
+        </div>
         <BaseButton label="Отправить ещё раз" :loading="loading.active.value" @click="resend" />
       </template>
     </div>
