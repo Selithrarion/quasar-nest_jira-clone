@@ -28,7 +28,8 @@
             v-if="authTypes[type].fields.includes('email')"
             v-model="form.email"
             label="Email"
-            :rules="[rules.required, rules.email]"
+            debounce="500"
+            :rules="[rules.required, rules.email, uniqueEmail]"
             hide-bottom-space
             lazy-rules
             filled
@@ -171,6 +172,10 @@ export default defineComponent({
       const isTaken = await userRepository.isUsernameTaken(form.username);
       return !isTaken || 'Имя пользователя уже занято';
     }
+    async function uniqueEmail(): Promise<boolean | string> {
+      const isTaken = await userRepository.isEmailTaken(form.email);
+      return !isTaken || 'Такой email уже зарегистрирован';
+    }
 
     const isHidePassword = ref(true);
     const form = reactive({
@@ -234,6 +239,7 @@ export default defineComponent({
 
       equalPasswords,
       uniqueUsername,
+      uniqueEmail,
 
       login,
       register,
