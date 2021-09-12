@@ -14,7 +14,7 @@ export class EmailVerificationService {
   sendVerificationLink(email: string): Promise<void> {
     const token = this.jwtService.sign({ email });
 
-    const url = `${process.env.SERVER_URL}?token=${token}`;
+    const url = `${process.env.FRONTEND_URL}?token=${token}`;
     const subject = 'Jira email confirmation';
     const text = `Welcome to Jira (clone). To confirm the email address, click here: ${url}`;
 
