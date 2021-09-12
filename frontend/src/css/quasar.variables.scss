@@ -8,10 +8,10 @@ $positive: #21ba45;
 $negative: #c10015;
 $info: #31ccec;
 $warning: #f2c037;
-//TODO: хорошая тень box-shadow: 0 1px 4px #e3ebfc, 0 6px 16px rgb(230 235 245 / 80%);
-$shadow-color: rgba(28, 49, 132, 0.18);
-$elevation-penumbra: rgba($shadow-color, 0.02);
-$elevation-ambient: rgba($shadow-color, 0.05);
+
+$shadow-color: #8e91ff33;
+$elevation-penumbra: rgba($shadow-color, 0.06);
+$elevation-ambient: rgba($shadow-color, 0.08);
 
 $blue-grey-1: rgba(9, 30, 66, 0.04);
 $blue-grey-2: rgba(3, 39, 94, 0.07);
