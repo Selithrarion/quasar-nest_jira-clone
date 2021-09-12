@@ -9,6 +9,7 @@ export interface UserModel extends BaseModel {
   email: string;
   locale: string;
   isActive: boolean;
+  isEmailConfirmed: boolean;
 
   color: string;
   avatar: PublicFileModel | null;
