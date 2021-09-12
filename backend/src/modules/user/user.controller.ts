@@ -37,15 +37,15 @@ export class UserController {
     return await this.userService.getByID(req.user.id);
   }
 
-  @ApiBearerAuth()
-  @Get(':id')
-  async getProfileByID(@Param('id') id: number): Promise<UserEntity> {
-    return await this.userService.getProfileByID(id);
+  @Public()
+  @Get('is-username-taken')
+  async isUsernameTaken(@Query('username') username: string): Promise<boolean> {
+    return await this.userService.isUsernameTaken(username);
   }
-  @ApiBearerAuth()
-  @Patch(':id')
-  async update(@Param('id') id: number, @Body() payload: Partial<UserEntity>): Promise<UserEntity> {
-    return await this.userService.update(id, payload);
+  @Public()
+  @Get('is-email-taken')
+  async isEmailTaken(@Query('email') email: string): Promise<boolean> {
+    return await this.userService.isEmailTaken(email);
   }
 
   @ApiBearerAuth()
@@ -67,9 +67,14 @@ export class UserController {
     return await this.userService.deleteUserImage('header', req.user.id);
   }
 
-  @Public()
-  @Get('is-taken')
-  async isUsernameTaken(@Query('username') username: string): Promise<boolean> {
-    return await this.userService.isUsernameTaken(username);
+  @ApiBearerAuth()
+  @Get(':id')
+  async getProfileByID(@Param('id') id: number): Promise<UserEntity> {
+    return await this.userService.getProfileByID(id);
+  }
+  @ApiBearerAuth()
+  @Patch(':id')
+  async update(@Param('id') id: number, @Body() payload: Partial<UserEntity>): Promise<UserEntity> {
+    return await this.userService.update(id, payload);
   }
 }

@@ -152,6 +152,10 @@ export class UserService {
     const user = await this.users.findOne({ where: { username } });
     return Boolean(user);
   }
+  async isEmailTaken(email: string): Promise<boolean> {
+    const user = await this.users.findOne({ where: { email } });
+    return Boolean(user);
+  }
 
   async confirmUserEmail(email: string): Promise<boolean> {
     await this.users.update(
