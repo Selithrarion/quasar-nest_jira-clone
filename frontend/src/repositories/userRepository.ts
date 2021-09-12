@@ -49,8 +49,13 @@ export default {
     const { data }: ApiResponseModel<boolean> = await http.get('/user/is-email-taken', { params });
     return data;
   },
+
   async confirmEmail(token: string): Promise<boolean> {
     const { data }: ApiResponseModel<boolean> = await http.post('/email-verification', { token });
+    return data;
+  },
+  async resendEmailConfirmation(): Promise<void> {
+    const { data }: ApiResponseModel<void> = await http.post('/email-verification/resend');
     return data;
   },
 
