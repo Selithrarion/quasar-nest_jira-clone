@@ -31,7 +31,7 @@
         </q-card-section>
 
         <q-card-section
-          v-if="actions"
+          v-if="actions && !contentLoading"
           class="dialog-action-buttons"
           :class="[{ 'dialog-action-buttons--dense': type === 'delete' }, { 'fixed-section': fixedFooter }]"
         >
