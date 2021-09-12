@@ -1,61 +1,61 @@
 version: "3"
 
 services:
-#  frontend:
-#    build:
-#      dockerfile: Dockerfile
-#      context: ./frontend
-#    ports:
-#      - 8080:8080
-#    #    volumes:
-#    #      - /app/node_modules
-#    #      - ./frontend/web:/app
-#    env_file:
-#      - ./frontend/.env
-#    depends_on:
-#      - backend
-#    networks:
-#      - web
-#
-#  backend:
-#    build:
-#      dockerfile: Dockerfile
-#      context: ./backend
-#    ports:
-#      - 8081:8081
-#    volumes:
-#      - /app/node_modules
-#      - ./backend:/app
-#    env_file:
-#      - ./backend/.env
-#    depends_on:
-#      - postgres
-#    networks:
-#      - web
+  #  frontend:
+  #    build:
+  #      dockerfile: Dockerfile
+  #      context: ./frontend
+  #    ports:
+  #      - 8080:8080
+  #    #    volumes:
+  #    #      - /app/node_modules
+  #    #      - ./frontend/web:/app
+  #    env_file:
+  #      - ./frontend/.env
+  #    depends_on:
+  #      - backend
+  #    networks:
+  #      - web
   #
-  #  postgres:
-  #    image: postgres:9.6-alphine
+  #  backend:
+  #    build:
+  #      dockerfile: Dockerfile
+  #      context: ./backend
   #    ports:
-  #      - "5432:5432"
+  #      - 8081:8081
   #    volumes:
-  #      - /data/postgres:/data/postgres
+  #      - /app/node_modules
+  #      - ./backend:/app
   #    env_file:
   #      - ./backend/.env
-  #    networks:
+  #    depends_on:
   #      - postgres
+  #    networks:
+  #      - web
 
-  #  pgadmin:
-  #    links:
-  #      - postgres:postgres
-  #    image: dpage/pgadmin4
-  #    ports:
-  #      - "8080:80"
-  #    volumes:
-  #      - /data/pgadmin:/root/.pgadmin
-  #    env_file:
-  #      - ./backend/.env
-  #    networks:
-  #      - postgres
+  postgres:
+    image: postgres:13.4-alpine
+    ports:
+      - "5432:5432"
+    volumes:
+      - /data/postgres:/data/postgres
+    env_file:
+      - ./backend/.env
+    networks:
+      - postgres
+
+  pgadmin:
+    links:
+      - postgres:postgres
+    image: dpage/pgadmin4
+    ports:
+      - "8082:80"
+    volumes:
+      - /data/pgadmin:/root/.pgadmin
+    env_file:
+      - ./backend/.env
+    networks:
+      - postgres
 
   elasticsearch:
     image: docker.elastic.co/elasticsearch/elasticsearch:7.9.0
