@@ -41,7 +41,16 @@ export default {
   },
   async isUsernameTaken(username: string): Promise<boolean> {
     const params = { username };
-    const { data }: ApiResponseModel<boolean> = await http.get('/user/is-taken', { params });
+    const { data }: ApiResponseModel<boolean> = await http.get('/user/is-username-taken', { params });
+    return data;
+  },
+  async isEmailTaken(email: string): Promise<boolean> {
+    const params = { email };
+    const { data }: ApiResponseModel<boolean> = await http.get('/user/is-email-taken', { params });
+    return data;
+  },
+  async confirmEmail(token: string): Promise<boolean> {
+    const { data }: ApiResponseModel<boolean> = await http.post('/email-verification', { token });
     return data;
   },
 
