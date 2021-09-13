@@ -1,10 +1,11 @@
 <template>
   <PeopleDetailSide
-    button-label="Управлять учётной записью"
+    :button-label="canEdit ? 'Управлять учётной записью' : null"
     :display-name="user.name"
     :name="user.username"
     :avatar="user.avatar"
     :color="user.color"
+    :can-edit="canEdit"
     @button-click="openAccountSettingsPage"
     @update:name="updateUserInfo('username', $event)"
     @update:display-name="updateUserInfo('name', $event)"
@@ -15,60 +16,64 @@
           <CommonListTitle title="сведения" />
           <q-input
             v-model="form.position"
-            label="Ваша должность"
+            :label="canEdit ? 'Ваша должность' : 'Должность'"
+            :readonly="!canEdit"
             outlined
             dense
             @blur="updateUserInfo('position', form.position)"
             @keydown.enter="$event.target.blur()"
           >
-            <BaseTooltip label="Название должности можно изменить" />
+            <BaseTooltip v-if="canEdit" label="Название должности можно изменить" />
           </q-input>
           <q-input
             v-model="form.department"
-            label="Ваш отдел"
+            :label="canEdit ? 'Ваш отдел' : 'Отдел'"
+            :readonly="!canEdit"
             outlined
             dense
             @blur="updateUserInfo('department', form.department)"
             @keydown.enter="$event.target.blur()"
           >
-            <BaseTooltip label="Название отдела можно изменить" />
+            <BaseTooltip v-if="canEdit" label="Название отдела можно изменить" />
           </q-input>
           <q-input
             v-model="form.organisation"
-            label="Ваша организация"
+            :label="canEdit ? 'Ваша организация' : 'Организация'"
+            :readonly="!canEdit"
             outlined
             dense
             @blur="updateUserInfo('organisation', form.organisation)"
             @keydown.enter="$event.target.blur()"
           >
-            <BaseTooltip label="Название организации можно изменить" />
+            <BaseTooltip v-if="canEdit" label="Название организации можно изменить" />
           </q-input>
           <q-input
             v-model="form.location"
-            label="Ваше местоположение"
+            :label="canEdit ? 'Ваше местоположение' : 'Местоположение'"
+            :readonly="!canEdit"
             outlined
             dense
             @blur="updateUserInfo('location', form.location)"
             @keydown.enter="$event.target.blur()"
           >
-            <BaseTooltip label="Данные о местоположении можно изменить" />
+            <BaseTooltip v-if="canEdit" label="Данные о местоположении можно изменить" />
           </q-input>
         </q-card-section>
 
         <q-card-section class="column gap-2">
           <CommonListTitle title="контактные данные" />
-          <BaseItem @click="dialog.open('changeEmail')">
+          <BaseItem :clickable="canEdit" @click="canEdit ? dialog.open('changeEmail') : null">
             <q-item-section side>
               <q-icon name="mail_outline" size="24px" color="blue-grey-3" />
             </q-item-section>
             <q-item-section> {{ user.email }} </q-item-section>
-            <q-item-section side>
+            <q-item-section v-if="canEdit" side>
               <q-icon name="edit" size="20px" color="blue-grey-3" />
             </q-item-section>
           </BaseItem>
         </q-card-section>
 
-        <q-card-section class="column gap-2">
+        <q-card-section v-if="canEdit ? true : availableUserTeams.length > 1" class="column gap-2">
           <CommonListTitle title="команды" />
           <BaseItem v-for="team in availableUserTeams" :key="team.id" @click="handleTeamClick(team.id)">
             <q-item-section side>
@@ -131,6 +136,7 @@ export default defineComponent({
       type: Object as PropType<UserModel>,
       required: true,
     },
+    canEdit: Boolean,
   },
 
   setup(props) {

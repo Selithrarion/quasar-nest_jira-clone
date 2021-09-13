@@ -3,17 +3,24 @@
 
   <div v-else class="people-detail">
     <q-page>
-      <header class="relative-position" @click="isHeaderMenu = !isHeaderMenu">
+      <header
+        class="people-detail__header"
+        :class="{ 'cursor-pointer': canEditDetail }"
+        @click="canEditDetail ? (isHeaderMenu = !isHeaderMenu) : null"
+      >
         <BaseLoader v-if="loading.custom.header" color="white" thickness="0.18" center />
-        <q-img v-if="currentUser.header" :src="currentUser.header.url" height="200px" alt="User header image">
+        <q-img v-if="pageHeaderURL" :src="pageHeaderURL" height="200px" alt="Header image">
           <template #loading>
             <BaseLoader color="white" thickness="0.18" center />
           </template>
         </q-img>
 
-        <div class="header-hover absolute-full select-none flex-center column gap-1 text-white relative-position">
+        <div
+          v-if="canEditDetail"
+          class="header-hover absolute-full select-none flex-center column gap-1 text-white relative-position"
+        >
           <q-icon name="image" size="2rem" />
-          Update your header image
+          Update header image
 
           <transition enter-active-class="animated fadeIn" leave-active-class="animated fadeOut">
             <div v-show="isHeaderMenu" class="header-menu bg-white rounded-md" @click.stop="isHeaderMenu = false">
@@ -37,8 +44,8 @@
       </header>
 
       <div class="people-detail__content q-col-gutter-lg q-my-lg big-side-padding">
-        <PeopleDetailSideUser v-if="isUserPageType" :user="currentUser" />
-        <PeopleDetailSideTeam v-else :team="currentTeam" />
+        <PeopleDetailSideUser v-if="isUserPageType" :user="currentUser" :can-edit="canEditDetail" />
+        <PeopleDetailSideTeam v-else :team="currentTeam" :can-edit="canEditDetail" />
 
         <main class="flex-grow-2">
           <!--TODO: fix long name-->
@@ -145,17 +152,29 @@ export default defineComponent({
     const store = useStore();
     const loading = useLoading({ default: true });
 
+    const currentUserID = computed(() => Number(route.params.userID));
+    const currentTeamID = computed(() => Number(route.params.teamID));
+    const currentUser = computed(() => store.state.people.userDetail);
+    const currentTeam = computed(() => store.state.people.teamDetail);
+    const availableProjects = computed(() => store.state.project.projects);
+
     const isUserPageType = computed(() => {
       return !route.path.includes('team');
     });
     const isTeamPageType = computed(() => {
       return !isUserPageType.value;
     });
-    const currentUserID = computed(() => Number(route.params.userID));
-    const currentTeamID = computed(() => Number(route.params.teamID));
-    const currentUser = computed(() => store.state.people.userDetail);
-    const currentTeam = computed(() => store.state.people.teamDetail);
-    const availableProjects = computed(() => store.state.project.projects);
+    const currentAccount = computed(() => store.state.user.currentUser);
+    const canEditDetail = computed(() => {
+      const isOwnProfile = currentAccount.value?.id === currentUserID.value;
+      const isTeamMember = currentAccount.value?.teams?.findIndex((t) => t.id === currentTeam.value?.id);
+      if (isUserPageType.value) return isOwnProfile;
+      else return isTeamMember;
+    });
+    const pageHeaderURL = computed(() => {
+      if (isUserPageType.value) return currentUser.value?.avatar?.url;
+      else return currentTeam.value?.avatar?.url;
+    });
 
     async function fetchItemDetail() {
       if (isUserPageType.value) await store.dispatch('people/getUserByID', currentUserID.value);
@@ -213,9 +232,12 @@ export default defineComponent({
 
       isUserPageType,
       isTeamPageType,
+      canEditDetail,
+      pageHeaderURL,
 
       currentUser,
       currentTeam,
+
       availableProjects,
 
       isHeaderMenu,
@@ -232,29 +254,30 @@ export default defineComponent({
 </script>
 
 <style lang="scss" scoped>
-header {
-  height: 200px;
-  background: linear-gradient(90deg, rgb(144, 218, 255) 0%, rgb(235, 250, 255) 100%);
-  box-shadow: 0 0 4px 0 rgba(15, 68, 109, 0.18) inset;
-  cursor: pointer;
-  .header-hover {
-    opacity: 0;
-    background: rgba(23, 76, 112, 0.56);
-    transition: background 1000ms ease, opacity 300ms ease;
-    &:hover {
-      opacity: 1;
+.people-detail {
+  &__header {
+    position: relative;
+    height: 200px;
+    background: linear-gradient(90deg, rgb(144, 218, 255) 0%, rgb(235, 250, 255) 100%);
+    box-shadow: 0 0 4px 0 rgba(15, 68, 109, 0.18) inset;
+    .header-hover {
+      opacity: 0;
+      background: rgba(23, 76, 112, 0.56);
+      transition: background 1000ms ease, opacity 300ms ease;
+      &:hover {
+        opacity: 1;
+      }
+    }
+    .header-menu {
+      position: absolute;
+      top: 170px;
+      box-shadow: $shadow-15;
+    }
+    .header-file-input {
+      height: 32px;
     }
   }
-  .header-menu {
-    position: absolute;
-    top: 170px;
-    box-shadow: $shadow-15;
-  }
-  .header-file-input {
-    height: 32px;
-  }
-}
-.people-detail {
+
   &__content {
     display: flex;
     @media screen and (max-width: $breakpoint-sm-max) {
