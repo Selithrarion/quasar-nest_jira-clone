@@ -1,6 +1,8 @@
 import { BaseModel } from 'src/models/common/base.model';
 import { IssueModel } from 'src/models/project/issue.model';
 import { PublicFileModel } from '../common/public.file.model';
+import { TeamModel } from 'src/models/user/team.model';
+import { ProjectModel } from 'src/models/project/project.model';
 
 export interface UserModel extends BaseModel {
   name: string;
@@ -15,10 +17,15 @@ export interface UserModel extends BaseModel {
   avatar: PublicFileModel | null;
   header: PublicFileModel | null;
 
-  assignedIssues: IssueModel[];
-  watchingIssues: IssueModel[];
+  assignedIssues?: IssueModel[];
+  watchingIssues?: IssueModel[];
+
+  projects?: ProjectModel[];
   projectsIDs: number[];
   favoriteProjectsIDs: number[];
+  teams?: TeamModel[];
+  teamsLeader?: TeamModel[];
+  teamsLeaderIDs: number[];
 
   position: string;
   department: string;
