@@ -1,6 +1,6 @@
 import { HttpException, HttpStatus, Inject, Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
-import { In, Repository } from 'typeorm';
+import { In, Not, Repository } from 'typeorm';
 import * as bcrypt from 'bcrypt';
 
 import { CreateUserDTO } from './dto';
@@ -30,13 +30,21 @@ export class UserService {
     private readonly filesService: FilesService
   ) {}
 
-  async get(searchText: string, userID: number): Promise<UserEntity[]> {
+  async get(searchText: string, currentUserID: number): Promise<UserEntity[]> {
+    if (!searchText.length)
+      return this.users.find({
+        where: {
+          id: Not(currentUserID),
+        },
+        take: 10,
+      });
+
     const searchResult = await this.userSearchService.search(searchText);
     const userIDs = searchResult.map((result) => result.id);
-    if (!userIDs.length) return [];
+    const filteredUserIDs = userIDs.filter((id) => id !== currentUserID);
+    if (!filteredUserIDs.length) return [];
     return this.users.find({
-      where: { id: In(userIDs) },
-      take: 11,
+      where: { id: In(filteredUserIDs) },
     });
   }
 
@@ -66,6 +74,7 @@ export class UserService {
     const user = await this.users.create({ ...payload, color: stringToHslColor(payload.username) });
     const createdUser = await this.users.save(user);
 
+    await this.userSearchService.indexUser(user);
     return createdUser;
   }
 
@@ -73,10 +82,9 @@ export class UserService {
     const toUpdate = await this.users.findOneOrFail(id);
     const user = this.users.create({ ...toUpdate, ...payload });
     const updated = await this.users.save(user);
-    if (updated) {
-      await this.userSearchService.update(user);
-      return updated;
-    }
+
+    await this.userSearchService.update(user);
+    return updated;
   }
 
   async delete(id: number): Promise<void> {
