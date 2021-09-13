@@ -14,7 +14,7 @@ const actions: ActionTree<UserStateInterface, StateInterface> = {
     commit('AUTH_USER', data);
   },
   logout({ commit }) {
-    commit('LOGOUT_USER');
+    return commit('LOGOUT_USER');
   },
 
   async loadUser({ commit }, { accessToken, refreshToken }: UserUpdateTokenResponse) {
