@@ -18,7 +18,13 @@
         </q-card-section>
         <q-card-section class="col-9">
           <h6 class="text-weight-regular q-my-md">Здесь ничего нет</h6>
-          <p>
+          <p v-if="isOwnProfile">
+            Здесь показаны все объекты, которые вы создали, изменили или прокомментировали за последние 90 дней.
+          </p>
+          <p v-else-if="isUserProfile">
+            Здесь показаны все объекты, которые пользователь создал, изменил или прокомментировал за последние 90 дней.
+          </p>
+          <p v-else>
             Здесь показаны все объекты, которые команда создала, изменила или прокомментировала за последние 90 дней.
           </p>
         </q-card-section>
@@ -73,6 +79,15 @@ export default defineComponent({
     },
     hidePadding: Boolean,
     showTitleCaption: Boolean,
+
+    isOwnProfile: {
+      type: Boolean,
+      required: true,
+    },
+    isUserProfile: {
+      type: Boolean,
+      required: true,
+    },
   },
 
   emits: ['item-click'],
