@@ -1,13 +1,13 @@
 <template>
   <PeopleDetailSide
-    button-label="Добавить людей"
+    :button-label="canEdit ? 'Добавить людей' : null"
     :name="team.name"
     :color="team.color"
-    show-more-button
+    :show-more-button="canEdit"
     @button-click="dialog.open('addUsers')"
   >
     <template #moreButtonItems>
-      <BaseItem label="Удалить команду" />
+      <BaseItem v-if="canEdit" label="Удалить команду" />
     </template>
 
     <template #append>
@@ -16,11 +16,7 @@
           <CommonListTitle title="участники" />
           <BaseItem v-for="user in team.users" :key="user.id" @click="openUserProfile(user.id)">
             <q-item-section side>
-              <BaseAvatar
-                :src="user.avatar && user.avatar.url"
-                :item-name="user.name"
-                :item-color="user.color"
-              />
+              <BaseAvatar :src="user.avatar && user.avatar.url" :item-name="user.name" :item-color="user.color" />
             </q-item-section>
             <q-item-section>
               <q-item-label>{{ user.name }}</q-item-label>
@@ -76,6 +72,7 @@ export default defineComponent({
       type: Object as PropType<TeamModel>,
       required: true,
     },
+    canEdit: Boolean,
   },
 
   setup() {

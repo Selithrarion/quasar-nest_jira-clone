@@ -1,6 +1,6 @@
 <template>
   <aside class="column gap-4 flex-grow-1 relative-position">
-    <label class="people-detail-side__avatar">
+    <label class="people-detail-side__avatar" :class="{ 'cursor-pointer': canEdit }">
       <input ref="avatarInput" class="hidden absolute-full" type="file" accept="image/*" @input="uploadAvatar" />
       <BaseAvatar
         size="128px"
@@ -9,7 +9,7 @@
         :item-name="name"
         :item-color="color"
       />
-      <div class="people-detail-side__avatar-hover">
+      <div v-if="canEdit" class="people-detail-side__avatar-hover">
         <q-icon name="photo" size="32px" color="white" />
       </div>
     </label>
@@ -18,6 +18,7 @@
       <CommonInputEdit
         v-model="localDisplayName"
         input-classes="text-h6"
+        :disabled="!canEdit"
         @update="updateDisplayName"
         @reset="resetDisplayName"
       >
@@ -30,7 +31,13 @@
         </template>
       </CommonInputEdit>
 
-      <CommonInputEdit v-model="localName" input-classes="text-body2" @update="updateName" @reset="resetName">
+      <CommonInputEdit
+        v-model="localName"
+        input-classes="text-body2"
+        :disabled="!canEdit"
+        @update="updateName"
+        @reset="resetName"
+      >
         <template #button>
           <div class="text-blue-grey-6 text-body2">
             <slot name="name">
@@ -106,6 +113,8 @@ export default defineComponent({
       default: null,
     },
     showMoreButton: Boolean,
+
+    canEdit: Boolean,
   },
 
   emits: ['button-click', 'update:display-name', 'update:name'],
@@ -167,7 +176,6 @@ export default defineComponent({
     position: absolute;
     top: -128px;
     left: 24px;
-    cursor: pointer;
     border-radius: 100%;
     border: 3px solid white;
   }
