@@ -29,7 +29,7 @@
           <BaseSelect
             v-model="form.team"
             :options="availableUsers"
-            label="Их имя или @упоминание"
+            label="Их отображаемое имя, имя пользователя или email"
             hint="Вы можете пригласить не более 10 пользователей за раз."
             input-debounce="500"
             hide-selected
