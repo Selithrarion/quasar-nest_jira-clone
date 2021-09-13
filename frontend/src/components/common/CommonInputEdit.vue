@@ -1,5 +1,5 @@
 <template>
-  <div class="common-input-edit" :class="{ 'common-input-edit__clickable': !disabled }">
+  <div class="common-input-edit" :class="{ 'common-input-edit--clickable': !disabled }">
     <div v-if="isShowInput && !disabled">
       <slot>
         <q-input
