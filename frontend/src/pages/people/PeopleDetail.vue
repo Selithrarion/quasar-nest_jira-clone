@@ -52,6 +52,8 @@
           <PeopleDetailActivitySection
             title="Назначенные задачи"
             :items="currentUser.assignedIssues"
+            :is-own-profile="isOwnProfile"
+            :is-user-profile="isUserPageType"
             show-title-caption
             @item-click="openProjectIssue"
           >
@@ -68,6 +70,8 @@
           <PeopleDetailActivitySection
             title="Наблюдаемые задачи"
             :items="currentUser.watchingIssues"
+            :is-own-profile="isOwnProfile"
+            :is-user-profile="isUserPageType"
             show-title-caption
             @item-click="openProjectIssue"
           >
@@ -84,6 +88,8 @@
           <PeopleDetailActivitySection
             title="Любимые проекты"
             :items="currentUser.favoriteProjects"
+            :is-own-profile="isOwnProfile"
+            :is-user-profile="isUserPageType"
             @item-click="openProject"
           >
             <template #itemPrepend="{ item }">
@@ -164,13 +170,15 @@ export default defineComponent({
     const isTeamPageType = computed(() => {
       return !isUserPageType.value;
     });
+
     const currentAccount = computed(() => store.state.user.currentUser);
+    const isOwnProfile = computed(() => currentAccount.value?.id === currentUserID.value);
+    const isTeamMember = computed(() => currentAccount.value?.teams?.findIndex((t) => t.id === currentTeam.value?.id));
     const canEditDetail = computed(() => {
-      const isOwnProfile = currentAccount.value?.id === currentUserID.value;
-      const isTeamMember = currentAccount.value?.teams?.findIndex((t) => t.id === currentTeam.value?.id);
-      if (isUserPageType.value) return isOwnProfile;
-      else return isTeamMember;
+      if (isUserPageType.value) return isOwnProfile.value;
+      else return isTeamMember.value;
     });
+
     const pageHeaderURL = computed(() => {
       if (isUserPageType.value) return currentUser.value?.avatar?.url;
       else return currentTeam.value?.avatar?.url;
@@ -230,15 +238,18 @@ export default defineComponent({
     return {
       loading,
 
-      isUserPageType,
-      isTeamPageType,
-      canEditDetail,
-      pageHeaderURL,
-
       currentUser,
       currentTeam,
-
       availableProjects,
+
+      isUserPageType,
+      isTeamPageType,
+
+      isOwnProfile,
+      isTeamMember,
+      canEditDetail,
+
+      pageHeaderURL,
 
       isHeaderMenu,
       headerImage,
