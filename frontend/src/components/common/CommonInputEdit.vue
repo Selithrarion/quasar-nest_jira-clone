@@ -1,6 +1,6 @@
 <template>
-  <div class="common-input-edit">
-    <div v-if="isShowInput">
+  <div class="common-input-edit" :class="{ 'common-input-edit__clickable': !disabled }">
+    <div v-if="isShowInput && !disabled">
       <slot>
         <q-input
           :model-value="modelValue"
@@ -22,7 +22,7 @@
       class="common-input-edit__button"
       role="button"
       :class="{ 'common-input-edit__button-padding': !noButtonPadding }"
-      @click="isShowInput = true"
+      @click="showInput"
     >
       <slot name="button">
         <div>{{ modelValue }}</div>
@@ -43,6 +43,8 @@ export default defineComponent({
       required: false,
       default: null,
     },
+    disabled: Boolean,
+
     inputClasses: {
       type: String,
       required: false,
@@ -57,6 +59,9 @@ export default defineComponent({
     const originalValue = ref(props.modelValue);
     const isShowInput = ref(false);
 
+    function showInput() {
+      if (!props.disabled) isShowInput.value = true;
+    }
     function handleBlur() {
       isShowInput.value = false;
       if (originalValue.value === props.modelValue) return;
@@ -69,6 +74,7 @@ export default defineComponent({
 
     return {
       isShowInput,
+      showInput,
       handleBlur,
       handleReset,
     };
@@ -80,15 +86,18 @@ export default defineComponent({
 .common-input-edit {
   &__button {
     font-weight: 500;
-    cursor: pointer;
     transition: background-color 150ms ease;
-    &:hover {
+  }
+  &.common-input-edit--clickable {
+    cursor: pointer;
+    .common-input-edit__button:hover {
       background-color: $blue-grey-1;
     }
-    &:active {
+    .common-input-edit__button:active {
       color: $blue-grey-10;
     }
   }
+
   &__button-padding {
     padding: 4px 10px;
   }
