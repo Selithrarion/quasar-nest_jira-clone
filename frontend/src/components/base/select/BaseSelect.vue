@@ -13,6 +13,7 @@
     :menu-offset="buttonStyle ? [0, 8] : [0, 0]"
     :borderless="buttonStyle"
     :hide-dropdown-icon="buttonStyle"
+    :use-chips="useChips"
     v-bind="$attrs"
     @update:model-value="$emit('update:model-value', $event)"
   >
@@ -20,7 +21,7 @@
       <BaseTooltip v-if="tooltip" :label="tooltip" delay="700" />
     </template>
 
-    <template #selected-item="{ opt }">
+    <template v-if="!useChips" #selected-item="{ opt }">
       <div class="flex items-center gap-1 no-wrap ellipsis">
         <slot name="selected-item" :option="opt">
           {{ opt[optionLabel] }}
@@ -116,6 +117,7 @@ export default defineComponent({
       required: false,
       default: true,
     },
+    useChips: Boolean,
   },
 
   emits: ['update:model-value'],
