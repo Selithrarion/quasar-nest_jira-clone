@@ -37,7 +37,11 @@
             use-input
             use-chips
             @filter="searchUsers"
-          />
+          >
+            <template #optionLabel="{ option }">
+              <q-item-label>{{ option.username }} ({{ option.name }})</q-item-label>
+            </template>
+          </BaseSelect>
         </q-form>
       </div>
     </div>
