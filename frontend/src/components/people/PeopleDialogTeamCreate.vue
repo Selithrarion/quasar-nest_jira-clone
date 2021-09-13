@@ -27,12 +27,15 @@
           />
 
           <BaseSelect
-            v-model="form.team"
+            v-model="form.users"
             :options="availableUsers"
             label="Их отображаемое имя, имя пользователя или email"
             hint="Вы можете пригласить не более 10 пользователей за раз."
             input-debounce="500"
-            hide-selected
+            max-values="10"
+            :emit-value="false"
+            multiple
+            counter
             fill-input
             use-input
             use-chips
@@ -69,11 +72,11 @@ export default defineComponent({
     const rules = useFormValidation();
 
     const availableUsers = ref<UserModel[]>([]);
-    type SelectUpdateFunction = (arg0: () => Promise<void>) => void;
-    function searchUsers(value: string, update: SelectUpdateFunction) {
-      update(async () => {
-        availableUsers.value = await userRepository.searchUsers(value.toLowerCase());
-      });
+    type SelectUpdateFunction = (arg0: () => void) => void;
+    async function searchUsers(value: string, update: SelectUpdateFunction) {
+      const normalized = value.toLowerCase();
+      availableUsers.value = await userRepository.searchUsers(normalized);
+      update(() => availableUsers.value.filter((u) => u.username.toLowerCase().includes(normalized)));
     }
 
     onBeforeMount(async () => {
@@ -83,7 +86,7 @@ export default defineComponent({
     const valid = ref(false);
     const form = reactive({
       name: '',
-      team: [],
+      users: [],
     });
 
     async function createTeam() {
