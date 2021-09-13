@@ -240,6 +240,7 @@ export default defineComponent({
 
       currentUser,
       currentTeam,
+
       availableProjects,
 
       isUserPageType,
