@@ -61,17 +61,16 @@ export default defineComponent({
 
     const isEmailConfirmSuccess = ref(false);
     async function tryConfirmEmail() {
-      const emailConfirmationToken = String(route.query.token);
-      const isEmailNotConfirmed = !store.state.user.currentUser?.isEmailConfirmed;
-      if (emailConfirmationToken && isEmailNotConfirmed) {
-        try {
-          dialog.open('confirmEmail');
-          dialog.startLoading();
-          await userRepository.confirmEmail(emailConfirmationToken);
-          isEmailConfirmSuccess.value = true;
-        } finally {
-          dialog.stopLoading();
-        }
+      const isEmailConfirmed = store.state.user.currentUser?.isEmailConfirmed;
+      if (!route.query.token || isEmailConfirmed) return;
+
+      try {
+        dialog.open('confirmEmail');
+        dialog.startLoading();
+        await userRepository.confirmEmail(String(route.query.token));
+        isEmailConfirmSuccess.value = true;
+      } finally {
+        dialog.stopLoading();
       }
     }
 
