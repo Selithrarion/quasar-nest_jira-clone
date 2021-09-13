@@ -16,6 +16,8 @@ export class UserSearchService {
       body: {
         id: user.id,
         username: user.username,
+        name: user.name,
+        email: user.email,
       },
     });
   }
@@ -42,6 +44,8 @@ export class UserSearchService {
     const body: UserSearchBody = {
       id: user.id,
       username: user.username,
+      name: user.name,
+      email: user.email,
     };
     const script = Object.entries(body).reduce((result, [key, value]) => {
       return `${result} ctx._source.${key}='${value}';`;
