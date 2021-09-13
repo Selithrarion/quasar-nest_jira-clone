@@ -20,7 +20,7 @@
 2. Typescript
 3. PostgreSQL + TypeORM (database)
 4. Swagger, Swagger UI (docs)
-5. Passport, JWT auth, OAuth with Google / Github
+5. Register/login with JWT tokens, OAuth with Google / Github (not implemented yet ❌), two-factor with OTP codes (not implemented yet ❌)
 6. Socket.io (not implemented yet ❌)
 7. Jest (testing) (not implemented yet ❌)
 8. AWS S3 (Amazon Simple Storage Service)
