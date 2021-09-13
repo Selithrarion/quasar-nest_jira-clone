@@ -27,15 +27,13 @@ export class UserSearchService {
       index: this.index,
       body: {
         query: {
-          match: {
-            username: {
-              query: searchText,
-            },
+          query_string: {
+            query: searchText + '*',
+            fields: ['username^2', 'name', 'email'],
           },
         },
       },
     });
-    console.log(body);
     const hits = body.hits.hits;
     return hits.map((item) => item._source);
   }
