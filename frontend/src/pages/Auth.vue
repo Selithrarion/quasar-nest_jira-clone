@@ -19,7 +19,7 @@
             v-model="form.username"
             label="Имя пользователя"
             debounce="500"
-            :rules="[rules.required, rules.max24, authTypes[type] === 'register' ? uniqueUsername : null]"
+            :rules="[rules.required, rules.max24, type === 'register' ? uniqueUsername : null]"
             hide-bottom-space
             lazy-rules
             filled
@@ -29,7 +29,7 @@
             v-model="form.email"
             label="Email"
             debounce="500"
-            :rules="[rules.required, rules.email, authTypes[type] === 'register' ? uniqueEmail : null]"
+            :rules="[rules.required, rules.email, type === 'register' ? uniqueEmail : null]"
             hide-bottom-space
             lazy-rules
             filled
