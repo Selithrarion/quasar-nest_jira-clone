@@ -9,7 +9,7 @@
 4. Quasar (ui)
 5. Socket.io (real-time issues update) (not implemented yet ❌)
 6. Vuedraggable (kanban board)
-7. Vue i18n (for pluralization '1 доскА' '2 доскИ' '6 досОК' (one board, two boardS, six boardS)) (not implemented yet ❌)
+7. Vue i18n (for pluralization '1 доскА' '2 доскИ' '6 досОК' (1 board, 2 boardS, 6 boardS)) (not implemented yet ❌)
 8. Vue test utils + Jest (testing) (not implemented ❌)
 9. RTL view (haha, even in jira rtl doesn't work very well, but thanks to quasar pretty nice rtl support in this clone and CSS gaps)
 10. other - date-fns, some lodash functions, eslint + tslint + prettier
@@ -20,7 +20,7 @@
 2. Typescript
 3. PostgreSQL + TypeORM (database)
 4. Swagger, Swagger UI (docs)
-5. Passport, JWT auth
+5. Passport, JWT auth, OAuth with Google / Github
 6. Socket.io (not implemented yet ❌)
 7. Jest (testing) (not implemented yet ❌)
 8. AWS S3 (Amazon Simple Storage Service)
