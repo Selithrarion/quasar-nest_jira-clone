@@ -26,25 +26,7 @@
             :rules="[rules.required, rules.max40]"
           />
 
-          <BaseSelect
-            v-model="form.users"
-            :options="availableUsers"
-            label="Их отображаемое имя, имя пользователя или email"
-            hint="Вы можете пригласить не более 10 пользователей за раз."
-            input-debounce="500"
-            max-values="10"
-            :emit-value="false"
-            multiple
-            counter
-            fill-input
-            use-input
-            use-chips
-            @filter="searchUsers"
-          >
-            <template #optionLabel="{ option }">
-              <q-item-label>{{ option.username }} ({{ option.name }})</q-item-label>
-            </template>
-          </BaseSelect>
+          <CommonSelectUsers v-model="form.users" v-model:options="availableUsers" />
         </q-form>
       </div>
     </div>
@@ -59,11 +41,17 @@ import { useStore } from 'src/store';
 import useFormValidation from 'src/composables/form/useFormValidation';
 import useLoading from 'src/composables/common/useLoading';
 
+import CommonSelectUsers from 'components/common/CommonSelectUsers.vue';
+
 import userRepository from 'src/repositories/userRepository';
 import { UserModel } from 'src/models/user/user.model';
 
 export default defineComponent({
   name: 'PeopleDialogTeamCreate',
+
+  components: {
+    CommonSelectUsers,
+  },
 
   setup() {
     const router = useRouter();
@@ -72,13 +60,6 @@ export default defineComponent({
     const rules = useFormValidation();
 
     const availableUsers = ref<UserModel[]>([]);
-    type SelectUpdateFunction = (arg0: () => void) => void;
-    async function searchUsers(value: string, update: SelectUpdateFunction) {
-      const normalized = value.toLowerCase();
-      availableUsers.value = await userRepository.searchUsers(normalized);
-      update(() => availableUsers.value.filter((u) => u.username.toLowerCase().includes(normalized)));
-    }
-
     onBeforeMount(async () => {
       await userRepository.searchUsers();
     });
@@ -108,7 +89,6 @@ export default defineComponent({
       loading,
 
       availableUsers,
-      searchUsers,
 
       valid,
       form,

@@ -32,17 +32,7 @@
         @close="dialog.close"
         @confirm="addUsersToTeam"
       >
-        <BaseSelect
-          v-model="localAddedTeamUsers"
-          :options="availableUsers"
-          label="Их имя или @упоминание"
-          hint="Вы можете пригласить не более 10 пользователей за раз."
-          input-debounce="0"
-          hide-selected
-          fill-input
-          use-input
-          use-chips
-        />
+        <CommonSelectUsers v-model="localAddedTeamUsers" v-model:options="availableUsers" />
       </BaseDialog>
     </template>
   </PeopleDetailSide>
@@ -55,6 +45,7 @@ import { useStore } from 'src/store';
 import useDialog from 'src/composables/common/useDialog';
 
 import CommonListTitle from 'components/common/CommonListTitle.vue';
+import CommonSelectUsers from 'components/common/CommonSelectUsers.vue';
 import PeopleDetailSide from 'components/people/detail/PeopleDetailSide.vue';
 
 import { TeamModel } from 'src/models/user/team.model';
@@ -64,6 +55,7 @@ export default defineComponent({
 
   components: {
     CommonListTitle,
+    CommonSelectUsers,
     PeopleDetailSide,
   },
 
