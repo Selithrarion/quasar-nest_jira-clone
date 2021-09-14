@@ -43,7 +43,12 @@
           <BaseButton icon="help" unelevated dense round />
           <BaseButton icon="settings" unelevated dense round />
           <BaseButton unelevated dense round>
-            <BaseAvatar :src="currentUserAvatarURL" :item-name="currentUser.username" :item-color="currentUser.color" />
+            <BaseAvatar
+              v-if="currentUser"
+              :src="currentUserAvatarURL"
+              :item-name="currentUser.username"
+              :item-color="currentUser.color"
+            />
 
             <q-menu style="width: 300px">
               <q-list>
