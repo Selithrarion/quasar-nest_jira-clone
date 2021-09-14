@@ -79,6 +79,9 @@
             :label="authTypes[type].actionWord"
             :loading="loading.active.value"
           />
+          <div>
+            <BaseButton label="Гугл" @click="signInWithGoogle" />
+          </div>
         </q-card-section>
       </q-card>
       <div class="column flex-center text-blue-grey-5">
@@ -110,7 +113,7 @@
 </template>
 
 <script lang="ts">
-import { defineComponent, ref, reactive, onMounted } from 'vue';
+import { defineComponent, ref, reactive, onMounted, inject } from 'vue';
 
 import { useQuasar } from 'quasar';
 import { useStore } from 'src/store';
@@ -232,6 +235,36 @@ export default defineComponent({
       await router.replace(url);
     }
 
+    interface GoogleAuth {
+      isInit: boolean;
+      isAuthorized: boolean;
+      instance: GoogleAuthInstance;
+    }
+    interface GoogleAuthInstance {
+      signIn: () => Promise<GoogleUser>;
+      signOut: () => unknown;
+      currentUser: GoogleUser;
+    }
+    interface GoogleUser {
+      get: () => GoogleUserGet;
+      getBasicProfile: () => unknown;
+      getAuthResponse: () => GoogleAuthResponse;
+    }
+    interface GoogleUserGet {
+      getAuthResponse: () => GoogleAuthResponse;
+    }
+    interface GoogleAuthResponse {
+      access_token: string;
+    }
+    const Vue3GoogleOauth = inject('Vue3GoogleOauth') as GoogleAuth;
+
+    async function signInWithGoogle() {
+      const googleUser = await Vue3GoogleOauth.instance.signIn();
+      if (!googleUser) return null;
+      const accessToken = googleUser.getAuthResponse()?.access_token;
+      await authRepository.authWithGoogle(accessToken);
+    }
+
     return {
       rules,
       loading,
@@ -250,6 +283,8 @@ export default defineComponent({
       login,
       register,
       sendForgotPasswordEmail,
+
+      signInWithGoogle,
     };
   },
 });
