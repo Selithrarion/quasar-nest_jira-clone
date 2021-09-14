@@ -1,13 +1,5 @@
 import { http } from 'boot/axios';
-import {
-  UserAuthResponse,
-  UserDTO,
-  UserLoginDTO,
-  UserModel,
-  UserRegisterDTO,
-  UserUpdateTokenDTO,
-  UserUpdateTokenResponse,
-} from 'src/models/user/user.model';
+import { UserDTO, UserModel } from 'src/models/user/user.model';
 import { ApiResponseModel } from 'src/models/common/apiResponse.model';
 import { PublicFileModel } from 'src/models/common/public.file.model';
 
@@ -20,25 +12,6 @@ export default {
     return data;
   },
 
-  async getSelf(): Promise<UserModel> {
-    const { data }: ApiResponseModel<UserModel> = await http.get('/user/self');
-    return data;
-  },
-
-  async login(payload: UserLoginDTO): Promise<UserAuthResponse> {
-    const { data }: ApiResponseModel<UserAuthResponse> = await http.post('/auth/login', payload);
-    return data;
-  },
-  async register(payload: UserRegisterDTO): Promise<UserAuthResponse> {
-    const { data }: ApiResponseModel<UserAuthResponse> = await http.post('/auth/register', payload);
-    return data;
-  },
-  async forgotPassword(email: string): Promise<void> {
-    return await http.post('/auth/forgot-password', { email });
-  },
-  async logout(): Promise<void> {
-    return await http.post('/auth/logout');
-  },
   async isUsernameTaken(username: string): Promise<boolean> {
     const params = { username };
     const { data }: ApiResponseModel<boolean> = await http.get('/user/is-username-taken', { params });
@@ -47,20 +20,6 @@ export default {
   async isEmailTaken(email: string): Promise<boolean> {
     const params = { email };
     const { data }: ApiResponseModel<boolean> = await http.get('/user/is-email-taken', { params });
-    return data;
-  },
-
-  async confirmEmail(token: string): Promise<boolean> {
-    const { data }: ApiResponseModel<boolean> = await http.post('/email-verification', { token });
-    return data;
-  },
-  async resendEmailConfirmation(): Promise<void> {
-    const { data }: ApiResponseModel<void> = await http.post('/email-verification/resend');
-    return data;
-  },
-
-  async updateTokens(payload: UserUpdateTokenDTO): Promise<UserUpdateTokenResponse> {
-    const { data }: ApiResponseModel<UserUpdateTokenResponse> = await http.post('/auth/update-tokens', payload);
     return data;
   },
 
@@ -88,6 +47,15 @@ export default {
   async deleteHeader() {
     await http.delete('user/header');
     return null;
+  },
+
+  async confirmEmail(token: string): Promise<boolean> {
+    const { data }: ApiResponseModel<boolean> = await http.post('/email-verification', { token });
+    return data;
+  },
+  async resendEmailConfirmation(): Promise<void> {
+    const { data }: ApiResponseModel<void> = await http.post('/email-verification/resend');
+    return data;
   },
 
   async sendEmailChange(id: number) {

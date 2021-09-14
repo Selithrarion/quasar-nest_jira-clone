@@ -119,6 +119,7 @@ import useLoading from 'src/composables/common/useLoading';
 import useFormValidation from 'src/composables/form/useFormValidation';
 
 import userRepository from 'src/repositories/userRepository';
+import authRepository from 'src/repositories/authRepository';
 
 enum AuthTypeEnum {
   LOGIN = 'login',
@@ -220,7 +221,7 @@ export default defineComponent({
     async function sendForgotPasswordEmail() {
       try {
         loading.start();
-        await userRepository.forgotPassword(form.email);
+        await authRepository.forgotPassword(form.email);
       } finally {
         loading.stop();
       }
