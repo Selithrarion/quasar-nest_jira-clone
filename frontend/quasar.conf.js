@@ -6,6 +6,7 @@
 /* eslint-env node */
 /* eslint-disable @typescript-eslint/no-var-requires */
 const { configure } = require('quasar/wrappers');
+require('dotenv').config();
 
 module.exports = configure(function (ctx) {
   return {
@@ -21,7 +22,7 @@ module.exports = configure(function (ctx) {
     // https://v2.quasar.dev/quasar-cli/prefetch-feature
     // preFetch: true,
 
-    boot: ['axios', 'notify-defaults', 'auth-user', 'load-base-components'],
+    boot: ['axios', 'notify-defaults', 'auth-user', 'load-base-components', 'vue3-google-oauth'],
 
     css: ['app.sass'],
 
