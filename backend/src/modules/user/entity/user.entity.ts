@@ -149,9 +149,10 @@ export class UserEntity extends BaseEntity {
 
   @BeforeInsert()
   async hashPassword(): Promise<void> {
-    this.password = await bcrypt.hash(this.password, 10);
+    if (this.password) this.password = await bcrypt.hash(this.password, 10);
   }
   async validatePassword(password: string): Promise<boolean> {
+    if (!this.isGoogleAccount) return true;
     return bcrypt.compare(password, this.password);
   }
 }
