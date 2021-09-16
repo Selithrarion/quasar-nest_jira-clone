@@ -41,6 +41,7 @@
     "class-transformer": "^0.4.0",
     "class-validator": "^0.13.1",
     "dotenv": "^10.0.0",
+    "googleapis": "^85.0.0",
     "nodemailer": "^6.6.3",
     "passport": "^0.4.1",
     "passport-jwt": "^4.0.0",
