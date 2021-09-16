@@ -17,15 +17,15 @@
         class="shadow-1 hover-shadow-lg cursor-pointer"
         @click="openUserProfile(user.id)"
       >
-        <q-card-section class="column items-center q-px-lg q-pb-lg q-pt-md">
+        <q-card-section class="column items-center q-px-sm q-pb-lg q-pt-md ellipsis">
           <BaseAvatar
             size="72px"
             :src="user.avatar && user.avatar.url"
             :item-name="user.username"
             :item-color="user.color"
           />
-          <div class="q-pt-sm">{{ user.name }}</div>
-          <div v-if="user.position" class="text-caption text-grey-7">{{ user.position }}</div>
+          <div class="ellipsis full-width q-pt-sm">{{ user.name }}</div>
+          <div v-if="user.position" class="text-caption text-grey-7 full-width">{{ user.position }}</div>
         </q-card-section>
       </q-card>
     </div>
