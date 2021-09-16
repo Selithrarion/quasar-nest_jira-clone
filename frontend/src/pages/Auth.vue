@@ -79,7 +79,7 @@
             :label="authTypes[type].actionWord"
             :loading="loading.active.value"
           />
-          <div class="row gap-2 q-mt-sm">
+          <div v-if="type === 'login'" class="flex-center gap-2 q-mt-sm">
             <BaseButton label="Google" @click="signInWithGoogle" />
           </div>
         </q-card-section>
