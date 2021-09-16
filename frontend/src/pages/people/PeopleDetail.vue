@@ -274,7 +274,7 @@ export default defineComponent({
     box-shadow: 0 0 4px 0 rgba(15, 68, 109, 0.18) inset;
     .header-hover {
       opacity: 0;
-      background: rgba(23, 76, 112, 0.56);
+      background: rgba(37, 53, 126, 0.4);
       transition: background 1000ms ease, opacity 300ms ease;
       &:hover {
         opacity: 1;

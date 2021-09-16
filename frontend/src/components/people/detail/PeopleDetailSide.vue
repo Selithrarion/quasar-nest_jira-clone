@@ -190,7 +190,7 @@ export default defineComponent({
     left: 0;
     height: 128px;
     width: 128px;
-    background-color: rgba(23, 76, 112, 0.56);
+    background: rgba(37, 53, 126, 0.4);
     transition: background 1000ms ease, opacity 300ms ease;
     opacity: 0;
     border-radius: 100%;
