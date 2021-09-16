@@ -39,9 +39,9 @@
         <div class="flex-center gap-4">
           <CommonSearch v-model="searchValue" prepend-icon @search="search" />
 
-          <BaseButton icon="notifications" unelevated dense round />
-          <BaseButton icon="help" unelevated dense round />
-          <BaseButton icon="settings" unelevated dense round />
+          <BaseButton icon="notifications" tooltip="Notifications" unelevated dense round />
+          <BaseButton icon="help" tooltip="Help" unelevated dense round />
+          <BaseButton icon="settings" tooltip="Settings" unelevated dense round />
           <BaseButton unelevated dense round>
             <BaseAvatar
               v-if="currentUser"
