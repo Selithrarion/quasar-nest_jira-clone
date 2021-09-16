@@ -53,7 +53,7 @@ export class UserEntity extends BaseEntity {
   email: string;
 
   @Exclude()
-  @Column({ length: 128 })
+  @Column({ nullable: true, length: 128 })
   password: string;
   @Exclude()
   @Column({ nullable: true })
