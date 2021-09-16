@@ -79,8 +79,8 @@
             :label="authTypes[type].actionWord"
             :loading="loading.active.value"
           />
-          <div>
-            <BaseButton label="Гугл" @click="signInWithGoogle" />
+          <div class="row gap-2 q-mt-sm">
+            <BaseButton label="Google" @click="signInWithGoogle" />
           </div>
         </q-card-section>
       </q-card>
