@@ -1,8 +1,10 @@
 import { Controller, Post, Body, UseGuards, Request } from '@nestjs/common';
 import { ApiTags } from '@nestjs/swagger';
+
 import { AuthService } from './auth.service';
 import { CreateUserDTO } from '../user/dto';
 import { UserTokensInterface, UserUpdateTokensDTO } from '../user/entity/user.entity';
+
 import { Public } from './decorators/public.decorator';
 import { LocalAuthGuard } from './guard/local-auth.guard';
 
@@ -27,5 +29,10 @@ export class AuthController {
   @Post('update-tokens')
   async updateTokens(@Body() payload: UserUpdateTokensDTO): Promise<UserTokensInterface> {
     return await this.authService.updateTokens(payload);
+  }
+
+  @Post('google-auth')
+  async authWithGoogle(@Body('token') token: string): Promise<UserTokensInterface> {
+    return await this.authService.authWithGoogle(token);
   }
 }
