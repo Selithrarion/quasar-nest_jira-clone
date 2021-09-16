@@ -6,6 +6,11 @@
       <header
         class="people-detail__header"
         :class="{ 'cursor-pointer': canEditDetail }"
+        :style="{
+          background: `linear-gradient(90deg, ${
+            currentUser ? currentUser.color : currentTeam.color
+          } 0%, rgb(250, 250, 255) 100%)`,
+        }"
         @click="canEditDetail ? (isHeaderMenu = !isHeaderMenu) : null"
       >
         <BaseLoader v-if="loading.custom.header" color="white" thickness="0.18" center />
@@ -270,7 +275,6 @@ export default defineComponent({
   &__header {
     position: relative;
     height: 200px;
-    background: linear-gradient(90deg, rgb(144, 218, 255) 0%, rgb(235, 250, 255) 100%);
     box-shadow: 0 0 4px 0 rgba(15, 68, 109, 0.18) inset;
     .header-hover {
       opacity: 0;
