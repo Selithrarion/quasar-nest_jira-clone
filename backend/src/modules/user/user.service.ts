@@ -157,6 +157,11 @@ export class UserService {
       hashedRefreshToken,
     });
   }
+  async set2FaSecret(id: number, secret: string): Promise<void> {
+    await this.users.update(id, {
+      twoFactorSecret: secret,
+    });
+  }
 
   async getFavoriteProjects(id: number): Promise<ProjectEntity[]> {
     const user = await this.users.findOneOrFail(id, { relations: ['favoriteProjects'] });
