@@ -34,7 +34,7 @@ export default {
     return await http.post('/auth/logout');
   },
 
-  async authWithGoogle(accessToken: string): Promise<void> {
-    return await http.post('/auth/login-google', { accessToken });
+  async authWithGoogle(token: string): Promise<void> {
+    return await http.post('/auth/google-auth', { token });
   },
 };
