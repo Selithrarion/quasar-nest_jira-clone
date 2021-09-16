@@ -77,6 +77,14 @@ export class UserService {
     await this.userSearchService.indexUser(user);
     return createdUser;
   }
+  async createWithGoogle(email: string, name: string): Promise<UserEntity> {
+    const user = await this.users.create({
+      email,
+      name,
+      isGoogleAccount: true,
+    });
+    return this.users.save(user);
+  }
 
   async update(id: number, payload: Partial<UserEntity>): Promise<UserEntity> {
     const toUpdate = await this.users.findOneOrFail(id);
