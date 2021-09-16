@@ -34,7 +34,8 @@ export default {
     return await http.post('/auth/logout');
   },
 
-  async authWithGoogle(token: string): Promise<void> {
-    return await http.post('/auth/google-auth', { token });
+  async authWithGoogle(token: string): Promise<UserAuthResponse> {
+    const { data }: ApiResponseModel<UserAuthResponse> = await http.post('/auth/google-auth', { token });
+    return data;
   },
 };
