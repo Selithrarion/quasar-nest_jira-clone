@@ -28,6 +28,11 @@ export interface UserGoogleData {
   picture: string;
 }
 
+export interface UserOTP {
+  secret: string
+  otpURL: string
+}
+
 export interface UserValidationDTO {
   readonly email: string;
   readonly password: string;
@@ -63,6 +68,10 @@ export class UserEntity extends BaseEntity {
   @Exclude()
   @Column({ nullable: true })
   hashedRefreshToken: string;
+
+  @Exclude()
+  @Column({ nullable: true })
+  twoFactorSecret: string;
 
   @Column({ nullable: true })
   locale: string;
