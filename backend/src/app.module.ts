@@ -19,6 +19,7 @@ import { EmailVerificationModule } from './modules/email-verification/email-veri
 
 import { SearchModule } from './services/search/search.module';
 import { EmailModule } from './services/email/email.module';
+import { TwoFactorAuthModule } from './modules/two-factor-auth/two-factor-auth.module';
 
 @Global()
 @Module({
@@ -51,6 +52,7 @@ import { EmailModule } from './services/email/email.module';
     SearchModule,
     EmailModule,
     EmailVerificationModule,
+    TwoFactorAuthModule,
   ],
   controllers: [],
   providers: [
