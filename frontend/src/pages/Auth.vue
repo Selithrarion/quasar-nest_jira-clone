@@ -1,5 +1,5 @@
 <template>
-  <q-page class="column flex-center gap-6 q-pa-lg" style="background: #f6f6fb">
+  <q-page class="column flex-center gap-6 q-pa-lg" style="background: linear-gradient(to left, #f6f6fb, #f1f6ff)">
     <h6 class="no-margin">{{ authTypes[type].title }}</h6>
 
     <q-form class="row items-center full-width" @submit="authTypes[type].action">
