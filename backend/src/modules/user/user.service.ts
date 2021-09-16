@@ -77,10 +77,12 @@ export class UserService {
     await this.userSearchService.indexUser(user);
     return createdUser;
   }
-  async createWithGoogle(email: string, name: string): Promise<UserEntity> {
+  async createWithGoogle(email: string): Promise<UserEntity> {
+    // TODO: need to get google username and name
     const user = await this.users.create({
       email,
-      name,
+      name: email,
+      username: email,
       isGoogleAccount: true,
     });
     return this.users.save(user);
