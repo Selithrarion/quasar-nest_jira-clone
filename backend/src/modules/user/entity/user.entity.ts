@@ -66,6 +66,9 @@ export class UserEntity extends BaseEntity {
   @Column({ default: false })
   isEmailConfirmed: boolean;
 
+  @Column({ default: false })
+  isGoogleAccount: boolean;
+
   @Column({ default: '#b3e6ff' })
   color: string;
 
