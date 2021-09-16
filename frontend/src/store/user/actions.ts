@@ -15,7 +15,12 @@ const actions: ActionTree<UserStateInterface, StateInterface> = {
   },
   logout({ commit }) {
     commit('LOGOUT_USER');
-    return
+    return;
+  },
+
+  async authWithGoogle({ commit }, token) {
+    const data = await authRepository.authWithGoogle(token);
+    commit('AUTH_USER', data);
   },
 
   async loadUser({ commit }, { accessToken, refreshToken }: UserUpdateTokenResponse) {

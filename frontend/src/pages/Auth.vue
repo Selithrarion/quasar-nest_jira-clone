@@ -262,7 +262,8 @@ export default defineComponent({
       const googleUser = await Vue3GoogleOauth.instance.signIn();
       if (!googleUser) return null;
       const accessToken = googleUser.getAuthResponse()?.access_token;
-      await authRepository.authWithGoogle(accessToken);
+      await store.dispatch('user/authWithGoogle', accessToken);
+      await redirectToRequestedOrDefaultPage();
     }
 
     return {
