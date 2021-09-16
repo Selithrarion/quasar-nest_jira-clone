@@ -23,6 +23,11 @@ import { TeamEntity } from '../../teams/entity/team.entity';
 import { CommentEntity } from '../../issues/entity/comment.entity';
 import { PublicFileEntity } from '../../files/entity/public-file.entity';
 
+export interface UserGoogleData {
+  email: string;
+  picture: string;
+}
+
 export interface UserValidationDTO {
   readonly email: string;
   readonly password: string;
