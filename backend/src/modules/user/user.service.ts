@@ -79,10 +79,11 @@ export class UserService {
   }
   async createWithGoogle(email: string): Promise<UserEntity> {
     // TODO: need to get google username and name
+    const emailFirstPart = email.split('@')[0];
     const user = await this.users.create({
       email,
-      name: email,
-      username: email,
+      name: emailFirstPart,
+      username: emailFirstPart,
       isGoogleAccount: true,
     });
     return this.users.save(user);
