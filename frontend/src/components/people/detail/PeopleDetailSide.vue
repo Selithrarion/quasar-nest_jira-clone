@@ -27,6 +27,7 @@
             <slot name="displayName">
               {{ displayName }}
             </slot>
+            <BaseTooltip label="Отображаемое имя" delay="0" />
           </h6>
         </template>
       </CommonInputEdit>
@@ -43,6 +44,7 @@
             <slot name="name">
               {{ name }}
             </slot>
+            <BaseTooltip label="Имя пользователя" delay="0" />
           </div>
         </template>
       </CommonInputEdit>
