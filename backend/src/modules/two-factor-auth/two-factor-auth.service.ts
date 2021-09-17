@@ -26,8 +26,15 @@ export class TwoFactorAuthService {
       otpURL,
     };
   }
-
   async pipeQrCodeStream(stream: Response, otpURL: string): Promise<void> {
     return toFileStream(stream, otpURL);
+  }
+
+  async isValid(code: string, userID: number): Promise<boolean> {
+    const user = await this.userService.getByID(userID);
+    return authenticator.verify({
+      token: code,
+      secret: user.twoFactorSecret,
+    });
   }
 }
