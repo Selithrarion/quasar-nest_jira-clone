@@ -10,9 +10,11 @@ export interface UserModel extends BaseModel {
   password: string;
   email: string;
   locale: string;
+
   isActive: boolean;
   isEmailConfirmed: boolean;
   isGoogleAccount: boolean;
+  isTwoFactorEnabled: boolean
 
   color: string;
   avatar: PublicFileModel | null;

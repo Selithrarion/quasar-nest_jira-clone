@@ -29,8 +29,8 @@ export interface UserGoogleData {
 }
 
 export interface UserOTP {
-  secret: string
-  otpURL: string
+  secret: string;
+  otpURL: string;
 }
 
 export interface UserValidationDTO {
@@ -69,6 +69,8 @@ export class UserEntity extends BaseEntity {
   @Column({ nullable: true })
   hashedRefreshToken: string;
 
+  @Column({ default: false })
+  isTwoFactorEnabled: boolean;
   @Exclude()
   @Column({ nullable: true })
   twoFactorSecret: string;
