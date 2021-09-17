@@ -38,4 +38,9 @@ export default {
     const { data }: ApiResponseModel<UserAuthResponse> = await http.post('/auth/google-auth', { token });
     return data;
   },
+
+  async generateQrCode(): Promise<string> {
+    const { data }: ApiResponseModel<string> = await http.post('/2fa/generate');
+    return data;
+  },
 };
