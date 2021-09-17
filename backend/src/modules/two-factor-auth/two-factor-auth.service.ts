@@ -13,7 +13,9 @@ export class TwoFactorAuthService {
     private readonly userService: UserService
   ) {}
 
-  async generateSecret(user: UserEntity): Promise<UserOTP> {
+  async generateSecret(userID: number): Promise<UserOTP> {
+    const user = await this.userService.getByID(userID);
+
     const secret = authenticator.generateSecret();
     const otpURL = authenticator.keyuri(user.email, process.env.TWO_FACTOR_AUTH_APP_NAME, secret);
 
