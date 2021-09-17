@@ -157,6 +157,12 @@ export class UserService {
       hashedRefreshToken,
     });
   }
+
+  async enable2FA(id: number): Promise<void> {
+    await this.users.update(id, {
+      isTwoFactorEnabled: true,
+    });
+  }
   async set2FaSecret(id: number, secret: string): Promise<void> {
     await this.users.update(id, {
       twoFactorSecret: secret,
