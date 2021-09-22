@@ -158,15 +158,24 @@ export class UserService {
     });
   }
 
-  async enable2FA(id: number): Promise<void> {
-    await this.users.update(id, {
+  async enable2FA(id: number): Promise<boolean> {
+    console.log(id);
+    // TODO: with .update isTwoFactorEnabled not change to true
+    // await this.users.update(id, {
+    //   isTwoFactorEnabled: true,
+    // });
+    const user = await this.users.findOne(id);
+    await this.users.save({
+      ...user,
       isTwoFactorEnabled: true,
     });
+    return true;
   }
-  async set2FaSecret(id: number, secret: string): Promise<void> {
+  async set2FaSecret(id: number, secret: string): Promise<boolean> {
     await this.users.update(id, {
       twoFactorSecret: secret,
     });
+    return true;
   }
 
   async getFavoriteProjects(id: number): Promise<ProjectEntity[]> {
