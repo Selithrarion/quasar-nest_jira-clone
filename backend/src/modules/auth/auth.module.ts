@@ -26,6 +26,7 @@ import { EmailVerificationModule } from '../email-verification/email-verificatio
       }),
     }),
   ],
+  exports: [AuthService],
   providers: [AuthService, LocalStrategy, JwtStrategy],
   controllers: [AuthController],
 })

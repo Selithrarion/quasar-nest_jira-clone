@@ -5,6 +5,7 @@ import { JwtService } from '@nestjs/jwt';
 import {
   UserEntity,
   UserGoogleData,
+  UserJwtPayload,
   UserTokensInterface,
   UserUpdateTokensDTO,
   UserValidationDTO,
@@ -38,10 +39,12 @@ export class AuthService {
     else throw new HttpException('USER_INVALID_CREDENTIALS', HttpStatus.UNAUTHORIZED);
   }
 
-  async login(user: UserEntity): Promise<UserTokensInterface> {
-    const payload = { id: user.id, email: user.email };
+  async login(user: UserEntity, is2FAEnabled = false): Promise<UserTokensInterface> {
+    if (user.isTwoFactorEnabled) return null;
+
+    const payload: UserJwtPayload = { id: user.id, email: user.email, is2FAEnabled };
+    console.log('AUTH SERVICE login', payload);
     const accessToken = await this.jwtService.sign(payload);
-    console.log('AUTH SERV login t, p', accessToken, user);
     //   await this.userService.setRefreshToken(refreshToken, userID);
     return {
       user,
