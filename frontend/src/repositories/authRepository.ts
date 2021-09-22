@@ -43,4 +43,12 @@ export default {
     const { data }: ApiResponseModel<string> = await http.post('/2fa/generate');
     return data;
   },
+  async validate2FaCode(code: string): Promise<boolean> {
+    const { data }: ApiResponseModel<boolean> = await http.post('/2fa/auth', { code });
+    return data;
+  },
+  async enable2FA(code: string): Promise<boolean> {
+    const { data }: ApiResponseModel<boolean> = await http.post('/2fa/enable', { code });
+    return data;
+  },
 };
