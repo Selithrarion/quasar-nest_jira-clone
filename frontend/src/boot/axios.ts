@@ -42,7 +42,7 @@ export default boot(({ store, redirect }) => {
       console.error('RESPONSE error', error, error.response);
 
       // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access
-      const errorMessage = error.response?.data?.message as string;
+      const errorMessage = (error.response?.data?.message as string) || (error.response?.data?.error as string);
       // TODO: add vue-18n error translation
       if (errorMessage)
         Notify.create({
