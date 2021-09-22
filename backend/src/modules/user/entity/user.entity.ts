@@ -48,8 +48,9 @@ export interface UserUpdateTokensDTO {
   readonly refreshToken: string;
 }
 export interface UserJwtPayload {
-  readonly userID: number;
+  readonly id: number;
   readonly email: string;
+  readonly is2FAEnabled: boolean;
 }
 
 @Entity()
