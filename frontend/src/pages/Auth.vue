@@ -4,87 +4,126 @@
 
     <q-form class="row items-center full-width" @submit="authTypes[type].action">
       <q-card class="col-xs-12 col-sm-8 col-md-4 col-lg-3 shadow-10">
-        <q-card-section class="column gap-3">
-          <q-input
-            v-if="authTypes[type].fields.includes('name')"
-            v-model="form.name"
-            label="Отображаемое имя"
-            :rules="[rules.required, rules.max64]"
-            hide-bottom-space
-            lazy-rules
-            filled
-          />
-          <q-input
-            v-if="authTypes[type].fields.includes('username')"
-            v-model="form.username"
-            label="Имя пользователя"
-            debounce="500"
-            :rules="[rules.required, rules.max24, type === 'register' ? uniqueUsername : null]"
-            hide-bottom-space
-            lazy-rules
-            filled
-          />
-          <q-input
-            v-if="authTypes[type].fields.includes('email')"
-            v-model="form.email"
-            label="Email"
-            debounce="500"
-            :rules="[rules.required, rules.email, type === 'register' ? uniqueEmail : null]"
-            hide-bottom-space
-            lazy-rules
-            filled
-          />
+        <div v-show="step === AuthStepEnum.AUTH">
+          <q-card-section class="column gap-3">
+            <q-input
+              v-if="authTypes[type].fields.includes('name')"
+              v-model="form.name"
+              label="Отображаемое имя"
+              :rules="[rules.required, rules.max64]"
+              hide-bottom-space
+              lazy-rules
+              filled
+            />
+            <q-input
+              v-if="authTypes[type].fields.includes('username')"
+              v-model="form.username"
+              label="Имя пользователя"
+              debounce="500"
+              :rules="[rules.required, rules.max24, type === 'register' ? uniqueUsername : null]"
+              hide-bottom-space
+              lazy-rules
+              filled
+            />
+            <q-input
+              v-if="authTypes[type].fields.includes('email')"
+              v-model="form.email"
+              label="Email"
+              debounce="500"
+              :rules="[rules.required, rules.email, type === 'register' ? uniqueEmail : null]"
+              hide-bottom-space
+              lazy-rules
+              filled
+            />
 
-          <q-input
-            v-if="authTypes[type].fields.includes('password')"
-            v-model="form.password"
-            label="Пароль"
-            :type="isHidePassword ? 'password' : 'text'"
-            :rules="[rules.required]"
-            hide-bottom-space
-            lazy-rules
-            filled
-          >
-            <template #append>
-              <q-icon
-                :name="isHidePassword ? 'visibility_off' : 'visibility'"
-                class="cursor-pointer"
-                @click="isHidePassword = !isHidePassword"
-              />
-            </template>
-          </q-input>
-          <q-input
-            v-if="authTypes[type].fields.includes('passwordRepeat')"
-            v-model="form.passwordRepeat"
-            label="Подтвердите пароль"
-            :type="isHidePassword ? 'password' : 'text'"
-            :rules="[rules.required, equalPasswords]"
-            hide-bottom-space
-            filled
-          >
-            <template #append>
-              <q-icon
-                :name="isHidePassword ? 'visibility_off' : 'visibility'"
-                class="cursor-pointer"
-                @click="isHidePassword = !isHidePassword"
-              />
-            </template>
-          </q-input>
-        </q-card-section>
+            <q-input
+              v-if="authTypes[type].fields.includes('password')"
+              v-model="form.password"
+              label="Пароль"
+              :type="isHidePassword ? 'password' : 'text'"
+              :rules="[rules.required]"
+              hide-bottom-space
+              lazy-rules
+              filled
+            >
+              <template #append>
+                <q-icon
+                  :name="isHidePassword ? 'visibility_off' : 'visibility'"
+                  class="cursor-pointer"
+                  @click="isHidePassword = !isHidePassword"
+                />
+              </template>
+            </q-input>
+            <q-input
+              v-if="authTypes[type].fields.includes('passwordRepeat')"
+              v-model="form.passwordRepeat"
+              label="Подтвердите пароль"
+              :type="isHidePassword ? 'password' : 'text'"
+              :rules="[rules.required, equalPasswords]"
+              hide-bottom-space
+              filled
+            >
+              <template #append>
+                <q-icon
+                  :name="isHidePassword ? 'visibility_off' : 'visibility'"
+                  class="cursor-pointer"
+                  @click="isHidePassword = !isHidePassword"
+                />
+              </template>
+            </q-input>
+          </q-card-section>
 
-        <q-card-section>
-          <BaseButton
-            class="full-width"
-            type="submit"
-            :label="authTypes[type].actionWord"
-            :loading="loading.active.value"
-          />
-          <div v-if="type === 'login'" class="flex-center gap-2 q-mt-sm">
-            <BaseButton label="Google" @click="signInWithGoogle" />
+          <q-card-section>
+            <BaseButton
+              class="full-width"
+              type="submit"
+              :label="authTypes[type].actionWord"
+              :loading="loading.active.value"
+            />
+            <div v-if="type === 'login'" class="flex-center gap-2 q-mt-sm">
+              <BaseButton label="Google" @click="signInWithGoogle" />
+            </div>
+          </q-card-section>
+        </div>
+
+        <q-card-section v-show="step === AuthStepEnum.QR_CODE">
+          <BaseLoader v-if="loading.custom.qrCode" class="q-my-xl" />
+
+          <div v-else class="column gap-2">
+            <div v-if="qrCode" class="text-blue-grey-7">
+              <div class="q-pb-lg">
+                Сканируйте QR-код с помощью приложения Google Authenticator и введите код в поле ниже
+              </div>
+              <div class="text-center">
+                <img class="auth__qrcode" :src="qrCode" />
+              </div>
+            </div>
+
+            <q-input
+              ref="twoFaCodeInput"
+              v-model="twoFaCode"
+              label="Код"
+              mask="### ###"
+              :error="is2FaError"
+              :hint="qrCode ? undefined : 'Введите код из приложения Google Authenticator'"
+              :loading="loading.custom.twoFaValidation"
+              hide-bottom-space
+              unmasked-value
+              autofocus
+              outlined
+              @update:model-value="handleCodeInputUpdate"
+              @paste.prevent
+            >
+              <template #error> Неверный код, попробуйте снова </template>
+            </q-input>
+          </div>
+          <div class="flex-center-end q-pt-md">
+            <BaseButton label="Назад" secondary-color flat @click="returnToAuthStep" />
           </div>
         </q-card-section>
       </q-card>
-      <div class="column flex-center text-blue-grey-5">
+
+      <div v-show="step === AuthStepEnum.AUTH" class="column flex-center text-blue-grey-5">
         или
         <BaseButton
           v-if="authTypes[type].buttons.includes('register')"
@@ -123,14 +162,18 @@ import useFormValidation from 'src/composables/form/useFormValidation';
 
 import userRepository from 'src/repositories/userRepository';
 import authRepository from 'src/repositories/authRepository';
+import { UserAuthResponse } from 'src/models/user/user.model';
 
 enum AuthTypeEnum {
   LOGIN = 'login',
   REGISTER = 'register',
   FORGOT_PASSWORD = 'forgotPassword',
 }
+enum AuthStepEnum {
+  AUTH = 'auth',
+  QR_CODE = 'qrCode',
+}
 // TODO: add OAuth with github or google
-// TODO: add two-factor auth (?)
 export default defineComponent({
   name: 'AuthPage',
 
@@ -139,7 +182,7 @@ export default defineComponent({
     const store = useStore();
     const router = useRouter();
     const route = useRoute();
-    const loading = useLoading();
+    const loading = useLoading({ customNames: ['qrCode', '2FaValidation'] });
     const rules = useFormValidation();
 
     onMounted(() => {
@@ -195,32 +238,72 @@ export default defineComponent({
       passwordRepeat: '',
     });
 
+    const step = ref<AuthStepEnum>(AuthStepEnum.AUTH);
+
+    const is2FaEnabled = ref(false);
     async function login() {
       try {
         loading.start();
         const payload = { email: form.email, password: form.password };
-        await store.dispatch('user/login', payload);
-        await redirectToRequestedOrDefaultPage();
-      } catch (e) {
-        // TODO: snackbar
-        console.error(e);
+        const authResponse = (await store.dispatch('user/login', payload)) as UserAuthResponse;
+        is2FaEnabled.value = !authResponse.user;
+
+        if (is2FaEnabled.value) step.value = AuthStepEnum.QR_CODE;
+        else await redirectToRequestedOrDefaultPage();
       } finally {
         loading.stop();
       }
     }
+
     async function register() {
       try {
         loading.start();
         const payload = { name: form.name, username: form.username, email: form.email, password: form.password };
         await store.dispatch('user/register', payload);
-        await redirectToRequestedOrDefaultPage();
-      } catch (e) {
-        // TODO: snackbar
-        console.error(e);
+        step.value = AuthStepEnum.QR_CODE;
+        await generateQrCode();
       } finally {
         loading.stop();
       }
     }
+
+    const twoFaCodeInput = ref<HTMLInputElement | null>(null);
+    const qrCode = ref('');
+    const twoFaCode = ref('');
+    const is2FaError = ref(false);
+    async function generateQrCode() {
+      try {
+        loading.start('qrCode');
+        qrCode.value = await authRepository.generateQrCode();
+      } finally {
+        loading.stop('qrCode');
+      }
+    }
+    async function handleCodeInputUpdate(v: string) {
+      if (v.length >= 6) await validate2FaCode();
+    }
+    async function validate2FaCode() {
+      twoFaCodeInput.value?.blur();
+      try {
+        loading.start('twoFaValidation');
+
+        let isValid;
+        if (is2FaEnabled.value) isValid = await authRepository.validate2FaCode(twoFaCode.value);
+        else isValid = await authRepository.enable2FA(twoFaCode.value);
+
+        if (isValid) await redirectToRequestedOrDefaultPage();
+      } catch (e) {
+        twoFaCodeInput.value?.focus();
+        is2FaError.value = true;
+      } finally {
+        loading.stop('twoFaValidation');
+      }
+    }
+    function returnToAuthStep() {
+      step.value = AuthStepEnum.AUTH;
+      twoFaCode.value = '';
+    }
+
     async function sendForgotPasswordEmail() {
       try {
         loading.start();
@@ -281,8 +364,20 @@ export default defineComponent({
       uniqueUsername,
       uniqueEmail,
 
+      step,
+      AuthStepEnum,
+
       login,
+
       register,
+      twoFaCodeInput,
+      qrCode,
+      twoFaCode,
+      is2FaError,
+      generateQrCode,
+      handleCodeInputUpdate,
+      returnToAuthStep,
+
       sendForgotPasswordEmail,
 
       signInWithGoogle,
@@ -290,3 +385,13 @@ export default defineComponent({
   },
 });
 </script>
+
+<style lang="scss" scoped>
+.auth {
+  &__qrcode {
+    width: 200px;
+    height: 200px;
+    border: 1px solid $grey-5;
+  }
+}
+</style>
