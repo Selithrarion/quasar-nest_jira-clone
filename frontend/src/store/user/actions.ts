@@ -1,13 +1,14 @@
 import { ActionTree } from 'vuex';
 import { StateInterface } from '../index';
 import { UserStateInterface } from 'src/store/user/state';
-import { UserLoginDTO, UserRegisterDTO, UserUpdateTokenResponse } from 'src/models/user/user.model';
+import { UserAuthResponse, UserLoginDTO, UserRegisterDTO, UserUpdateTokenResponse } from 'src/models/user/user.model';
 import authRepository from 'src/repositories/authRepository';
 
 const actions: ActionTree<UserStateInterface, StateInterface> = {
-  async login({ commit }, payload: UserLoginDTO) {
+  async login({ commit }, payload: UserLoginDTO): Promise<UserAuthResponse> {
     const data = await authRepository.login(payload);
     commit('AUTH_USER', data);
+    return data;
   },
   async register({ commit }, payload: UserRegisterDTO) {
     const data = await authRepository.register(payload);
