@@ -78,7 +78,7 @@ export class AuthService {
     const { email } = await this.oauthClient.getTokenInfo(token);
     const user = await this.userService.getByEmail(email);
 
-    if (user) return this.login(user);
+    if (user && user.isGoogleAccount) return this.login(user);
     return this.registerWithGoogle(token, email);
   }
 
