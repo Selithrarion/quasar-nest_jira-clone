@@ -4,123 +4,128 @@
 
     <q-form class="row items-center full-width" @submit="authTypes[type].action">
       <q-card class="col-xs-12 col-sm-8 col-md-4 col-lg-3 shadow-10">
-        <div v-show="step === AuthStepEnum.AUTH">
-          <q-card-section class="column gap-3">
-            <q-input
-              v-if="authTypes[type].fields.includes('name')"
-              v-model="form.name"
-              label="Отображаемое имя"
-              :rules="[rules.required, rules.max64]"
-              hide-bottom-space
-              lazy-rules
-              filled
-            />
-            <q-input
-              v-if="authTypes[type].fields.includes('username')"
-              v-model="form.username"
-              label="Имя пользователя"
-              debounce="500"
-              :rules="[rules.required, rules.max24, type === 'register' ? uniqueUsername : null]"
-              hide-bottom-space
-              lazy-rules
-              filled
-            />
-            <q-input
-              v-if="authTypes[type].fields.includes('email')"
-              v-model="form.email"
-              label="Email"
-              debounce="500"
-              :rules="[rules.required, rules.email, type === 'register' ? uniqueEmail : null]"
-              hide-bottom-space
-              lazy-rules
-              filled
-            />
+        <q-card-section v-if="loading.active.value">
+          <BaseLoader class="q-my-xl" />
+        </q-card-section>
 
-            <q-input
-              v-if="authTypes[type].fields.includes('password')"
-              v-model="form.password"
-              label="Пароль"
-              :type="isHidePassword ? 'password' : 'text'"
-              :rules="[rules.required]"
-              hide-bottom-space
-              lazy-rules
-              filled
-            >
-              <template #append>
-                <q-icon
-                  :name="isHidePassword ? 'visibility_off' : 'visibility'"
-                  class="cursor-pointer"
-                  @click="isHidePassword = !isHidePassword"
-                />
-              </template>
-            </q-input>
-            <q-input
-              v-if="authTypes[type].fields.includes('passwordRepeat')"
-              v-model="form.passwordRepeat"
-              label="Подтвердите пароль"
-              :type="isHidePassword ? 'password' : 'text'"
-              :rules="[rules.required, equalPasswords]"
-              hide-bottom-space
-              filled
-            >
-              <template #append>
-                <q-icon
-                  :name="isHidePassword ? 'visibility_off' : 'visibility'"
-                  class="cursor-pointer"
-                  @click="isHidePassword = !isHidePassword"
-                />
-              </template>
-            </q-input>
-          </q-card-section>
+        <div v-else>
+          <div v-show="step === AuthStepEnum.AUTH">
+            <q-card-section class="column gap-3">
+              <q-input
+                v-if="authTypes[type].fields.includes('name')"
+                v-model="form.name"
+                label="Отображаемое имя"
+                :rules="[rules.required, rules.max64]"
+                hide-bottom-space
+                lazy-rules
+                filled
+              />
+              <q-input
+                v-if="authTypes[type].fields.includes('username')"
+                v-model="form.username"
+                label="Имя пользователя"
+                debounce="500"
+                :rules="[rules.required, rules.max24, type === 'register' ? rules.uniqueUsername : null]"
+                hide-bottom-space
+                lazy-rules
+                filled
+              />
+              <q-input
+                v-if="authTypes[type].fields.includes('email')"
+                v-model="form.email"
+                label="Email"
+                debounce="500"
+                :rules="[rules.required, rules.email, type === 'register' ? rules.uniqueEmail : null]"
+                hide-bottom-space
+                lazy-rules
+                filled
+              />
 
-          <q-card-section>
-            <BaseButton
-              class="full-width"
-              type="submit"
-              :label="authTypes[type].actionWord"
-              :loading="loading.active.value"
-            />
-            <div v-if="type === 'login'" class="flex-center gap-2 q-mt-sm">
-              <BaseButton label="Google" @click="signInWithGoogle" />
+              <q-input
+                v-if="authTypes[type].fields.includes('password')"
+                v-model="form.password"
+                label="Пароль"
+                :type="isHidePassword ? 'password' : 'text'"
+                :rules="[rules.required]"
+                hide-bottom-space
+                lazy-rules
+                filled
+              >
+                <template #append>
+                  <q-icon
+                    :name="isHidePassword ? 'visibility_off' : 'visibility'"
+                    class="cursor-pointer"
+                    @click="isHidePassword = !isHidePassword"
+                  />
+                </template>
+              </q-input>
+              <q-input
+                v-if="authTypes[type].fields.includes('passwordRepeat')"
+                v-model="form.passwordRepeat"
+                label="Подтвердите пароль"
+                :type="isHidePassword ? 'password' : 'text'"
+                :rules="[rules.required, equalPasswords]"
+                hide-bottom-space
+                filled
+              >
+                <template #append>
+                  <q-icon
+                    :name="isHidePassword ? 'visibility_off' : 'visibility'"
+                    class="cursor-pointer"
+                    @click="isHidePassword = !isHidePassword"
+                  />
+                </template>
+              </q-input>
+            </q-card-section>
+
+            <q-card-section>
+              <BaseButton
+                class="full-width"
+                type="submit"
+                :label="authTypes[type].actionWord"
+                :loading="loading.active.value"
+              />
+              <div v-if="type === 'login'" class="flex-center gap-2 q-mt-sm">
+                <BaseButton label="Google" @click="signInWithGoogle" />
+                <BaseButton label="Github" @click="signInWithGithub" />
+              </div>
+            </q-card-section>
+          </div>
+
+          <q-card-section v-show="step === AuthStepEnum.QR_CODE">
+            <div class="column gap-2">
+              <div v-if="qrCode" class="text-blue-grey-7">
+                <div class="q-pb-lg">
+                  Сканируйте QR-код с помощью приложения Google Authenticator и введите код в поле ниже
+                </div>
+                <div class="text-center">
+                  <img class="auth__qrcode" :src="qrCode" />
+                </div>
+              </div>
+
+              <q-input
+                ref="twoFaCodeInput"
+                v-model="twoFaCode"
+                label="Код"
+                mask="### ###"
+                :error="is2FaError"
+                :hint="qrCode ? undefined : 'Введите код из приложения Google Authenticator'"
+                :loading="loading.custom.twoFaValidation"
+                hide-bottom-space
+                unmasked-value
+                autofocus
+                outlined
+                @update:model-value="handleCodeInputUpdate"
+                @paste.prevent
+              >
+                <template #error> Неверный код, попробуйте снова </template>
+              </q-input>
+            </div>
+            <div class="flex-center-end q-pt-md">
+              <BaseButton label="Назад" secondary-color flat @click="returnToAuthStep" />
             </div>
           </q-card-section>
         </div>
-
-        <q-card-section v-show="step === AuthStepEnum.QR_CODE">
-          <BaseLoader v-if="loading.custom.qrCode" class="q-my-xl" />
-
-          <div v-else class="column gap-2">
-            <div v-if="qrCode" class="text-blue-grey-7">
-              <div class="q-pb-lg">
-                Сканируйте QR-код с помощью приложения Google Authenticator и введите код в поле ниже
-              </div>
-              <div class="text-center">
-                <img class="auth__qrcode" :src="qrCode" />
-              </div>
-            </div>
-
-            <q-input
-              ref="twoFaCodeInput"
-              v-model="twoFaCode"
-              label="Код"
-              mask="### ###"
-              :error="is2FaError"
-              :hint="qrCode ? undefined : 'Введите код из приложения Google Authenticator'"
-              :loading="loading.custom.twoFaValidation"
-              hide-bottom-space
-              unmasked-value
-              autofocus
-              outlined
-              @update:model-value="handleCodeInputUpdate"
-              @paste.prevent
-            >
-              <template #error> Неверный код, попробуйте снова </template>
-            </q-input>
-          </div>
-          <div class="flex-center-end q-pt-md">
-            <BaseButton label="Назад" secondary-color flat @click="returnToAuthStep" />
-          </div>
-        </q-card-section>
       </q-card>
 
       <div v-show="step === AuthStepEnum.AUTH" class="column flex-center text-blue-grey-5">
@@ -173,7 +178,7 @@ enum AuthStepEnum {
   AUTH = 'auth',
   QR_CODE = 'qrCode',
 }
-// TODO: add OAuth with github or google
+
 export default defineComponent({
   name: 'AuthPage',
 
@@ -182,14 +187,15 @@ export default defineComponent({
     const store = useStore();
     const router = useRouter();
     const route = useRoute();
-    const loading = useLoading({ customNames: ['qrCode', '2FaValidation'] });
+    const loading = useLoading({ customNames: ['twoFaValidation'] });
     const rules = useFormValidation();
 
-    onMounted(() => {
+    onMounted(async () => {
       if (route.query.redirect)
         q.notify({
           message: 'You need to auth again to access this page',
         });
+      if (route.query.code) await signInWithGithubSuccess(String(route.query.code));
     });
 
     const type = ref<AuthTypeEnum>(AuthTypeEnum.LOGIN);
@@ -219,14 +225,6 @@ export default defineComponent({
 
     function equalPasswords(): boolean | string {
       return form.passwordRepeat === form.password || 'Пароли не совпадают';
-    }
-    async function uniqueUsername(): Promise<boolean | string> {
-      const isTaken = await userRepository.isUsernameTaken(form.username);
-      return !isTaken || 'Имя пользователя уже занято';
-    }
-    async function uniqueEmail(): Promise<boolean | string> {
-      const isTaken = await userRepository.isEmailTaken(form.email);
-      return !isTaken || 'Такой email уже зарегистрирован';
     }
 
     const isHidePassword = ref(true);
@@ -273,10 +271,10 @@ export default defineComponent({
     const is2FaError = ref(false);
     async function generateQrCode() {
       try {
-        loading.start('qrCode');
+        loading.start();
         qrCode.value = await authRepository.generateQrCode();
       } finally {
-        loading.stop('qrCode');
+        loading.stop();
       }
     }
     async function handleCodeInputUpdate(v: string) {
@@ -348,6 +346,23 @@ export default defineComponent({
       await store.dispatch('user/authWithGoogle', accessToken);
       await redirectToRequestedOrDefaultPage();
     }
+    function signInWithGithub() {
+      const githubAuthURL = 'https://github.com/login/oauth/authorize';
+      const clientID = 'client_id=2324855ba47fac3248e4';
+      const redirectURL = 'redirect_uri=http://localhost:8080/auth';
+      const scope = 'scope=read:user%20user:email';
+
+      window.open(`${githubAuthURL}?${clientID}&${redirectURL}&${scope}`, '_parent');
+    }
+    async function signInWithGithubSuccess(code: string) {
+      try {
+        loading.start();
+        await store.dispatch('user/authWithGithub', code);
+        await redirectToRequestedOrDefaultPage()
+      } finally {
+        loading.stop();
+      }
+    }
 
     return {
       rules,
@@ -361,8 +376,6 @@ export default defineComponent({
       form,
 
       equalPasswords,
-      uniqueUsername,
-      uniqueEmail,
 
       step,
       AuthStepEnum,
@@ -381,6 +394,7 @@ export default defineComponent({
       sendForgotPasswordEmail,
 
       signInWithGoogle,
+      signInWithGithub,
     };
   },
 });
