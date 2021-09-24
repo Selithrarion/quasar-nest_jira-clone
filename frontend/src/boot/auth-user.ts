@@ -3,7 +3,7 @@ import { Cookies } from 'quasar';
 import { http } from 'boot/axios';
 import { UserModel } from '../models/user/user.model';
 
-export default boot(async ({ router, store }) => {
+export default boot(async ({ router, urlPath, store }) => {
   const savedUserData: UserModel = Cookies.get('user');
   if (savedUserData && savedUserData.accessToken && savedUserData.refreshToken) {
     const { accessToken } = savedUserData;
@@ -11,7 +11,7 @@ export default boot(async ({ router, store }) => {
     http.defaults.headers.common.Authorization = `Bearer ${accessToken}`;
 
     await store.dispatch('user/loadUser', savedUserData);
-  } else {
+  } else if (!urlPath.includes('/auth')) {
     await router.push(`/auth?redirect=${window.location.pathname}`);
   }
 
