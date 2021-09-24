@@ -27,6 +27,9 @@
       <slot name="button">
         <div>{{ modelValue }}</div>
       </slot>
+      <slot name="loading">
+        <BaseLoader v-if="loading" thickness="0.15" gray-color small />
+      </slot>
     </div>
   </div>
 </template>
@@ -44,6 +47,7 @@ export default defineComponent({
       default: null,
     },
     disabled: Boolean,
+    loading: Boolean,
 
     inputClasses: {
       type: String,
@@ -85,6 +89,9 @@ export default defineComponent({
 <style lang="scss" scoped>
 .common-input-edit {
   &__button {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
     font-weight: 500;
     transition: background-color 150ms ease;
   }
