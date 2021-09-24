@@ -13,8 +13,8 @@ export interface UserModel extends BaseModel {
 
   isActive: boolean;
   isEmailConfirmed: boolean;
-  isGoogleAccount: boolean;
-  isTwoFactorEnabled: boolean
+  isOAuthAccount: boolean;
+  isTwoFactorEnabled: boolean;
 
   color: string;
   avatar: PublicFileModel | null;

@@ -84,7 +84,13 @@ export class UserEntity extends BaseEntity {
   isEmailConfirmed: boolean;
 
   @Column({ default: false })
+  isOAuthAccount: boolean;
+  @Exclude()
+  @Column({ default: false })
   isGoogleAccount: boolean;
+  @Exclude()
+  @Column({ default: false })
+  isGithubAccount: boolean;
 
   @Column({ default: '#b3e6ff' })
   color: string;
@@ -164,7 +170,7 @@ export class UserEntity extends BaseEntity {
     if (this.password) this.password = await bcrypt.hash(this.password, 10);
   }
   async validatePassword(password: string): Promise<boolean> {
-    if (!this.isGoogleAccount) return true;
+    if (!this.isOAuthAccount) return true;
     return bcrypt.compare(password, this.password);
   }
 }
