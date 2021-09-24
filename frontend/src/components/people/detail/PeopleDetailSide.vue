@@ -18,6 +18,7 @@
       <CommonInputEdit
         v-model="localDisplayName"
         input-classes="text-h6"
+        maxlength="64"
         :disabled="!canEdit"
         @update="updateDisplayName"
         @reset="resetDisplayName"
@@ -35,6 +36,8 @@
       <CommonInputEdit
         v-model="localName"
         input-classes="text-body2"
+        maxlength="24"
+        :loading="loading.custom.updateName"
         :disabled="!canEdit"
         @update="updateName"
         @reset="resetName"
@@ -75,10 +78,13 @@
 
 <script lang="ts">
 import { defineComponent, ref } from 'vue';
+import { useQuasar } from 'quasar';
 import { useStore } from 'src/store';
 import useLoading from 'src/composables/common/useLoading';
 
 import CommonInputEdit from 'components/common/CommonInputEdit.vue';
+
+import userRepository from 'src/repositories/userRepository';
 
 export default defineComponent({
   name: 'PeopleDetailSide',
@@ -122,8 +128,9 @@ export default defineComponent({
   emits: ['button-click', 'update:display-name', 'update:name'],
 
   setup(props, { emit }) {
+    const q = useQuasar();
     const store = useStore();
-    const loading = useLoading();
+    const loading = useLoading({ customNames: ['updateName'] });
 
     const localDisplayName = ref(props.displayName);
     function updateDisplayName() {
@@ -134,8 +141,20 @@ export default defineComponent({
     }
 
     const localName = ref(props.name);
-    function updateName() {
-      emit('update:name', localName.value);
+    async function updateName() {
+      try {
+        loading.start('updateName');
+        const isTaken = await userRepository.isUsernameTaken(localName.value);
+        if (isTaken) {
+          q.notify({
+            message: 'This username already taken',
+          });
+          return;
+        }
+        emit('update:name', localName.value);
+      } finally {
+        loading.stop('updateName');
+      }
     }
     function resetName() {
       localName.value = props.displayName;
