@@ -16,6 +16,7 @@ import { extname } from 'path';
 import { FilesService } from '../files/files.service';
 import { PublicFileEntity } from '../files/entity/public-file.entity';
 import { UserSearchService } from './user-search.service';
+import { CreateUserGithubDTO } from './dto/create-user-github.dto';
 
 @Injectable()
 export class UserService {
@@ -84,7 +85,18 @@ export class UserService {
       email,
       name: emailFirstPart,
       username: emailFirstPart,
+      isOAuthAccount: true,
       isGoogleAccount: true,
+      isEmailConfirmed: true,
+    });
+    return this.users.save(user);
+  }
+  async createWithGithub(payload: CreateUserGithubDTO): Promise<UserEntity> {
+    const user = await this.users.create({
+      ...payload,
+      isOAuthAccount: true,
+      isGithubAccount: true,
+      isEmailConfirmed: true,
     });
     return this.users.save(user);
   }
