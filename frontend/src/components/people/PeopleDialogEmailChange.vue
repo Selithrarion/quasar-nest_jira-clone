@@ -22,9 +22,10 @@
           v-if="step === 1"
           v-model="form.email"
           label="Новый адрес электронной почты"
+          debounce="500"
+          :rules="[rules.required, rules.email, rules.uniqueEmail, notOldEmail]"
           lazy-rules
           filled
-          :rules="[rules.required, rules.email]"
         />
         <q-input
           v-if="step === 2"
@@ -112,6 +113,10 @@ export default defineComponent({
       }
     }
 
+    function notOldEmail(v: string) {
+      return v !== userEmail.value || 'Это ваш текущий адрес';
+    }
+
     return {
       rules,
       loading,
@@ -124,6 +129,8 @@ export default defineComponent({
       form,
       handleConfirm,
       validateCodeEnter,
+
+      notOldEmail,
     };
   },
 });
