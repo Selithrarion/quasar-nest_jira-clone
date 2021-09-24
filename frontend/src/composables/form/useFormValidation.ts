@@ -1,47 +1,59 @@
-interface RulesInterface {
-  required: (v: FormValueInterface) => ValidationResultInterface;
+import userRepository from 'src/repositories/userRepository';
 
-  email: (v: FormValueInterface) => ValidationResultInterface;
+interface UseFormValidation {
+  required: (v: FormValue) => ValidationResult;
 
-  min10: (v: FormValueInterface) => ValidationResultInterface;
-  min40: (v: FormValueInterface) => ValidationResultInterface;
+  email: (v: FormValue) => ValidationResult;
+  uniqueUsername: (v: FormValue) => ValidationResult;
+  uniqueEmail: (v: FormValue) => ValidationResult;
 
-  max10: (v: FormValueInterface) => ValidationResultInterface;
-  max24: (v: FormValueInterface) => ValidationResultInterface;
-  max40: (v: FormValueInterface) => ValidationResultInterface;
-  max64: (v: FormValueInterface) => ValidationResultInterface;
+  min10: (v: FormValue) => ValidationResult;
+  min40: (v: FormValue) => ValidationResult;
+
+  max10: (v: FormValue) => ValidationResult;
+  max24: (v: FormValue) => ValidationResult;
+  max40: (v: FormValue) => ValidationResult;
+  max64: (v: FormValue) => ValidationResult;
 }
 
-type FormValueInterface = string | number;
-type ValidationResultInterface = boolean | string;
+type FormValue = string | number;
+type ValidationResult = Promise<boolean | string> | boolean | string;
 
-export default function useFormValidation(): RulesInterface {
-  function required(v: FormValueInterface): ValidationResultInterface {
+export default function useFormValidation(): UseFormValidation {
+  function required(v: FormValue): ValidationResult {
     return !!v || 'Обязательное поле';
   }
 
-  function email(v: FormValueInterface): ValidationResultInterface {
+  function email(v: FormValue): ValidationResult {
     const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
     return emailRegex.test(String(v)) || 'Неверный формат Email';
   }
+  async function uniqueUsername(v: FormValue): Promise<boolean | string> {
+    const isTaken = await userRepository.isUsernameTaken(v);
+    return !isTaken || 'Имя пользователя уже занято';
+  }
+  async function uniqueEmail(v: FormValue): Promise<boolean | string> {
+    const isTaken = await userRepository.isEmailTaken(v);
+    return !isTaken || 'Такой email уже зарегистрирован';
+  }
 
-  function min10(v: FormValueInterface): ValidationResultInterface {
+  function min10(v: FormValue): ValidationResult {
     return String(v).length >= 10 || 'Минимум 10 символов';
   }
-  function min40(v: FormValueInterface): ValidationResultInterface {
+  function min40(v: FormValue): ValidationResult {
     return String(v).length >= 40 || 'Минимум 40 символов';
   }
 
-  function max10(v: FormValueInterface): ValidationResultInterface {
+  function max10(v: FormValue): ValidationResult {
     return String(v).length <= 10 || 'Максимум 10 символов';
   }
-  function max24(v: FormValueInterface): ValidationResultInterface {
+  function max24(v: FormValue): ValidationResult {
     return String(v).length <= 24 || 'Максимум 10 символов';
   }
-  function max40(v: FormValueInterface): ValidationResultInterface {
+  function max40(v: FormValue): ValidationResult {
     return String(v).length <= 40 || 'Максимум 40 символов';
   }
-  function max64(v: FormValueInterface): ValidationResultInterface {
+  function max64(v: FormValue): ValidationResult {
     return String(v).length <= 64 || 'Максимум 40 символов';
   }
 
@@ -49,6 +61,8 @@ export default function useFormValidation(): RulesInterface {
     required,
 
     email,
+    uniqueUsername,
+    uniqueEmail,
 
     min10,
     min40,
