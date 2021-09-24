@@ -23,6 +23,10 @@ const actions: ActionTree<UserStateInterface, StateInterface> = {
     const data = await authRepository.authWithGoogle(token);
     commit('AUTH_USER', data);
   },
+  async authWithGithub({ commit }, code) {
+    const data = await authRepository.authWithGithub(code);
+    commit('AUTH_USER', data);
+  },
 
   async loadUser({ commit }, { accessToken, refreshToken }: UserUpdateTokenResponse) {
     const user = await authRepository.getSelf();
