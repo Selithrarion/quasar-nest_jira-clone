@@ -20,12 +20,11 @@
 2. Typescript
 3. PostgreSQL + TypeORM (database)
 4. Swagger, Swagger UI (docs)
-5. Register/login with JWT tokens, OAuth with Google / Github (not implemented yet ❌), two-factor with OTP codes (not implemented yet ❌)
-6. Socket.io (not implemented yet ❌)
-7. Jest (testing) (not implemented yet ❌)
-8. AWS S3 (Amazon Simple Storage Service)
-9. Elasticsearch (just for app complexity 😄) 
-10. Nodemailer, @nestjs/schedule and cron (annoying email messages with very-very-very interisting news or email confirmation)
+5. Socket.io (not implemented yet ❌)
+6. Jest (testing) (not implemented yet ❌)
+7. AWS S3 (Amazon Simple Storage Service)
+8. Elasticsearch (just for app complexity 😄) 
+9. Nodemailer, @nestjs/schedule and cron (annoying email messages with very-very-very interisting news or email confirmation)
 
 #### Other
 
@@ -34,8 +33,10 @@ Github actions CI pipeline
 ### Features
 #### Auth
 
-- Login / Register / Forgot password  
-- Unique username validation  
+- Login / Register / Forgot password 
+- OAuth with Google / Github
+- 2FA
+- Unique username / email validation  
 - Send email verification mail (not implemented yet ❌) 
 - Send (news) emails with schedule (not implemented yet ❌)
 - Send forgot password mail (not implemented yet ❌)  
