@@ -39,6 +39,14 @@ export default {
     return data;
   },
 
+  async authWithGithub(code: string): Promise<string> {
+    const params = {
+      code,
+    };
+    const { data }: ApiResponseModel<string> = await http.get('/auth/github-auth', { params });
+    return data;
+  },
+
   async generateQrCode(): Promise<string> {
     const { data }: ApiResponseModel<string> = await http.post('/2fa/generate');
     return data;
