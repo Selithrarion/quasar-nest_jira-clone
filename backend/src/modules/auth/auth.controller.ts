@@ -35,4 +35,9 @@ export class AuthController {
   async authWithGoogle(@Body('token') token: string): Promise<UserTokensInterface> {
     return await this.authService.authWithGoogle(token);
   }
+
+  @Get('github-auth')
+  async authWithGithub(@Query('code') code: string): Promise<UserTokensInterface> {
+    return await this.authService.authWithGithub(code);
+  }
 }

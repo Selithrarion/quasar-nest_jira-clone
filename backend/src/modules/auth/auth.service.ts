@@ -1,6 +1,7 @@
-import { HttpException, HttpStatus, Injectable, UnauthorizedException } from '@nestjs/common';
+import { HttpException, HttpStatus, Injectable } from '@nestjs/common';
 import { UserService } from '../user/user.service';
 import { JwtService } from '@nestjs/jwt';
+import axios from 'axios';
 
 import {
   UserEntity,
@@ -14,6 +15,7 @@ import { CreateUserDTO } from '../user/dto';
 
 import { google, Auth } from 'googleapis';
 import { EmailVerificationService } from '../email-verification/email-verification.service';
+import { CreateUserGithubDTO } from '../user/dto/create-user-github.dto';
 
 @Injectable()
 export class AuthService {
@@ -103,5 +105,52 @@ export class AuthService {
       email: data.email,
       picture: data.picture,
     };
+  }
+
+  async authWithGithub(code: string): Promise<UserTokensInterface> {
+    const authorizeURL = 'https://github.com/login/oauth/access_token';
+    const authorizeParams = {
+      client_id: process.env.GITHUB_AUTH_CLIENT_ID,
+      client_secret: process.env.GITHUB_AUTH_CLIENT_SECRET,
+      code,
+    };
+    const authorizeConfig = {
+      headers: {
+        accept: 'application/json',
+      },
+    };
+    const { data: authData } = await axios.post(authorizeURL, authorizeParams, authorizeConfig);
+
+    const getUserURL = 'https://api.github.com/user';
+    const getUserEmailsURL = 'https://api.github.com/user/emails';
+    const getUserConfig = {
+      headers: {
+        Authorization: `Bearer ${authData.access_token}`,
+      },
+    };
+
+    const { data: githubUser } = await axios.get(getUserURL, getUserConfig);
+
+    const { data: userEmails } = await axios.get(getUserEmailsURL, getUserConfig);
+    const primaryEmail = userEmails.find((item) => item.primary)?.email;
+
+    const user = await this.userService.getByEmail(primaryEmail);
+    if (user && user.isGithubAccount) return this.login(user);
+    else {
+      // TODO: add avatar
+      const payload = {
+        name: githubUser.name,
+        username: githubUser.login,
+        email: primaryEmail,
+        location: githubUser.location,
+        company: githubUser.company,
+      };
+      return this.registerWithGithub(payload);
+    }
+  }
+
+  async registerWithGithub(payload: CreateUserGithubDTO): Promise<UserTokensInterface> {
+    const user = await this.userService.createWithGithub(payload);
+    return this.login(user);
   }
 }
