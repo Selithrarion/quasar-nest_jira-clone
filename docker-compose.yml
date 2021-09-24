@@ -44,6 +44,7 @@ services:
     networks:
       - postgres
 
+  # pgadmin url - localhost:8082
   pgadmin:
     links:
       - postgres:postgres
@@ -94,39 +95,6 @@ services:
 #      options:
 #        max-size: "10k"
 #        max-file: "10"
-#  kibana:
-#    image: docker.elastic.co/kibana/kibana:7.9.3
-#    container_name: sem_kibana
-#    environment:
-#      - "ELASTICSEARCH_URL=http://localhost:9200"
-#      - "SERVER_NAME=127.0.0.1"
-#    ports:
-#      - 5601:5601
-#    depends_on:
-#      - elasticsearch
-
-#  elasticsearch:
-#    image: docker.elastic.co/elasticsearch/elasticsearch:7.9.0
-#    environment:
-#      - node.name=elasticsearch
-#      - http.port=9200
-#      - http.host=0.0.0.0
-#      - transport.host=127.0.0.1
-#      - cluster.name=es-docker-cluster
-#      - discovery.seed_hosts=elasticsearch
-#      - cluster.initial_master_nodes=elasticsearch
-#      - bootstrap.memory_lock=true
-#      - "ES_JAVA_OPTS=-Xms256m -Xmx256m"
-#    ulimits:
-#      memlock:
-#        soft: -1
-#        hard: -1
-#    volumes:
-#      - data01:/var/lib/elasticsearch
-#    ports:
-#      - 9200:9200
-#    networks:
-#      - elastic
 
 #  elastic search with multiple nodes
 #  es01:
