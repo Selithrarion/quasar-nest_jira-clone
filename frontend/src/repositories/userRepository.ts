@@ -12,12 +12,12 @@ export default {
     return data;
   },
 
-  async isUsernameTaken(username: string): Promise<boolean> {
+  async isUsernameTaken(username: string | number): Promise<boolean> {
     const params = { username };
     const { data }: ApiResponseModel<boolean> = await http.get('/user/is-username-taken', { params });
     return data;
   },
-  async isEmailTaken(email: string): Promise<boolean> {
+  async isEmailTaken(email: string | number): Promise<boolean> {
     const params = { email };
     const { data }: ApiResponseModel<boolean> = await http.get('/user/is-email-taken', { params });
     return data;
