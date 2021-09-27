@@ -16,7 +16,7 @@
           <a href="https://support.atlassian.com/atlassian-account/docs/what-is-an-atlassian-team/"> Подробнее </a>
         </p>
 
-        <q-form v-model="valid">
+        <q-form>
           <q-input
             v-model="form.name"
             label="Название команды"
@@ -44,6 +44,8 @@ import useLoading from 'src/composables/common/useLoading';
 import CommonSelectUsers from 'components/common/CommonSelectUsers.vue';
 
 import userRepository from 'src/repositories/userRepository';
+import teamRepository from 'src/repositories/teamRepository';
+
 import { UserModel } from 'src/models/user/user.model';
 
 export default defineComponent({
@@ -55,7 +57,6 @@ export default defineComponent({
 
   setup() {
     const router = useRouter();
-    const store = useStore();
     const loading = useLoading();
     const rules = useFormValidation();
 
@@ -64,24 +65,22 @@ export default defineComponent({
       await userRepository.searchUsers();
     });
 
-    const valid = ref(false);
     const form = reactive({
       name: '',
       users: [],
     });
 
     async function createTeam() {
-      if (!valid.value) return;
-
       try {
         loading.start();
-        await openTeam(123);
+        const team = await teamRepository.create(form);
+        await openTeam(team.id);
       } finally {
         loading.stop();
       }
     }
     async function openTeam(teamID: number) {
-      await router.push(`people/team/${teamID}`);
+      await router.push(`/people/team/${teamID}`);
     }
 
     return {
@@ -90,7 +89,6 @@ export default defineComponent({
 
       availableUsers,
 
-      valid,
       form,
       createTeam,
     };

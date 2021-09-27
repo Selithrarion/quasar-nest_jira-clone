@@ -30,13 +30,13 @@ export class TeamService {
     return await this.teams.findOne(id);
   }
 
-  async create(payload: CreateTeamDTO, userID: number): Promise<TeamEntity> {
+  async create({ name, users }: CreateTeamDTO, userID: number): Promise<TeamEntity> {
     const leader = await this.userService.getByID(userID);
 
-    const isTeamAlreadyExist = await this.teams.findOne({ where: { name: payload.name } });
+    const isTeamAlreadyExist = await this.teams.findOne({ where: { name } });
     if (isTeamAlreadyExist) throw new HttpException('TEAM_ALREADY_EXIST', HttpStatus.BAD_REQUEST);
 
-    const team = await this.teams.create({ ...payload, color: stringToHslColor(payload.name), leader });
+    const team = await this.teams.create({ name, color: stringToHslColor(name), users: [...users, leader], leader });
     const createdTeam = await this.teams.save(team);
 
     return createdTeam;
