@@ -46,6 +46,14 @@ export class TeamController {
     return await this.teamService.update(id, payload);
   }
 
+  @ApiOperation({ summary: 'Delete team' })
+  @ApiResponse({ status: 200, description: 'Team was deleted' })
+  @ApiResponse({ status: 401, description: 'Unauthorized' })
+  @Delete(':id')
+  async delete(@Param('id') id: number): Promise<void> {
+    return await this.teamService.delete(id);
+  }
+
   @ApiBearerAuth()
   @Post('avatar')
   @UseInterceptors(FileInterceptor('file'))

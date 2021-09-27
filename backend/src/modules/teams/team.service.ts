@@ -49,6 +49,10 @@ export class TeamService {
     return updated;
   }
 
+  async delete(id: number): Promise<void> {
+    await this.teams.delete(id);
+  }
+
   async setTeamImage(file: Express.Multer.File, field: 'avatar' | 'header', id: number): Promise<PublicFileEntity> {
     const validImageTypes = ['image/jpeg', 'image/jpg', 'image/png'];
     const validImageSize = 1024 * 1024 * 20;
