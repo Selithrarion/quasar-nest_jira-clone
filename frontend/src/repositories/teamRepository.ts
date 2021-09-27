@@ -5,11 +5,15 @@ import { PublicFileModel } from 'src/models/common/public.file.model';
 
 export default {
   async getByID(id: number): Promise<TeamModel> {
-    const { data }: ApiResponseModel<TeamModel> = await http.get(`/user/${id}`);
+    const { data }: ApiResponseModel<TeamModel> = await http.get(`/team/${id}`);
+    return data;
+  },
+  async create(payload: TeamDTO): Promise<TeamModel> {
+    const { data }: ApiResponseModel<TeamModel> = await http.post('/team', payload);
     return data;
   },
   async update(id: number, payload: TeamDTO) {
-    const { data }: ApiResponseModel<TeamModel> = await http.patch(`/user/${id}`, payload);
+    const { data }: ApiResponseModel<TeamModel> = await http.patch(`/team/${id}`, payload);
     return data;
   },
 
