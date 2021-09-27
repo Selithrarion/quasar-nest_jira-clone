@@ -89,6 +89,7 @@ export class UserService {
       isGoogleAccount: true,
       isEmailConfirmed: true,
     });
+    await this.userSearchService.indexUser(user);
     return this.users.save(user);
   }
   async createWithGithub(payload: CreateUserGithubDTO): Promise<UserEntity> {
@@ -98,6 +99,7 @@ export class UserService {
       isGithubAccount: true,
       isEmailConfirmed: true,
     });
+    await this.userSearchService.indexUser(user);
     return this.users.save(user);
   }
 
