@@ -14,4 +14,5 @@ export interface TeamModel extends BaseModel {
 
 export interface TeamDTO {
   name: string;
+  users: UserModel[]
 }
