@@ -121,7 +121,8 @@
                 <template #error> Неверный код, попробуйте снова </template>
               </q-input>
             </div>
-            <div class="flex-center-end q-pt-md">
+            <div class="flex-center-end gap-2 q-pt-md">
+              <BaseButton label="Пропустить" secondary-color flat @click="redirectToRequestedOrDefaultPage" />
               <BaseButton label="Назад" secondary-color flat @click="returnToAuthStep" />
             </div>
           </q-card-section>
@@ -340,11 +341,19 @@ export default defineComponent({
     const Vue3GoogleOauth = inject('Vue3GoogleOauth') as GoogleAuth;
 
     async function signInWithGoogle() {
-      const googleUser = await Vue3GoogleOauth.instance.signIn();
-      if (!googleUser) return null;
-      const accessToken = googleUser.getAuthResponse()?.access_token;
-      await store.dispatch('user/authWithGoogle', accessToken);
-      await redirectToRequestedOrDefaultPage();
+      try {
+        loading.start();
+
+        const googleUser = await Vue3GoogleOauth.instance.signIn();
+        if (!googleUser) return null;
+        const accessToken = googleUser.getAuthResponse()?.access_token;
+        await store.dispatch('user/authWithGoogle', accessToken);
+
+        step.value = AuthStepEnum.QR_CODE;
+        await generateQrCode();
+      } finally {
+        loading.stop();
+      }
     }
     function signInWithGithub() {
       const githubAuthURL = 'https://github.com/login/oauth/authorize';
@@ -358,7 +367,9 @@ export default defineComponent({
       try {
         loading.start();
         await store.dispatch('user/authWithGithub', code);
-        await redirectToRequestedOrDefaultPage()
+
+        step.value = AuthStepEnum.QR_CODE;
+        await generateQrCode();
       } finally {
         loading.stop();
       }
@@ -379,6 +390,7 @@ export default defineComponent({
 
       step,
       AuthStepEnum,
+      redirectToRequestedOrDefaultPage,
 
       login,
 
