@@ -34,6 +34,7 @@
       </CommonInputEdit>
 
       <CommonInputEdit
+        v-if="type !== 'team'"
         v-model="localName"
         input-classes="text-body2"
         maxlength="24"
@@ -94,6 +95,14 @@ export default defineComponent({
   },
 
   props: {
+    type: {
+      type: String,
+      default: 'user',
+      validator: (v: string): boolean => {
+        return ['user', 'team'].indexOf(v) !== -1;
+      },
+    },
+
     displayName: {
       type: String,
       required: false,

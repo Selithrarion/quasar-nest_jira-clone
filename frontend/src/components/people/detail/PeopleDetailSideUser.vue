@@ -1,5 +1,6 @@
 <template>
   <PeopleDetailSide
+    type="user"
     :button-label="canEdit ? 'Управлять учётной записью' : null"
     :display-name="user.name"
     :name="user.username"

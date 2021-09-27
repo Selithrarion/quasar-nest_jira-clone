@@ -1,6 +1,8 @@
 <template>
   <PeopleDetailSide
+    type="team"
     :button-label="canEdit ? 'Добавить людей' : null"
+    :display-name="team.name"
     :name="team.name"
     :color="team.color"
     :show-more-button="canEdit"
