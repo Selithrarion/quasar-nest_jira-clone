@@ -7,9 +7,7 @@
         class="people-detail__header"
         :class="{ 'cursor-pointer': canEditDetail }"
         :style="{
-          background: `linear-gradient(90deg, ${
-            currentUser ? currentUser.color : currentTeam.color
-          } 0%, rgb(250, 250, 255) 100%)`,
+          background: `linear-gradient(90deg, ${currentItemDetail.color} 0%, rgb(250, 250, 255) 100%)`,
         }"
         @click="canEditDetail ? (isHeaderMenu = !isHeaderMenu) : null"
       >
@@ -56,7 +54,7 @@
           <!--TODO: fix long name-->
           <PeopleDetailActivitySection
             title="Назначенные задачи"
-            :items="currentUser.assignedIssues"
+            :items="currentItemDetail.assignedIssues"
             :is-own-profile="isOwnProfile"
             :is-user-profile="isUserPageType"
             show-title-caption
@@ -74,7 +72,7 @@
 
           <PeopleDetailActivitySection
             title="Наблюдаемые задачи"
-            :items="currentUser.watchingIssues"
+            :items="currentItemDetail.watchingIssues"
             :is-own-profile="isOwnProfile"
             :is-user-profile="isUserPageType"
             show-title-caption
@@ -92,7 +90,7 @@
 
           <PeopleDetailActivitySection
             title="Любимые проекты"
-            :items="currentUser.favoriteProjects"
+            :items="currentItemDetail.favoriteProjects"
             :is-own-profile="isOwnProfile"
             :is-user-profile="isUserPageType"
             @item-click="openProject"
@@ -167,7 +165,6 @@ export default defineComponent({
     const currentTeamID = computed(() => Number(route.params.teamID));
     const currentUser = computed(() => store.state.people.userDetail);
     const currentTeam = computed(() => store.state.people.teamDetail);
-    const availableProjects = computed(() => store.state.project.projects);
 
     const isUserPageType = computed(() => {
       return !route.path.includes('team');
@@ -175,6 +172,10 @@ export default defineComponent({
     const isTeamPageType = computed(() => {
       return !isUserPageType.value;
     });
+
+    const currentItemDetail = computed(() => (isUserPageType.value ? currentUser.value : currentTeam.value));
+    const currentItemDetailID = computed(() => (isUserPageType.value ? currentUserID.value : currentTeamID.value));
+    const availableProjects = computed(() => store.state.project.projects);
 
     const currentAccount = computed(() => store.state.user.currentUser);
     const isOwnProfile = computed(() => currentAccount.value?.id === currentUserID.value);
@@ -185,8 +186,7 @@ export default defineComponent({
     });
 
     const pageHeaderURL = computed(() => {
-      if (isUserPageType.value) return currentUser.value?.avatar?.url;
-      else return currentTeam.value?.avatar?.url;
+      return currentItemDetail.value?.avatar?.url;
     });
 
     async function fetchItemDetail() {
@@ -203,7 +203,7 @@ export default defineComponent({
       if (!availableProjects.value) await store.dispatch('project/getAll');
     });
 
-    watch(currentUserID, async () => {
+    watch(currentItemDetailID, async () => {
       loading.start();
       await fetchItemDetail();
       loading.stop();
@@ -250,6 +250,8 @@ export default defineComponent({
 
       isUserPageType,
       isTeamPageType,
+
+      currentItemDetail,
 
       isOwnProfile,
       isTeamMember,
