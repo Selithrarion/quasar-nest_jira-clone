@@ -16,6 +16,9 @@ export default {
     const { data }: ApiResponseModel<TeamModel> = await http.patch(`/team/${id}`, payload);
     return data;
   },
+  async delete(id: number): Promise<void> {
+    return await http.delete(`/team/${id}`);
+  },
 
   async uploadAvatar(file: File) {
     const form = new FormData();
