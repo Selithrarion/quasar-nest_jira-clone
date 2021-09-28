@@ -1,5 +1,5 @@
 <template>
-  <aside class="column gap-4 flex-grow-1 relative-position">
+  <aside class="people-detail-side">
     <label class="people-detail-side__avatar" :class="{ 'cursor-pointer': canEdit }">
       <input ref="avatarInput" class="hidden absolute-full" type="file" accept="image/*" @input="uploadAvatar" />
       <BaseAvatar
@@ -202,6 +202,13 @@ export default defineComponent({
 
 <style lang="scss" scoped>
 .people-detail-side {
+  position: relative;
+  display: flex;
+  flex-flow: column;
+  gap: 16px;
+  flex-grow: 1;
+  min-width: 310px;
+
   &__avatar {
     position: absolute;
     top: -128px;
