@@ -157,12 +157,12 @@ export default defineComponent({
       color: 'blue-grey-2',
       name: 'Создайте новую команду',
     });
-    const availableUserTeams = computed(() => [createNewTeamItem.value]);
-    function handleTeamClick(teamID: number) {
+    const availableUserTeams = computed(() =>
+      props.user.teams ? [...props.user.teams, createNewTeamItem.value] : [createNewTeamItem.value]
+    );
+    async function handleTeamClick(teamID: number) {
       if (!teamID) dialog.open('createTeam');
-      else {
-        console.log(teamID);
-      }
+      else await router.push(`/people/team/${teamID}`);
     }
 
     const form = reactive({
