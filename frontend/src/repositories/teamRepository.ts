@@ -2,6 +2,7 @@ import { http } from 'boot/axios';
 import { ApiResponseModel } from 'src/models/common/apiResponse.model';
 import { TeamDTO, TeamModel } from 'src/models/user/team.model';
 import { PublicFileModel } from 'src/models/common/public.file.model';
+import { UserModel } from 'src/models/user/user.model';
 
 export default {
   async getByID(id: number): Promise<TeamModel> {
@@ -12,7 +13,7 @@ export default {
     const { data }: ApiResponseModel<TeamModel> = await http.post('/team', payload);
     return data;
   },
-  async update(id: number, payload: TeamDTO) {
+  async update(id: number, payload: TeamDTO): Promise<TeamModel> {
     const { data }: ApiResponseModel<TeamModel> = await http.patch(`/team/${id}`, payload);
     return data;
   },
@@ -20,21 +21,25 @@ export default {
     return await http.delete(`/team/${id}`);
   },
 
-  async uploadAvatar(file: File) {
+  async addUsers(id: number, users: UserModel[]): Promise<TeamModel> {
+    const { data }: ApiResponseModel<TeamModel> = await http.patch(`/team/add-users/${id}`, { users });
+    return data;
+  },
+
+  async uploadAvatar(file: File): Promise<PublicFileModel> {
     const form = new FormData();
     form.append('file', file);
     const { data }: ApiResponseModel<PublicFileModel> = await http.post('team/upload-avatar', form);
     return data;
   },
 
-  async uploadHeader(file: File) {
+  async uploadHeader(file: File): Promise<PublicFileModel> {
     const form = new FormData();
     form.append('file', file);
     const { data }: ApiResponseModel<PublicFileModel> = await http.post('team/upload-avatar', form);
     return data;
   },
-  async deleteHeader() {
+  async deleteHeader(): Promise<void> {
     await http.delete('team/header');
-    return null;
   },
 };

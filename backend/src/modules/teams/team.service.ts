@@ -12,6 +12,7 @@ import { extname } from 'path';
 import { PublicFileEntity } from '../files/entity/public-file.entity';
 import { FilesService } from '../files/files.service';
 import stringToHslColor from '../../common/utils/stringToHslColor';
+import { UserEntity } from '../user/entity/user.entity';
 
 @Injectable()
 export class TeamService {
@@ -40,6 +41,12 @@ export class TeamService {
     const createdTeam = await this.teams.save(team);
 
     return createdTeam;
+  }
+
+  async addUsers(id: number, users: UserEntity[]): Promise<TeamEntity> {
+    const team = await this.teams.findOne(id);
+    const newTeamUsers = [...team.users, ...users];
+    return await this.teams.save({ ...team, users: newTeamUsers });
   }
 
   async update(id: number, payload: Partial<TeamEntity>): Promise<TeamEntity> {

@@ -18,6 +18,7 @@ import { TeamService } from './team.service';
 import { CreateTeamDTO } from './dto';
 import { FileInterceptor } from '@nestjs/platform-express';
 import { PublicFileEntity } from '../files/entity/public-file.entity';
+import { UserEntity } from '../user/entity/user.entity';
 
 @ApiBearerAuth()
 @ApiTags('team')
@@ -44,6 +45,14 @@ export class TeamController {
   @Patch(':id')
   async update(@Param('id') id: number, @Body() payload: Partial<TeamEntity>): Promise<TeamEntity> {
     return await this.teamService.update(id, payload);
+  }
+
+  @ApiOperation({ summary: 'Add users to team' })
+  @ApiResponse({ status: 200, description: 'Team users were updated' })
+  @ApiResponse({ status: 401, description: 'Unauthorized' })
+  @Patch('add-users/:id')
+  async addUsers(@Param('id') id: number, @Body('users') users: UserEntity[]): Promise<TeamEntity> {
+    return await this.teamService.addUsers(id, users);
   }
 
   @ApiOperation({ summary: 'Delete team' })
