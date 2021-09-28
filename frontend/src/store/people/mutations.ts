@@ -17,7 +17,7 @@ const mutation: MutationTree<PeopleStateInterface> = {
   },
   UPDATE_TEAM_DETAIL(state: PeopleStateInterface, team: TeamDTO) {
     if (!state.teamDetail) return;
-    state.teamDetail = { ...state.teamDetail, ...team }
+    state.teamDetail = { ...state.teamDetail, ...team } as TeamModel;
   },
 };
 

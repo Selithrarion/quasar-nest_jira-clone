@@ -64,22 +64,22 @@ export class TeamController {
   }
 
   @ApiBearerAuth()
-  @Post('avatar')
+  @Post('avatar/:id')
   @UseInterceptors(FileInterceptor('file'))
-  async uploadAvatar(@UploadedFile() file: Express.Multer.File, @Request() req): Promise<PublicFileEntity> {
-    return await this.teamService.setTeamImage(file, 'avatar', req.user.id);
+  async uploadAvatar(@UploadedFile() file: Express.Multer.File, @Param('id') id: number): Promise<PublicFileEntity> {
+    return await this.teamService.setTeamImage(file, 'avatar', id);
   }
 
   @ApiBearerAuth()
-  @Post('header')
+  @Post('header/:id')
   @UseInterceptors(FileInterceptor('file'))
-  async uploadHeader(@UploadedFile() file: Express.Multer.File, @Request() req): Promise<PublicFileEntity> {
-    return await this.teamService.setTeamImage(file, 'header', req.user.id);
+  async uploadHeader(@UploadedFile() file: Express.Multer.File, @Param('id') id: number): Promise<PublicFileEntity> {
+    return await this.teamService.setTeamImage(file, 'header', id);
   }
   @ApiBearerAuth()
-  @Delete('header')
-  async deleteHeader(@Request() req): Promise<void> {
-    return await this.teamService.deleteTeamImage('header', req.user.id);
+  @Delete('header/:id')
+  async deleteHeader(@Param('id') id: number): Promise<void> {
+    return await this.teamService.deleteTeamImage('header', id);
   }
 
   @Get('is-taken')

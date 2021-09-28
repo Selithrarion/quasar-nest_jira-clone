@@ -27,26 +27,25 @@ export default {
     const { data }: ApiResponseModel<UserModel> = await http.get(`/user/${id}`);
     return data;
   },
-  async update(id: number, payload: UserDTO) {
+  async update(id: number, payload: UserDTO): Promise<UserModel> {
     const { data }: ApiResponseModel<UserModel> = await http.patch(`/user/${id}`, payload);
     return data;
   },
 
-  async uploadAvatar(file: File) {
+  async uploadAvatar(file: File): Promise<PublicFileModel> {
     const form = new FormData();
     form.append('file', file);
     const { data }: ApiResponseModel<PublicFileModel> = await http.post('user/avatar', form);
     return data;
   },
-  async uploadHeader(file: File) {
+  async uploadHeader(file: File): Promise<PublicFileModel> {
     const form = new FormData();
     form.append('file', file);
     const { data }: ApiResponseModel<PublicFileModel> = await http.post('user/header', form);
     return data;
   },
-  async deleteHeader() {
-    await http.delete('user/header');
-    return null;
+  async deleteHeader(): Promise<void> {
+    return await http.delete('user/header');
   },
 
   async confirmEmail(token: string): Promise<boolean> {

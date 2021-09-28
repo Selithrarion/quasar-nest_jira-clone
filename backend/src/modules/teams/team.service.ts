@@ -44,7 +44,7 @@ export class TeamService {
   }
 
   async addUsers(id: number, users: UserEntity[]): Promise<TeamEntity> {
-    const team = await this.teams.findOne(id);
+    const team = await this.teams.findOneOrFail(id);
     const newTeamUsers = [...team.users, ...users];
     return await this.teams.save({ ...team, users: newTeamUsers });
   }

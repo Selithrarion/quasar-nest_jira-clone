@@ -36,12 +36,12 @@ const actions: ActionTree<PeopleStateInterface, StateInterface> = {
       commit('user/UPDATE_USER', { header }, { root: true });
     }
   },
-  async uploadTeamImage({ commit }, { file, type }: { file: File; type: 'avatar' | 'header' }) {
+  async uploadTeamImage({ commit }, { file, type, id }: { file: File; type: 'avatar' | 'header'; id: number }) {
     if (type === 'avatar') {
-      const avatar = await teamRepository.uploadAvatar(file);
+      const avatar = await teamRepository.uploadAvatar(file, id);
       commit('UPDATE_TEAM_DETAIL', { avatar });
     } else {
-      const header = await teamRepository.uploadHeader(file);
+      const header = await teamRepository.uploadHeader(file, id);
       commit('UPDATE_TEAM_DETAIL', { header });
     }
   },
