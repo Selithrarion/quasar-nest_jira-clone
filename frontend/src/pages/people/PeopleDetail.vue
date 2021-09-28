@@ -89,6 +89,7 @@
           </PeopleDetailActivitySection>
 
           <PeopleDetailActivitySection
+            v-if="isUserPageType"
             title="Любимые проекты"
             :items="currentItemDetail.favoriteProjects"
             :is-own-profile="isOwnProfile"
