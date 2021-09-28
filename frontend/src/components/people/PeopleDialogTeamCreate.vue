@@ -26,7 +26,7 @@
             :rules="[rules.required, rules.max40]"
           />
 
-          <CommonSelectUsers v-model="form.users" v-model:options="availableUsers" />
+          <CommonSelectUsers v-model="form.users" />
         </q-form>
       </div>
     </div>
@@ -34,19 +34,15 @@
 </template>
 
 <script lang="ts">
-import { defineComponent, reactive, ref, onBeforeMount } from 'vue';
+import { defineComponent, reactive } from 'vue';
 
 import { useRouter } from 'vue-router';
-import { useStore } from 'src/store';
 import useFormValidation from 'src/composables/form/useFormValidation';
 import useLoading from 'src/composables/common/useLoading';
 
 import CommonSelectUsers from 'components/common/CommonSelectUsers.vue';
 
-import userRepository from 'src/repositories/userRepository';
 import teamRepository from 'src/repositories/teamRepository';
-
-import { UserModel } from 'src/models/user/user.model';
 
 export default defineComponent({
   name: 'PeopleDialogTeamCreate',
@@ -59,11 +55,6 @@ export default defineComponent({
     const router = useRouter();
     const loading = useLoading();
     const rules = useFormValidation();
-
-    const availableUsers = ref<UserModel[]>([]);
-    onBeforeMount(async () => {
-      await userRepository.searchUsers();
-    });
 
     const form = reactive({
       name: '',

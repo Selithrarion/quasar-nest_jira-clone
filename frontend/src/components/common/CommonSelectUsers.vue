@@ -36,25 +36,23 @@ export default defineComponent({
       required: false,
       default: () => [],
     },
-    options: {
-      type: Array as PropType<UserModel[]>,
-      required: false,
-      default: () => [],
-    },
   },
 
   emits: ['update:model-value', 'update:options'],
 
   setup(props, { emit }) {
+    const options = ref<UserModel[]>([]);
+
     type SelectUpdateFunction = (arg0?: () => void) => void;
     async function searchUsers(value: string, update: SelectUpdateFunction) {
       const normalized = value.toLowerCase();
-      const updatedUsers = await userRepository.searchUsers(normalized);
-      emit('update:options', updatedUsers);
+      options.value = await userRepository.searchUsers(normalized);
+      emit('update:options', options.value);
       update();
     }
 
     return {
+      options,
       searchUsers,
     };
   },
