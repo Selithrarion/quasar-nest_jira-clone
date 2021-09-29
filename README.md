@@ -94,8 +94,8 @@ Github actions CI pipeline
 –
 
 #### People
-- Teams CRUD (not implemented yet ❌) 
-- Add users in created team (not implemented yet ❌) 
+- Teams CRUD
+- Add users in created team
 
 ##### User / Team profile page
 - Edit user info - change username / display name / email / location / organisation etc...
