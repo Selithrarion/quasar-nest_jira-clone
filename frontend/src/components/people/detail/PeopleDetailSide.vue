@@ -74,6 +74,8 @@
     </div>
 
     <slot name="append" />
+
+    <PeopleDetailPolicy />
   </aside>
 </template>
 
@@ -84,6 +86,7 @@ import { useStore } from 'src/store';
 import useLoading from 'src/composables/common/useLoading';
 
 import CommonInputEdit from 'components/common/CommonInputEdit.vue';
+import PeopleDetailPolicy from 'components/people/detail/PeopleDetailPolicy.vue';
 
 import userRepository from 'src/repositories/userRepository';
 
@@ -92,6 +95,7 @@ export default defineComponent({
 
   components: {
     CommonInputEdit,
+    PeopleDetailPolicy,
   },
 
   props: {
@@ -105,7 +109,7 @@ export default defineComponent({
     itemId: {
       type: Number,
       required: false,
-      default: null
+      default: null,
     },
 
     displayName: {

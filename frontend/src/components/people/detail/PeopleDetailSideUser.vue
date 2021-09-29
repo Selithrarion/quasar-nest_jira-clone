@@ -92,15 +92,6 @@
             </q-item-section>
           </BaseItem>
         </q-card-section>
-
-        <q-card-section>
-          <BaseButton
-            label="Ознакомиться с политикой конфиденциальности"
-            to="https://www.atlassian.com/legal/privacy-policy"
-            class="text-blue-grey-6 text-caption full-width"
-            plain-style
-          />
-        </q-card-section>
       </q-card>
 
       <PeopleDialogEmailChange v-if="dialog.openedName.value === 'changeEmail'" @close="dialog.close" />
