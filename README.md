@@ -1,4 +1,6 @@
-# Jira clone with Quasar (Vue 3 TS) + Nest (Node.js)
+# Jira clone with Quasar (Vue 3 TS) + Nest (Node.js)  
+
+star if you like it 🤩
 
 ### Stack
 #### Frontend
