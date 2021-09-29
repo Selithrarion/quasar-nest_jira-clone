@@ -14,7 +14,7 @@
               <q-input
                 v-if="authTypes[type].fields.includes('name')"
                 v-model="form.name"
-                label="Отображаемое имя"
+                :label="t('user.displayName')"
                 :rules="[rules.required, rules.max64]"
                 hide-bottom-space
                 lazy-rules
@@ -23,8 +23,8 @@
               <q-input
                 v-if="authTypes[type].fields.includes('username')"
                 v-model="form.username"
-                label="Имя пользователя"
                 debounce="500"
+                :label="t('user.username')"
                 :rules="[rules.required, rules.max24, type === 'register' ? rules.uniqueUsername : null]"
                 hide-bottom-space
                 lazy-rules
@@ -33,8 +33,8 @@
               <q-input
                 v-if="authTypes[type].fields.includes('email')"
                 v-model="form.email"
-                label="Email"
                 debounce="500"
+                :label="t('user.email')"
                 :rules="[rules.required, rules.email, type === 'register' ? rules.uniqueEmail : null]"
                 hide-bottom-space
                 lazy-rules
@@ -44,9 +44,9 @@
               <q-input
                 v-if="authTypes[type].fields.includes('password')"
                 v-model="form.password"
-                label="Пароль"
+                :label="t('user.password')"
                 :type="isHidePassword ? 'password' : 'text'"
-                :rules="[rules.required]"
+                :rules="[rules.required, rules.max128]"
                 hide-bottom-space
                 lazy-rules
                 filled
@@ -62,7 +62,7 @@
               <q-input
                 v-if="authTypes[type].fields.includes('passwordRepeat')"
                 v-model="form.passwordRepeat"
-                label="Подтвердите пароль"
+                :label="t('user.confirmEmail')"
                 :type="isHidePassword ? 'password' : 'text'"
                 :rules="[rules.required, equalPasswords]"
                 hide-bottom-space
@@ -96,7 +96,7 @@
             <div class="column gap-2">
               <div v-if="qrCode" class="text-blue-grey-7">
                 <div class="q-pb-lg">
-                  Сканируйте QR-код с помощью приложения Google Authenticator и введите код в поле ниже
+                  {{ t('auth.scanQrCode') }}
                 </div>
                 <div class="text-center">
                   <img class="auth__qrcode" :src="qrCode" />
@@ -106,10 +106,10 @@
               <q-input
                 ref="twoFaCodeInput"
                 v-model="twoFaCode"
-                label="Код"
                 mask="### ###"
+                :label="t('common.code')"
                 :error="is2FaError"
-                :hint="qrCode ? undefined : 'Введите код из приложения Google Authenticator'"
+                :hint="qrCode ? undefined : t('auth.enter2FaCode')"
                 :loading="loading.custom.twoFaValidation"
                 hide-bottom-space
                 unmasked-value
@@ -118,37 +118,37 @@
                 @update:model-value="handleCodeInputUpdate"
                 @paste.prevent
               >
-                <template #error> Неверный код, попробуйте снова </template>
+                <template #error> {{ t('auth.incorrect2FaCode') }} </template>
               </q-input>
             </div>
             <div class="flex-center-end gap-2 q-pt-md">
-              <BaseButton label="Пропустить" secondary-color flat @click="redirectToRequestedOrDefaultPage" />
-              <BaseButton label="Назад" secondary-color flat @click="returnToAuthStep" />
+              <BaseButton :label="t('common.skip')" secondary-color flat @click="redirectToRequestedOrDefaultPage" />
+              <BaseButton :label="t('common.back')" secondary-color flat @click="returnToAuthStep" />
             </div>
           </q-card-section>
         </div>
       </q-card>
 
       <div v-show="step === AuthStepEnum.AUTH" class="column flex-center text-blue-grey-5">
-        или
+        {{ t('common.or') }}
         <BaseButton
           v-if="authTypes[type].buttons.includes('register')"
-          label="Зарегистрироваться"
           size="small"
+          :label="t('auth.register')"
           flat
           @click="type = AuthTypeEnum.REGISTER"
         />
         <BaseButton
           v-if="authTypes[type].buttons.includes('forgotPassword')"
-          label="Восстановить пароль"
           size="small"
+          :label="t('auth.resetPassword')"
           flat
           @click="type = AuthTypeEnum.FORGOT_PASSWORD"
         />
         <BaseButton
           v-if="authTypes[type].buttons.includes('login')"
-          label="Войти"
           size="small"
+          :label="t('auth.signIn')"
           flat
           @click="type = AuthTypeEnum.LOGIN"
         />
@@ -159,8 +159,8 @@
 
 <script lang="ts">
 import { defineComponent, ref, reactive, onMounted, inject } from 'vue';
-
 import { useQuasar } from 'quasar';
+import { useI18n } from 'vue-i18n';
 import { useStore } from 'src/store';
 import { useRouter, useRoute } from 'vue-router';
 import useLoading from 'src/composables/common/useLoading';
@@ -184,6 +184,7 @@ export default defineComponent({
 
   setup() {
     const q = useQuasar();
+    const { t } = useI18n();
     const store = useStore();
     const router = useRouter();
     const route = useRoute();
@@ -203,28 +204,28 @@ export default defineComponent({
       login: {
         fields: ['email', 'password'],
         buttons: ['register', 'forgotPassword'],
-        title: 'Войти в аккаунт Jira',
-        actionWord: 'Войти',
+        title: t('auth.signInJira'),
+        actionWord: t('auth.signIn'),
         action: login,
       },
       register: {
         fields: ['name', 'username', 'email', 'password', 'passwordRepeat'],
         buttons: ['login'],
-        title: 'Создать новый аккаунт Jira',
-        actionWord: 'Зарегистрироваться',
+        title: t('auth.registerJiraAccount'),
+        actionWord: t('auth.register'),
         action: register,
       },
       forgotPassword: {
         fields: ['email'],
         buttons: ['login'],
-        title: 'Восстановить пароль от аккаунта Jira',
-        actionWord: 'Отправить Email',
+        title: t('auth.recoverPassword'),
+        actionWord: t('auth.sendEmail'),
         action: sendForgotPasswordEmail,
       },
     };
 
     function equalPasswords(): boolean | string {
-      return form.passwordRepeat === form.password || 'Пароли не совпадают';
+      return form.passwordRepeat === form.password || t('auth.passwordsNotMatch');
     }
 
     const isHidePassword = ref(true);
@@ -375,6 +376,7 @@ export default defineComponent({
     }
 
     return {
+      t,
       rules,
       loading,
 

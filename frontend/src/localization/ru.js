@@ -18,6 +18,16 @@ export default {
     confirm: 'Подтвердить',
     cancel: 'Отмена',
     close: 'Закрыть',
+    detail: 'Подробнее',
+    share: 'Поделиться',
+    send: 'Отправить',
+    skip: 'Пропустить',
+    back: 'Назад',
+    notAssigned: 'Не назначено',
+    lastUpdates: 'Последние обновления',
+    clearAll: 'Очистить всё',
+    or: 'или',
+    code: 'Код',
   },
 
   work: {
@@ -42,12 +52,66 @@ export default {
     companyManage: 'Программное обеспечение, управляемое компанией',
     teamManage: 'Программное обеспечение, управляемое командой',
     projects: 'Проекты',
-    create: 'Создать проект',
     chooseType: 'Выберите тип проекта',
+    create: 'Создать проект',
+    delete: 'Этот проект и его конфигурация будут удалены без возможности восстановления.',
+    settings: 'Настройки проекта',
+    trash: 'Переместить в коризну',
+
+    board: 'Доска',
+    softwareDevProject: 'Проект по разработке ПО',
+    companyType: 'Это проект управляемый компанией',
+
+    automation: 'Автоматизация',
+    markBoard: 'Пометить доску',
+    newVersion: 'Новая версия',
+    enterNameTeamOrEmail: 'Введите имя, команду или адрес эл. почты',
+    enterMessage: 'Введите сообщение',
+    copyLink: 'Копировать ссылку',
+    onlyMyTasks: 'Только мои задачи',
+    release: 'Выпуск',
+
+    noCurrentIssues: 'Нет видимых текущих задач',
+    createIssue: 'Создайте задачу',
+    orCheck: 'или проверьте',
+    boardSettings: 'настройки доски',
+
+    assignee: 'Исполнитель: {n}',
   },
 
   people: {
     members: '0 участников | {n} участник | {n} участника | {n} участников',
+  },
+
+  user: {
+    displayName: 'Отображаемое имя',
+    username: 'Имя пользователя',
+    email: 'Email',
+    password: 'Пароль',
+    confirmEmail: 'Подтвердите пароль',
+  },
+
+  auth: {
+    register: 'Зарегистрироваться',
+    registerJiraAccount: 'Создать новый аккаунт Jira',
+    resetPassword: 'Восстановить пароль',
+    signIn: 'Войти',
+    signInJira: 'Войти в аккаунт Jira',
+    scanQrCode: 'Сканируйте QR-код с помощью приложения Google Authenticator и введите код в поле ниже',
+    enter2FaCode: 'Введите код из приложения Google Authenticator',
+    incorrect2FaCode: 'Неверный код, попробуйте снова',
+    recoverPassword: 'Восстановить пароль от аккаунта Jira',
+    sendEmail: 'Отправить Email',
+    passwordNotMatch: 'Пароли не совпадают',
+  },
+
+  validation: {
+    required: 'Обязательное поле',
+    incorrectEmailFormat: 'Неверный формат Email',
+    usernameTaken: 'Имя пользователя уже занято',
+    emailTaken: 'Такой email уже зарегистрирован',
+    minChars: 'Минимум 0 символов | Минимум {n} символ | Минимум {n} символа | Минимум {n} символов',
+    maxChars: 'Максимум 0 символов | Максимум {n} символ | Максимум {n} символа | Максимум {n} символов',
   },
 
   date: {
@@ -56,5 +120,12 @@ export default {
     hoursAgo: '0 час назад | {n} час назад | {n} часа назад | {n} часов назад',
     daysAgo: '0 день назад| {n} день назад | {n} дня назад | {n} дней назад',
     monthsAgo: '0 месяц назад | {n} месяц назад | {n} месяца назад | {n} месяцев назад',
+  },
+
+  table: {
+    name: 'Имя',
+    key: 'Ключ',
+    type: 'Тип',
+    leader: 'Руководитель',
   },
 };

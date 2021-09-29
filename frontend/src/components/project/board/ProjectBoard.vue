@@ -13,11 +13,11 @@
 
     <div v-else class="no-active-issues__wrapper">
       <div class="no-active-issues__image q-mb-md" />
-      <h6 class="no-margin">Нет видимых текущих задач</h6>
+      <h6 class="no-margin">{{ t('project.noCurrentIssues') }}</h6>
       <div class="flex-center gap-1">
-        <BaseButton label="Создайте задачу" color="primary" dense flat @click="dialog.open('createIssue')" />
-        или проверьте
-        <BaseButton label="настройки доски" color="primary" dense flat @click="dialog.open('settings')" />
+        <BaseButton :label="t('project.createIssue')" color="primary" dense flat @click="dialog.open('createIssue')" />
+        {{ t('project.orCheck') }}
+        <BaseButton :label="t('project.boardSettings')" color="primary" dense flat @click="dialog.open('settings')" />
       </div>
     </div>
 
@@ -28,6 +28,7 @@
 
 <script lang="ts">
 import { defineComponent, computed, onBeforeMount, watch } from 'vue';
+import { useI18n } from 'vue-i18n';
 import { useStore } from 'src/store';
 import { useRoute, useRouter } from 'vue-router';
 import useDialog from 'src/composables/common/useDialog';
@@ -56,6 +57,7 @@ export default defineComponent({
   },
 
   setup(props) {
+    const { t } = useI18n();
     const store = useStore();
     const route = useRoute();
     const router = useRouter();
@@ -96,6 +98,7 @@ export default defineComponent({
     }
 
     return {
+      t,
       dialog,
       loading,
 

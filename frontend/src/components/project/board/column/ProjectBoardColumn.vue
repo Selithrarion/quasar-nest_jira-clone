@@ -50,7 +50,7 @@
                   :src="element.assigned.avatar && element.assigned.avatar.url"
                   :item-name="element.assigned.username"
                   :item-color="element.assigned.color"
-                  :tooltip="`Исполнитель: ${element.assigned.name}`"
+                  :tooltip="t('project.assigned', element.assigned.name)"
                 />
               </div>
             </q-card-section>
@@ -63,6 +63,7 @@
 
 <script lang="ts">
 import { defineComponent, ref, computed } from 'vue';
+import { useI18n } from 'vue-i18n';
 import { useStore } from 'src/store';
 import useLoading from 'src/composables/common/useLoading';
 
@@ -96,6 +97,7 @@ export default defineComponent({
   emits: ['open'],
 
   setup(props, { emit }) {
+    const { t } = useI18n();
     const store = useStore();
     const loading = useLoading();
 
@@ -160,6 +162,7 @@ export default defineComponent({
     }
 
     return {
+      t,
       loading,
       openIssue,
 

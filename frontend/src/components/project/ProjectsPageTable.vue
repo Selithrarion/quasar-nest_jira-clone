@@ -58,8 +58,8 @@
           <BaseButtonMore block>
             <q-menu auto-close>
               <q-list>
-                <BaseItem label="Настройки проекта" />
-                <BaseItem label="Переместить в коризну" @click="dialog.open('deleteProject', { item: props.row })" />
+                <BaseItem :label="t('project.settings')" />
+                <BaseItem :label=" t('project.trash')" @click="dialog.open('deleteProject', { item: props.row })" />
               </q-list>
             </q-menu>
           </BaseButtonMore>
@@ -75,13 +75,14 @@
       @close="dialog.close"
       @confirm="deleteProject(dialog.openedItem.value.id)"
     >
-      Этот проект и его конфигурация будут удалены без возможности восстановления.
+      {{ t('project.delete') }}
     </BaseDialog>
   </div>
 </template>
 
 <script lang="ts">
 import { defineComponent, reactive, computed, onBeforeMount } from 'vue';
+import { useI18n } from 'vue-i18n';
 import { useStore } from 'src/store';
 import useDialog from 'src/composables/common/useDialog';
 
@@ -91,6 +92,7 @@ export default defineComponent({
   name: 'ProjectsPageTable',
 
   setup() {
+    const { t } = useI18n();
     const store = useStore();
     const dialog = useDialog();
 
@@ -110,7 +112,7 @@ export default defineComponent({
       {
         name: 'name',
         required: true,
-        label: 'Имя',
+        label: t('table.name'),
         field: (row: ProjectModel) => row.name,
         sortable: true,
         align: 'left',
@@ -118,7 +120,7 @@ export default defineComponent({
       {
         name: 'key',
         required: true,
-        label: 'Ключ',
+        label: t('table.key'),
         field: (row: ProjectModel) => row.key,
         sortable: true,
         align: 'left',
@@ -126,14 +128,14 @@ export default defineComponent({
       {
         name: 'typeID',
         required: true,
-        label: 'Тип',
+        label: t('table.type'),
         field: (row: ProjectModel) => ProjectTypeEnum[row.typeID],
         align: 'left',
       },
       {
         name: 'leader',
         required: true,
-        label: 'Руководитель',
+        label: t('table.leader'),
         field: (row: ProjectModel) => row.leader,
         sortable: true,
         align: 'left',
@@ -166,6 +168,7 @@ export default defineComponent({
     }
 
     return {
+      t,
       dialog,
 
       columns,

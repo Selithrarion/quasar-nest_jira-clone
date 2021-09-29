@@ -4,7 +4,7 @@
   <div v-else>
     <LayoutSidebar
       title="Jira project"
-      subtitle="Проект по разработке ПО"
+      :subtitle="t('project.softwareDevProject')"
       avatar="https://png.pngtree.com/element_our/20190604/ourlarge/pngtree-gradient-square-border-illustration-image_1467225.jpg"
     >
       <q-list class="select-none">
@@ -14,7 +14,7 @@
               <q-icon class="text-blue-grey-6" name="table_view" size="sm" />
               <div>
                 <div class="text-weight-medium">{{ selectedBoard.name }}</div>
-                <div class="text-caption">Доска</div>
+                <div class="text-caption">{{ t('project.board') }}</div>
               </div>
             </div>
             <q-icon name="expand_more" size="xs" />
@@ -37,12 +37,12 @@
 
       <template #footer>
         <div class="column gap-1 text-center text-caption">
-          <div>Это проект управляемый компанией</div>
+          <div>{{ t('project.companyType') }}</div>
           <a
             class="text-blue-grey-8"
             href="https://support.atlassian.com/jira-software-cloud/docs/work-in-jira-software-cloud-agile-projects/"
           >
-            Подробнее
+            {{ t('common.detail') }}
           </a>
         </div>
       </template>
@@ -50,7 +50,7 @@
 
     <q-page class="project-detail q-px-xl q-py-lg">
       <q-breadcrumbs class="text-blue-grey-5" active-color="blue-8">
-        <q-breadcrumbs-el label="Проекты" to="/projects" />
+        <q-breadcrumbs-el :label="t('project.projects')" to="/projects" />
         <q-breadcrumbs-el :label="project.name" :to="{ name: 'board', params: { id: selectedBoard.id } }" />
         <q-breadcrumbs-el
           v-if="selectedSidebarTab.routeName === 'board'"
@@ -63,38 +63,38 @@
         <h5 class="q-mt-sm q-mb-lg text-weight-bold">{{ pageName }}</h5>
 
         <div v-if="!selectedSidebarTab.hideHeaderTitleRowActions" class="row gap-4">
-          <BaseButton icon="bolt" padding="4px" tooltip="Автоматизация" disable flat />
+          <BaseButton icon="bolt" padding="4px" :tooltip="t('project.automation')" disable flat />
 
           <BaseButtonFavorite
             padding="4px"
-            tooltip-add="Пометить доску"
+            :tooltip-add="t('project.markBoard')"
             :favorite="selectedBoard.favorite"
             :round="false"
             @click="toggleSelectedBoardFavorite"
           />
 
-          <q-btn-dropdown class="btn--secondary" label="Выпуск" :menu-offset="[0, 8]" no-caps flat>
+          <q-btn-dropdown class="btn--secondary" :label="t('project.release')" :menu-offset="[0, 8]" no-caps flat>
             <q-list v-close-popup dense padding>
-              <BaseItem label="Новая версия" />
+              <BaseItem :label="t('project.newVersion')" />
             </q-list>
           </q-btn-dropdown>
 
-          <BaseButton icon="share" padding="4px" tooltip="Поделиться" flat>
+          <BaseButton icon="share" padding="4px" :tooltip="t('common.share')" flat>
             <q-menu class="q-px-lg q-py-md column gap-3" style="width: 350px" :offset="[0, 8]">
-              <div class="text-subtitle1 text-weight-medium">Поделиться</div>
+              <div class="text-subtitle1 text-weight-medium">{{ t('common.share') }}</div>
 
-              <q-input label="Введите имя, команду или адрес эл. почты" filled dense />
-              <q-input label="Введите сообщение" filled dense />
+              <q-input :label="t('project.enterNameTeamOrEmail')" filled dense />
+              <q-input :label="t('project.enterMessage')" filled dense />
 
               <div class="flex-center-between gap-2">
                 <CommonClipboard text="123">
                   <BaseButton padding="4px" flat>
                     <q-icon name="link" size="20px" />
-                    <span>Копировать ссылку</span>
+                    <span>{{ t('project.copyLink') }}</span>
                   </BaseButton>
                 </CommonClipboard>
 
-                <BaseButton v-close-popup label="Отправить" color="primary" unelevated />
+                <BaseButton v-close-popup :label="t('common.send')" color="primary" unelevated />
               </div>
             </q-menu>
           </BaseButton>
@@ -115,14 +115,14 @@
             :item-color="user.color"
             @click="toggleUserSelection(user)"
           />
-          <BaseAvatar size="36px" color="blue-grey-1" tooltip="Не назначено" icon-size="20px" show-icon />
+          <BaseAvatar size="36px" color="blue-grey-1" :tooltip="t('common.notAssigned')" icon-size="20px" show-icon />
         </CommonAvatarsWrapper>
 
-        <BaseButton label="Только мои задачи" secondary-color unelevated />
-        <BaseButton label="Последние обновления" secondary-color unelevated />
+        <BaseButton :label="t('project.onlyMyTasks')" secondary-color unelevated />
+        <BaseButton :label="t('common.lastUpdates')" secondary-color unelevated />
 
         <q-separator v-if="selectedUsersFilter.length" vertical />
-        <BaseButton v-if="selectedUsersFilter.length" label="Очистить всё" dense flat />
+        <BaseButton v-if="selectedUsersFilter.length" :label="t('common.clearAll')" dense flat />
       </div>
 
       <router-view :key="routePath" :project="project" :selected-board-id="selectedBoard.id" />
@@ -143,6 +143,7 @@
 <script lang="ts">
 import { defineComponent, ref, reactive, computed, watch, onBeforeMount, onMounted } from 'vue';
 import { useRouter, useRoute } from 'vue-router';
+import { useI18n } from 'vue-i18n';
 import { useStore } from 'src/store';
 import useDialog from 'src/composables/common/useDialog';
 import useLocalStorage from 'src/composables/common/useLocalStorage';
@@ -173,6 +174,7 @@ export default defineComponent({
   },
 
   setup() {
+    const { t } = useI18n();
     const router = useRouter();
     const route = useRoute();
     const store = useStore();
@@ -325,6 +327,7 @@ export default defineComponent({
     }
 
     return {
+      t,
       dialog,
       loading,
 
