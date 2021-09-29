@@ -19,6 +19,7 @@ import { UserService } from './user.service';
 import { Public } from '../auth/decorators/public.decorator';
 import { FileInterceptor } from '@nestjs/platform-express';
 import { PublicFileEntity } from '../files/entity/public-file.entity';
+import { TeamEntity } from '../teams/entity/team.entity';
 
 @ApiTags('user')
 @Controller('user')
@@ -35,6 +36,12 @@ export class UserController {
   @Get('self')
   async getSelf(@Request() req): Promise<UserEntity> {
     return await this.userService.getByID(req.user.id);
+  }
+  @ApiBearerAuth()
+  @Get('teams')
+  async getCurrentUserTeams(@Request() req): Promise<TeamEntity[]> {
+    const user = await this.userService.getProfileByID(req.user.id);
+    return user.teams;
   }
 
   @Public()

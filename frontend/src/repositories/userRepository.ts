@@ -2,6 +2,7 @@ import { http } from 'boot/axios';
 import { UserDTO, UserModel } from 'src/models/user/user.model';
 import { ApiResponseModel } from 'src/models/common/apiResponse.model';
 import { PublicFileModel } from 'src/models/common/public.file.model';
+import { TeamModel } from 'src/models/user/team.model';
 
 export default {
   async searchUsers(search = ''): Promise<UserModel[]> {
@@ -27,6 +28,11 @@ export default {
     const { data }: ApiResponseModel<UserModel> = await http.get(`/user/${id}`);
     return data;
   },
+  async getCurrentUserTeams(): Promise<TeamModel[]> {
+    const { data }: ApiResponseModel<TeamModel[]> = await http.get('/user/teams');
+    return data;
+  },
+
   async update(id: number, payload: UserDTO): Promise<UserModel> {
     const { data }: ApiResponseModel<UserModel> = await http.patch(`/user/${id}`, payload);
     return data;
