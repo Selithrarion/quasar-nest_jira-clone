@@ -102,6 +102,11 @@ export default defineComponent({
         return ['user', 'team'].indexOf(v) !== -1;
       },
     },
+    itemId: {
+      type: Number,
+      required: false,
+      default: null
+    },
 
     displayName: {
       type: String,
@@ -176,7 +181,8 @@ export default defineComponent({
 
       try {
         loading.start();
-        await store.dispatch('people/uploadUserImage', { file, type: 'avatar' });
+        const action = props.type === 'user' ? 'people/uploadUserImage' : 'people/uploadTeamImage';
+        await store.dispatch(action, { file, type: 'avatar', id: props.itemId });
       } finally {
         loading.stop();
       }
