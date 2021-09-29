@@ -14,7 +14,7 @@
             dense
           />
 
-          <q-tabs v-model="selectedTab" active-color="primary" inline-label no-caps>
+          <q-tabs active-color="primary" inline-label no-caps>
             <q-route-tab
               v-for="tab in tabsData"
               :key="tab.name"
@@ -45,7 +45,7 @@
           <BaseButton unelevated dense round>
             <BaseAvatar
               v-if="currentUser"
-              :src="currentUserAvatarURL"
+              :src="currentUser.avatar && currentUser.avatar.url"
               :item-name="currentUser.username"
               :item-color="currentUser.color"
             />
@@ -99,7 +99,6 @@ export default defineComponent({
       console.log(searchValue.value);
     }
 
-    const selectedTab = ref('work');
     const tabsData = reactive([
       {
         name: 'work',
@@ -137,7 +136,6 @@ export default defineComponent({
     const isShowCreateIssueButton = computed(() => route.path.includes('/projects/'));
 
     const currentUser = computed(() => store.state.user.currentUser);
-    const currentUserAvatarURL = computed(() => currentUser.value?.avatar?.url);
 
     async function openProfilePage() {
       const userID = currentUser.value?.id;
@@ -161,12 +159,10 @@ export default defineComponent({
       search,
 
       tabsData,
-      selectedTab,
 
       isShowCreateIssueButton,
 
       currentUser,
-      currentUserAvatarURL,
 
       openProfilePage,
       logout,
