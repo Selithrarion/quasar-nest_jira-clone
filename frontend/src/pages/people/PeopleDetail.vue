@@ -187,7 +187,7 @@ export default defineComponent({
     });
 
     const pageHeaderURL = computed(() => {
-      return currentItemDetail.value?.avatar?.url;
+      return currentItemDetail.value?.header?.url;
     });
 
     async function fetchItemDetail() {
@@ -211,7 +211,6 @@ export default defineComponent({
     });
 
     const isHeaderMenu = ref(false);
-    const headerImage = ref(null);
     async function uploadHeaderFile(file: File) {
       try {
         loading.start('header');
@@ -261,7 +260,6 @@ export default defineComponent({
       pageHeaderURL,
 
       isHeaderMenu,
-      headerImage,
       uploadHeaderFile,
       deleteHeaderImage,
 
