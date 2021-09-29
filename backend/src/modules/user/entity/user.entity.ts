@@ -22,6 +22,7 @@ import { Exclude } from 'class-transformer';
 import { TeamEntity } from '../../teams/entity/team.entity';
 import { CommentEntity } from '../../issues/entity/comment.entity';
 import { PublicFileEntity } from '../../files/entity/public-file.entity';
+import stringToHslColor from '../../../common/utils/stringToHslColor';
 
 export interface UserGoogleData {
   email: string;
@@ -169,6 +170,11 @@ export class UserEntity extends BaseEntity {
   async hashPassword(): Promise<void> {
     if (this.password) this.password = await bcrypt.hash(this.password, 10);
   }
+  @BeforeInsert()
+  async generateColor(): Promise<void> {
+    this.color = stringToHslColor(this.username);
+  }
+
   async validatePassword(password: string): Promise<boolean> {
     if (!this.isOAuthAccount) return true;
     return bcrypt.compare(password, this.password);

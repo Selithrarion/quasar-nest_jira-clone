@@ -8,8 +8,6 @@ import { UserEntity } from './entity/user.entity';
 import { ProjectEntity } from '../projects/entity/project.entity';
 import { BoardEntity } from '../boards/entity/board.entity';
 
-import stringToHslColor from '../../common/utils/stringToHslColor';
-
 import * as sharp from 'sharp';
 import { v4 as uuidv4 } from 'uuid';
 import { extname } from 'path';
@@ -72,7 +70,7 @@ export class UserService {
     const isUserAlreadyExist = await this.users.findOne({ where: { email: payload.email } });
     if (isUserAlreadyExist) throw new HttpException('USER_ALREADY_EXIST', HttpStatus.BAD_REQUEST);
 
-    const user = await this.users.create({ ...payload, color: stringToHslColor(payload.username) });
+    const user = await this.users.create(payload);
     const createdUser = await this.users.save(user);
 
     await this.userSearchService.indexUser(user);
