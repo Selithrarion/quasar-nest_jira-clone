@@ -78,8 +78,6 @@ export default defineComponent({
       rules,
       loading,
 
-      availableUsers,
-
       form,
       createTeam,
     };
