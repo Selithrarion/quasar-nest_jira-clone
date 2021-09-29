@@ -101,8 +101,9 @@
                 <BaseAvatar :src="item.avatar && item.avatar.url" :item-name="item.name" :item-color="item.color" />
               </q-item-section>
             </template>
-            <!--TODO: pluralization-->
-            <template #itemCaption="{ item }"> {{ item.users.length }} участников </template>
+            <template #itemCaption="{ item }">
+              {{ t('people.members', item.users.length) }}
+            </template>
           </PeopleDetailActivitySection>
 
           <div class="flex-center-between">
@@ -136,6 +137,7 @@
 import { computed, defineComponent, ref, watch, onBeforeMount, onMounted } from 'vue';
 import { useRoute, useRouter } from 'vue-router';
 import { useStore } from 'src/store';
+import { useI18n } from 'vue-i18n';
 import useLoading from 'src/composables/common/useLoading';
 
 import PeopleDetailSideUser from 'components/people/detail/PeopleDetailSideUser.vue';
@@ -157,6 +159,7 @@ export default defineComponent({
   },
 
   setup() {
+    const { t } = useI18n();
     const router = useRouter();
     const route = useRoute();
     const store = useStore();
@@ -241,6 +244,7 @@ export default defineComponent({
     }
 
     return {
+      t,
       loading,
 
       currentUser,

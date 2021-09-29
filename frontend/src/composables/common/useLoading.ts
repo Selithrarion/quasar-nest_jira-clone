@@ -1,6 +1,6 @@
 import { ref, reactive, Ref } from 'vue';
 
-// TODO: make custom not object with items, but simple refs like active
+// TODO: make custom var not object with items, but simple refs like active var
 interface LoadingInterface {
   active: Ref<boolean>;
   custom: Record<string, boolean>;

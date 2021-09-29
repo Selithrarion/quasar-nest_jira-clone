@@ -21,7 +21,6 @@ export class BoardsService {
 
   async getByID(boardID: number, userID: number): Promise<BoardEntity> {
     const currentUser = await this.userService.getByID(userID);
-    // TODO: fix issue comments sorting order
     const board = await this.boards.findOneOrFail(boardID, {
       relations: ['columns'],
     });
