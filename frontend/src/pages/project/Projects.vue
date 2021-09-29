@@ -14,7 +14,9 @@
 </template>
 
 <script lang="ts">
-import { defineComponent } from 'vue';
+import { defineComponent, onMounted } from 'vue';
+import { useRoute } from 'vue-router';
+import { useI18n } from 'vue-i18n';
 import useDialog from 'src/composables/common/useDialog';
 
 import ProjectsPageTable from 'components/project/ProjectsPageTable.vue';
@@ -31,9 +33,16 @@ export default defineComponent({
   },
 
   setup() {
+    const { t } = useI18n();
+    const route = useRoute();
     const dialog = useDialog();
 
+    onMounted(() => {
+      if (route.query.instantCreate) dialog.open('create');
+    });
+
     return {
+      t,
       dialog,
     };
   },

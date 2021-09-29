@@ -6,9 +6,13 @@
     <div v-else class="q-px-xl q-py-md bg-grey-1">
       <WorkProjectHeader />
 
-      <WorkProjectList>
+      <WorkProjectList v-if="availableProjects.length">
         <WorkProjectCard v-for="project in availableProjects" :key="project.id" :project="project" />
       </WorkProjectList>
+      <div v-else class="row items-center gap-4">
+        {{ t('work.noProjects') }}
+        <BaseButton :label="t('common.create')" color="primary" @click="openAllProjects" />
+      </div>
     </div>
 
     <CommonDialogConfirmEmail
