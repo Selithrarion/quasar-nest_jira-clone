@@ -36,7 +36,7 @@ export default {
   async uploadHeader(file: File, id: number): Promise<PublicFileModel> {
     const form = new FormData();
     form.append('file', file);
-    const { data }: ApiResponseModel<PublicFileModel> = await http.post(`team/avatar/${id}`, form);
+    const { data }: ApiResponseModel<PublicFileModel> = await http.post(`team/header/${id}`, form);
     return data;
   },
   async deleteHeader(): Promise<void> {
