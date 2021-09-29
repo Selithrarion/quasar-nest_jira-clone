@@ -1,6 +1,6 @@
 <template>
   <q-page class="work-page">
-    <CommonPageTitle title="Ваша работа" />
+    <CommonPageTitle :title="t('work.title')" />
 
     <BaseLoader v-if="!availableProjects" page-margin />
     <div v-else class="q-px-xl q-py-md bg-grey-1">
@@ -26,8 +26,9 @@
 
 <script lang="ts">
 import { defineComponent, computed, ref, onBeforeMount } from 'vue';
-import { useRoute } from 'vue-router';
+import { useRoute, useRouter } from 'vue-router';
 import { useStore } from 'src/store';
+import { useI18n } from 'vue-i18n';
 import useDialog from 'src/composables/common/useDialog';
 import useLoading from 'src/composables/common/useLoading';
 
@@ -51,12 +52,17 @@ export default defineComponent({
   },
 
   setup() {
+    const router = useRouter();
     const route = useRoute();
     const store = useStore();
+    const { t } = useI18n();
     const dialog = useDialog();
     const loading = useLoading();
 
     const availableProjects = computed(() => store.state.project.projects);
+    async function openAllProjects() {
+      return await router.push({ path: '/projects', query: { instantCreate: 1 } });
+    }
 
     onBeforeMount(async () => {
       if (!availableProjects.value) await store.dispatch('project/getAll');
@@ -81,8 +87,11 @@ export default defineComponent({
     return {
       dialog,
       loading,
+      t,
 
       availableProjects,
+      openAllProjects,
+
       isEmailConfirmSuccess,
     };
   },

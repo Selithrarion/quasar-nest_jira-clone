@@ -4,7 +4,7 @@ import messages from 'src/localization';
 import { russianPluralization } from 'src/localization/ru';
 
 const i18n = createI18n({
-  locale: 'en-US',
+  locale: 'ru',
   pluralRules: {
     ru: russianPluralization,
   },

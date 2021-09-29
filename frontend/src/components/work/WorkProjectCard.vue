@@ -12,7 +12,6 @@
         {{ project.name }}
         <BaseTooltip :label="project.name" />
       </div>
-      <!--TODO: i18n-->
       <div class="text-caption ellipsis">
         {{ formatProjectType(project.typeID) }}
         <BaseTooltip :label="formatProjectType(project.typeID)" />
@@ -21,12 +20,11 @@
 
     <q-separator inset />
 
-    <!--TODO: i18n-->
     <q-card-section class="text-caption q-py-xs text-center">
       <BaseButton
         class="q-pa-1"
-        :label="`${project.boards.length} досок`"
-        tooltip="Открыть проект"
+        :label="t('work.boards', project.boards.length)"
+        :tooltip="t('work.openProject')"
         size="sm"
         flat
         @click="openProject(project.id)"
@@ -38,6 +36,7 @@
 <script lang="ts">
 import { defineComponent } from 'vue';
 import { useRouter } from 'vue-router';
+import { useI18n } from 'vue-i18n';
 
 export default defineComponent({
   name: 'WorkProjectCard',
@@ -51,12 +50,11 @@ export default defineComponent({
   },
 
   setup() {
+    const { t } = useI18n();
     const router = useRouter();
 
     function formatProjectType(typeID: number): string {
-      return typeID === 1
-        ? 'Программное обеспечение, управляемое компанией'
-        : 'Программное обеспечение, управляемое командой';
+      return typeID === 1 ? t('project.companyManage') : t('project.teamManage');
     }
 
     async function openProject(projectID: number) {
@@ -64,6 +62,7 @@ export default defineComponent({
     }
 
     return {
+      t,
       formatProjectType,
       openProject,
     };

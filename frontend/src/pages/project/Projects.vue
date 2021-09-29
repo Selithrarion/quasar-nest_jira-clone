@@ -1,8 +1,8 @@
 <template>
   <q-page class="projects-page">
     <CommonPageHeader
-      page-title="Проекты"
-      create-button-label="Создать проект"
+      :page-title="t('project.projects')"
+      create-button-label="t('project.create')"
       :filters="['type']"
       @create="dialog.open('create')"
     />
