@@ -1,7 +1,5 @@
 # Jira clone with Quasar (Vue 3 TS) + Nest (Node.js)  
 
-star if you like it 🤩
-
 ### Stack
 #### Frontend
 
@@ -107,7 +105,9 @@ Github actions CI pipeline
 
 - View assigned issues
 - View watching issues
-- View favorite projects
+- View favorite projects  
+  
+star if you like it 🤩
 
 - View user teams / team users
 
