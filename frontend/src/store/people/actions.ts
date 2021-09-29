@@ -47,12 +47,12 @@ const actions: ActionTree<PeopleStateInterface, StateInterface> = {
   },
 
   async deleteUserHeader({ state, commit }) {
-    if (state.userDetail?.header) return;
+    if (!state.userDetail?.header) return;
     await userRepository.deleteHeader();
     commit('UPDATE_USER_DETAIL', { header: null });
   },
   async deleteTeamHeader({ state, commit }) {
-    if (state.teamDetail?.header) return;
+    if (!state.teamDetail?.header) return;
     await teamRepository.deleteHeader();
     commit('UPDATE_TEAM_DETAIL', { header: null });
   },

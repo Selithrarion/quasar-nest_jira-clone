@@ -224,7 +224,7 @@ export default defineComponent({
       try {
         loading.start('header');
         if (isUserPageType.value) await store.dispatch('people/deleteUserHeader');
-        else await store.dispatch('people/deleteTeamHeader', currentTeamID);
+        else await store.dispatch('people/deleteTeamHeader');
       } finally {
         loading.stop('header');
       }
