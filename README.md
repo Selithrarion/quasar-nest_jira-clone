@@ -105,10 +105,9 @@ Github actions CI pipeline
 
 - View assigned issues
 - View watching issues
-- View favorite projects  
+- View favorite projects
+- View user teams / team users  
   
 star if you like it 🤩
-
-- View user teams / team users
 
 
