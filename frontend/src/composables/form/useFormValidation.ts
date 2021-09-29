@@ -14,6 +14,7 @@ interface UseFormValidation {
   max24: (v: FormValue) => ValidationResult;
   max40: (v: FormValue) => ValidationResult;
   max64: (v: FormValue) => ValidationResult;
+  max128: (v: FormValue) => ValidationResult;
 }
 
 type FormValue = string | number;
@@ -56,6 +57,9 @@ export default function useFormValidation(): UseFormValidation {
   function max64(v: FormValue): ValidationResult {
     return String(v).length <= 64 || 'Максимум 40 символов';
   }
+  function max128(v: FormValue): ValidationResult {
+    return String(v).length <= 128 || t('validation.maxChars', 128);
+  }
 
   return {
     required,
@@ -71,5 +75,6 @@ export default function useFormValidation(): UseFormValidation {
     max24,
     max40,
     max64,
+    max128,
   };
 }
