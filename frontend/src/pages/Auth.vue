@@ -166,7 +166,6 @@ import { useRouter, useRoute } from 'vue-router';
 import useLoading from 'src/composables/common/useLoading';
 import useFormValidation from 'src/composables/form/useFormValidation';
 
-import userRepository from 'src/repositories/userRepository';
 import authRepository from 'src/repositories/authRepository';
 import { UserAuthResponse } from 'src/models/user/user.model';
 
