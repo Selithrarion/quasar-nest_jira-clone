@@ -9,67 +9,63 @@
       <CommonSearch v-model="searchValue" placeholder="Поиск людей и команд" :outlined="false" filled append-icon />
     </div>
 
-    <h6 class="text-body1">Вы работаете с</h6>
-    <div class="people-wrapper">
-      <q-card
-        v-for="user in availableUsers"
-        :key="user.id"
-        class="shadow-1 hover-shadow-lg cursor-pointer"
-        @click="openUserProfile(user.id)"
-      >
-        <q-card-section class="column items-center q-px-sm q-pb-lg q-pt-md ellipsis">
-          <BaseAvatar
-            size="72px"
-            :src="user.avatar && user.avatar.url"
-            :item-name="user.username"
-            :item-color="user.color"
-          />
-          <div class="ellipsis full-width text-center q-pt-sm">{{ user.name }}</div>
-          <div v-if="user.position" class="text-caption text-grey-7 full-width">{{ user.position }}</div>
-        </q-card-section>
-      </q-card>
-    </div>
+    <BaseLoader v-if="loading.active.value" page-margin />
+    <template v-else>
+      <h6 class="text-body1">Вы работаете с</h6>
+      <PeopleListUser>
+        <PeopleListUserCard
+          v-for="user in availableUsers"
+          :key="user.id"
+          :user="user"
+          @click="router.push(`/people/${user.id}`)"
+        />
+      </PeopleListUser>
 
-    <h6 class="text-body1">Ваши команды</h6>
-    <div class="teams-wrapper">
-      <q-card class="shadow-1 hover-shadow-lg">
-        <CommonAvatarsWrapper class="q-pa-md bg-grey-3">
-          <BaseAvatar v-for="avatar of 3" :key="avatar" color="blue-grey-3" size="36px" show-icon />
-        </CommonAvatarsWrapper>
-
-        <q-card-section class="column items-center q-px-sm q-pt-sm q-pb-md">
-          <div class="q-py-sm">Ваша новая команда!</div>
-          <BaseButton
-            label="Создайте новую команду"
-            secondary-stryle
-            unelevated
-            dense
-            @click="dialog.open('createTeam')"
-          />
-        </q-card-section>
-      </q-card>
-    </div>
+      <h6 class="text-body1">Ваши команды</h6>
+      <PeopleListTeam>
+        <PeopleListTeamCard
+          v-for="team in availableTeams"
+          :key="team.id"
+          :team="team"
+          @click="router.push(`/people/team/${team.id}`)"
+        />
+        <PeopleListTeamCardDefault @create-new="dialog.open('createTeam')" />
+      </PeopleListTeam>
+    </template>
 
     <PeopleDialogTeamCreate v-if="dialog.openedName.value === 'createTeam'" @close="dialog.close" />
   </q-page>
 </template>
 
 <script lang="ts">
-import { defineComponent, ref, computed } from 'vue';
+import { defineComponent, ref, computed, onBeforeMount } from 'vue';
 import { useRouter } from 'vue-router';
 import { useStore } from 'src/store';
 import useDialog from 'src/composables/common/useDialog';
+import useLoading from 'src/composables/common/useLoading';
 
-import CommonAvatarsWrapper from 'components/common/CommonAvatarsWrapper.vue';
 import CommonSearch from 'components/common/CommonSearch.vue';
+import PeopleListUser from 'components/people/list/PeopleListUser.vue';
+import PeopleListUserCard from 'components/people/list/PeopleListUserCard.vue';
+import PeopleListTeam from 'components/people/list/PeopleListTeam.vue';
+import PeopleListTeamCard from 'components/people/list/PeopleListTeamCard.vue';
+import PeopleListTeamCardDefault from 'components/people/list/PeopleListTeamCardDefault.vue';
 import PeopleDialogTeamCreate from 'components/people/PeopleDialogTeamCreate.vue';
+
+import userRepository from 'src/repositories/userRepository';
+
+import { TeamModel } from 'src/models/user/team.model';
 
 export default defineComponent({
   name: 'People',
 
   components: {
-    CommonAvatarsWrapper,
     CommonSearch,
+    PeopleListUser,
+    PeopleListUserCard,
+    PeopleListTeam,
+    PeopleListTeamCard,
+    PeopleListTeamCardDefault,
     PeopleDialogTeamCreate,
   },
 
@@ -77,44 +73,30 @@ export default defineComponent({
     const router = useRouter();
     const store = useStore();
     const dialog = useDialog();
+    const loading = useLoading({ default: true });
 
     const searchValue = ref('');
 
     const currentUser = computed(() => store.state.user.currentUser);
     const availableUsers = computed(() => [currentUser.value]);
 
-    async function openUserProfile(userID: number) {
-      await router.push(`/people/${userID}`);
-    }
+    const availableTeams = ref<TeamModel[]>([]);
+    onBeforeMount(async () => {
+      availableTeams.value = await userRepository.getCurrentUserTeams();
+      loading.stop();
+    });
 
     return {
+      router,
       dialog,
+      loading,
 
       searchValue,
 
       currentUser,
       availableUsers,
-
-      openUserProfile,
+      availableTeams,
     };
   },
 });
 </script>
-
-<style lang="scss" scoped>
-.people-page {
-  .people-wrapper {
-    display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));
-    gap: 8px;
-    > div {
-      height: 180px;
-    }
-  }
-  .teams-wrapper {
-    display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
-    gap: 8px;
-  }
-}
-</style>
