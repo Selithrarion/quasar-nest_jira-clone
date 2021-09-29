@@ -74,7 +74,7 @@
           </BaseItem>
         </q-card-section>
 
-        <q-card-section v-if="canEdit ? true : availableUserTeams.length > 1" class="column gap-2">
+        <q-card-section v-if="canEdit ? true : availableUserTeams.length" class="column gap-2">
           <CommonListTitle title="команды" />
           <BaseItem v-for="team in availableUserTeams" :key="team.id" @click="handleTeamClick(team.id)">
             <q-item-section side>
@@ -145,9 +145,6 @@ export default defineComponent({
     const store = useStore();
     const dialog = useDialog();
 
-    function addPeople() {
-      //
-    }
     async function openAccountSettingsPage() {
       await router.push('/');
     }
@@ -157,9 +154,11 @@ export default defineComponent({
       color: 'blue-grey-2',
       name: 'Создайте новую команду',
     });
-    const availableUserTeams = computed(() =>
-      props.user.teams ? [...props.user.teams, createNewTeamItem.value] : [createNewTeamItem.value]
-    );
+    const availableUserTeams = computed(() => {
+      const teams = props.user.teams || [];
+      if (props.canEdit) return [...teams, createNewTeamItem.value];
+      else return teams;
+    });
     async function handleTeamClick(teamID: number) {
       if (!teamID) dialog.open('createTeam');
       else await router.push(`/people/team/${teamID}`);
@@ -183,7 +182,6 @@ export default defineComponent({
     return {
       dialog,
 
-      addPeople,
       openAccountSettingsPage,
 
       availableUserTeams,
