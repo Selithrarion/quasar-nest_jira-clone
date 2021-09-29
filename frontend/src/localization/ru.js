@@ -28,6 +28,10 @@ export default {
     clearAll: 'Очистить всё',
     or: 'или',
     code: 'Код',
+    notifications: 'Уведомления',
+    help: 'Помощь',
+    settings: 'Настройки',
+    createIssue: 'Создать задачу',
   },
 
   work: {
@@ -81,6 +85,8 @@ export default {
 
   people: {
     members: '0 участников | {n} участник | {n} участника | {n} участников',
+    yourNewTeam: 'Ваша новая команда!',
+    createTeam: 'Создайте новую команду',
   },
 
   user: {
@@ -89,6 +95,7 @@ export default {
     email: 'Email',
     password: 'Пароль',
     confirmEmail: 'Подтвердите пароль',
+    profile: 'Профиль',
   },
 
   auth: {
@@ -96,6 +103,7 @@ export default {
     registerJiraAccount: 'Создать новый аккаунт Jira',
     resetPassword: 'Восстановить пароль',
     signIn: 'Войти',
+    signOut: 'Выйти',
     signInJira: 'Войти в аккаунт Jira',
     scanQrCode: 'Сканируйте QR-код с помощью приложения Google Authenticator и введите код в поле ниже',
     enter2FaCode: 'Введите код из приложения Google Authenticator',
@@ -112,6 +120,15 @@ export default {
     emailTaken: 'Такой email уже зарегистрирован',
     minChars: 'Минимум 0 символов | Минимум {n} символ | Минимум {n} символа | Минимум {n} символов',
     maxChars: 'Максимум 0 символов | Максимум {n} символ | Максимум {n} символа | Максимум {n} символов',
+  },
+
+  tabs: {
+    work: 'Ваша работа',
+    projects: 'Проекта',
+    filters: 'Фильтры',
+    dashboards: 'Дашбоарды',
+    people: 'Люди',
+    apps: 'Приложения',
   },
 
   date: {

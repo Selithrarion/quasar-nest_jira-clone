@@ -28,7 +28,7 @@
           <BaseButton
             v-if="isShowCreateIssueButton"
             class="flex-shrink-0"
-            label="Создать задачу"
+            :label="t('common.createIssue')"
             color="primary"
             padding="4px 12px"
             unelevated
@@ -39,9 +39,9 @@
         <div class="flex-center gap-4">
           <CommonSearch v-model="searchValue" prepend-icon @search="search" />
 
-          <BaseButton icon="notifications" tooltip="Notifications" unelevated dense round />
-          <BaseButton icon="help" tooltip="Help" unelevated dense round />
-          <BaseButton icon="settings" tooltip="Settings" unelevated dense round />
+          <BaseButton icon="notifications" :tooltip="t('common.notifications')" unelevated dense round />
+          <BaseButton icon="help" :tooltip="t('common.help')" unelevated dense round />
+          <BaseButton icon="settings" :tooltip="t('common.settings')" unelevated dense round />
           <BaseButton unelevated dense round>
             <BaseAvatar
               v-if="currentUser"
@@ -52,8 +52,8 @@
 
             <q-menu style="width: 300px">
               <q-list>
-                <BaseItem v-close-popup label="Профиль" @click="openProfilePage" />
-                <BaseItem label="Выйти" :loading="loading.custom.logout" @click="logout" />
+                <BaseItem v-close-popup :label="t('user.profile')" @click="openProfilePage" />
+                <BaseItem :label="t('auth.signOut')" :loading="loading.custom.logout" @click="logout" />
               </q-list>
             </q-menu>
           </BaseButton>
@@ -71,6 +71,7 @@
 
 <script lang="ts">
 import { defineComponent, ref, reactive, computed } from 'vue';
+import { useI18n } from 'vue-i18n';
 import { useStore } from 'src/store';
 import { useRouter, useRoute } from 'vue-router';
 import useDialog from 'src/composables/common/useDialog';
@@ -88,6 +89,7 @@ export default defineComponent({
   },
 
   setup() {
+    const { t } = useI18n();
     const store = useStore();
     const router = useRouter();
     const route = useRoute();
@@ -102,33 +104,33 @@ export default defineComponent({
     const tabsData = reactive([
       {
         name: 'work',
-        label: 'Ваша работа',
+        label: t('tabs.work'),
         url: '/',
         exact: true,
       },
       {
         name: 'projects',
-        label: 'Проекты',
+        label: t('tabs.projects'),
         url: '/projects',
       },
       {
         name: 'filters',
-        label: 'Фильтры',
+        label: t('tabs.filters'),
         url: '/filters',
       },
       {
         name: 'dashboards',
-        label: 'Дашбоарды',
+        label: t('tabs.dashboards'),
         url: '/dashboards',
       },
       {
         name: 'people',
-        label: 'Люди',
+        label: t('tabs.people'),
         url: '/people',
       },
       {
         name: 'apps',
-        label: 'Приложения',
+        label: t('tabs.apps'),
         url: '/apps',
       },
     ]);
@@ -152,6 +154,7 @@ export default defineComponent({
     }
 
     return {
+      t,
       dialog,
       loading,
 
