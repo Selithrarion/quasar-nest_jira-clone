@@ -1,4 +1,6 @@
-# Jira clone with Quasar (Vue 3 TS) + Nest (Node.js)
+# Jira clone with Quasar (Vue 3 TS) + Nest (Node.js)  
+
+star if you like it 🤩
 
 ### Stack
 #### Frontend
@@ -94,8 +96,8 @@ Github actions CI pipeline
 –
 
 #### People
-- Teams CRUD (not implemented yet ❌) 
-- Add users in created team (not implemented yet ❌) 
+- Teams CRUD
+- Add users in created team
 
 ##### User / Team profile page
 - Edit user info - change username / display name / email / location / organisation etc...
