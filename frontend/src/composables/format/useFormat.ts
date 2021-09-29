@@ -7,6 +7,7 @@ import {
   differenceInDays,
   differenceInMonths,
 } from 'date-fns';
+import { useI18n } from 'vue-i18n';
 
 export enum DateTypes {
   DATE_AND_TIME = 'dateAndTime',
@@ -27,6 +28,8 @@ interface DateFormatOptions {
 }
 
 export function useFormat() {
+  const { t } = useI18n();
+
   function formatDate(
     date?: string | number | null | Date,
     type: DateTypes = DateTypes.DATE_AND_TIME,
@@ -54,8 +57,6 @@ export function useFormat() {
         return isCurrentYear ? format(date, 'kk:mm') : format(date, 'kk:mm');
 
       case 'diff': {
-        // TODO: not natural lang pluralization (one, few, plural in russian and one, plural in english...)
-        // vue-i18n
         const msDiff = differenceInMilliseconds(now, date);
 
         const isSeconds = msDiff < msMinute;
@@ -64,11 +65,11 @@ export function useFormat() {
         const isDays = msDiff < msMonth && options.maxDiffUnit !== DateUnits.DAY;
         const isMonths = options.maxDiffUnit !== DateUnits.MONTH;
 
-        if (isSeconds) return `${differenceInSeconds(now, date) || 1} секунд назад`;
-        else if (isMinutes) return `${differenceInMinutes(now, date) || 1} минут назад`;
-        else if (isHours) return `${differenceInHours(now, date) || 1} часов назад`;
-        else if (isDays) return `${differenceInDays(now, date) || 1} дней назад`;
-        else if (isMonths) return `${differenceInMonths(now, date) || 1} месяцев назад`;
+        if (isSeconds) return t('date.secondsAgo', differenceInSeconds(now, date));
+        else if (isMinutes) return t('date.minutesAgo', differenceInMinutes(now, date));
+        else if (isHours) return t('date.hoursAgo', differenceInHours(now, date));
+        else if (isDays) return t('date.daysAgo', differenceInDays(now, date));
+        else if (isMonths) return t('date.monthsAgo', differenceInMonths(now, date));
         else return isCurrentYear ? format(date, 'MMMM d, kk:mm') : format(date, 'MMMM d YYYY, kk:mm');
       }
 

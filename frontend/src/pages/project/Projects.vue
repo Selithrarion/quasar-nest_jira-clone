@@ -2,7 +2,7 @@
   <q-page class="projects-page">
     <CommonPageHeader
       :page-title="t('project.projects')"
-      create-button-label="t('project.create')"
+      :create-button-label="t('project.create')"
       :filters="['type']"
       @create="dialog.open('create')"
     />
