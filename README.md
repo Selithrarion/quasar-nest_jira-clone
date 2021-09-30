@@ -8,10 +8,10 @@
 3. Typescript
 4. Quasar (ui)
 5. Socket.io (real-time issues update) (not implemented yet ❌)
-6. Vuedraggable (kanban board)
-7. Vue i18n (for pluralization '1 доскА' '2 доскИ' '6 досОК' (1 board, 2 boardS, 6 boardS)) (not implemented yet ❌)
+6. Vuedraggable (issues kanban board)
+7. Vue i18n (for pluralization '1 доскА' '2 доскИ' '6 досОК' (1 board, 2 boardS, 6 boardS))
 8. Vue test utils + Jest (testing) (not implemented ❌)
-9. RTL view (haha, even in jira rtl doesn't work very well, but thanks to quasar pretty nice rtl support in this clone and CSS gaps)
+9. RTL view (haha, even in jira rtl doesn't work very well, but thanks to quasar pretty nice rtl support)
 10. other - date-fns, some lodash functions, eslint + tslint + prettier
 
 #### Backend stack
