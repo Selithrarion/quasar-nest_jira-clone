@@ -44,13 +44,14 @@
     </template>
 
     <template #no-option>
-      <BaseItem class="text-grey" label="Результатов нет" />
+      <BaseItem class="text-grey" :label="t('common.noResults')" />
     </template>
   </q-select>
 </template>
 
 <script lang="ts">
 import { defineComponent, computed } from 'vue';
+import { useI18n } from 'vue-i18n';
 
 export default defineComponent({
   name: 'BaseSelect',
@@ -123,6 +124,8 @@ export default defineComponent({
   emits: ['update:model-value'],
 
   setup(props) {
+    const { t } = useI18n();
+
     const computedClasses = computed(() => {
       const classes = [];
 
@@ -133,6 +136,7 @@ export default defineComponent({
     });
 
     return {
+      t,
       computedClasses,
     };
   },
