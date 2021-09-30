@@ -1,11 +1,11 @@
 <template>
   <BaseSelect
-    :model-value="modelValue"
-    :options="options"
-    label="Их отображаемое имя, имя пользователя или email"
-    hint="Вы можете пригласить не более 10 пользователей за раз."
     input-debounce="500"
     max-values="10"
+    :model-value="modelValue"
+    :options="options"
+    :label="t('user.displayNameUsernameOrEmail')"
+    :hint="t('user.max10Users')"
     :emit-value="false"
     multiple
     counter
@@ -24,6 +24,8 @@
 
 <script lang="ts">
 import { defineComponent, ref, PropType } from 'vue';
+import { useI18n } from 'vue-i18n';
+
 import { UserModel } from 'src/models/user/user.model';
 import userRepository from 'src/repositories/userRepository';
 
@@ -41,6 +43,8 @@ export default defineComponent({
   emits: ['update:model-value', 'update:options'],
 
   setup(props, { emit }) {
+    const { t } = useI18n();
+
     const options = ref<UserModel[]>([]);
 
     type SelectUpdateFunction = (arg0?: () => void) => void;
@@ -52,6 +56,7 @@ export default defineComponent({
     }
 
     return {
+      t,
       options,
       searchUsers,
     };

@@ -12,9 +12,9 @@
         v-if="isShowFilter('type')"
         v-model="selectedType"
         width="240"
-        label="Тип"
         option-label="label"
         :options="availableTypes"
+        :label="t('table.type')"
         :emit-value="false"
         :map-options="false"
         dense
@@ -23,9 +23,9 @@
         v-if="isShowFilter('leader')"
         v-model="selectedLeader"
         width="240"
-        label="Владелец"
         option-label="label"
         :options="availableLeaders"
+        :label="t('table.owner')"
         :emit-value="false"
         :map-options="false"
         dense
@@ -34,9 +34,9 @@
         v-if="isShowFilter('project')"
         v-model="selectedProjects"
         width="240"
-        label="Проект"
         option-label="label"
         :options="availableProjects"
+        label="t('project.projects')"
         :emit-value="false"
         :map-options="false"
         dense
@@ -45,9 +45,9 @@
         v-if="isShowFilter('group')"
         v-model="selectedGroup"
         width="240"
-        label="Группа"
         option-label="label"
         :options="availableGroups"
+        :label="t('table.group')"
         :emit-value="false"
         :map-options="false"
         dense
@@ -57,8 +57,8 @@
         <BaseButton
           v-show="searchValue || selectedType || selectedLeader || selectedProjects || selectedGroup"
           class="text-blue-grey-6"
-          label="Сбросить фильтры"
           size="small"
+          :label="t('table.resetFilters')"
           flat
           @click="resetFilters"
         />
@@ -69,6 +69,7 @@
 
 <script lang="ts">
 import { defineComponent, reactive, ref } from 'vue';
+import { useI18n } from 'vue-i18n';
 
 import CommonPageTitle from 'components/common/CommonPageTitle.vue';
 import CommonSearch from 'components/common/CommonSearch.vue';
@@ -102,6 +103,8 @@ export default defineComponent({
   emits: ['create'],
 
   setup(props, { emit }) {
+    const { t } = useI18n();
+
     const searchValue = ref('');
     function search() {
       console.log(searchValue.value);
@@ -150,6 +153,8 @@ export default defineComponent({
     }
 
     return {
+      t,
+
       searchValue,
       search,
 
