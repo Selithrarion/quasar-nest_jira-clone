@@ -32,6 +32,22 @@ export default {
     help: 'Помощь',
     settings: 'Настройки',
     createIssue: 'Создать задачу',
+    noResults: 'Результатов нет',
+    summary: 'Резюме',
+    title: 'Название',
+    description: 'Описание',
+    giveReview: 'Оставить отзыв',
+    addTitle: 'Добавить название',
+    changeTitle: 'Изменить название',
+    activity: 'Активность',
+    addComment: 'Добавить комментарий...',
+    advice: 'Совет',
+    press: 'нажмите',
+    toAddComment: 'чтобы добавить комментарий',
+    edited: 'Изменено',
+    edit: 'Изменить',
+    created: 'Создрано',
+    updateDate: 'Дата обновления',
   },
 
   work: {
@@ -53,9 +69,12 @@ export default {
   },
 
   project: {
+    project: 'Проект',
+    projects: 'Проекты',
+
     companyManage: 'Программное обеспечение, управляемое компанией',
     teamManage: 'Программное обеспечение, управляемое командой',
-    projects: 'Проекты',
+
     chooseType: 'Выберите тип проекта',
     create: 'Создать проект',
     delete: 'Этот проект и его конфигурация будут удалены без возможности восстановления.',
@@ -79,8 +98,24 @@ export default {
     createIssue: 'Создайте задачу',
     orCheck: 'или проверьте',
     boardSettings: 'настройки доски',
+    importIssues: 'Импортировать задачи',
+    configureFields: 'Настроить поля',
 
-    assignee: 'Исполнитель: {n}',
+    assigned: 'Исполнитель',
+    issueType: 'Тип задачи',
+    marks: 'Метки',
+    addMarks: 'Добавить метки',
+    assignToMe: 'Назначить мне',
+    changeIssueType: 'изменить тип задачи',
+    editAssigned: 'Изменить исполнителя',
+    author: 'Автор',
+    editAuthor: 'Изменить автора',
+    priority: 'Приоритет',
+    editPriority: 'Изменить приоритет',
+    openSettings: 'Открыть диалог настроек',
+    configure: 'Настроить',
+    deleteComment: 'Удалить комментарий?',
+    deleteCommentFrom: 'Удалить комментарий от {n}',
   },
 
   people: {
@@ -96,6 +131,8 @@ export default {
     password: 'Пароль',
     confirmEmail: 'Подтвердите пароль',
     profile: 'Профиль',
+    displayNameUsernameOrEmail: 'Их отображаемое имя, имя пользователя или email',
+    max10Users: 'Вы можете пригласить не более 10 пользователей за раз.',
   },
 
   auth: {
@@ -124,7 +161,7 @@ export default {
 
   tabs: {
     work: 'Ваша работа',
-    projects: 'Проекта',
+    projects: 'Проекты',
     filters: 'Фильтры',
     dashboards: 'Дашбоарды',
     people: 'Люди',
@@ -144,5 +181,8 @@ export default {
     key: 'Ключ',
     type: 'Тип',
     leader: 'Руководитель',
+    group: 'Группа',
+    owner: 'Владелец',
+    resetFilters: 'Сбросить фильтры',
   },
 };

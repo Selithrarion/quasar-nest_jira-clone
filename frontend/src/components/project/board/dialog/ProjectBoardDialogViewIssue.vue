@@ -13,12 +13,12 @@
           <BaseButton padding="4px" secondary-color unelevated>
             <ProjectBoardIconIssueType
               :type="issue.typeID"
-              :tooltip="`${formatIssueTypeName(issue.typeID)} – изменить тип задачи`"
+              :tooltip="`${formatIssueTypeName(issue.typeID)} – ${t('project.changeIssueType')}`"
             />
 
             <q-menu auto-close>
               <q-list padding dense>
-                <CommonListTitle title="изменить тип задачи" padding />
+                <CommonListTitle :title="t('project.changeIssueType')" padding />
                 <BaseItem
                   v-for="type in availableIssueTypes"
                   :key="type.id"
@@ -39,7 +39,7 @@
         <div class="row items-center gap-2">
           <BaseButton size="small" disable flat>
             <q-icon name="reviews" size="xs" />
-            Оставить отзыв
+            {{ t('common.giveReview') }}
           </BaseButton>
 
           <BaseButton size="small" disable flat>
@@ -64,7 +64,7 @@
                 ref="nameInput"
                 v-model="localIssueName"
                 class="text-h6"
-                :placeholder="localIssueName ? 'Изменить название' : 'Добавить название'"
+                :placeholder="localIssueName ? t('common.changeTitle') : t('common.addTitle')"
                 filled
                 @blur="updateIssueName"
                 @keydown.enter="$event.target.blur()"
@@ -82,7 +82,7 @@
           </div>
 
           <div>
-            <div class="text-subtitle2 q-pb-sm">Описание</div>
+            <div class="text-subtitle2 q-pb-sm">{{ t('common.description') }}</div>
 
             <BaseEditor
               v-if="isDescriptionEditor"
@@ -96,7 +96,7 @@
           </div>
 
           <div>
-            <div class="text-subtitle2 q-pb-sm">Активность</div>
+            <div class="text-subtitle2 q-pb-sm">{{ t('common.activity') }}</div>
             <div class="row gap-3">
               <BaseAvatar
                 size="32px"
@@ -108,7 +108,7 @@
                 v-if="!isAddCommentEditor"
                 v-model="comment"
                 class="flex-grow-1"
-                placeholder="Добавить комментарий..."
+                :placeholder="t('common.addComment')"
                 bottom-slots
                 outlined
                 autogrow
@@ -116,9 +116,9 @@
                 @click="isAddCommentEditor = true"
               >
                 <template #hint>
-                  <b>Совет:</b> нажмите
+                  <b>{{ t('common.advice') }}:</b> {{ t('common.press') }}
                   <q-chip class="no-margin text-weight-bold" style="font-size: 10px" label="M" size="xs" square dense />
-                  , чтобы добавить комментарий
+                  , {{ t('common.toAddComment') }}
                 </template>
               </q-input>
 
@@ -145,7 +145,7 @@
                     <div class="flex-center gap-2">
                       <span class="text-weight-medium">{{ comment.author.name }}</span>
                       <span v-if="comment.createdAt !== comment.updatedAt" class="text-caption text-blue-grey-6">
-                        Изменено
+                        {{ t('common.edited') }}
                       </span>
                     </div>
 
@@ -166,9 +166,9 @@
                     <!--eslint-disable-next-line vue/no-v-html-->
                     <span v-html="comment.text" />
                     <div class="flex items-center gap-3 full-width">
-                      <BaseButton label="Изменить" plain-style @click="showEditCommentEditor(comment)" />
+                      <BaseButton :label="t('common.edit')" plain-style @click="showEditCommentEditor(comment)" />
                       <BaseButton
-                        label="Удалить"
+                        :label="t('common.delete')"
                         plain-style
                         @click="dialog.open('deleteComment', { item: comment })"
                       />
@@ -197,35 +197,42 @@
               :model-value="issue.assigned"
               :options="availableProjectUsers"
               :emit-value="false"
-              tooltip="Изменить исполнителя"
+              :tooltip="t('project.editAssigned')"
               button-style
               @update:model-value="updateIssue('assigned', $event)"
             />
           </div>
 
           <div class="issue__item-row">
-            <label>Автор</label>
+            <label>{{ t('project.author') }}</label>
             <BaseSelectWithAvatar
               :model-value="issue.author"
               :options="availableProjectUsers"
               :emit-value="false"
-              tooltip="Изменить автора"
+              :tooltip="t('project.editAuthor')"
               button-style
               @update:model-value="updateIssue('author', $event)"
             />
           </div>
 
           <div class="issue__item-row">
-            <label>Метки</label>
-            <BaseSelect :options="issue.marks" tooltip="Добавить метки" disable button-style multiple use-chips />
+            <label>{{ t('project.marks') }}</label>
+            <BaseSelect
+              :options="issue.marks"
+              :tooltip="t('project.addMarks')"
+              disable
+              button-style
+              multiple
+              use-chips
+            />
           </div>
 
           <div class="issue__item-row">
-            <label>Приоритет</label>
+            <label>{{ t('project.priority') }}</label>
             <BaseSelectIssuePriority
               :model-value="issue.priorityID"
               :options="availableIssuePriorities"
-              tooltip="Изменить приоритет"
+              :tooltip="t('project.editPriority')"
               button-style
               @update:model-value="updateIssue('priorityID', $event)"
             />
@@ -236,7 +243,7 @@
           <div class="text-caption text-blue-grey-10 q-pb-lg">
             <div class="flex-center-between">
               <div class="flex gap-1">
-                <span class="opacity-60">Создано</span>
+                <span class="opacity-60">{{ t('common.created') }}</span>
 
                 <span v-if="getIsDateLessDay(issue.createdAt)">
                   <BaseButton plain-style @click="isCreatedAtDifference = !isCreatedAtDifference">
@@ -254,17 +261,17 @@
 
               <BaseButton
                 class="text-blue-grey-5"
-                tooltip="Открыть диалог настроек"
                 icon="settings"
-                label="Настроить"
                 size="small"
+                :tooltip="t('project.openSettings')"
+                :label="t('project.configure')"
                 dense
                 flat
               />
             </div>
 
             <div class="flex gap-1">
-              <span class="opacity-60">Дата обновления</span>
+              <span class="opacity-60">{{ common.updateDate }}</span>
 
               <span v-if="getIsDateLessDay(issue.updatedAt)">
                 <BaseButton plain-style @click="isUpdatedAtDifference = !isUpdatedAtDifference">
@@ -285,12 +292,12 @@
         <BaseDialog
           v-if="dialog.openedName.value === 'deleteComment'"
           type="delete"
-          title="Удалить комментарий?"
+          :title="t('project.deleteComment')"
           :confirm-loading="dialog.loading.value"
           @close="dialog.close"
           @confirm="deleteComment(dialog.openedItem.value.id)"
         >
-          Удалить комментарий от {{ dialog.openedItem.value.author.name }}
+          {{ t('project.deleteCommentFrom', dialog.openedItem.value.author.name) }}
         </BaseDialog>
       </div>
     </template>
@@ -300,6 +307,7 @@
 <script lang="ts">
 import { defineComponent, ref, computed, onBeforeMount, onBeforeUnmount } from 'vue';
 import { differenceInHours } from 'date-fns';
+import { useI18n } from 'vue-i18n';
 import { useStore } from 'src/store';
 import { useRoute } from 'vue-router';
 import { useFormat, DateUnits, DateTypes } from 'src/composables/format/useFormat';
@@ -326,6 +334,7 @@ export default defineComponent({
   emits: ['close'],
 
   setup(props, { emit }) {
+    const { t } = useI18n();
     const store = useStore();
     const route = useRoute();
     const dialog = useDialog();
@@ -515,6 +524,7 @@ export default defineComponent({
     }
 
     return {
+      t,
       dialog,
       loading,
       formatDate,
