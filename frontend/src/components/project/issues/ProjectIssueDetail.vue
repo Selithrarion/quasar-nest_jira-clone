@@ -1,5 +1,5 @@
 <template>
-  <div v-if="issue">детали ID {{ issue.id }} – name {{ issue.name }}</div>
+  <div v-if="issue">detail ID {{ issue.id }} – name {{ issue.name }}</div>
 </template>
 
 <script lang="ts">

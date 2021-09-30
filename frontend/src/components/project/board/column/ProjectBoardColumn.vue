@@ -50,7 +50,7 @@
                   :src="element.assigned.avatar && element.assigned.avatar.url"
                   :item-name="element.assigned.username"
                   :item-color="element.assigned.color"
-                  :tooltip="t('project.assigned', element.assigned.name)"
+                  :tooltip="`${t('project.assigned')}: ${element.assigned.name}`"
                 />
               </div>
             </q-card-section>

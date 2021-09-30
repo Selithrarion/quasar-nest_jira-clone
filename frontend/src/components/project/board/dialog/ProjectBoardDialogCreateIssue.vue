@@ -1,7 +1,7 @@
 <template>
   <BaseDialog
-    title="Создать задачу"
-    confirm-text="Создать"
+    :title="t('common.createIssue')"
+    :confirm-text="t('common.create')"
     :content-loading="isContentLoading"
     :confirm-loading="loading.value"
     hide-close-icon
@@ -12,10 +12,10 @@
   >
     <template #title-append-buttons>
       <div class="row items-center gap-2 no-wrap">
-        <BaseButton label="Импортировать задачи" secondary-color unelevated disable no-wrap />
+        <BaseButton :label="t('project.importIssues')" secondary-color unelevated disable no-wrap />
         <q-btn-dropdown
           class="btn--secondary"
-          label="Настроить поля"
+          :label="t('project.configureFields')"
           unelevated
           disable
           no-caps
@@ -28,24 +28,31 @@
       <q-form>
         <BaseSelectWithAvatar
           v-model="form.project"
-          label="Проект"
           width="250"
+          :label="t('project.project')"
           :options="availableProjects"
           :rules="[rules.required]"
         />
 
         <BaseSelectIssueType
           v-model="form.typeID"
-          label="Тип задачи"
           width="250"
+          :label="t('project.issueType')"
           :options="availableIssueTypes"
           :rules="[rules.required]"
         />
 
         <q-separator />
 
-        <q-input v-model="form.name" label="Резюме" :rules="[rules.required]" hide-bottom-space autofocus filled />
-        <q-input v-model="form.description" type="textarea" label="Описание" autogrow filled />
+        <q-input
+          v-model="form.name"
+          :label="t('common.summary')"
+          :rules="[rules.required]"
+          hide-bottom-space
+          autofocus
+          filled
+        />
+        <q-input v-model="form.description" type="textarea" :label="t('common.description')" autogrow filled />
 
         <q-separator />
 
@@ -55,17 +62,17 @@
           :options="availableIssuePriorities"
           :rules="[rules.required]"
         />
-        <q-input v-model="form.marks" style="max-width: 250px" label="Метки" disable filled />
+        <q-input v-model="form.marks" style="max-width: 250px" :label="t('project.marks')" disable filled />
 
         <div class="column gap-1">
           <BaseSelectWithAvatar
             v-model="form.assigned"
-            label="Исполнитель"
             width="250"
+            :label="t('project.assigned')"
             :options="availableProjectUsers"
           />
           <div>
-            <BaseButton label="Назначить мне" dense flat @click="assignToCurrentUser" />
+            <BaseButton :label="t('project.assignToMe')" dense flat @click="assignToCurrentUser" />
           </div>
         </div>
       </q-form>
@@ -75,6 +82,7 @@
 
 <script lang="ts">
 import { defineComponent, reactive, computed } from 'vue';
+import { useI18n } from 'vue-i18n';
 import { useStore } from 'src/store';
 import useLoading from 'src/composables/common/useLoading';
 import useFormValidation from 'src/composables/form/useFormValidation';
@@ -88,6 +96,7 @@ export default defineComponent({
   emits: ['close'],
 
   setup(props, { emit }) {
+    const { t } = useI18n();
     const store = useStore();
     const loading = useLoading();
     const rules = useFormValidation();
@@ -132,6 +141,7 @@ export default defineComponent({
     }
 
     return {
+      t,
       loading,
       rules,
 
