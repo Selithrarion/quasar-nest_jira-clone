@@ -37,7 +37,7 @@ Github actions CI pipeline
 - OAuth with Google / Github
 - 2FA
 - Unique username / email validation  
-- Send email verification mail (not implemented yet ❌) 
+- Send email verification mail 
 - Send (news) emails with schedule (not implemented yet ❌)
 - Send forgot password mail (not implemented yet ❌)  
 - Automaticly redirect to requested page after login (/auth?redirect=/projects)  
@@ -100,7 +100,7 @@ Github actions CI pipeline
 ##### User / Team profile page
 - Edit user info - change username / display name / email / location / organisation etc...
 
-- Upload header image (store in AWS S3, compression with [sharp](https://github.com/lovell/sharp))
+- Upload and delete user / team header image (store in AWS S3, compression with [sharp](https://github.com/lovell/sharp))
 - Upload user / team avatar (store in AWS S3, compression with [sharp](https://github.com/lovell/sharp))
 
 - View assigned issues
