@@ -1,5 +1,5 @@
-import enUS from './enUS';
-import ru from './ru';
+import enUS from 'src/localization/enUS';
+import ru from 'src/localization/ru';
 
 export default {
   'en-US': enUS,
