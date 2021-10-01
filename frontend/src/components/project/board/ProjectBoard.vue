@@ -27,7 +27,7 @@
 </template>
 
 <script lang="ts">
-import { defineComponent, computed, onBeforeMount, watch } from 'vue';
+import { defineComponent, computed, onBeforeMount, onMounted, watch, inject } from 'vue';
 import { useI18n } from 'vue-i18n';
 import { useStore } from 'src/store';
 import { useRoute, useRouter } from 'vue-router';
@@ -41,6 +41,15 @@ import ProjectBoardDialogViewIssue from 'components/project/board/dialog/Project
 
 export default defineComponent({
   name: 'ProjectBoard',
+
+  sockets: {
+    connect() {
+      console.log('socket connected');
+    },
+    async updateBoardIssues() {
+      await this.$store.dispatch('project/getBoardByID', this.selectedBoardId);
+    },
+  },
 
   components: {
     ProjectBoardColumnWrapper,
@@ -64,17 +73,33 @@ export default defineComponent({
     const dialog = useDialog();
     const loading = useLoading({ default: true });
 
+    async function getBoard(id = props.selectedBoardId) {
+      await store.dispatch('project/getBoardByID', id);
+    }
+
     onBeforeMount(async () => {
-      await store.dispatch('project/getBoardByID', props.selectedBoardId);
+      await getBoard();
       if (route.query.issueID) dialog.open('viewIssue');
       loading.stop();
+    });
+    onMounted(() => {
+      // interface Socket {
+      //   subscribe: (event: string, cb: (value: unknown) => unknown) => void;
+      //   unsubscribe: (event: string) => void;
+      //   emit: <T>(event: string, data?: T) => void;
+      // }
+      // const socket = inject('$socket') as Socket;
+      // const socket1 = inject('socket') as Socket;
+      // const socket2 = inject('sockets') as Socket;
+      // console.log('socket', socket, socket1, socket2);
+      // // socket.emit('sendUpdateBoardIssues');
     });
 
     watch(
       () => props.selectedBoardId,
-      async (value: number) => {
+      async () => {
         loading.start();
-        await store.dispatch('project/getBoardByID', value);
+        await getBoard();
         loading.stop();
       }
     );
