@@ -2,15 +2,15 @@
   <q-form @submit.prevent="submit">
     <q-input
       v-model="form.name"
-      label="Название"
-      hint="До 40 символов"
+      :label="t('common.title')"
+      :hint="t('validation.upToChars', 40)"
       :rules="[rules.required, rules.max40]"
       autofocus
       lazy-rules
       filled
     />
 
-    <BaseSelect v-model="form.accessID" label="Доступ" :options="accessOptions">
+    <BaseSelect v-model="form.accessID" :label="t('access.access')" :options="accessOptions">
       <template #optionPrepend="{ option }">
         <q-icon :name="option.icon" />
       </template>
@@ -22,25 +22,36 @@
 
     <q-input
       v-model="form.key"
-      label="Ключ"
       hint="К примеру My Project может быть — MP, MP1, MYPR, MY, PR или любое другое"
+      :label="t('table.key')"
+      :rules="[rules.required, rules.max10]"
       lazy-rules
       filled
-      :rules="[rules.required, rules.max10]"
     />
 
-    <BaseSelect v-model="form.templateID" label="Шаблон" :options="templateOptions" option-disable="disabled" />
+    <BaseSelect
+      v-model="form.templateID"
+      option-disable="disabled"
+      :label="t('table.template')"
+      :options="templateOptions"
+    />
 
     <div class="dialog-action-buttons">
-      <BaseButton label="Назад" color="primary" flat @click="back" />
-      <BaseButton label="Создать" type="submit" color="primary" :loading="loading.active.value" unelevated />
+      <BaseButton color="primary" :label="t('common.back')" flat @click="back" />
+      <BaseButton
+        type="submit"
+        color="primary"
+        :label="t('common.create')"
+        :loading="loading.active.value"
+        unelevated
+      />
     </div>
   </q-form>
 </template>
 
 <script lang="ts">
 import { defineComponent, reactive, PropType } from 'vue';
-
+import { useI18n } from 'vue-i18n';
 import { useRouter } from 'vue-router';
 import { useStore } from 'src/store';
 import useFormValidation from 'src/composables/form/useFormValidation';
@@ -61,6 +72,7 @@ export default defineComponent({
   emits: ['back'],
 
   setup(props, { emit }) {
+    const { t } = useI18n();
     const router = useRouter();
     const store = useStore();
     const rules = useFormValidation();
@@ -69,23 +81,20 @@ export default defineComponent({
     const accessOptions = reactive([
       {
         id: 1,
-        name: 'Закрытый',
-        description:
-          'Только администраторы и пользователи, добавленные в проект, могут выполнять поиск, создавать и редактировать его задачи.',
+        name: t('access.private'),
+        description: t('access.privateDescription'),
         icon: 'lock',
       },
       {
         id: 2,
-        name: 'Ограниченный',
-        description:
-          'Любой пользователь может выполнять поиск, просматривать и комментировать. Только пользователи, добавленные в проект, могут создавать и редактировать его задачи.',
+        name: t('access.limited'),
+        description: t('access.limitedDescription'),
         icon: 'people',
       },
       {
         id: 3,
-        name: 'Открытый',
-        description:
-          'Любой пользователь может выполнять поиск, просматривать, комментировать, создавать и редактировать задачи.',
+        name: t('access.opened'),
+        description: t('access.openedDescription'),
         icon: 'lock_open',
       },
     ]);
@@ -93,13 +102,12 @@ export default defineComponent({
       {
         id: 1,
         name: 'Kanban',
-        description:
-          'Получите наглядное представление о работе над проектом благодаря простым подсказкам и функциональной доске.',
+        description: t('project.kanbanDescription'),
       },
       {
         id: 2,
         name: 'Scrum',
-        description: 'Быстрее достигайте намеченных целей с современной доской и бэклогом.',
+        description: t('project.scrumDescription'),
         disabled: true,
       },
     ]);
@@ -130,6 +138,7 @@ export default defineComponent({
     }
 
     return {
+      t,
       rules,
       loading,
 

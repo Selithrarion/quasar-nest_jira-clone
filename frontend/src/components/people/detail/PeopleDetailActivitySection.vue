@@ -3,7 +3,7 @@
     <div class="q-mb-md">
       <h6 class="q-my-none text-body1 text-weight-medium">{{ title }}</h6>
       <div v-if="showTitleCaption" class="text-caption text-grey-6">
-        Другие пользователи увидят только те объекты, к которым у них есть доступ.
+        {{ t('people.activityAccess') }}
       </div>
     </div>
 
@@ -17,15 +17,15 @@
           />
         </q-card-section>
         <q-card-section class="col-9">
-          <h6 class="text-weight-regular q-my-md">Здесь ничего нет</h6>
+          <h6 class="text-weight-regular q-my-md">{{t('common.thereNoAnything')}}</h6>
           <p v-if="isOwnProfile">
-            Здесь показаны все объекты, которые вы создали, изменили или прокомментировали за последние 90 дней.
+            {{ t('people.activityYourLast') }}
           </p>
           <p v-else-if="isUserProfile">
-            Здесь показаны все объекты, которые пользователь создал, изменил или прокомментировал за последние 90 дней.
+            {{ t('people.activityUserLast') }}
           </p>
           <p v-else>
-            Здесь показаны все объекты, которые команда создала, изменила или прокомментировала за последние 90 дней.
+            {{ t('people.activityTeamLast') }}
           </p>
         </q-card-section>
       </template>
@@ -58,6 +58,7 @@
 
 <script lang="ts">
 import { defineComponent, computed } from 'vue';
+import { useI18n } from 'vue-i18n';
 import { useFormat, DateTypes } from 'src/composables/format/useFormat';
 
 export default defineComponent({
@@ -93,11 +94,13 @@ export default defineComponent({
   emits: ['item-click'],
 
   setup(props) {
+    const { t } = useI18n();
     const { formatDate } = useFormat();
 
     const limitedItems = computed(() => props.items.slice(0, 5));
 
     return {
+      t,
       formatDate,
       DateTypes,
 

@@ -1,7 +1,7 @@
 <template>
   <PeopleDetailSide
     type="user"
-    :button-label="canEdit ? 'Управлять учётной записью' : null"
+    :button-label="canEdit ? t('people.manageAccount') : null"
     :display-name="user.name"
     :name="user.username"
     :avatar="user.avatar"
@@ -14,10 +14,10 @@
     <template #append>
       <q-card>
         <q-card-section class="column gap-2">
-          <CommonListTitle title="сведения" />
+          <CommonListTitle :title="t('people.info')" />
           <q-input
             v-model="form.position"
-            :label="canEdit ? 'Ваша должность' : 'Должность'"
+            :label="canEdit ? t('people.yourPosition') : t('people.position')"
             :readonly="!canEdit"
             outlined
             dense
@@ -28,7 +28,7 @@
           </q-input>
           <q-input
             v-model="form.department"
-            :label="canEdit ? 'Ваш отдел' : 'Отдел'"
+            :label="canEdit ? t('people.yourDepartment') : t('people.department')"
             :readonly="!canEdit"
             outlined
             dense
@@ -39,7 +39,7 @@
           </q-input>
           <q-input
             v-model="form.organisation"
-            :label="canEdit ? 'Ваша организация' : 'Организация'"
+            :label="canEdit ? t('people.yourOrganisation') : t('people.organisation')"
             :readonly="!canEdit"
             outlined
             dense
@@ -50,7 +50,7 @@
           </q-input>
           <q-input
             v-model="form.location"
-            :label="canEdit ? 'Ваше местоположение' : 'Местоположение'"
+            :label="canEdit ? t('people.yourLocation') : t('people.location')"
             :readonly="!canEdit"
             outlined
             dense
@@ -62,7 +62,7 @@
         </q-card-section>
 
         <q-card-section class="column gap-2">
-          <CommonListTitle title="контактные данные" />
+          <CommonListTitle :title="t('people.contactInfo')" />
           <BaseItem :clickable="canEdit" @click="canEdit ? dialog.open('changeEmail') : null">
             <q-item-section side>
               <q-icon name="mail_outline" size="24px" color="blue-grey-3" />
@@ -88,7 +88,7 @@
             </q-item-section>
             <q-item-section>
               <q-item-label>{{ team.name }}</q-item-label>
-              <q-item-label v-if="team.users" caption> {{ team.users.length }} участник </q-item-label>
+              <q-item-label v-if="team.users" caption> {{ t('people.members', team.users.length) }} </q-item-label>
             </q-item-section>
           </BaseItem>
         </q-card-section>
@@ -102,6 +102,7 @@
 
 <script lang="ts">
 import { defineComponent, reactive, ref, PropType, computed } from 'vue';
+import { useI18n } from 'vue-i18n';
 import { useRouter } from 'vue-router';
 import { useStore } from 'src/store';
 import useDialog from 'src/composables/common/useDialog';
@@ -132,6 +133,7 @@ export default defineComponent({
   },
 
   setup(props) {
+    const { t } = useI18n();
     const router = useRouter();
     const store = useStore();
     const dialog = useDialog();
@@ -171,6 +173,7 @@ export default defineComponent({
     }
 
     return {
+      t,
       dialog,
 
       openAccountSettingsPage,

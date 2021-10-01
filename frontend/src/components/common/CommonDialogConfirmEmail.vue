@@ -1,5 +1,5 @@
 <template>
-  <BaseDialog title="Подтверждение Email" hide-confirm-button v-bind="$attrs">
+  <BaseDialog :title="t('email.confirmation')" hide-confirm-button v-bind="$attrs">
     <div class="flex-center column gap-6 text-center">
       <q-icon v-if="success || isResendSuccess" name="check_circle" size="48px" color="green-6" />
       <q-icon v-else name="error" size="48px" color="orange-6" />
