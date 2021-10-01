@@ -7,10 +7,10 @@
 2. Vuex
 3. Typescript
 4. Quasar (ui)
-5. Socket.io (real-time issues update) (not implemented yet ❌)
+5. Socket.io (real-time issues update)
 6. Vuedraggable (issues kanban board)
 7. Vue i18n (for pluralization '1 доскА' '2 доскИ' '6 досОК' (1 board, 2 boardS, 6 boardS))
-8. Vue test utils + Jest (testing) (not implemented ❌)
+8. Vue test utils (Jest)
 9. other - date-fns, some lodash functions, eslint + tslint + prettier
 
 #### Backend
@@ -19,8 +19,8 @@
 2. Typescript
 3. PostgreSQL + TypeORM (database)
 4. Swagger, Swagger UI (docs)
-5. Socket.io (not implemented yet ❌)
-6. Jest (testing) (not implemented yet ❌)
+5. Socket.io
+6. Jest
 7. AWS S3 (Amazon Simple Storage Service)
 8. Elasticsearch (just for app complexity 😄) 
 9. Nodemailer, @nestjs/schedule and cron (annoying email messages with very-very-very interisting news or email confirmation)
