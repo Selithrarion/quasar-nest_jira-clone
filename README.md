@@ -8,13 +8,12 @@
 3. Typescript
 4. Quasar (ui)
 5. Socket.io (real-time issues update) (not implemented yet ❌)
-6. Vuedraggable (kanban board)
-7. Vue i18n (for pluralization '1 доскА' '2 доскИ' '6 досОК' (1 board, 2 boardS, 6 boardS)) (not implemented yet ❌)
+6. Vuedraggable (issues kanban board)
+7. Vue i18n (for pluralization '1 доскА' '2 доскИ' '6 досОК' (1 board, 2 boardS, 6 boardS))
 8. Vue test utils + Jest (testing) (not implemented ❌)
-9. RTL view (haha, even in jira rtl doesn't work very well, but thanks to quasar pretty nice rtl support in this clone and CSS gaps)
-10. other - date-fns, some lodash functions, eslint + tslint + prettier
+9. other - date-fns, some lodash functions, eslint + tslint + prettier
 
-#### Backend stack
+#### Backend
 
 1. Nest.js
 2. Typescript
@@ -30,14 +29,19 @@
 
 Github actions CI pipeline
 
-### Features
+### App Features
+
+#### Global
+- Russian and English lanugages (also Arabic for RTL, but without translation)
+- RTL view (haha, even in jira rtl doesn't work very well, but thanks to quasar pretty nice rtl support)
+
 #### Auth
 
 - Login / Register / Forgot password 
 - OAuth with Google / Github
 - 2FA
 - Unique username / email validation  
-- Send email verification mail (not implemented yet ❌) 
+- Send email verification mail 
 - Send (news) emails with schedule (not implemented yet ❌)
 - Send forgot password mail (not implemented yet ❌)  
 - Automaticly redirect to requested page after login (/auth?redirect=/projects)  
@@ -100,7 +104,7 @@ Github actions CI pipeline
 ##### User / Team profile page
 - Edit user info - change username / display name / email / location / organisation etc...
 
-- Upload header image (store in AWS S3, compression with [sharp](https://github.com/lovell/sharp))
+- Upload and delete user / team header image (store in AWS S3, compression with [sharp](https://github.com/lovell/sharp))
 - Upload user / team avatar (store in AWS S3, compression with [sharp](https://github.com/lovell/sharp))
 
 - View assigned issues
