@@ -7,6 +7,12 @@
     "strict": true,
     "jsx": "preserve",
     "moduleResolution": "node",
-    "types": ["node", "webpack-env", "lodash"]
+    "types": [
+      "node",
+      "webpack-env",
+      "lodash",
+      "jest"
+    ],
+    "esModuleInterop": true
   }
 }
