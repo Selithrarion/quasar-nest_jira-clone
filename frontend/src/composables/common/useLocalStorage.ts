@@ -3,7 +3,7 @@ interface StorageInterface {
   save: (data: unknown, storageName?: string) => void;
 }
 
-export default function useLocalStorage(defaultStorageName: string): StorageInterface {
+export default function useLocalStorage(defaultStorageName = ''): StorageInterface {
   function load(storageName?: string): unknown {
     try {
       const item = localStorage.getItem(`${defaultStorageName}${storageName || ''}`);
@@ -12,7 +12,7 @@ export default function useLocalStorage(defaultStorageName: string): StorageInte
       return null;
     }
   }
-  function save(data: unknown, storageName?: string) {
+  function save<T>(data: T, storageName?: string) {
     localStorage.setItem(`${defaultStorageName}${storageName || ''}`, JSON.stringify(data));
   }
 

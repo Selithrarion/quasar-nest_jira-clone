@@ -16,7 +16,7 @@
 
           <q-tabs active-color="primary" inline-label no-caps>
             <q-route-tab
-              v-for="tab in tabsData"
+              v-for="tab in availableTabs"
               :key="tab.name"
               :name="tab.name"
               :label="tab.label"
@@ -41,7 +41,19 @@
 
           <BaseButton icon="notifications" :tooltip="t('common.notifications')" unelevated dense round />
           <BaseButton icon="help" :tooltip="t('common.help')" unelevated dense round />
-          <BaseButton icon="settings" :tooltip="t('common.settings')" unelevated dense round />
+          <BaseButton icon="settings" :tooltip="t('common.settings')" unelevated dense round>
+            <q-menu style="width: 300px" auto-close>
+              <q-list>
+                <BaseItem
+                  v-for="lang in availableLanguages"
+                  :key="lang.key"
+                  :class="{ 'bg-blue-grey-1': lang.key === locale }"
+                  :label="lang.name"
+                  @click="setLanguage(lang.key)"
+                />
+              </q-list>
+            </q-menu>
+          </BaseButton>
           <BaseButton unelevated dense round>
             <BaseAvatar
               v-if="currentUser"
@@ -70,12 +82,14 @@
 </template>
 
 <script lang="ts">
-import { defineComponent, ref, reactive, computed } from 'vue';
+import { defineComponent, ref, reactive, computed, onMounted } from 'vue';
+import { useQuasar } from 'quasar';
 import { useI18n } from 'vue-i18n';
 import { useStore } from 'src/store';
 import { useRouter, useRoute } from 'vue-router';
 import useDialog from 'src/composables/common/useDialog';
 import useLoading from 'src/composables/common/useLoading';
+import useLocalStorage from 'src/composables/common/useLocalStorage';
 
 import CommonSearch from 'components/common/CommonSearch.vue';
 import ProjectBoardDialogCreateIssue from 'components/project/board/dialog/ProjectBoardDialogCreateIssue.vue';
@@ -89,19 +103,26 @@ export default defineComponent({
   },
 
   setup() {
-    const { t } = useI18n();
+    const q = useQuasar();
+    const { t, locale } = useI18n();
     const store = useStore();
     const router = useRouter();
     const route = useRoute();
     const dialog = useDialog();
     const loading = useLoading({ customNames: ['logout'] });
+    const storage = useLocalStorage();
 
     const searchValue = ref('');
     function search() {
       console.log(searchValue.value);
     }
 
-    const tabsData = reactive([
+    onMounted(() => {
+      const savedLang = storage.load('language') as string;
+      locale.value = savedLang || 'en-US';
+    });
+
+    const availableTabs = reactive([
       {
         name: 'work',
         label: t('tabs.work'),
@@ -135,6 +156,30 @@ export default defineComponent({
       },
     ]);
 
+    const availableLanguages = [
+      {
+        name: 'English',
+        key: 'en-US',
+      },
+      {
+        name: 'Русский',
+        key: 'ru',
+      },
+      {
+        name: 'عرب',
+        key: 'ar',
+      },
+    ];
+    function setLanguage(lang: string) {
+      locale.value = lang;
+      storage.save(lang, 'language');
+      // eslint-disable-next-line @typescript-eslint/no-floating-promises
+      import('quasar/lang/' + lang).then((l) => {
+        // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access
+        q.lang.set(l.default);
+      });
+    }
+
     const isShowCreateIssueButton = computed(() => route.path.includes('/projects/'));
 
     const currentUser = computed(() => store.state.user.currentUser);
@@ -155,13 +200,16 @@ export default defineComponent({
 
     return {
       t,
+      locale,
       dialog,
       loading,
 
       searchValue,
       search,
 
-      tabsData,
+      availableTabs,
+      availableLanguages,
+      setLanguage,
 
       isShowCreateIssueButton,
 
