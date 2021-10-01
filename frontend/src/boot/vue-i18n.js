@@ -3,7 +3,7 @@ import { createI18n } from 'vue-i18n';
 import messages from 'src/localization';
 import { russianPluralization } from 'src/localization/ru';
 
-const i18n = createI18n({
+const vueI18n = createI18n({
   locale: 'ru',
   pluralRules: {
     ru: russianPluralization,
@@ -12,7 +12,7 @@ const i18n = createI18n({
 });
 
 export default boot(({ app }) => {
-  app.use(i18n);
+  app.use(vueI18n);
 });
 
-export { i18n };
+export { vueI18n };

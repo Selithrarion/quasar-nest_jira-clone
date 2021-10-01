@@ -22,7 +22,15 @@ module.exports = configure(function (ctx) {
     // https://v2.quasar.dev/quasar-cli/prefetch-feature
     // preFetch: true,
 
-    boot: ['axios', 'notify-defaults', 'auth-user', 'load-base-components', 'vue3-google-oauth', 'i18n'],
+    boot: [
+      'axios',
+      'quasar-notify',
+      'auth-user',
+      'load-base-components',
+      'vue-google-oauth',
+      'vue-i18n',
+      'vue-socket-io',
+    ],
 
     css: ['app.sass'],
 
