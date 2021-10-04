@@ -2,6 +2,7 @@ import { HttpException, HttpStatus, Injectable } from '@nestjs/common';
 import { UserService } from '../user/user.service';
 import { JwtService } from '@nestjs/jwt';
 import axios from 'axios';
+import * as bcrypt from 'bcrypt';
 
 import {
   UserEntity,
@@ -42,16 +43,21 @@ export class AuthService {
   }
 
   async login(user: UserEntity, is2FAEnabled = false): Promise<UserTokensInterface> {
-    if (user.isTwoFactorEnabled) return null;
+    if (user.isTwoFactorEnabled && !is2FAEnabled) return null;
 
     const payload: UserJwtPayload = { id: user.id, email: user.email, is2FAEnabled };
     console.log('AUTH SERVICE login', payload);
+
     const accessToken = await this.jwtService.sign(payload);
-    //   await this.userService.setRefreshToken(refreshToken, userID);
+    const refreshToken = await this.jwtService.sign(payload, {
+      expiresIn: process.env.JWT_REFRESH_EXPIRES_IN,
+    });
+    await this.userService.setRefreshToken(user.id, refreshToken);
+
     return {
       user,
       accessToken,
-      refreshToken: 'TEST',
+      refreshToken,
     };
   }
   async register(payload: CreateUserDTO): Promise<UserEntity> {
@@ -62,17 +68,26 @@ export class AuthService {
 
   async updateTokens({ userID, email, refreshToken }: UserUpdateTokensDTO): Promise<UserTokensInterface> {
     const user = await this.userService.getByID(userID);
-    // if (user.hashedRefreshToken !== refreshToken) {
-    //   throw new HttpException('USER_EXPIRED_REFRESH', HttpStatus.UNAUTHORIZED);
-    // }
+    if (user.hashedRefreshToken !== (await bcrypt.hash(refreshToken, 10))) {
+      throw new HttpException('USER_EXPIRED_REFRESH', HttpStatus.UNAUTHORIZED);
+    }
+
     const accessToken = this.jwtService.sign({ id: userID, email });
-    console.log('UPDATE TOKENS', accessToken, refreshToken, userID);
+    const newRefreshToken = this.jwtService.sign(
+      { id: userID, email },
+      {
+        expiresIn: process.env.JWT_REFRESH_EXPIRES_IN,
+      }
+    );
+    await this.userService.setRefreshToken(userID, newRefreshToken);
+
+    console.log('UPDATE TOKENS', accessToken, refreshToken, newRefreshToken, userID);
     console.log(this.jwtService.verify(accessToken));
-    //   await this.userService.setRefreshToken(refreshToken, userID);
+
     return {
       user,
       accessToken,
-      refreshToken: 'TEST',
+      refreshToken,
     };
   }
 

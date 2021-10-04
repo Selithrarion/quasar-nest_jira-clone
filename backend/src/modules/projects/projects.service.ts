@@ -27,7 +27,7 @@ export class ProjectsService {
     const formattedProjects = allProjects.map((p) => ({
       ...p,
       favorite: currentUser.favoriteProjectIDs.includes(p.id),
-    }));
+    })) as ProjectEntity[];
     return formattedProjects;
   }
 

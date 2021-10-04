@@ -21,7 +21,7 @@ export default boot(async ({ router, urlPath, store }) => {
     const isNeedGuest = matchedRoutes.some((record) => record.meta.guest);
 
     // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access
-    const user = savedUserData || store.state.user.currentUser;
+    const user = store.state.user.currentUser as UserModel;
 
     if (isNeedAuth) {
       if (!user) next('/auth');
