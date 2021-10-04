@@ -7,7 +7,6 @@ import { UserEntity } from '../user/entity/user.entity';
 import { BoardsService } from '../boards/boards.service';
 import { UserService } from '../user/user.service';
 import { IssueEntity } from '../issues/entity/issue.entity';
-import stringToHslColor from '../../common/utils/stringToHslColor';
 
 @Injectable()
 export class ProjectsService {
@@ -46,7 +45,6 @@ export class ProjectsService {
       ...payload,
       leader: user,
       users: [user],
-      color: stringToHslColor(payload.name),
     });
 
     const defaultBoard = {

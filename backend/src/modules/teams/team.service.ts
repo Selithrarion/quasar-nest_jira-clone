@@ -11,7 +11,6 @@ import { v4 as uuidv4 } from 'uuid';
 import { extname } from 'path';
 import { PublicFileEntity } from '../files/entity/public-file.entity';
 import { FilesService } from '../files/files.service';
-import stringToHslColor from '../../common/utils/stringToHslColor';
 import { UserEntity } from '../user/entity/user.entity';
 
 @Injectable()
@@ -37,7 +36,7 @@ export class TeamService {
     const isTeamAlreadyExist = await this.teams.findOne({ where: { name } });
     if (isTeamAlreadyExist) throw new HttpException('TEAM_ALREADY_EXIST', HttpStatus.BAD_REQUEST);
 
-    const team = await this.teams.create({ name, color: stringToHslColor(name), users: [...users, leader], leader });
+    const team = await this.teams.create({ name, users: [...users, leader], leader });
     const createdTeam = await this.teams.save(team);
 
     return createdTeam;

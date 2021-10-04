@@ -1,10 +1,11 @@
-import { Column, Entity, JoinColumn, ManyToMany, ManyToOne, OneToMany, OneToOne } from 'typeorm';
+import { BeforeInsert, Column, Entity, JoinColumn, ManyToMany, ManyToOne, OneToMany, OneToOne } from 'typeorm';
 import { BaseEntity } from '../../../common/types/base.entity';
 import { BoardEntity } from '../../boards/entity/board.entity';
 import { UserEntity } from '../../user/entity/user.entity';
 import { AccessEnum } from '../../../common/types/access.model';
 import { PublicFileEntity } from '../../files/entity/public-file.entity';
 import { IssueEntity } from '../../issues/entity/issue.entity';
+import stringToHslColor from '../../../common/utils/stringToHslColor';
 
 export enum ProjectTemplateEnum {
   KANBAN = 1,
@@ -47,6 +48,10 @@ export class ProjectEntity extends BaseEntity {
 
   @Column({ default: '#b3e6ff' })
   color: string;
+  @BeforeInsert()
+  async generateColor(): Promise<void> {
+    this.color = stringToHslColor(this.name);
+  }
 
   @ManyToOne(() => UserEntity, {
     eager: true,

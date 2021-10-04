@@ -67,6 +67,11 @@ export class UserEntity extends BaseEntity {
   @Exclude()
   @Column({ nullable: true, length: 128 })
   password: string;
+  @BeforeInsert()
+  async hashPassword(): Promise<void> {
+    if (this.password) this.password = await bcrypt.hash(this.password, 10);
+  }
+
   @Exclude()
   @Column({ nullable: true })
   hashedRefreshToken: string;
@@ -95,6 +100,10 @@ export class UserEntity extends BaseEntity {
 
   @Column({ default: '#b3e6ff' })
   color: string;
+  @BeforeInsert()
+  async generateColor(): Promise<void> {
+    this.color = stringToHslColor(this.username);
+  }
 
   @OneToOne(() => PublicFileEntity, {
     eager: true,
@@ -165,15 +174,6 @@ export class UserEntity extends BaseEntity {
   teamsLeader: TeamEntity[];
   @RelationId('teamsLeader')
   teamsLeaderIDs: number[];
-
-  @BeforeInsert()
-  async hashPassword(): Promise<void> {
-    if (this.password) this.password = await bcrypt.hash(this.password, 10);
-  }
-  @BeforeInsert()
-  async generateColor(): Promise<void> {
-    this.color = stringToHslColor(this.username);
-  }
 
   async validatePassword(password: string): Promise<boolean> {
     if (!this.isOAuthAccount) return true;

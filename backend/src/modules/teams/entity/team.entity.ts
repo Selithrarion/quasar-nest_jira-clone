@@ -1,8 +1,19 @@
-import { Column, Entity, JoinColumn, JoinTable, ManyToMany, OneToMany, OneToOne, RelationId } from 'typeorm';
+import {
+  BeforeInsert,
+  Column,
+  Entity,
+  JoinColumn,
+  JoinTable,
+  ManyToMany,
+  OneToMany,
+  OneToOne,
+  RelationId,
+} from 'typeorm';
 
 import { BaseEntity } from '../../../common/types/base.entity';
 import { UserEntity } from '../../user/entity/user.entity';
 import { PublicFileEntity } from '../../files/entity/public-file.entity';
+import stringToHslColor from '../../../common/utils/stringToHslColor';
 
 @Entity()
 export class TeamEntity extends BaseEntity {
@@ -11,6 +22,10 @@ export class TeamEntity extends BaseEntity {
 
   @Column({ default: '#b3e6ff' })
   color: string;
+  @BeforeInsert()
+  async generateColor(): Promise<void> {
+    this.color = stringToHslColor(this.name);
+  }
 
   @OneToOne(() => PublicFileEntity, {
     eager: true,
