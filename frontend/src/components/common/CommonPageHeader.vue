@@ -36,7 +36,7 @@
         width="240"
         option-label="label"
         :options="availableProjects"
-        label="t('project.projects')"
+        :label="t('project.projects')"
         :emit-value="false"
         :map-options="false"
         dense
