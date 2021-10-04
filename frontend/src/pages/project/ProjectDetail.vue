@@ -5,7 +5,8 @@
     <LayoutSidebar
       title="Jira project"
       :subtitle="t('project.softwareDevProject')"
-      avatar="https://png.pngtree.com/element_our/20190604/ourlarge/pngtree-gradient-square-border-illustration-image_1467225.jpg"
+      :avatar="project.avatar && project.avatar.url"
+      :color="project.color"
     >
       <q-list class="select-none">
         <BaseItem class="q-pa-sm" @click="dialog.open('selectBoard')">
