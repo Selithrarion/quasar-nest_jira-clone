@@ -1,7 +1,7 @@
 import { boot } from 'quasar/wrappers';
 import axios, { AxiosError, AxiosInstance, AxiosRequestConfig, AxiosResponse } from 'axios';
-import { Notify } from 'quasar';
-import { UserUpdateTokenResponse } from 'src/models/user/user.model';
+import { Cookies, Notify } from 'quasar';
+import { UserModel, UserUpdateTokenResponse } from 'src/models/user/user.model';
 
 declare module '@vue/runtime-core' {
   interface ComponentCustomProperties {
@@ -17,9 +17,25 @@ const http: AxiosInstance = axios.create({
   baseURL: 'http://localhost:8081/',
 });
 
-export default boot(({ store, redirect }) => {
+export default boot(async ({ store, urlPath, redirect, router }) => {
+  try {
+    const savedUserData: UserModel = Cookies.get('user');
+    if (savedUserData && savedUserData.accessToken && savedUserData.refreshToken) {
+      const { accessToken } = savedUserData;
+      // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access
+      http.defaults.headers.common.Authorization = `Bearer ${accessToken}`;
+
+      await store.dispatch('user/loadUser', savedUserData);
+    } else if (!urlPath.includes('/auth')) {
+      await router.push(`/auth?redirect=${window.location.pathname}`);
+    }
+  } catch (e) {
+    console.log(e);
+  }
+
   http.interceptors.request.use(
     (config: AxiosRequestConfig) => {
+      console.log('INTERCEPTOR REQUEST', config);
       // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access
       const token = store.state.user.accessToken as string;
       // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access
@@ -53,7 +69,7 @@ export default boot(({ store, redirect }) => {
 
       const originalRequest = error.config as AxiosRequestConfigWithRetryField;
       const isAuthError = error.response?.status === 401;
-
+      console.log(isAuthError, error, error.response);
       if (error.config.url?.includes('update-tokens')) redirect('/auth?redirect');
       else if (isAuthError) {
         const { accessToken } = (await store.dispatch('user/updateTokens')) as UserUpdateTokenResponse;

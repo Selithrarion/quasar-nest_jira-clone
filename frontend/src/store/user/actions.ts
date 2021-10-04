@@ -30,7 +30,7 @@ const actions: ActionTree<UserStateInterface, StateInterface> = {
 
   async loadUser({ commit }, { accessToken, refreshToken }: UserUpdateTokenResponse) {
     const user = await authRepository.getSelf();
-    commit('AUTH_USER', { user, accessToken, refreshToken });
+    if (user) commit('AUTH_USER', { user, accessToken, refreshToken });
   },
   async updateTokens({ state, commit }) {
     if (!state.refreshToken || !state.currentUser) return;
