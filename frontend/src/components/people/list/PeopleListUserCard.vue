@@ -8,7 +8,7 @@
         :item-color="user.color"
       />
       <div class="ellipsis full-width text-center q-pt-sm">{{ user.name }}</div>
-      <div v-if="user.position" class="text-caption text-grey-7 full-width">{{ user.position }}</div>
+      <div v-if="user.position" class="text-center text-caption text-grey-7 full-width">{{ user.position }}</div>
     </q-card-section>
   </PeopleListCard>
 </template>
