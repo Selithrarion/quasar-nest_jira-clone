@@ -271,7 +271,7 @@
             </div>
 
             <div class="flex gap-1">
-              <span class="opacity-60">{{ common.updateDate }}</span>
+              <span class="opacity-60">{{ t('common.updateDate') }}</span>
 
               <span v-if="getIsDateLessDay(issue.updatedAt)">
                 <BaseButton plain-style @click="isUpdatedAtDifference = !isUpdatedAtDifference">
