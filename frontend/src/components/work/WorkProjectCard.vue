@@ -8,7 +8,7 @@
     />
 
     <q-card-section>
-      <div class="text-subtitle2 text-weight-bold ellipsis w-max-content">
+      <div class="text-subtitle2 text-weight-bold ellipsis w-max-content" data-test="name">
         {{ project.name }}
         <BaseTooltip :label="project.name" />
       </div>
