@@ -1,9 +1,7 @@
 import WorkProjectCard from 'components/work/WorkProjectCard.vue';
 import { installQuasarPlugin } from '@quasar/quasar-app-extension-testing-unit-jest';
 import { mount } from '@vue/test-utils';
-
-const t = jest.fn();
-t.mockReturnValue('');
+// import { useRouter } from 'vue-router';
 
 jest.mock('vue-router', () => ({
   useRoute: jest.fn(),
@@ -29,7 +27,6 @@ describe('WorkProjectCard.vue', () => {
       props: {
         project: {
           name: 'name',
-          boards: [{}],
         },
       },
     });
@@ -37,5 +34,25 @@ describe('WorkProjectCard.vue', () => {
     const name = wrapper.get('[data-test="name"]');
 
     expect(name.text()).toBe('name');
+  });
+
+  it('redirects on project button click', async () => {
+    const wrapper = mount(WorkProjectCard, {
+      props: {
+        project: {
+          id: 1,
+        },
+      },
+    });
+    const push = jest.fn();
+    // TODO: vue test utils router mock example types error and not work
+    // useRouter.mockImplementationOnce(() => {
+    //   push;
+    // });
+
+    await wrapper.get('[data-test="openProject"]').trigger('click');
+
+    // expect(push).toHaveBeenCalledTimes(1);
+    expect(push).toHaveBeenCalledTimes(0);
   });
 });

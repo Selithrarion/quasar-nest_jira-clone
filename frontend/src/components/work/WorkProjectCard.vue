@@ -22,8 +22,9 @@
 
     <q-card-section class="text-caption q-py-xs text-center">
       <BaseButton
+        data-test="openProject"
         class="q-pa-1"
-        :label="t('work.boards', project.boards.length)"
+        :label="t('work.boards', project.boards && project.boards.length)"
         :tooltip="t('work.openProject')"
         size="sm"
         flat
