@@ -14,5 +14,11 @@
       "jest"
     ],
     "esModuleInterop": true
-  }
+  },
+  "exclude": [
+    "test/cypress",
+    "/dist",
+    ".quasar",
+    "node_modules"
+  ]
 }

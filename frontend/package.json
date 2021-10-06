@@ -15,7 +15,9 @@
     "test:unit:watchAll": "jest --watchAll",
     "serve:test:coverage": "quasar serve test/jest/coverage/lcov-report/ --port 8788",
     "concurrently:dev:jest": "concurrently \"quasar dev\" \"jest --watch\"",
-    "test:unit:ui": "majestic"
+    "test:unit:ui": "majestic",
+    "test:e2e": "cross-env E2E_TEST=true start-test \"quasar dev\" http-get://localhost:8080 \"cypress open\"",
+    "test:e2e:ci": "cross-env E2E_TEST=true start-test \"quasar dev\" http-get://localhost:8080 \"cypress run\""
   },
   "dependencies": {
     "@quasar/extras": "^1.0.0",
@@ -36,7 +38,8 @@
   "devDependencies": {
     "@babel/eslint-parser": "^7.13.14",
     "@quasar/app": "^3.0.0",
-    "@quasar/quasar-app-extension-testing": "^1.0.3",
+    "@quasar/quasar-app-extension-testing": "^2.0.0-beta.3",
+    "@quasar/quasar-app-extension-testing-e2e-cypress": "^4.0.0-beta.4",
     "@quasar/quasar-app-extension-testing-unit-jest": "^3.0.0-alpha.3",
     "@types/jest": "^27.0.2",
     "@types/node": "^10.17.15",
@@ -48,9 +51,10 @@
     "eslint-config-prettier": "^8.1.0",
     "eslint-plugin-jest": "^24.3.6",
     "eslint-plugin-vue": "^7.0.0",
+    "majestic": "^1.7.0",
     "prettier": "^2.3.1",
     "vue-jest": "^5.0.0-0",
-    "majestic": "^1.7.0"
+    "eslint-plugin-cypress": "^2.11.3"
   },
   "browserslist": [
     "last 10 Chrome versions",
