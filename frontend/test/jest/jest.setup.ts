@@ -19,7 +19,7 @@ Object.defineProperty(chai.Assertion.prototype, 'not', {
     Object.assign(this, this.assignedNot)
     return originalNot.apply(this)
   },
-  set(newNot) { 
+  set(newNot) {
     this.assignedNot = newNot
     return newNot
   }

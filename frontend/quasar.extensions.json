@@ -8,7 +8,8 @@
     "babel": "babelrc",
     "options": [
       "scripts",
-      "typescript"
+      "typescript",
+      "majestic"
     ]
   }
 }
