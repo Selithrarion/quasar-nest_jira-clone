@@ -3,21 +3,9 @@ import { installQuasarPlugin } from '@quasar/quasar-app-extension-testing-unit-j
 import { mount } from '@vue/test-utils';
 // import { useRouter } from 'vue-router';
 
-jest.mock('vue-router', () => ({
-  useRoute: jest.fn(),
-  useRouter: jest.fn(() => ({
-    push: () => {
-      //
-    },
-  })),
-}));
-jest.mock('vue-i18n', () => ({
-  useI18n: jest.fn(() => ({
-    t: () => {
-      //
-    },
-  })),
-}));
+// TODO: not work, auto import also not work. investigate how to correctly refactor and use mocks
+// jest.mock('vue-i18n')
+// jest.mock('vue-router')
 
 installQuasarPlugin();
 

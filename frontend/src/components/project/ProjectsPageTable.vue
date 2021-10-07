@@ -59,7 +59,11 @@
             <q-menu auto-close>
               <q-list>
                 <BaseItem :label="t('project.settings')" />
-                <BaseItem :label=" t('project.trash')" @click="dialog.open('deleteProject', { item: props.row })" />
+                <BaseItem
+                  data-test="deleteProject"
+                  :label="t('project.trash')"
+                  @click="dialog.open('deleteProject', { item: props.row })"
+                />
               </q-list>
             </q-menu>
           </BaseButtonMore>
