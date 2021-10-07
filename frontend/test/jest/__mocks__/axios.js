@@ -1,3 +1,5 @@
+// import axios from 'axios';
+
 // export default jest.mock('axios', () => ({
 //   get: jest.fn(() => Promise.resolve({ data: {} })),
 // }));
