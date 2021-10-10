@@ -7,15 +7,16 @@ describe('UserService', () => {
   let service: UserService;
   let findOne: jest.Mock;
   beforeEach(async () => {
-    findOne = jest.fn();
+    const mockUserRepository = {
+      findOne: jest.fn(),
+    };
+
     const module = await Test.createTestingModule({
       providers: [
         UserService,
         {
           provide: getRepositoryToken(UserEntity),
-          useValue: {
-            findOne,
-          },
+          useValue: mockUserRepository,
         },
       ],
     }).compile();
