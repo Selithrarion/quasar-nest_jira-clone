@@ -20,7 +20,7 @@
 3. PostgreSQL + TypeORM (database)
 4. Swagger, Swagger UI (docs)
 5. Socket.io
-6. Unit tests (Jest) (not implemented yet ❌)
+6. Unit tests (Jest), E2E tests (Supertest)
 7. AWS S3 (Amazon Simple Storage Service)
 8. Elasticsearch (just for app complexity 😄) 
 9. Nodemailer, @nestjs/schedule and cron (annoying email messages with very-very-very interisting news or email confirmation)
