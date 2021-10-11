@@ -1,38 +1,63 @@
 import { Test, TestingModule } from '@nestjs/testing';
 import { getRepositoryToken } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
-import { ProjectsService } from './projects.service';
-import { ProjectEntity } from './entity/project.entity';
+import { ProjectsService } from '../projects.service';
+import { ProjectEntity } from '../entity/project.entity';
+import { BoardsService } from '../../boards/boards.service';
+import { UserService } from '../../user/user.service';
+import { CreateProjectDTO, UpdateProjectDTO } from '../dto';
+import { UserEntity } from '../../user/entity/user.entity';
 
 const testName1 = 'Name1';
 const testKey1 = 'Key1';
 
 const projectsArray = [
-  new ProjectEntity(testName1, testKey1),
-  new ProjectEntity('Name2', 'Key2'),
-  new ProjectEntity('Name3', 'Key3'),
+  { id: 1, name: 'testName1', key: 'testKey1' },
+  { id: 2, name: 'testName2', key: 'testKey2' },
+  { id: 3, name: 'testName3', key: 'testKey3' },
 ];
 
-const oneProject = new Cat('Name4', 'Key4');
+const oneProject = { id: 4, name: 'testName4', key: 'testKey4' };
 
 describe('ProjectService', () => {
   let service: ProjectsService;
   let repo: Repository<ProjectEntity>;
+  const mockBoardsService = {
+    getById: jest.fn(),
+    create: jest.fn(),
+    update: jest.fn(),
+    delete: jest.fn(),
+    toggleFavorite: jest.fn(),
+  };
+  const mockUserService = {
+    getById: jest.fn(),
+    getFavoriteProjects: jest.fn(),
+    update: jest.fn(),
+  };
+  const mockProjectEntity = {
+    find: jest.fn().mockResolvedValue(projectsArray),
+    findOneOrFail: jest.fn().mockResolvedValue(oneProject),
+    create: jest.fn().mockReturnValue(oneProject),
+    save: jest.fn(),
+    update: jest.fn().mockResolvedValue(true),
+    delete: jest.fn().mockResolvedValue(true),
+  };
 
   beforeEach(async () => {
     const module: TestingModule = await Test.createTestingModule({
       providers: [
         ProjectsService,
         {
+          provide: BoardsService,
+          useValue: mockBoardsService,
+        },
+        {
+          provide: UserService,
+          useValue: mockUserService,
+        },
+        {
           provide: getRepositoryToken(ProjectEntity),
-          useValue: {
-            find: jest.fn().mockResolvedValue(catArray),
-            findOneOrFail: jest.fn().mockResolvedValue(oneCat),
-            create: jest.fn().mockReturnValue(oneCat),
-            save: jest.fn(),
-            update: jest.fn().mockResolvedValue(true),
-            delete: jest.fn().mockResolvedValue(true),
-          },
+          useValue: mockProjectEntity,
         },
       ],
     }).compile();
@@ -47,7 +72,7 @@ describe('ProjectService', () => {
 
   describe('getAll', () => {
     it('should return an array of projects', async () => {
-      const projects = await service.getAll();
+      const projects = await service.getAll('', 1);
       expect(projects).toEqual(projectsArray);
     });
   });
@@ -55,7 +80,7 @@ describe('ProjectService', () => {
   describe('getOne', () => {
     it('should get one project', () => {
       const repoSpy = jest.spyOn(repo, 'findOneOrFail');
-      expect(service.getOne(1)).resolves.toEqual(oneProject);
+      expect(service.getByID(1)).resolves.toEqual(oneProject);
       expect(repoSpy).toBeCalledWith({ id: 1 });
     });
   });
@@ -71,10 +96,13 @@ describe('ProjectService', () => {
   describe('create', () => {
     it('should create', () => {
       expect(
-        service.create({
-          name: testName1,
-          key: testKey1,
-        })
+        service.create(
+          {
+            name: testName1,
+            key: testKey1,
+          } as CreateProjectDTO,
+          {} as UserEntity
+        )
       ).resolves.toEqual(oneProject);
       expect(repo.create).toBeCalledTimes(1);
       expect(repo.create).toBeCalledWith({
@@ -87,10 +115,10 @@ describe('ProjectService', () => {
 
   describe('update', () => {
     it('should update', async () => {
-      const project = await service.update({
+      const project = await service.update(1, {
         name: testName1,
         key: testKey1,
-      });
+      } as UpdateProjectDTO);
       expect(project).toEqual(oneProject);
       expect(repo.update).toBeCalledTimes(1);
       expect(repo.update).toBeCalledWith({ id: 1 }, { name: testName1, key: testKey1, id: 1 });

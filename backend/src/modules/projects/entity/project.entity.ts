@@ -73,9 +73,4 @@ export class ProjectEntity extends BaseEntity {
     onDelete: 'CASCADE',
   })
   issues: IssueEntity[];
-
-  constructor(name?: string, key?: string) {
-    this.name = name || '';
-    this.key = key || '';
-  }
 }
