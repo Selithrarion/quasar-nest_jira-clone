@@ -16,6 +16,7 @@ import { ApiBearerAuth, ApiOperation, ApiResponse, ApiTags } from '@nestjs/swagg
 import { CreateProjectDTO, UpdateProjectDTO } from './dto';
 import { ProjectEntity } from './entity/project.entity';
 import { ProjectsService } from './projects.service';
+import { IPaginationOptions, Pagination } from 'nestjs-typeorm-paginate/index';
 
 import { IssueEntity } from '../issues/entity/issue.entity';
 
@@ -28,7 +29,7 @@ export class ProjectsController {
   @ApiOperation({ summary: 'Get all projects' })
   @ApiResponse({ status: 200, description: 'Return all projects' })
   @Get()
-  async getAll(@Query() query, @Request() req): Promise<ProjectEntity[]> {
+  async getAll(@Query() query: IPaginationOptions, @Request() req): Promise<Pagination<ProjectEntity>> {
     return await this.projectsService.getAll(query, req.user.id);
   }
 

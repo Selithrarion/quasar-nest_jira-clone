@@ -1,12 +1,15 @@
 import { forwardRef, Inject, Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
-import { ProjectEntity } from './entity/project.entity';
 import { Repository } from 'typeorm';
 import { CreateProjectDTO, UpdateProjectDTO } from './dto';
+import { IPaginationOptions, paginate, Pagination } from 'nestjs-typeorm-paginate/index';
+
+import { ProjectEntity } from './entity/project.entity';
 import { UserEntity } from '../user/entity/user.entity';
+import { IssueEntity } from '../issues/entity/issue.entity';
+
 import { BoardsService } from '../boards/boards.service';
 import { UserService } from '../user/user.service';
-import { IssueEntity } from '../issues/entity/issue.entity';
 
 @Injectable()
 export class ProjectsService {
@@ -21,14 +24,14 @@ export class ProjectsService {
     private readonly userService: UserService
   ) {}
 
-  async getAll(query, userID: number): Promise<ProjectEntity[]> {
+  async getAll(query: IPaginationOptions = { page: 1, limit: 10 }, userID: number): Promise<Pagination<ProjectEntity>> {
     const currentUser = await this.userService.getByID(userID);
-    const allProjects = await this.projects.find({ order: { createdAt: 'DESC' } });
-    const formattedProjects = allProjects.map((p) => ({
+    const { items, meta } = await paginate<ProjectEntity>(this.projects, query, { order: { createdAt: 'DESC' } });
+    const formattedProjects = items.map((p) => ({
       ...p,
       favorite: currentUser.favoriteProjectIDs.includes(p.id),
     })) as ProjectEntity[];
-    return formattedProjects;
+    return { items: formattedProjects, meta };
   }
 
   async getByID(id: number): Promise<ProjectEntity> {
