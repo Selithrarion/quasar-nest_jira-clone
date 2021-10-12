@@ -55,7 +55,7 @@ Github actions CI pipeline
 - View project detail with boards  
 - Mark project as favorite  
 - Upload project avatar (not implemented yet ❌)  
-- Projects pagination (not implemented yet ❌)  
+- Projects pagination  
 - Projects sorting (not implemented yet ❌)  
 - Projects search (not implemented yet ❌) 
   
