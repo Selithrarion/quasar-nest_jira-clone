@@ -71,13 +71,15 @@
   gap: 28px
 
 .hover-shadow-sm
-  transition: box-shadow 150ms ease
+  transition: box-shadow 150ms ease, transform 150ms ease
   &:hover
     box-shadow: $shadow-1 !important
+    transform: translateY(-1px)
 .hover-shadow-lg
-  transition: box-shadow 150ms ease
+  transition: box-shadow 150ms ease, transform 150ms ease
   &:hover
     box-shadow: $shadow-12 !important
+    transform: translateY(-2px)
 
 .opacity-60
   opacity: 0.6
