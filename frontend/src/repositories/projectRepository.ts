@@ -4,8 +4,8 @@ import { ApiResponseModel } from 'src/models/common/apiResponse.model';
 import { IssueModel } from 'src/models/project/issue.model';
 
 export default {
-  async getAll(): Promise<ProjectModel[]> {
-    const { data }: ApiResponseModel<ProjectModel[]> = await http.get('/projects');
+  async getAll({ page = 1, limit = 5 } = { page: 1, limit: 5 }): Promise<ProjectModel[]> {
+    const { data }: ApiResponseModel<ProjectModel[]> = await http.get('/projects', { params: { page, limit } });
     return data;
   },
   async getByID(id: number): Promise<ProjectModel> {

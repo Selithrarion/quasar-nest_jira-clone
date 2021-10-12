@@ -5,10 +5,12 @@ import { BoardModel } from 'src/models/project/board.model';
 import { IssueDTO, IssueModel } from 'src/models/project/issue.model';
 import { ColumnModel } from 'src/models/project/column.model';
 import { CommentModel } from 'src/models/project/comment.model';
+import { PaginationData } from 'src/models/common/pagination.model';
 
 const mutation: MutationTree<ProjectStateInterface> = {
-  SET_PROJECTS(state, projects: ProjectModel[]) {
-    state.projects = projects;
+  SET_PROJECTS(state, projects: PaginationData<ProjectModel[]>) {
+    state.projects = projects.items;
+    state.projectsMeta = projects.meta;
   },
   SET_PROJECT_DETAIL(state, project: ProjectModel) {
     state.projectDetail = project;

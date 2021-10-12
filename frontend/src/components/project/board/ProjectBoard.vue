@@ -47,7 +47,7 @@ export default defineComponent({
       console.log('socket connected');
     },
     async updateBoardIssues() {
-      await this.$store.dispatch('project/getBoardByID', this.selectedBoardId);
+      // await this.$store.dispatch('project/getBoardByID', this.selectedBoardId);
     },
   },
 

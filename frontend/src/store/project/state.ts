@@ -1,9 +1,11 @@
 import { ProjectModel } from 'src/models/project/project.model';
 import { BoardModel } from 'src/models/project/board.model';
 import { IssueModel } from 'src/models/project/issue.model';
+import { PaginationMeta } from 'src/models/common/pagination.model';
 
 export interface ProjectStateInterface {
   projects?: ProjectModel[] | null;
+  projectsMeta?: PaginationMeta | null;
 
   projectDetail: ProjectModel | null;
   boardDetail: BoardModel | null;
@@ -25,6 +27,7 @@ interface IssuePropertyItem {
 function state(): ProjectStateInterface {
   return {
     projects: null,
+    projectsMeta: null,
 
     projectDetail: null,
     boardDetail: null,

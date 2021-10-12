@@ -10,10 +10,11 @@ import projectRepository from 'src/repositories/projectRepository';
 import boardRepository from 'src/repositories/boardRepository';
 import issueRepository from 'src/repositories/issueRepository';
 import columnRepository from 'src/repositories/columnRepository';
+import { PaginationApiPayload } from 'src/models/common/pagination.model';
 
 const actions: ActionTree<ProjectStateInterface, StateInterface> = {
-  async getAll({ commit }) {
-    const projects = await projectRepository.getAll();
+  async getAll({ commit }, payload: PaginationApiPayload) {
+    const projects = await projectRepository.getAll(payload);
     commit('SET_PROJECTS', projects);
   },
   async getByID({ commit }, id: number) {

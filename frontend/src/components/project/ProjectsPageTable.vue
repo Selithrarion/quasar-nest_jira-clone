@@ -2,7 +2,15 @@
   <div class="q-px-xl q-mt-md">
     <BaseLoader v-if="!projects" page-margin />
 
-    <q-table v-else row-key="name" :rows="projects" :columns="columns">
+    <q-table
+      v-else
+      v-model:pagination="pagination"
+      row-key="name"
+      :rows="projects"
+      :columns="columns"
+      :loading="loading.custom.table"
+      @request="handleRequest"
+    >
       <template #header-cell-favorite="props">
         <q-th style="width: 20px" :props="props">
           <q-icon name="star" size="16px" color="grey-6" />
@@ -85,12 +93,14 @@
 </template>
 
 <script lang="ts">
-import { defineComponent, reactive, computed, onBeforeMount } from 'vue';
+import { defineComponent, reactive, computed, ref, onBeforeMount } from 'vue';
 import { useI18n } from 'vue-i18n';
 import { useStore } from 'src/store';
 import useDialog from 'src/composables/common/useDialog';
 
 import { ProjectModel, ProjectTypeEnum } from 'src/models/project/project.model';
+import { PaginationTableProps } from 'src/models/common/pagination.model';
+import useLoading from 'src/composables/common/useLoading';
 
 export default defineComponent({
   name: 'ProjectsPageTable',
@@ -99,11 +109,39 @@ export default defineComponent({
     const { t } = useI18n();
     const store = useStore();
     const dialog = useDialog();
+    const loading = useLoading({ customNames: ['table'] });
 
     const projects = computed(() => store.state.project.projects);
+    const projectsMeta = computed(() => store.state.project.projectsMeta);
+
+    const pagination = ref({
+      sortBy: 'desc',
+      descending: false,
+      page: projectsMeta.value?.currentPage || 1,
+      rowsPerPage: projectsMeta.value?.itemsPerPage || 5,
+      rowsNumber: projectsMeta.value?.totalItems || 10,
+    });
+    async function handleRequest(props: PaginationTableProps) {
+      try {
+        loading.start('table');
+        const { page, rowsPerPage, sortBy, descending } = props.pagination;
+        await store.dispatch('project/getAll', { page, limit: rowsPerPage });
+        pagination.value.page = page;
+        pagination.value.rowsPerPage = rowsPerPage;
+        pagination.value.sortBy = sortBy;
+        pagination.value.descending = descending;
+      } finally {
+        loading.stop('table');
+      }
+    }
 
     onBeforeMount(async () => {
-      if (!projects.value) await store.dispatch('project/getAll');
+      if (!projects.value) {
+        await store.dispatch('project/getAll');
+        pagination.value.page = projectsMeta.value?.currentPage || 1;
+        pagination.value.rowsPerPage = projectsMeta.value?.itemsPerPage || 5;
+        pagination.value.rowsNumber = projectsMeta.value?.totalItems || 10;
+      }
     });
 
     const columns = reactive([
@@ -174,9 +212,14 @@ export default defineComponent({
     return {
       t,
       dialog,
+      loading,
 
       columns,
       projects,
+
+      pagination,
+      handleRequest,
+
       deleteProject,
 
       toggleFavorite,
