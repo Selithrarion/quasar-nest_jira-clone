@@ -45,6 +45,7 @@
     "class-validator": "^0.13.1",
     "dotenv": "^10.0.0",
     "googleapis": "^85.0.0",
+    "nestjs-typeorm-paginate": "^3.1.2",
     "nodemailer": "^6.6.3",
     "otplib": "^12.0.1",
     "passport": "^0.4.1",
