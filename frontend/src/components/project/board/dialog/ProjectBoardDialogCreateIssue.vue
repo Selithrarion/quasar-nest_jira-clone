@@ -3,7 +3,7 @@
     :title="t('common.createIssue')"
     :confirm-text="t('common.create')"
     :content-loading="isContentLoading"
-    :confirm-loading="loading.value"
+    :confirm-loading="loading.active.value"
     hide-close-icon
     use-form
     large
