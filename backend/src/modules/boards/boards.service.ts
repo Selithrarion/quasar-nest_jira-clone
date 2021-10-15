@@ -24,7 +24,8 @@ export class BoardsService {
     const board = await this.boards.findOneOrFail(boardID, {
       relations: ['columns'],
     });
-    return { ...board, favorite: currentUser.favoriteBoardIDs.includes(boardID) };
+    const sortedColumns = board.columns.sort((a, b) => a.id - b.id);
+    return { ...board, columns: sortedColumns, favorite: currentUser.favoriteBoardIDs.includes(boardID) };
   }
 
   async create(boardData: CreateBoardDTO): Promise<BoardEntity> {
