@@ -22,6 +22,7 @@ import { TeamEntity } from '../../teams/entity/team.entity';
 import { CommentEntity } from '../../issues/entity/comment.entity';
 import { PublicFileEntity } from '../../files/entity/public-file.entity';
 import stringToHslColor from '../../../common/utils/stringToHslColor';
+import { NotificationEntity } from '../../notifications/entity/notification.entity';
 
 export interface UserGoogleData {
   email: string;
@@ -69,6 +70,10 @@ export class UserEntity extends BaseEntity {
   @BeforeInsert()
   async hashPassword(): Promise<void> {
     if (this.password) this.password = await bcrypt.hash(this.password, 10);
+  }
+  async validatePassword(password: string): Promise<boolean> {
+    if (!this.isOAuthAccount) return true;
+    return bcrypt.compare(password, this.password);
   }
 
   @Exclude()
@@ -174,8 +179,9 @@ export class UserEntity extends BaseEntity {
   @RelationId('teamsLeader')
   teamsLeaderIDs: number[];
 
-  async validatePassword(password: string): Promise<boolean> {
-    if (!this.isOAuthAccount) return true;
-    return bcrypt.compare(password, this.password);
-  }
+  @OneToMany(() => NotificationEntity, (notification) => notification.user, {
+    onUpdate: 'CASCADE',
+    onDelete: 'CASCADE',
+  })
+  notifications: NotificationEntity[];
 }

@@ -23,7 +23,7 @@ export class NotificationEntity extends BaseEntity {
   @Column({ default: false })
   read: boolean;
 
-  @ManyToOne(() => UserEntity, {
+  @ManyToOne(() => UserEntity, (user) => user.notifications, {
     cascade: true,
   })
   user: UserEntity;

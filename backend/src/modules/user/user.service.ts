@@ -15,6 +15,7 @@ import { FilesService } from '../files/files.service';
 import { PublicFileEntity } from '../files/entity/public-file.entity';
 import { UserSearchService } from './user-search.service';
 import { CreateUserGithubDTO } from './dto/create-user-github.dto';
+import { NotificationEntity } from '../notifications/entity/notification.entity';
 
 @Injectable()
 export class UserService {
@@ -197,6 +198,10 @@ export class UserService {
   async getFavoriteBoards(id: number): Promise<BoardEntity[]> {
     const user = await this.users.findOneOrFail(id, { relations: ['favoriteBoards'] });
     return user.favoriteBoards;
+  }
+  async getNotifications(id: number): Promise<NotificationEntity[]> {
+    const user = await this.users.findOneOrFail(id, { relations: ['notifications'] });
+    return user.notifications;
   }
 
   async isUsernameTaken(username: string): Promise<boolean> {
