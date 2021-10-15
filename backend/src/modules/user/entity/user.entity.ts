@@ -1,5 +1,4 @@
 import {
-  AfterLoad,
   BeforeInsert,
   Column,
   Entity,
