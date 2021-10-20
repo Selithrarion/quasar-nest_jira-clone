@@ -7,6 +7,10 @@ export default {
     const { data }: ApiResponseModel<NotificationModel[]> = await http.get('/notifications');
     return data;
   },
+
+  async readAll(): Promise<void> {
+    await http.post('/notifications/read-all');
+  },
   async readByID(id: number): Promise<void> {
     await http.patch(`/notifications/read/${id}`);
   },
