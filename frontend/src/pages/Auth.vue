@@ -300,6 +300,7 @@ export default defineComponent({
     }
     function returnToAuthStep() {
       step.value = AuthStepEnum.AUTH;
+      type.value = AuthTypeEnum.LOGIN;
       twoFaCode.value = '';
     }
 
