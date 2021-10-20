@@ -7,18 +7,21 @@ import { IssueEntity } from './entity/issue.entity';
 import { CreateIssueDTO, UpdateIssueDTO, CreateCommentDTO, UpdateCommentDTO } from './dto';
 
 import { UserService } from '../user/user.service';
+import { NotificationsService } from '../notifications/notifications.service';
+import { NotificationTypes } from '../notifications/entity/notification.entity';
 
 @Injectable()
 export class IssuesService {
   constructor(
     @InjectRepository(IssueEntity)
     private readonly issues: Repository<IssueEntity>,
-
     @InjectRepository(CommentEntity)
     private readonly comments: Repository<CommentEntity>,
 
     @Inject(UserService)
-    private readonly userService: UserService
+    private readonly userService: UserService,
+    @Inject(NotificationsService)
+    private readonly notificationsService: NotificationsService
   ) {}
 
   async getByID(id: number): Promise<IssueEntity> {
@@ -36,6 +39,8 @@ export class IssuesService {
     const key = `${payload.project.key}-${issue.id}`;
     await this.issues.update(issue.id, { key });
 
+    await this.notificationsService.create(NotificationTypes.ISSUE_ASSIGN, payload.assigned);
+
     return { ...issue, key };
   }
 
@@ -45,6 +50,11 @@ export class IssuesService {
     });
     const updated = this.issues.create({ ...toUpdate, ...payload });
     await this.issues.update(id, payload);
+
+    const isAssignedUserChanged = payload.assigned?.id !== toUpdate.assigned?.id;
+    if (isAssignedUserChanged) {
+      await this.notificationsService.create(NotificationTypes.ISSUE_ASSIGN, payload.assigned);
+    }
 
     delete updated.column;
     return updated;

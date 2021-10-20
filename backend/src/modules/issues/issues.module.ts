@@ -8,9 +8,10 @@ import { IssuesGateway } from './issues.gateway';
 
 import { UserModule } from '../user/user.module';
 import { CommentEntity } from './entity/comment.entity';
+import { NotificationsModule } from '../notifications/notifications.module';
 
 @Module({
-  imports: [TypeOrmModule.forFeature([IssueEntity, CommentEntity]), UserModule],
+  imports: [TypeOrmModule.forFeature([IssueEntity, CommentEntity]), UserModule, NotificationsModule],
   controllers: [IssuesController],
   providers: [IssuesService, IssuesGateway],
 })
