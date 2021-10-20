@@ -27,10 +27,11 @@ export class TwoFactorAuthService {
     return toDataURL(otpURL);
   }
 
-  async isValid(code: string, user: UserEntity): Promise<boolean> {
+  async isValid(code: string, userID: number): Promise<boolean> {
+    const { twoFactorSecret } = await this.userService.getByID(userID);
     return authenticator.verify({
       token: code,
-      secret: user.twoFactorSecret,
+      secret: twoFactorSecret,
     });
   }
 }

@@ -32,7 +32,7 @@ export class TwoFactorAuthController {
   @Post('enable')
   @HttpCode(200)
   async enable(@Body('code') code: string, @Request() req): Promise<boolean> {
-    const isValid = await this.twoFactorAuthService.isValid(code, req.user);
+    const isValid = await this.twoFactorAuthService.isValid(code, req.user.id);
     if (!isValid) throw new BadRequestException('WRONG_OTP_CODE');
 
     return await this.userService.enable2FA(req.user.id);
@@ -41,13 +41,14 @@ export class TwoFactorAuthController {
   @ApiOperation({ summary: 'Auth with 2FA' })
   @ApiResponse({ status: 200, description: 'Successfully logged in' })
   @ApiResponse({ status: 500, description: 'Wrong OTP code' })
-  @ApiBearerAuth()
+  @Public()
   @Post('auth')
   @HttpCode(200)
-  async auth(@Body('code') code: string, @Request() req): Promise<UserTokensInterface> {
-    const isValid = await this.twoFactorAuthService.isValid(code, req.user);
+  async auth(@Body('code') code: string, @Body('email') email: string): Promise<UserTokensInterface> {
+    const user = await this.userService.getByEmail(email);
+    const isValid = await this.twoFactorAuthService.isValid(code, user.id);
     if (!isValid) throw new BadRequestException('WRONG_OTP_CODE');
 
-    return this.authService.login(req.user, true);
+    return this.authService.login(user, true);
   }
 }
