@@ -172,14 +172,7 @@ export class UserService {
   }
 
   async enable2FA(id: number): Promise<boolean> {
-    console.log(id);
-    // TODO: with .update isTwoFactorEnabled not change to true
-    // await this.users.update(id, {
-    //   isTwoFactorEnabled: true,
-    // });
-    const user = await this.users.findOne(id);
-    await this.users.save({
-      ...user,
+    await this.users.update(id, {
       isTwoFactorEnabled: true,
     });
     return true;
