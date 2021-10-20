@@ -21,9 +21,17 @@ export class NotificationsController {
   @ApiOperation({ summary: 'Read notification' })
   @ApiResponse({ status: 200, description: 'Notification read' })
   @ApiResponse({ status: 401, description: 'Unauthorized' })
-  @Patch(':id')
+  @Patch('read/:id')
   async readByID(@Param('id') id: number): Promise<void> {
     return await this.notificationsService.readByID(id);
+  }
+
+  @ApiOperation({ summary: 'Toggle notification read status' })
+  @ApiResponse({ status: 200, description: 'Notification read status toggled' })
+  @ApiResponse({ status: 401, description: 'Unauthorized' })
+  @Patch('toggle-read/:id')
+  async toggleRead(@Param('id') id: number): Promise<void> {
+    return await this.notificationsService.toggleRead(id);
   }
 
   @ApiOperation({ summary: 'Delete notification' })

@@ -29,6 +29,11 @@ export class NotificationsService {
     await this.notifications.update(id, { read: true });
   }
 
+  async toggleRead(id: number): Promise<void> {
+    const notification = await this.notifications.findOneOrFail(id);
+    await this.notifications.update(id, { read: !notification.read });
+  }
+
   async deleteByID(id: number): Promise<void> {
     await this.notifications.delete(id);
   }
