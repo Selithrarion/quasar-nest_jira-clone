@@ -293,8 +293,12 @@ export default defineComponent({
         loading.start('twoFaValidation');
 
         let isValid;
-        if (is2FaEnabled.value) isValid = await authRepository.validate2FaCode(twoFaCode.value);
-        else isValid = await authRepository.enable2FA(twoFaCode.value);
+        if (is2FaEnabled.value) {
+          const payload = { code: twoFaCode.value, email: form.email };
+          isValid = (await store.dispatch('user/validate2FA', payload)) as boolean;
+        } else {
+          isValid = await authRepository.enable2FA(twoFaCode.value);
+        }
 
         if (isValid) await redirectToRequestedOrDefaultPage();
       } catch (e) {
