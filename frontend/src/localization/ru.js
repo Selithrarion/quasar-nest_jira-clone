@@ -205,7 +205,7 @@ export default {
     apps: 'Приложения',
   },
 
-  notifications: {
+  notification: {
     notifications: 'Уведомления',
     showUnread: 'Показать только непрочитанные',
 
@@ -215,6 +215,12 @@ export default {
     markRead: 'Отметить как прочитанное',
     markAllRead: 'Отметить все как прочитанные',
     markUnread: 'Отметить как непрочитанное',
+
+    type: {
+      news: 'Новости по приложению Jira',
+      issueAssign: 'На вас была назначена задача',
+      issueWatchUpdate: 'Наблюдаемая задача была обновлена',
+    },
   },
 
   date: {

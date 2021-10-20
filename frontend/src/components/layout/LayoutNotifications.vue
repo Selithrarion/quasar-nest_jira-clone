@@ -1,11 +1,11 @@
 <template>
-  <BaseButton icon="notifications" :tooltip="t('notifications.notifications')" unelevated dense round>
+  <BaseButton icon="notifications" :tooltip="t('notification.notifications')" unelevated dense round>
     <q-menu style="height: calc(100vh - 100px)" auto-close>
       <q-list class="layout-notifications">
         <div class="column sticky-position bg-white">
           <div class="flex-center-between gap-2 q-pa-md">
             <h5 class="q-ma-none full-width">
-              {{ t('notifications.notifications') }}
+              {{ t('notification.notifications') }}
             </h5>
             <q-toggle
               v-model="isShowOnlyUnread"
@@ -13,7 +13,7 @@
               checked-icon="check"
               unchecked-icon="clear"
               color="green"
-              :label="t('notifications.showUnread')"
+              :label="t('notification.showUnread')"
               left-label
             />
           </div>
@@ -25,10 +25,10 @@
         <div v-else-if="!filteredNotifications.length" class="layout-notifications__empty">
           <div class="layout-notifications__empty-image" />
           <div v-if="isShowOnlyUnread">
-            {{ t('notifications.noUnreadLast30Days') }}
+            {{ t('notification.noUnreadLast30Days') }}
           </div>
           <div v-else>
-            {{ t('notifications.noLast30Days') }}
+            {{ t('notification.noLast30Days') }}
           </div>
         </div>
 
@@ -37,13 +37,13 @@
           <div class="layout-notifications__section-header flex-center-between q-py-sm q-pl-md q-px-lg">
             <CommonListTitle class="text-weight-medium" :title="t('date.today')" />
             <BaseButton v-show="canReadAll" class="text-weight-medium text-caption" plain-style @click="readAll">
-              {{ t('notifications.markAllRead') }}
+              {{ t('notification.markAllRead') }}
             </BaseButton>
           </div>
-          <BaseItem v-for="item in filteredNotifications" :key="item.id">
+          <BaseItem v-for="item in filteredNotifications" :key="item.id" @click="handleItemClick(item)">
             <q-item-section>
-              <q-item-label>
-                {{ item.typeID }}
+              <q-item-label class="row gap-3">
+                {{ getNotificationTitleByTypeID(item.typeID) }}
                 <span class="text-blue-grey-5">
                   {{ formatDate(item.createdAt, DateTypes.DIFF) }}
                 </span>
@@ -59,10 +59,7 @@
                 flat
                 @click.stop="toggleNotificationRead(item.id)"
               >
-                <BaseTooltip
-                  delay="0"
-                  :label="item.read ? t('notifications.markUnread') : t('notifications.markRead')"
-                />
+                <BaseTooltip delay="0" :label="item.read ? t('notification.markUnread') : t('notification.markRead')" />
               </BaseButton>
             </div>
           </BaseItem>
@@ -96,16 +93,38 @@ export default defineComponent({
     const loading = useLoading({ default: true });
 
     const notifications = ref<NotificationModel[]>([]);
+    onBeforeMount(async () => {
+      notifications.value = await notificationRepository.getAll();
+      loading.stop();
+    });
+
+    function getNotificationTitleByTypeID(typeID: number) {
+      switch (typeID) {
+        case 1:
+          return t('notification.type.news');
+
+        case 2:
+          return t('notification.type.issueAssign');
+        case 3:
+          return t('notification.type.issueWatchUpdate');
+
+        case 4:
+          return t('notification.type.projectAdd');
+        case 5:
+          return t('notification.type.projectDelete');
+
+        case 6:
+          return t('notification.type.teamAdd');
+        case 7:
+          return t('notification.type.teamDelete');
+      }
+    }
+
     const filteredNotifications = computed(() => {
       if (isShowOnlyUnread.value) return notifications.value.filter((n) => !n.read);
       else return notifications.value;
     });
     const isShowOnlyUnread = ref(false);
-
-    onBeforeMount(async () => {
-      notifications.value = await notificationRepository.getAll();
-      loading.stop();
-    });
 
     async function readNotification(id: number) {
       const itemIndex = notifications.value.findIndex((n) => n.id === id);
@@ -126,12 +145,17 @@ export default defineComponent({
       await notificationRepository.readAll();
     }
 
+    function handleItemClick(item: NotificationModel) {
+      console.log(item);
+    }
+
     return {
       t,
       loading,
       formatDate,
       DateTypes,
 
+      getNotificationTitleByTypeID,
       filteredNotifications,
       isShowOnlyUnread,
 
@@ -140,6 +164,8 @@ export default defineComponent({
 
       canReadAll,
       readAll,
+
+      handleItemClick,
     };
   },
 });
