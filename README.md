@@ -34,7 +34,7 @@ Github actions CI pipeline
 #### Global
 - Russian and English lanugages (also Arabic for RTL, but without translation)
 - RTL view (haha, even in jira rtl doesn't work very well, but thanks to quasar pretty nice rtl support)
-- User notifications (not implemented yet ❌)
+- User notifications (read one / read all, show only unread)
 
 #### Auth
 
