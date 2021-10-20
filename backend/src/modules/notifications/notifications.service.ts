@@ -25,6 +25,13 @@ export class NotificationsService {
     return await this.notifications.save(item);
   }
 
+  async readAll(userID: number): Promise<void> {
+    const notifications = await this.getAll(userID);
+    notifications.forEach((n) => {
+      if (!n.read) this.notifications.update(n.id, { read: true });
+    });
+  }
+
   async readByID(id: number): Promise<void> {
     await this.notifications.update(id, { read: true });
   }

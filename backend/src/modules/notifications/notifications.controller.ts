@@ -1,4 +1,4 @@
-import { Controller, Delete, Get, Param, Patch, Request } from '@nestjs/common';
+import { Controller, Delete, Get, Param, Patch, Post, Request } from '@nestjs/common';
 import { NotificationsService } from './notifications.service';
 import { ApiBearerAuth, ApiOperation, ApiResponse, ApiTags } from '@nestjs/swagger';
 import { NotificationEntity } from './entity/notification.entity';
@@ -16,6 +16,14 @@ export class NotificationsController {
   @Get()
   async getAll(@Request() req): Promise<NotificationEntity[]> {
     return await this.notificationsService.getAll(req.user.id);
+  }
+
+  @ApiOperation({ summary: 'Read all notifications' })
+  @ApiResponse({ status: 200, description: 'Notifications read' })
+  @ApiResponse({ status: 401, description: 'Unauthorized' })
+  @Post('read-all')
+  async readAll(@Request() req): Promise<void> {
+    return await this.notificationsService.readAll(req.user.id);
   }
 
   @ApiOperation({ summary: 'Read notification' })
