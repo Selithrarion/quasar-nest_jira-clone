@@ -146,7 +146,7 @@ export default defineComponent({
     margin-top: 96px;
   }
   &__image {
-    background: url('src/assets/img/no-active-issues.png') center no-repeat;
+    background: url('/src/assets/img/no-active-issues.png') center no-repeat;
     background-size: 100%;
     width: 180px;
     height: 130px;
