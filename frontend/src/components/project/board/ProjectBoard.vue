@@ -146,7 +146,9 @@ export default defineComponent({
     margin-top: 96px;
   }
   &__image {
-    background: url('/src/assets/img/no-active-issues.png') center no-repeat;
+    // TODO: resolve img error (but recently all was fine) :(
+    //background: url('src/assets/img/no-active-issues.png') center no-repeat;
+    background: url('src/assets/svg/create-team.svg') center no-repeat;
     background-size: 100%;
     width: 180px;
     height: 130px;
