@@ -17,8 +17,7 @@ export class NotificationsService {
   ) {}
 
   async getAll(userID: number): Promise<NotificationEntity[]> {
-    const userNotification = this.userService.getNotifications(userID);
-    return userNotification;
+    return this.userService.getNotifications(userID);
   }
 
   async create(typeID: NotificationTypes, user: UserEntity): Promise<NotificationEntity> {
