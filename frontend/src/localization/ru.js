@@ -184,7 +184,7 @@ export default {
     incorrect2FaCode: 'Неверный код, попробуйте снова',
     recoverPassword: 'Восстановить пароль от аккаунта Jira',
     sendEmail: 'Отправить Email',
-    passwordNotMatch: 'Пароли не совпадают',
+    passwordsNotMatch: 'Пароли не совпадают',
   },
 
   validation: {
@@ -195,7 +195,6 @@ export default {
     minChars: 'Минимум 0 символов | Минимум {n} символ | Минимум {n} символа | Минимум {n} символов',
     maxChars: 'Максимум 0 символов | Максимум {n} символ | Максимум {n} символа | Максимум {n} символов',
     upToChars: 'До 0 символов | До {n} символа | До {n} символов | До {n} символов',
-    passwordsNotMatch: 'Пароли не совпадают',
   },
 
   tabs: {

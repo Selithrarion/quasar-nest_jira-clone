@@ -51,8 +51,8 @@ export default {
     const { data }: ApiResponseModel<string> = await http.post('/2fa/generate');
     return data;
   },
-  async validate2FaCode(code: string): Promise<boolean> {
-    const { data }: ApiResponseModel<boolean> = await http.post('/2fa/auth', { code });
+  async validate2FaCode(code: string, email: string): Promise<UserAuthResponse> {
+    const { data }: ApiResponseModel<UserAuthResponse> = await http.post('/2fa/auth', { code, email });
     return data;
   },
   async enable2FA(code: string): Promise<boolean> {
