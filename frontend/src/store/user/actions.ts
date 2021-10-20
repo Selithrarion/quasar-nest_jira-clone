@@ -3,15 +3,22 @@ import { StateInterface } from '../index';
 import { UserStateInterface } from 'src/store/user/state';
 import { UserAuthResponse, UserLoginDTO, UserRegisterDTO, UserUpdateTokenResponse } from 'src/models/user/user.model';
 import authRepository from 'src/repositories/authRepository';
+import { http } from 'boot/axios';
 
 const actions: ActionTree<UserStateInterface, StateInterface> = {
   async login({ commit }, payload: UserLoginDTO): Promise<UserAuthResponse> {
     const data = await authRepository.login(payload);
+    // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access
+    if (data.accessToken) http.defaults.headers.common.Authorization = `Bearer ${data.accessToken}`;
+
     commit('AUTH_USER', data);
     return data;
   },
   async register({ commit }, payload: UserRegisterDTO) {
     const data = await authRepository.register(payload);
+    // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access
+    if (data.accessToken) http.defaults.headers.common.Authorization = `Bearer ${data.accessToken}`;
+
     commit('AUTH_USER', data);
   },
   logout({ commit }) {
