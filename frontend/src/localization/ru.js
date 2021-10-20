@@ -28,7 +28,6 @@ export default {
     clearAll: 'Очистить всё',
     or: 'или',
     code: 'Код',
-    notifications: 'Уведомления',
     help: 'Помощь',
     settings: 'Настройки',
     createIssue: 'Создать задачу',
@@ -204,6 +203,18 @@ export default {
     dashboards: 'Дашбоарды',
     people: 'Люди',
     apps: 'Приложения',
+  },
+
+  notifications: {
+    notifications: 'Уведомления',
+    showUnread: 'Показать только непрочитанные',
+
+    noLast30Days: 'Нет уведомлений за последние 30 дней',
+    noUnreadLast30Days: 'Прочитаны все уведомления за последние 30 дней',
+
+    markRead: 'Отметить как прочитанное',
+    markAllRead: 'Отметить все как прочитанные',
+    markUnread: 'Отметить как непрочитанное',
   },
 
   date: {
