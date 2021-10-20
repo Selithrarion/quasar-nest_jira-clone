@@ -32,9 +32,11 @@
           </div>
         </div>
 
+        <!--  TODO:  there are time sections in jira (today, yesterday, etc). add or simplify? -->
         <template v-else>
-          <div v-show="canReadAll" class="flex-center-end q-my-sm q-ml-sm q-mr-lg">
-            <BaseButton class="text-weight-medium text-caption" plain-style @click="readAll">
+          <div class="layout-notifications__section-header flex-center-between q-py-sm q-pl-md q-px-lg">
+            <CommonListTitle class="text-weight-medium" :title="t('date.today')" />
+            <BaseButton v-show="canReadAll" class="text-weight-medium text-caption" plain-style @click="readAll">
               {{ t('notifications.markAllRead') }}
             </BaseButton>
           </div>
@@ -78,11 +80,16 @@ import useLoading from 'src/composables/common/useLoading';
 
 import notificationRepository from 'src/repositories/notificationRepository';
 import { NotificationModel } from 'src/models/user/notification.model';
-import BaseButton from 'components/base/button/BaseButton.vue';
+
+import CommonListTitle from 'components/common/CommonListTitle.vue';
 
 export default defineComponent({
   name: 'LayoutNotifications',
-  components: { BaseButton },
+
+  components: {
+    CommonListTitle,
+  },
+
   setup() {
     const { t } = useI18n();
     const { formatDate } = useFormat();
@@ -144,7 +151,11 @@ export default defineComponent({
   width: 540px;
   height: calc(100vh - 100px);
 
-  &__unread-marker {
+  &__section-header {
+    position: sticky;
+    top: 73px;
+    background-color: white;
+    z-index: 1;
   }
 
   &__empty {
