@@ -8,19 +8,19 @@ import { http } from 'boot/axios';
 const actions: ActionTree<UserStateInterface, StateInterface> = {
   async login({ commit }, payload: UserLoginDTO): Promise<UserAuthResponse> {
     const data = await authRepository.login(payload);
-    // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access
-    if (data.accessToken) http.defaults.headers.common.Authorization = `Bearer ${data.accessToken}`;
-
     commit('AUTH_USER', data);
     return data;
   },
   async register({ commit }, payload: UserRegisterDTO) {
     const data = await authRepository.register(payload);
-    // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access
-    if (data.accessToken) http.defaults.headers.common.Authorization = `Bearer ${data.accessToken}`;
-
     commit('AUTH_USER', data);
   },
+  async validate2FA({ commit }, { code, email }: { code: string; email: string }) {
+    const data = await authRepository.validate2FaCode(code, email);
+    commit('AUTH_USER', data);
+    return true;
+  },
+
   logout({ commit }) {
     commit('LOGOUT_USER');
     return;

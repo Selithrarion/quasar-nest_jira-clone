@@ -39,7 +39,7 @@ export default boot(async ({ store, urlPath, redirect, router }) => {
       // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access
       const token = store.state.user.accessToken as string;
       // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access
-      if (token) http.defaults.headers['Authorization'] = `Bearer ${token}`;
+      if (token) http.defaults.headers.Authorization = `Bearer ${token}`;
 
       return config;
     },
@@ -75,7 +75,7 @@ export default boot(async ({ store, urlPath, redirect, router }) => {
         const { accessToken } = (await store.dispatch('user/updateTokens')) as UserUpdateTokenResponse;
         console.log('NEW AT', accessToken);
         // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access
-        http.defaults.headers.common['Authorization'] = `Bearer ${accessToken}`;
+        http.defaults.headers.common.Authorization = `Bearer ${accessToken}`;
         return http(originalRequest);
       }
 
