@@ -25,7 +25,7 @@ module.exports = configure(function (ctx) {
     boot: [
       'axios',
       'quasar-notify',
-      'auth-user',
+      'auth-user-middleware',
       'load-base-components',
       'vue-google-oauth',
       'vue-i18n',
