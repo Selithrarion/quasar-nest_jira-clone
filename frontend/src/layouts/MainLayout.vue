@@ -39,7 +39,7 @@
         <div class="flex-center gap-4">
           <CommonSearch v-model="searchValue" prepend-icon @search="search" />
 
-          <BaseButton icon="notifications" :tooltip="t('common.notifications')" unelevated dense round />
+          <LayoutNotifications />
           <BaseButton icon="help" :tooltip="t('common.help')" unelevated dense round />
           <BaseButton icon="settings" :tooltip="t('common.settings')" unelevated dense round>
             <q-menu style="width: 300px" auto-close>
@@ -91,6 +91,7 @@ import useDialog from 'src/composables/common/useDialog';
 import useLoading from 'src/composables/common/useLoading';
 import useLocalStorage from 'src/composables/common/useLocalStorage';
 
+import LayoutNotifications from 'components/layout/LayoutNotifications.vue';
 import CommonSearch from 'components/common/CommonSearch.vue';
 import ProjectBoardDialogCreateIssue from 'components/project/board/dialog/ProjectBoardDialogCreateIssue.vue';
 
@@ -98,6 +99,7 @@ export default defineComponent({
   name: 'MainLayout',
 
   components: {
+    LayoutNotifications,
     CommonSearch,
     ProjectBoardDialogCreateIssue,
   },
