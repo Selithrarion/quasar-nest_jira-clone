@@ -48,8 +48,8 @@ export class AuthService {
     const payload: UserJwtPayload = { id: user.id, email: user.email, is2FAEnabled };
     console.log('AUTH SERVICE login', payload);
 
-    const accessToken = await this.jwtService.sign(payload);
-    const refreshToken = await this.jwtService.sign(payload, {
+    const accessToken = this.jwtService.sign(payload);
+    const refreshToken = this.jwtService.sign(payload, {
       expiresIn: process.env.JWT_REFRESH_EXPIRES_IN,
     });
     await this.userService.setRefreshToken(user.id, refreshToken);
