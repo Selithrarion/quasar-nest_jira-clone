@@ -122,7 +122,13 @@
               </q-input>
             </div>
             <div class="flex-center-end gap-2 q-pt-md">
-              <BaseButton :label="t('common.skip')" secondary-color flat @click="redirectToRequestedOrDefaultPage" />
+              <BaseButton
+                v-if="!is2FaEnabled"
+                :label="t('common.skip')"
+                secondary-color
+                flat
+                @click="redirectToRequestedOrDefaultPage"
+              />
               <BaseButton :label="t('common.back')" secondary-color flat @click="returnToAuthStep" />
             </div>
           </q-card-section>
@@ -394,6 +400,7 @@ export default defineComponent({
       AuthStepEnum,
       redirectToRequestedOrDefaultPage,
 
+      is2FaEnabled,
       login,
 
       register,
