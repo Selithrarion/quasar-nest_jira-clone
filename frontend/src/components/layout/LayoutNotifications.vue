@@ -43,7 +43,7 @@
           <BaseItem v-for="item in filteredNotifications" :key="item.id" @click="handleItemClick(item)">
             <q-item-section>
               <q-item-label class="row gap-3">
-                {{ getNotificationTitleByTypeID(item.typeID) }}
+                {{ getNotificationTitleByType(item.type) }}
                 <span class="text-blue-grey-5">
                   {{ formatDate(item.createdAt, DateTypes.DIFF) }}
                 </span>
@@ -98,26 +98,8 @@ export default defineComponent({
       loading.stop();
     });
 
-    function getNotificationTitleByTypeID(typeID: number) {
-      switch (typeID) {
-        case 1:
-          return t('notification.type.news');
-
-        case 2:
-          return t('notification.type.issueAssign');
-        case 3:
-          return t('notification.type.issueWatchUpdate');
-
-        case 4:
-          return t('notification.type.projectAdd');
-        case 5:
-          return t('notification.type.projectDelete');
-
-        case 6:
-          return t('notification.type.teamAdd');
-        case 7:
-          return t('notification.type.teamDelete');
-      }
+    function getNotificationTitleByType(type: string) {
+      return t(`notification.typeTitles.${type}`);
     }
 
     const filteredNotifications = computed(() => {
@@ -155,7 +137,7 @@ export default defineComponent({
       formatDate,
       DateTypes,
 
-      getNotificationTitleByTypeID,
+      getNotificationTitleByType,
       filteredNotifications,
       isShowOnlyUnread,
 

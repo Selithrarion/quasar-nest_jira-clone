@@ -1,19 +1,19 @@
 import { BaseModel } from 'src/models/common/base.model';
 
 export enum NotificationTypes {
-  NEWS = 1,
+  NEWS = 'news',
 
-  ISSUE_ASSIGN,
-  ISSUE_WATCH_UPDATE,
+  ISSUE_ASSIGN = 'issueAssign',
+  ISSUE_WATCH_UPDATE = 'issueWatchUpdate',
 
-  PROJECT_ADD,
-  PROJECT_DELETE,
+  PROJECT_ADD = 'projectAdd',
+  PROJECT_DELETE = 'projectDelete',
 
-  TEAM_ADD,
-  TEAM_DELETE,
+  TEAM_ADD = 'teamAdd',
+  TEAM_DELETE = 'teamDelete',
 }
 
 export interface NotificationModel extends BaseModel {
-  typeID: NotificationTypes;
+  type: NotificationTypes;
   read: boolean;
 }

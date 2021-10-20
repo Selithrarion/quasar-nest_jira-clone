@@ -216,7 +216,7 @@ export default {
     markAllRead: 'Отметить все как прочитанные',
     markUnread: 'Отметить как непрочитанное',
 
-    type: {
+    typeTitles: {
       news: 'Новости по приложению Jira',
       issueAssign: 'На вас была назначена задача',
       issueWatchUpdate: 'Наблюдаемая задача была обновлена',

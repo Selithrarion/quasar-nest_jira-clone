@@ -3,22 +3,22 @@ import { BaseEntity } from '../../../common/types/base.entity';
 import { UserEntity } from '../../user/entity/user.entity';
 
 export enum NotificationTypes {
-  NEWS = 1,
+  NEWS = 'news',
 
-  ISSUE_ASSIGN,
-  ISSUE_WATCH_UPDATE,
+  ISSUE_ASSIGN = 'issueAssign',
+  ISSUE_WATCH_UPDATE = 'issueWatchUpdate',
 
-  PROJECT_ADD,
-  PROJECT_DELETE,
+  PROJECT_ADD = 'projectAdd',
+  PROJECT_DELETE = 'projectDelete',
 
-  TEAM_ADD,
-  TEAM_DELETE,
+  TEAM_ADD = 'teamAdd',
+  TEAM_DELETE = 'teamDelete',
 }
 
 @Entity()
 export class NotificationEntity extends BaseEntity {
   @Column({ type: 'enum', enum: NotificationTypes })
-  typeID: NotificationTypes;
+  type: NotificationTypes;
 
   @Column({ default: false })
   read: boolean;
