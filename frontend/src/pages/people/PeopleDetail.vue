@@ -170,11 +170,11 @@ export default defineComponent({
     const currentUser = computed(() => store.state.people.userDetail);
     const currentTeam = computed(() => store.state.people.teamDetail);
 
-    const isUserPageType = computed(() => {
-      return !route.path.includes('team');
-    });
     const isTeamPageType = computed(() => {
-      return !isUserPageType.value;
+      return route.path.includes('team');
+    });
+    const isUserPageType = computed(() => {
+      return !isTeamPageType.value;
     });
 
     const currentItemDetail = computed(() => (isUserPageType.value ? currentUser.value : currentTeam.value));
@@ -208,7 +208,7 @@ export default defineComponent({
       if (!availableProjects.value) await store.dispatch('project/getAll');
     });
 
-    watch(route.params, async () => {
+    watch(route, async () => {
       loading.start();
       await fetchItemDetail();
       loading.stop();
