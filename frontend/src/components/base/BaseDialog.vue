@@ -23,39 +23,41 @@
           <BaseButtonCloseIcon v-if="!hideCloseIcon" class="close-icon" @click="close" />
         </q-card-section>
 
-        <q-card-section class="q-pt-none q-px-lg q-pb-lg" :style="{ height: contentLoading ? '300px' : 'auto' }">
-          <BaseLoader v-if="contentLoading" center />
-          <div v-else>
-            <slot>Default slot</slot>
-          </div>
-        </q-card-section>
+        <q-form @submit="confirm">
+          <q-card-section class="q-pt-none q-px-lg q-pb-lg" :style="{ height: contentLoading ? '300px' : 'auto' }">
+            <BaseLoader v-if="contentLoading" center />
+            <div v-else class="form-fields-wrapper">
+              <slot>Default slot</slot>
+            </div>
+          </q-card-section>
 
-        <q-card-section
-          v-if="actions && !contentLoading"
-          class="dialog-action-buttons"
-          :class="[{ 'dialog-action-buttons--dense': type === 'delete' }, { 'fixed-section': fixedFooter }]"
-        >
-          <BaseButton v-if="showBackButton" color="blue-grey-6" :label="backText" flat @click="back" />
-          <BaseButton
-            v-if="!hideCloseButton"
-            v-close-popup
-            color="blue-grey-6"
-            :label="closeText || selectedType.closeButtonText"
-            flat
-            @click="close"
-          />
-          <BaseButton
-            v-if="!hideConfirmButton"
-            :class="confirmClasses"
-            :color="confirmColor || selectedType.confirmColor"
-            :label="confirmText || selectedType.confirmButtonText"
-            :icon="confirmIcon"
-            :loading="confirmLoading"
-            :disabled="confirmDisabled"
-            unelevated
-            @click="confirm"
-          />
-        </q-card-section>
+          <q-card-section
+            v-if="actions && !contentLoading"
+            class="dialog-action-buttons"
+            :class="[{ 'dialog-action-buttons--dense': type === 'delete' }, { 'fixed-section': fixedFooter }]"
+          >
+            <BaseButton v-if="showBackButton" color="blue-grey-6" :label="backText" flat @click="back" />
+            <BaseButton
+              v-if="!hideCloseButton"
+              v-close-popup
+              color="blue-grey-6"
+              :label="closeText || selectedType.closeButtonText"
+              flat
+              @click="close"
+            />
+            <BaseButton
+              v-if="!hideConfirmButton"
+              type="submit"
+              :class="confirmClasses"
+              :color="confirmColor || selectedType.confirmColor"
+              :label="confirmText || selectedType.confirmButtonText"
+              :icon="confirmIcon"
+              :loading="confirmLoading"
+              :disabled="confirmDisabled"
+              unelevated
+            />
+          </q-card-section>
+        </q-form>
       </slot>
     </q-card>
   </q-dialog>

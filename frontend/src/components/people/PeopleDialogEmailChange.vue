@@ -8,35 +8,31 @@
     @back="step--"
     @confirm="handleConfirm"
   >
-    <div class="column gap-2">
-      <div v-if="step === 1" class="q-mb-md">
-        <p>
-          Введите в поле ваш новый адрес электронной почты. После этого введите код из пиьсма, которое придёт в течение
-          пяти минут на указанный адрес
-        </p>
-        <p>Ваш текущий адрес - {{ userEmail }}</p>
-      </div>
-
-      <q-form v-model="valid">
-        <q-input
-          v-if="step === 1"
-          v-model="form.email"
-          label="Новый адрес электронной почты"
-          debounce="500"
-          :rules="[rules.required, rules.email, rules.uniqueEmail, notOldEmail]"
-          lazy-rules
-          filled
-        />
-        <q-input
-          v-if="step === 2"
-          v-model="form.code"
-          label="Код"
-          :hint="`Код указан в письме, отправленный на адрес ${form.email}`"
-          filled
-          @keyup="validateCodeEnter"
-        />
-      </q-form>
+    <div v-if="step === 1" class="q-mb-md">
+      <p>
+        Введите в поле ваш новый адрес электронной почты. После этого введите код из пиьсма, которое придёт в течение
+        пяти минут на указанный адрес
+      </p>
+      <p>Ваш текущий адрес - {{ userEmail }}</p>
     </div>
+
+    <q-input
+      v-if="step === 1"
+      v-model="form.email"
+      label="Новый адрес электронной почты"
+      debounce="500"
+      :rules="[rules.required, rules.email, rules.uniqueEmail, notOldEmail]"
+      lazy-rules
+      filled
+    />
+    <q-input
+      v-if="step === 2"
+      v-model="form.code"
+      label="Код"
+      :hint="`Код указан в письме, отправленный на адрес ${form.email}`"
+      filled
+      @keyup="validateCodeEnter"
+    />
   </BaseDialog>
 </template>
 

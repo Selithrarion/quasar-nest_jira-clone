@@ -16,7 +16,7 @@
           <a href="https://support.atlassian.com/atlassian-account/docs/what-is-an-atlassian-team/"> Подробнее </a>
         </p>
 
-        <q-form>
+        <div class="form-fields-wrapper">
           <q-input
             v-model="form.name"
             label="Название команды"
@@ -27,7 +27,7 @@
           />
 
           <CommonSelectUsers v-model="form.users" />
-        </q-form>
+        </div>
       </div>
     </div>
   </BaseDialog>

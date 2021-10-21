@@ -97,10 +97,10 @@
     </div>
 
     <div v-else-if="step === 3">
-      <q-form>
+      <div class="form-fields-wrapper">
         <q-input v-model="form.name" label="Имя доски" autofocus lazy-rules filled />
         <BaseSelect v-model="form.project" label="Проект" :options="availableProjects" :emit-value="false" />
-      </q-form>
+      </div>
     </div>
 
     <BaseDialog

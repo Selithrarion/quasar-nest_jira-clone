@@ -193,6 +193,7 @@ export class UserService {
     return user.favoriteBoards;
   }
   async getNotifications(id: number): Promise<NotificationEntity[]> {
+    // TODO: need add sort by created at
     const user = await this.users.findOneOrFail(id, { relations: ['notifications'] });
     return user.notifications;
   }

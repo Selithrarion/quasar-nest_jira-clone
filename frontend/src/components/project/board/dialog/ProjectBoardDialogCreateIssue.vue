@@ -25,63 +25,61 @@
     </template>
 
     <template #default>
-      <q-form>
+      <BaseSelectWithAvatar
+        v-model="form.project"
+        width="250"
+        :label="t('project.project')"
+        :options="availableProjects"
+        :rules="[rules.required]"
+      />
+
+      <BaseSelectIssueType
+        v-model="form.typeID"
+        width="250"
+        :label="t('project.issueType.issueType')"
+        :options="availableIssueTypes"
+        :rules="[rules.required]"
+      />
+
+      <q-separator />
+
+      <q-input
+        v-model="form.name"
+        :label="t('common.summary')"
+        :rules="[rules.required]"
+        hide-bottom-space
+        autofocus
+        filled
+      />
+      <q-input v-model="form.description" type="textarea" :label="t('common.description')" autogrow filled />
+
+      <q-separator />
+
+      <BaseSelectIssuePriority
+        v-model="form.priorityID"
+        width="250"
+        :options="availableIssuePriorities"
+        :rules="[rules.required]"
+      />
+      <q-input v-model="form.marks" style="max-width: 250px" :label="t('project.marks')" disable filled />
+
+      <div class="column gap-1">
         <BaseSelectWithAvatar
-          v-model="form.project"
+          v-model="form.assigned"
           width="250"
-          :label="t('project.project')"
-          :options="availableProjects"
-          :rules="[rules.required]"
+          :label="t('project.assigned')"
+          :options="availableProjectUsers"
         />
-
-        <BaseSelectIssueType
-          v-model="form.typeID"
-          width="250"
-          :label="t('project.issueType.issueType')"
-          :options="availableIssueTypes"
-          :rules="[rules.required]"
-        />
-
-        <q-separator />
-
-        <q-input
-          v-model="form.name"
-          :label="t('common.summary')"
-          :rules="[rules.required]"
-          hide-bottom-space
-          autofocus
-          filled
-        />
-        <q-input v-model="form.description" type="textarea" :label="t('common.description')" autogrow filled />
-
-        <q-separator />
-
-        <BaseSelectIssuePriority
-          v-model="form.priorityID"
-          width="250"
-          :options="availableIssuePriorities"
-          :rules="[rules.required]"
-        />
-        <q-input v-model="form.marks" style="max-width: 250px" :label="t('project.marks')" disable filled />
-
-        <div class="column gap-1">
-          <BaseSelectWithAvatar
-            v-model="form.assigned"
-            width="250"
-            :label="t('project.assigned')"
-            :options="availableProjectUsers"
-          />
-          <div>
-            <BaseButton :label="t('project.assignToMe')" dense flat @click="assignToCurrentUser" />
-          </div>
+        <div>
+          <BaseButton :label="t('project.assignToMe')" dense flat @click="assignToCurrentUser" />
         </div>
-      </q-form>
+      </div>
     </template>
   </BaseDialog>
 </template>
 
 <script lang="ts">
-import { defineComponent, reactive, computed } from 'vue';
+import { defineComponent, reactive, computed, ref } from 'vue';
 import { useI18n } from 'vue-i18n';
 import { useStore } from 'src/store';
 import useLoading from 'src/composables/common/useLoading';
@@ -110,6 +108,7 @@ export default defineComponent({
     const currentProject = computed(() => store.state.project.projectDetail);
     const currentBoard = computed(() => store.state.project.boardDetail);
 
+    const valid = ref(false);
     const form = reactive({
       project: currentProject.value,
       typeID: IssueTypeEnum['BUG'],
@@ -151,6 +150,7 @@ export default defineComponent({
       availableIssuePriorities,
       isContentLoading,
 
+      valid,
       form,
 
       create,
