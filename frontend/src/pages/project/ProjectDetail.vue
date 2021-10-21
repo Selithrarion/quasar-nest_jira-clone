@@ -3,7 +3,7 @@
 
   <div v-else>
     <LayoutSidebar
-      title="Jira project"
+      :title="project.name"
       :subtitle="t('project.softwareDevProject')"
       :avatar="project.avatar && project.avatar.url"
       :color="project.color"
