@@ -23,7 +23,7 @@
           <BaseButtonCloseIcon v-if="!hideCloseIcon" class="close-icon" @click="close" />
         </q-card-section>
 
-        <q-form @submit="confirm">
+        <q-form class="gap-0" @submit="confirm">
           <q-card-section class="q-pt-none q-px-lg q-pb-lg" :style="{ height: contentLoading ? '300px' : 'auto' }">
             <BaseLoader v-if="contentLoading" center />
             <div v-else class="form-fields-wrapper">
