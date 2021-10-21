@@ -182,7 +182,9 @@ export default defineComponent({
 
     const currentAccount = computed(() => store.state.user.currentUser);
     const isOwnProfile = computed(() => currentAccount.value?.id === currentUserID.value);
-    const isTeamMember = computed(() => currentTeam.value?.users.findIndex((u) => u.id === currentAccount.value?.id));
+    const isTeamMember = computed(
+      () => currentTeam.value?.users.findIndex((u) => u.id === currentAccount.value?.id) !== -1
+    );
     const canEditDetail = computed(() => {
       if (isUserPageType.value) return isOwnProfile.value;
       else return isTeamMember.value;
