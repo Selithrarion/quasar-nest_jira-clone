@@ -36,7 +36,13 @@
             class="dialog-action-buttons"
             :class="[{ 'dialog-action-buttons--dense': type === 'delete' }, { 'fixed-section': fixedFooter }]"
           >
-            <BaseButton v-if="showBackButton" color="blue-grey-6" :label="backText" flat @click="back" />
+            <BaseButton
+              v-if="showBackButton"
+              color="blue-grey-6"
+              :label="backText || defaultBackText"
+              flat
+              @click="back"
+            />
             <BaseButton
               v-if="!hideCloseButton"
               v-close-popup
@@ -65,6 +71,7 @@
 
 <script lang="ts">
 import { defineComponent, computed, ref } from 'vue';
+import { useI18n } from 'vue-i18n';
 
 export default defineComponent({
   name: 'BaseDialog',
@@ -131,7 +138,7 @@ export default defineComponent({
     backText: {
       type: String,
       required: false,
-      default: 'Назад',
+      default: null,
     },
     closeText: {
       type: String,
@@ -169,6 +176,8 @@ export default defineComponent({
   emits: ['confirm', 'close', 'back'],
 
   setup(props, { emit }) {
+    const { t } = useI18n();
+
     function handleInput(value: boolean) {
       if (!value) close();
     }
@@ -182,20 +191,22 @@ export default defineComponent({
       emit('back');
     }
 
+    const defaultBackText = ref(t('common.back'));
+    const defaultConfirmText = ref(t('common.confirm'));
     const show = ref(true);
 
     const types = [
       {
         name: 'default',
-        confirmButtonText: 'Подтвердить',
+        confirmButtonText: t('common.confirm'),
         confirmColor: 'primary',
-        closeButtonText: 'Закрыть',
+        closeButtonText: t('common.close'),
       },
       {
         name: 'delete',
-        confirmButtonText: 'Удалить',
+        confirmButtonText: t('common.delete'),
         confirmColor: 'amber-8',
-        closeButtonText: 'Отмена',
+        closeButtonText: t('common.cancel'),
       },
     ];
     const selectedType = computed(() => {
@@ -220,6 +231,8 @@ export default defineComponent({
       close,
       back,
 
+      defaultBackText,
+      defaultConfirmText,
       show,
 
       types,

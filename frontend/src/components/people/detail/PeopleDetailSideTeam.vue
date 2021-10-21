@@ -19,7 +19,7 @@
     <template #append>
       <q-card>
         <q-card-section class="column gap-2">
-          <CommonListTitle title="участники" />
+          <CommonListTitle :title="t('people.membersNoCount')" />
           <BaseItem v-for="user in team.users" :key="user.id" @click="openUserProfile(user.id)">
             <q-item-section side>
               <BaseAvatar :src="user.avatar && user.avatar.url" :item-name="user.name" :item-color="user.color" />
@@ -34,7 +34,7 @@
 
       <BaseDialog
         v-if="dialog.openedName.value === 'addUsers'"
-        title="Добавить участников в команду"
+        :title="t('people.addTeamMembers')"
         :confirm-loading="dialog.loading.value"
         @close="dialog.close"
         @confirm="addUsersToTeam"
@@ -45,12 +45,12 @@
       <BaseDialog
         v-if="dialog.openedName.value === 'deleteTeam'"
         type="delete"
-        title="Удалить команду?"
+        :title="t('people.deleteTeam')"
         :confirm-loading="dialog.loading.value"
         @close="dialog.close"
         @confirm="deleteTeam"
       >
-        Удалить команду <span class="text-weight-medium">{{ team.name }}</span> с {{ team.users.length }} участниками?
+        <div v-html="t('people.deleteTeamText', { name: team.name, number: team.users.length })" />
       </BaseDialog>
     </template>
   </PeopleDetailSide>
@@ -58,6 +58,7 @@
 
 <script lang="ts">
 import { defineComponent, reactive, PropType } from 'vue';
+import { useI18n } from 'vue-i18n';
 import { useRouter } from 'vue-router';
 import { useStore } from 'src/store';
 import useDialog from 'src/composables/common/useDialog';
@@ -88,6 +89,7 @@ export default defineComponent({
   },
 
   setup(props) {
+    const { t } = useI18n();
     const router = useRouter();
     const store = useStore();
     const dialog = useDialog();
@@ -128,6 +130,7 @@ export default defineComponent({
     }
 
     return {
+      t,
       dialog,
 
       form,

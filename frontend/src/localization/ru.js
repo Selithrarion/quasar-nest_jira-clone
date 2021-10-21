@@ -123,7 +123,7 @@ export default {
       bug: 'Баг',
       task: 'Задача',
       history: 'История',
-      investigation: 'Исследование'
+      investigation: 'Исследование',
     },
     issuePriority: {
       priority: 'Приоритет',
@@ -150,9 +150,13 @@ export default {
   },
 
   people: {
+    membersNoCount: 'участники',
     members: '0 участников | {n} участник | {n} участника | {n} участников',
     yourNewTeam: 'Ваша новая команда!',
     createTeam: 'Создайте новую команду',
+    addTeamMembers: 'Добавить участников в команду ',
+    deleteTeam: 'Удалить команду?',
+    deleteTeamText: 'Удалить команду <span class="text-weight-bold"> {name} </span> с {number} участниками?',
     activityAccess: 'Другие пользователи увидят только те объекты, к которым у них есть доступ.',
     activityYourLast:
       'Здесь показаны все объекты, которые вы создали, изменили или прокомментировали за последние 90 дней.',
