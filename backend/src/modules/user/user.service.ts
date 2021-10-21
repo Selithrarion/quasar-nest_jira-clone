@@ -193,8 +193,12 @@ export class UserService {
     return user.favoriteBoards;
   }
   async getNotifications(id: number): Promise<NotificationEntity[]> {
-    // TODO: need add sort by created at
-    const user = await this.users.findOneOrFail(id, { relations: ['notifications'] });
+    const user = await this.users
+      .createQueryBuilder('user')
+      .where('user.id = :id', { id })
+      .leftJoinAndSelect('user.notifications', 'notifications')
+      .orderBy('notifications.createdAt', 'DESC')
+      .getOneOrFail();
     return user.notifications;
   }
 
