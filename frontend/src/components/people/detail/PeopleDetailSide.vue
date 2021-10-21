@@ -1,7 +1,14 @@
 <template>
   <aside class="people-detail-side">
     <label class="people-detail-side__avatar" :class="{ 'cursor-pointer': canEdit }">
-      <input ref="avatarInput" class="hidden absolute-full" type="file" accept="image/*" @input="uploadAvatar" />
+      <input
+        v-if="canEdit"
+        ref="avatarInput"
+        class="hidden absolute-full"
+        type="file"
+        accept="image/*"
+        @input="uploadAvatar"
+      />
       <BaseAvatar
         size="128px"
         :src="avatar && avatar.url"
