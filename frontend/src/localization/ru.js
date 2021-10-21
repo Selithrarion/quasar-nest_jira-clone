@@ -106,7 +106,6 @@ export default {
     configureFields: 'Настроить поля',
 
     assigned: 'Исполнитель',
-    issueType: 'Тип задачи',
     marks: 'Метки',
     addMarks: 'Добавить метки',
     assignToMe: 'Назначить мне',
@@ -114,12 +113,27 @@ export default {
     editAssigned: 'Изменить исполнителя',
     author: 'Автор',
     editAuthor: 'Изменить автора',
-    priority: 'Приоритет',
-    editPriority: 'Изменить приоритет',
     openSettings: 'Открыть диалог настроек',
     configure: 'Настроить',
     deleteComment: 'Удалить комментарий?',
     deleteCommentFrom: 'Удалить комментарий от {n}',
+
+    issueType: {
+      issueType: 'Тип задачи',
+      bug: 'Баг',
+      task: 'Задача',
+      history: 'История',
+      investigation: 'Исследование'
+    },
+    issuePriority: {
+      priority: 'Приоритет',
+      edit: 'Изменить приоритет',
+      lowest: 'Очень низкий',
+      low: 'Низкий',
+      medium: 'Средний',
+      high: 'Высокий',
+      urgent: 'Срочно',
+    },
   },
 
   access: {

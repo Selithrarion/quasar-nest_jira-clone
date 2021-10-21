@@ -37,7 +37,7 @@
         <BaseSelectIssueType
           v-model="form.typeID"
           width="250"
-          :label="t('project.issueType')"
+          :label="t('project.issueType.issueType')"
           :options="availableIssueTypes"
           :rules="[rules.required]"
         />

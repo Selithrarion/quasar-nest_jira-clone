@@ -228,11 +228,11 @@
           </div>
 
           <div class="issue__item-row">
-            <label>{{ t('project.priority') }}</label>
+            <label>{{ t('project.issuePriority.priority') }}</label>
             <BaseSelectIssuePriority
               :model-value="issue.priorityID"
               :options="availableIssuePriorities"
-              :tooltip="t('project.editPriority')"
+              :tooltip="t('project.issuePriority.edit')"
               button-style
               @update:model-value="updateIssue('priorityID', $event)"
             />
