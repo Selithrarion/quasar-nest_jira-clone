@@ -5,6 +5,7 @@ import { Repository } from 'typeorm';
 import { NotificationEntity, NotificationTypes } from './entity/notification.entity';
 import { UserService } from '../user/user.service';
 import { UserEntity } from '../user/entity/user.entity';
+import { UpdateNotificationDTO } from './dto/notification.dto';
 
 @Injectable()
 export class NotificationsService {
@@ -32,13 +33,8 @@ export class NotificationsService {
     });
   }
 
-  async readByID(id: number): Promise<void> {
-    await this.notifications.update(id, { read: true });
-  }
-
-  async toggleRead(id: number): Promise<void> {
-    const notification = await this.notifications.findOneOrFail(id);
-    await this.notifications.update(id, { read: !notification.read });
+  async update(id: number, payload: UpdateNotificationDTO): Promise<void> {
+    await this.notifications.update(id, payload);
   }
 
   async deleteByID(id: number): Promise<void> {

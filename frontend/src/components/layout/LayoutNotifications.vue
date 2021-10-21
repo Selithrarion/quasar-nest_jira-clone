@@ -113,12 +113,12 @@ export default defineComponent({
       if (notifications.value[itemIndex].read === true) return;
 
       notifications.value[itemIndex].read = false;
-      await notificationRepository.readByID(id);
+      await notificationRepository.update(id, { read: true });
     }
     async function toggleNotificationRead(id: number) {
       const itemIndex = notifications.value.findIndex((n) => n.id === id);
       notifications.value[itemIndex].read = !notifications.value[itemIndex].read;
-      await notificationRepository.toggleRead(id);
+      await notificationRepository.update(id, { read: notifications.value[itemIndex].read });
     }
 
     const canReadAll = computed(() => notifications.value.some((n) => !n.read));

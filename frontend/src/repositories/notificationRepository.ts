@@ -11,11 +11,9 @@ export default {
   async readAll(): Promise<void> {
     await http.post('/notifications/read-all');
   },
-  async readByID(id: number): Promise<void> {
-    await http.patch(`/notifications/read/${id}`);
-  },
-  async toggleRead(id: number): Promise<void> {
-    await http.patch(`/notifications/toggle-read/${id}`);
+
+  async update(id: number, payload: Partial<NotificationModel>): Promise<void> {
+    await http.patch(`/notifications/${id}`, payload);
   },
 
   async delete(id: number): Promise<void> {

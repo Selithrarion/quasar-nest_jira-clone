@@ -1,7 +1,8 @@
-import { Controller, Delete, Get, Param, Patch, Post, Request } from '@nestjs/common';
+import { Body, Controller, Delete, Get, Param, Patch, Post, Request } from '@nestjs/common';
 import { NotificationsService } from './notifications.service';
 import { ApiBearerAuth, ApiOperation, ApiResponse, ApiTags } from '@nestjs/swagger';
 import { NotificationEntity } from './entity/notification.entity';
+import { UpdateNotificationDTO } from './dto/notification.dto';
 
 @ApiBearerAuth()
 @ApiTags('notifications')
@@ -26,20 +27,12 @@ export class NotificationsController {
     return await this.notificationsService.readAll(req.user.id);
   }
 
-  @ApiOperation({ summary: 'Read notification' })
-  @ApiResponse({ status: 200, description: 'Notification read' })
+  @ApiOperation({ summary: 'Update notification' })
+  @ApiResponse({ status: 200, description: 'Notification updated' })
   @ApiResponse({ status: 401, description: 'Unauthorized' })
-  @Patch('read/:id')
-  async readByID(@Param('id') id: number): Promise<void> {
-    return await this.notificationsService.readByID(id);
-  }
-
-  @ApiOperation({ summary: 'Toggle notification read status' })
-  @ApiResponse({ status: 200, description: 'Notification read status toggled' })
-  @ApiResponse({ status: 401, description: 'Unauthorized' })
-  @Patch('toggle-read/:id')
-  async toggleRead(@Param('id') id: number): Promise<void> {
-    return await this.notificationsService.toggleRead(id);
+  @Patch(':id')
+  async update(@Param('id') id: number, @Body() payload: UpdateNotificationDTO): Promise<void> {
+    return await this.notificationsService.update(id, payload);
   }
 
   @ApiOperation({ summary: 'Delete notification' })
