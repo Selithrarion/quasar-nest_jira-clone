@@ -3,6 +3,9 @@ import { BoardModel } from 'src/models/project/board.model';
 import { IssueModel } from 'src/models/project/issue.model';
 import { PaginationMeta } from 'src/models/common/pagination.model';
 
+import { vueI18n } from 'boot/vue-i18n';
+const { t } = vueI18n.global;
+
 export interface ProjectStateInterface {
   projects?: ProjectModel[] | null;
   projectsMeta?: PaginationMeta | null;
@@ -38,28 +41,28 @@ function state(): ProjectStateInterface {
     availableIssueTypes: [
       {
         id: 1,
-        name: 'Баг',
+        name: t('project.issueType.bug'),
         key: 'BUG',
         icon: 'crop_square',
         color: 'red-5',
       },
       {
         id: 2,
-        name: 'Задача',
+        name: t('project.issueType.task'),
         key: 'TASK',
         icon: 'change_history',
         color: 'blue-5',
       },
       {
         id: 3,
-        name: 'История',
+        name: t('project.history.bug'),
         key: 'HISTORY',
         icon: 'circle',
         color: 'green-5',
       },
       {
         id: 4,
-        name: 'Исследование',
+        name: t('project.issueType.investigation'),
         key: 'INVESTIGATION',
         icon: 'help',
         color: 'amber-5',
@@ -68,35 +71,35 @@ function state(): ProjectStateInterface {
     availableIssuePriorities: [
       {
         id: 1,
-        name: 'Очень низкий',
+        name: t('project.issuePriority.lowest'),
         key: 'LOWEST',
         icon: 'remove',
         color: 'green-5',
       },
       {
         id: 2,
-        name: 'Низкий',
+        name: t('project.issuePriority.low'),
         key: 'LOW',
         icon: 'expand_more',
         color: 'green-7',
       },
       {
         id: 3,
-        name: 'Средний',
+        name: t('project.issuePriority.medium'),
         key: 'MEDIUM',
         icon: 'drag_handle',
         color: 'amber-5',
       },
       {
         id: 4,
-        name: 'Высокий',
+        name: t('project.issuePriority.high'),
         key: 'HIGH',
         icon: 'expand_less',
         color: 'red-5',
       },
       {
         id: 5,
-        name: 'Срочно',
+        name: t('project.issuePriority.urgent'),
         key: 'HIGHEST',
         icon: 'priority_high',
         color: 'red-7',
