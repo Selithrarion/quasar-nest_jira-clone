@@ -1,5 +1,5 @@
 <template>
-  <PeopleListCard>
+  <PeopleListCard style="min-height: 180px">
     <q-card-section class="column items-center q-px-sm q-pb-lg q-pt-md ellipsis">
       <BaseAvatar
         size="72px"
