@@ -17,7 +17,7 @@
           />
         </q-card-section>
         <q-card-section class="col-9">
-          <h6 class="text-weight-regular q-my-md">{{t('common.thereNoAnything')}}</h6>
+          <h6 class="text-weight-regular q-my-md">{{ t('common.thereNoAnything') }}</h6>
           <p v-if="isOwnProfile">
             {{ t('people.activityYourLast') }}
           </p>
@@ -51,6 +51,9 @@
             </q-item-section>
           </BaseItem>
         </q-list>
+        <div v-if="restNumber" class="flex-center text-blue-grey-4 text-caption q-py-sm">
+          and {{ restNumber }} hidden
+        </div>
       </q-card-section>
     </q-card>
   </section>
@@ -98,6 +101,7 @@ export default defineComponent({
     const { formatDate } = useFormat();
 
     const limitedItems = computed(() => props.items.slice(0, 5));
+    const restNumber = computed(() => props.items.length - 5);
 
     return {
       t,
@@ -105,6 +109,7 @@ export default defineComponent({
       DateTypes,
 
       limitedItems,
+      restNumber,
     };
   },
 });
