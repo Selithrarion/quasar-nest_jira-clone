@@ -24,7 +24,7 @@
         </template>
       </q-img>
 
-      <q-icon v-else-if="showIcon" name="person" :size="iconSize" />
+      <q-icon v-else-if="showIcon" name="person" color="white" :size="iconSize" />
 
       <span v-else-if="itemName" class="text-white">{{ itemInitials }}</span>
     </slot>
