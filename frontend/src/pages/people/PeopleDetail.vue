@@ -178,7 +178,6 @@ export default defineComponent({
     });
 
     const currentItemDetail = computed(() => (isUserPageType.value ? currentUser.value : currentTeam.value));
-    const currentItemDetailID = computed(() => (isUserPageType.value ? currentUserID.value : currentTeamID.value));
     const availableProjects = computed(() => store.state.project.projects);
 
     const currentAccount = computed(() => store.state.user.currentUser);
@@ -207,7 +206,7 @@ export default defineComponent({
       if (!availableProjects.value) await store.dispatch('project/getAll');
     });
 
-    watch(currentItemDetailID, async () => {
+    watch(route.params, async () => {
       loading.start();
       await fetchItemDetail();
       loading.stop();
