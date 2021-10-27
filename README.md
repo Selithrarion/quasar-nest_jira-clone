@@ -10,7 +10,7 @@
 5. Socket.io (real-time issues update)
 6. Vuedraggable (issues kanban board)
 7. Vue i18n (for pluralization '1 доскА' '2 доскИ' '6 досОК' (1 board, 2 boardS, 6 boardS))
-8. Unit tests (Vue test utils, Jest), E2E tests (Cypress) (not implemented yet ❌)
+8. Unit tests (Vue test utils, Jest), E2E tests (Cypress)
 9. other - date-fns, some lodash functions, eslint + tslint + prettier
 
 #### Backend
