@@ -2,7 +2,14 @@
   <div class="common-page-header">
     <div class="flex justify-between items-center q-pr-xl">
       <CommonPageTitle :title="pageTitle" />
-      <BaseButton color="primary" :label="createButtonLabel" size="0.8rem" unelevated @click="create" />
+      <BaseButton
+        data-test="createButton"
+        color="primary"
+        :label="createButtonLabel"
+        size="0.8rem"
+        unelevated
+        @click="create"
+      />
     </div>
 
     <div class="q-px-xl flex gap-4">

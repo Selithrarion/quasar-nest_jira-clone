@@ -63,7 +63,7 @@
 
       <template #body-cell-actions="props">
         <q-td :props="props">
-          <BaseButtonMore block>
+          <BaseButtonMore data-test="moreButton" block>
             <q-menu auto-close>
               <q-list>
                 <BaseItem :label="t('project.settings')" />
