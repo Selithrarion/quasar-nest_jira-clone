@@ -1,4 +1,4 @@
-import { Controller, Post, Body, UseGuards, Request, Query, Get } from '@nestjs/common';
+import { Controller, Post, Body, UseGuards, Request, Get, HttpCode } from '@nestjs/common';
 import { ApiTags } from '@nestjs/swagger';
 
 import { AuthService } from './auth.service';
@@ -15,6 +15,7 @@ export class AuthController {
   constructor(private readonly authService: AuthService) {}
 
   @UseGuards(LocalAuthGuard)
+  @HttpCode(200)
   @Post('login')
   async login(@Request() req): Promise<UserTokensInterface> {
     return await this.authService.login(req.user);
@@ -31,13 +32,14 @@ export class AuthController {
     return await this.authService.updateTokens(payload);
   }
 
+  @HttpCode(200)
   @Post('google-auth')
   async authWithGoogle(@Body('token') token: string): Promise<UserTokensInterface> {
     return await this.authService.authWithGoogle(token);
   }
-
-  @Get('github-auth')
-  async authWithGithub(@Query('code') code: string): Promise<UserTokensInterface> {
+  @HttpCode(200)
+  @Post('github-auth')
+  async authWithGithub(@Body('code') code: string): Promise<UserTokensInterface> {
     return await this.authService.authWithGithub(code);
   }
 }

@@ -40,10 +40,7 @@ export default {
   },
 
   async authWithGithub(code: string): Promise<string> {
-    const params = {
-      code,
-    };
-    const { data }: ApiResponseModel<string> = await http.get('/auth/github-auth', { params });
+    const { data }: ApiResponseModel<string> = await http.post('/auth/github-auth', { code });
     return data;
   },
 
