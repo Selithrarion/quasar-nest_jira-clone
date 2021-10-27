@@ -10,7 +10,7 @@
 5. Socket.io (real-time issues update)
 6. Vuedraggable (issues kanban board)
 7. Vue i18n (for pluralization '1 доскА' '2 доскИ' '6 досОК' (1 board, 2 boardS, 6 boardS))
-8. Unit tests (Vue test utils, Jest), E2E tests (Cypress) (not implemented yet ❌)
+8. Unit tests (Vue test utils, Jest), E2E tests (Cypress)
 9. other - date-fns, some lodash functions, eslint + tslint + prettier
 
 #### Backend
@@ -114,5 +114,13 @@ Github actions CI pipeline
 - View user teams / team users  
   
 star if you like it 🤩
+
+### Install  
+1. Clone project  
+2. Terminal #1 "docker compose up"  
+3. Terminal #2 "cd .\frontend\" and "quasar dev"  
+4. Terminal #3 "cd .\backend\" and "yarn start:dev" 
+   
+frontend and backend not in docker because i can't fix backend bcrypt error and i need to figure out how to make a hot reload (you can help if you know, it'll be cool)
 
 
