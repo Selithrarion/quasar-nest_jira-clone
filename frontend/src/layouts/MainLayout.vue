@@ -195,6 +195,7 @@ export default defineComponent({
         loading.start('logout');
         await store.dispatch('user/logout');
         await router.push('/auth');
+        router.go(0);
       } finally {
         loading.stop('logout');
       }

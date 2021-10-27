@@ -326,6 +326,7 @@ export default defineComponent({
     async function redirectToRequestedOrDefaultPage() {
       const url = (route.query.redirect as string) || '/projects';
       await router.replace(url);
+      router.go(0);
     }
 
     interface GoogleAuth {
