@@ -3,7 +3,6 @@ import { StateInterface } from '../index';
 import { UserStateInterface } from 'src/store/user/state';
 import { UserAuthResponse, UserLoginDTO, UserRegisterDTO, UserUpdateTokenResponse } from 'src/models/user/user.model';
 import authRepository from 'src/repositories/authRepository';
-import { http } from 'boot/axios';
 
 const actions: ActionTree<UserStateInterface, StateInterface> = {
   async login({ commit }, payload: UserLoginDTO): Promise<UserAuthResponse> {
