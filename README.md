@@ -88,7 +88,7 @@ Github actions CI pipeline
 - Add marks (not implemented yet ❌) 
 - Created at / updated at fields with ability to toggle show mode (2 hours ago, 16 seconds ago, etc..) and default (May 15, 13:43)
 - Add / Edit / Delete comments
-- Reply comment (not implemented yet ❌) 
+- Add mentions in comments (not implemented yet ❌) 
 
 ##### Roadmap    
   
