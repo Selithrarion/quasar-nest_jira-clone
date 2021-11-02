@@ -36,6 +36,7 @@ export default {
     created: 'Created',
     updateDate: 'Update date',
     thereNoAnything: "There's no anything",
+    search: 'Search',
   },
 
   work: {

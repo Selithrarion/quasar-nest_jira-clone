@@ -48,6 +48,7 @@ export default {
     created: 'Создрано',
     updateDate: 'Дата обновления',
     thereNoAnything: 'Здесь ничего нет',
+    search: 'Поиск',
   },
 
   work: {
