@@ -183,7 +183,7 @@ export default {
     username: 'Имя пользователя',
     email: 'Email',
     password: 'Пароль',
-    confirmEmail: 'Подтвердите пароль',
+    confirmPassword: 'Подтвердите пароль',
     profile: 'Профиль',
     displayNameUsernameOrEmail: 'Их отображаемое имя, имя пользователя или email',
     max10Users: 'Вы можете пригласить не более 10 пользователей за раз.',
