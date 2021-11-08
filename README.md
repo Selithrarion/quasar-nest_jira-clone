@@ -102,7 +102,7 @@ Github actions CI pipeline
 - View favorite projects
 - View user teams / team users  
   
-star if you like it 🤩
+and.. you know - give star if you like it 🤩😊
 
 ### Install  
 1. Clone project  
