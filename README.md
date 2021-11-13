@@ -1,5 +1,6 @@
 # Jira clone with Quasar (Vue 3 Composition API with Typescript) + Nest (Node.js)  
 
+### Video  
 https://user-images.githubusercontent.com/59411497/141484169-912fc465-505e-4aeb-aaea-da8d26e47c1b.mp4
 
 ### Stack
