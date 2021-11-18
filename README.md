@@ -2,6 +2,8 @@
 
 ### Video  
 https://user-images.githubusercontent.com/59411497/141484169-912fc465-505e-4aeb-aaea-da8d26e47c1b.mp4
+  
+https://vimeo.com/647362201 (original resolution) 
 
 ### Stack
 #### Frontend
