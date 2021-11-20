@@ -27,7 +27,7 @@
 </template>
 
 <script lang="ts">
-import { defineComponent, computed, onBeforeMount, onMounted, watch, inject } from 'vue';
+import { defineComponent, computed, onBeforeMount, onMounted, watch } from 'vue';
 import { useI18n } from 'vue-i18n';
 import { useStore } from 'src/store';
 import { useRoute, useRouter } from 'vue-router';

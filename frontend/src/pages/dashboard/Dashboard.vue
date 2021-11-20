@@ -1,8 +1,8 @@
 <template>
   <q-page class="dashboard-page">
     <CommonPageHeader
-      page-title="Дашбоарды"
-      create-button-label="Создать дашбоард"
+      page-title="Dashboards"
+      create-button-label="Create dashboard"
       :filters="['leader', 'project', 'group']"
       @create="dialog.open('createDashboard')"
     />
@@ -68,7 +68,7 @@
                 <BaseButtonMore>
                   <q-menu auto-close>
                     <q-list>
-                      <BaseItem label="Копировать дашбоард" />
+                      <BaseItem label="Copy dashboard" />
                     </q-list>
                   </q-menu>
                 </BaseButtonMore>
@@ -87,15 +87,15 @@
 </template>
 
 <script lang="ts">
-import { defineComponent, reactive, computed } from 'vue';
-import { useStore } from 'src/store';
+import { defineComponent, reactive } from 'vue';
+// import { useStore } from 'src/store';
 import useDialog from 'src/composables/common/useDialog';
 
 import CommonPageHeader from 'components/common/CommonPageHeader.vue';
 import DashboardCreateDialog from 'components/dashboard/create/DashboardCreateDialog.vue';
 
 import { DashboardModel } from 'src/models/dashboard/dashboard.model';
-import dashboardRepository from 'src/repositories/dashboardRepository';
+// import dashboardRepository from 'src/repositories/dashboardRepository';
 
 export default defineComponent({
   name: 'Dashboard',
@@ -118,7 +118,7 @@ export default defineComponent({
       {
         name: 'name',
         required: true,
-        label: 'Название',
+        label: 'Name',
         field: (row: DashboardModel) => row.name,
         sortable: true,
         align: 'left',
@@ -126,7 +126,7 @@ export default defineComponent({
       {
         name: 'leader',
         required: true,
-        label: 'Руководитель',
+        label: 'Supervisor',
         field: (row: DashboardModel) => row.leader,
         sortable: true,
         align: 'left',
@@ -134,7 +134,7 @@ export default defineComponent({
       {
         name: 'access',
         required: true,
-        label: 'Доступ',
+        label: 'Access',
         field: (row: DashboardModel) => row.leader,
         sortable: true,
         align: 'left',
@@ -142,9 +142,9 @@ export default defineComponent({
       {
         name: 'marksCount',
         required: true,
-        label: 'Пометки',
+        label: 'Overlays',
         field: (row: DashboardModel) => row.marksCount,
-        format: (val: number) => `${val} человек`,
+        format: (val: number) => `${val} human`,
         sortable: true,
         align: 'left',
       },

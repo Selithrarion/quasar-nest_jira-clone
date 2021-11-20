@@ -38,7 +38,7 @@ export default defineComponent({
     label: {
       type: String,
       required: false,
-      default: 'Приоритет',
+      default: 'Priority',
     },
 
     buttonStyle: Boolean,

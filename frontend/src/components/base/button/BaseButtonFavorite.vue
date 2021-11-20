@@ -42,12 +42,12 @@ export default defineComponent({
     tooltipRemove: {
       type: String,
       required: false,
-      default: 'Снять отметку',
+      default: 'Uncheck',
     },
     tooltipAdd: {
       type: String,
       required: false,
-      default: 'Пометить',
+      default: 'Flag',
     },
   },
 });

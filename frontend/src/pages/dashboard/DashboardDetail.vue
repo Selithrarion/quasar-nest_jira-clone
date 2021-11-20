@@ -15,13 +15,13 @@
 
         <BaseButton
           class="text-weight-bold"
-          label="Добавить гаджет"
+          label="Add gadget"
           secondary-color
           unelevated
           @click="dialog.open('addGadget')"
         />
 
-        <BaseButton class="text-weight-bold" label="Изменить схему" secondary-color unelevated>
+        <BaseButton class="text-weight-bold" label="Change schema" secondary-color unelevated>
           <q-menu auto-close>
             <q-list>
               <BaseItem class="q-pa-sm">
@@ -38,22 +38,22 @@
         <BaseButtonMore class="btn--secondary" padding="6px" :flat="false" :round="false" unelevated>
           <q-menu auto-close>
             <q-list padding dense>
-              <!--              TODO: кажется это common list title?-->
+              <!--              TODO: it seems it common list title?-->
               <BaseItem class="flex items-center text-caption text-uppercase" :label="dashboard.name" />
-              <BaseItem label="Изменить и поделиться" disable />
-              <BaseItem label="Копировать" disable />
-              <BaseItem label="Просмотреть в виде настенной панели" disable />
-              <BaseItem label="Удалить" @click="dialog.open('deleteDashboard')" />
+              <BaseItem label="Edit and share" disable />
+              <BaseItem label="Copy" disable />
+              <BaseItem label="View as wall panel" disable />
+              <BaseItem label="Delete" @click="dialog.open('deleteDashboard')" />
 
               <q-separator class="q-my-sm" />
 
-              <BaseItem label="Просмотреть слайд-шоу на настенной панели" disable />
-              <BaseItem label="Настроить слайд-шоу на настенной панели" disable />
+              <BaseItem label="View slideshow on wallboard" disable />
+              <BaseItem label="Set up a slideshow on a wallboard" disable />
 
               <q-separator class="q-my-sm" />
 
-              <BaseItem label="Создать дашбоард " @click="dialog.open('createDashboard')" />
-              <BaseItem label="Показать все дашбоарды" @click="goToDashboardsPage" />
+              <BaseItem label="Create dashboard " @click="dialog.open('createDashboard')" />
+              <BaseItem label="Show all dashboards" @click="goToDashboardsPage" />
             </q-list>
           </q-menu>
         </BaseButtonMore>
@@ -74,12 +74,12 @@
           </div>
 
           <div>
-            <BaseButton tooltip="Свернуть" icon="close_fullscreen" size="14px" padding="4px" unelevated disable flat />
-            <BaseButton tooltip="Развернуть" icon="fullscreen" size="14px" padding="4px" unelevated disable flat />
+            <BaseButton tooltip="Collapse" icon="close_fullscreen" size="14px" padding="4px" unelevated disable flat />
+            <BaseButton tooltip="Expand" icon="fullscreen" size="14px" padding="4px" unelevated disable flat />
             <BaseButton icon="more_horiz" size="14px" padding="4px" unelevated flat>
               <q-menu auto-close>
                 <div class="q-px-md q-pt-md q-pb-sm select-none">
-                  <CommonListTitle title="цвет выделения" />
+                  <CommonListTitle title="highlight color" />
                   <div class="flex gap-2 q-py-sm">
                     <button
                       v-for="color in colors"
@@ -100,10 +100,10 @@
                 <q-separator />
 
                 <q-list class="select-none" dense>
-                  <BaseItem label="Обновить страницу" disable />
-                  <BaseItem label="Настроить" disable />
-                  <BaseItem label="Переименовать" disable />
-                  <BaseItem label="Удалить" disable />
+                  <BaseItem label="Refresh the page" disable />
+                  <BaseItem label="Tune" disable />
+                  <BaseItem label="Rename" disable />
+                  <BaseItem label="Delete" disable />
                 </q-list>
               </q-menu>
             </BaseButton>
@@ -112,17 +112,17 @@
 
         <q-form class="column justify-between full-height">
           <div class="flex justify-end q-mt-auto q-pt-lg">
-            <BaseButton label="Сохранить" secondary-color unelevated />
+            <BaseButton label="Save" secondary-color unelevated />
           </div>
         </q-form>
       </div>
 
       <div class="gadget-empty-slot">
         <div class="flex-center column">
-          <div class="text-grey-7">Перетащите гаджет в эту колонку</div>
-          <div>или</div>
+          <div class="text-grey-7">Drag the gadget to this column</div>
+          <div>or</div>
           <BaseButton
-            label="Добавление гаджета"
+            label="Adding a gadget"
             color="primary"
             size="14px"
             dense
@@ -138,20 +138,19 @@
     <BaseDialog
       v-if="dialog.openedName.value === 'deleteDashboard'"
       type="delete"
-      :title="`Удалить ${dashboard.name}?`"
+      :title="`Delete ${dashboard.name}?`"
       :confirm-loading="isDeleteDashboardLoading"
       @close="dialog.close"
       @confirm="deleteDashboard"
     >
-      Этот дашбоард и его конфигурация будут удалены без возможности восстановления. Использовать этот дашбоард в
-      качестве настенной панели или для показа слайд-шоу на настенной панели будет невозможно.
+      This dashboard and its configuration will be permanently deleted. Use this dashboard in as a wallboard or to display a slideshow on a wallboard.
     </BaseDialog>
   </q-page>
 </template>
 
 <script lang="ts">
 import { defineComponent, ref, computed } from 'vue';
-import { useRoute, useRouter } from 'vue-router';
+import { useRouter } from 'vue-router';
 import { useStore } from 'src/store';
 import useDialog from 'src/composables/common/useDialog';
 
@@ -172,7 +171,7 @@ export default defineComponent({
   },
 
   setup() {
-    const route = useRoute();
+    // const route = useRoute();
     const router = useRouter();
     const store = useStore();
     const dialog = useDialog();

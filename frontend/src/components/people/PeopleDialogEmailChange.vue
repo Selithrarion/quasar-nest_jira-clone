@@ -1,6 +1,6 @@
 <template>
   <BaseDialog
-    title="Изменить электронную почту"
+    title="Change email"
     :confirm-text="computedConfirmText"
     :loading="loading.active.value"
     :show-back-button="step > 1"
@@ -10,16 +10,16 @@
   >
     <div v-if="step === 1" class="q-mb-md">
       <p>
-        Введите в поле ваш новый адрес электронной почты. После этого введите код из пиьсма, которое придёт в течение
-        пяти минут на указанный адрес
+        Enter your new email address in the field. After that, enter the code from the letter that will come within
+        five minutes to the specified address
       </p>
-      <p>Ваш текущий адрес - {{ userEmail }}</p>
+      <p>Your current address - {{ userEmail }}</p>
     </div>
 
     <q-input
       v-if="step === 1"
       v-model="form.email"
-      label="Новый адрес электронной почты"
+      label="new email address"
       debounce="500"
       :rules="[rules.required, rules.email, rules.uniqueEmail, notOldEmail]"
       lazy-rules
@@ -28,8 +28,8 @@
     <q-input
       v-if="step === 2"
       v-model="form.code"
-      label="Код"
-      :hint="`Код указан в письме, отправленный на адрес ${form.email}`"
+      label="Code"
+      :hint="`Code is specified in the letter sent to the address ${form.email}`"
       filled
       @keyup="validateCodeEnter"
     />
@@ -58,8 +58,8 @@ export default defineComponent({
     const userID = computed(() => store.state.user.currentUser?.id);
     const userEmail = computed(() => store.state.user.currentUser?.email);
     const computedConfirmText = computed(() => {
-      if (step.value === 1) return 'Отправить код';
-      else return 'Проверить код';
+      if (step.value === 1) return 'Send code';
+      else return 'Check code';
     });
     async function handleConfirm() {
       if (step.value === 1) await sendEmail();
@@ -110,7 +110,7 @@ export default defineComponent({
     }
 
     function notOldEmail(v: string) {
-      return v !== userEmail.value || 'Это ваш текущий адрес';
+      return v !== userEmail.value || 'This is your current address.';
     }
 
     return {

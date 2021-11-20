@@ -2,17 +2,17 @@
   <q-form @submit.prevent="submit">
     <q-input
       v-model="form.name"
-      label="Название"
-      hint="До 40 символов"
+      label="Name"
+      hint="Up to 40 characters"
       :rules="[rules.required, rules.max40]"
       autofocus
       lazy-rules
       filled
     />
 
-    <q-input v-model="form.description" type="textarea" label="Описание" autogrow filled />
+    <q-input v-model="form.description" type="textarea" label="Description" autogrow filled />
 
-    <BaseSelect v-model="form.accessID" label="Доступ" :options="accessOptions">
+    <BaseSelect v-model="form.accessID" label="Access" :options="accessOptions">
       <template #optionPrepend="{ option }">
         <q-icon :name="option.icon" />
       </template>
@@ -23,8 +23,8 @@
     </BaseSelect>
 
     <div class="dialog-action-buttons">
-      <BaseButton label="Назад" color="primary" flat @click="close" />
-      <BaseButton label="Сохранить" type="submit" color="primary" :loading="loading" unelevated />
+      <BaseButton label="Back" color="primary" flat @click="close" />
+      <BaseButton label="Save" type="submit" color="primary" :loading="loading" unelevated />
     </div>
   </q-form>
 </template>
@@ -48,20 +48,20 @@ export default defineComponent({
     const accessOptions = reactive([
       {
         id: 4,
-        name: 'Закрытый',
-        description: 'Только вы имеете доступ.',
+        name: 'Closed',
+        description: 'Only you have access.',
         icon: 'lock',
       },
       {
         id: 5,
-        name: 'Ограниченный',
-        description: 'Только выбранные люди имеют доступ.',
+        name: 'Limited',
+        description: 'Only selected people have access.',
         icon: 'people',
       },
       {
         id: 6,
-        name: 'Открытый',
-        description: 'Все пользователи организации имеют доступ.',
+        name: 'Open',
+        description: 'All users of the organization have access.',
         icon: 'lock_open',
       },
     ]);

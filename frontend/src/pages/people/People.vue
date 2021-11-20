@@ -2,16 +2,16 @@
   <q-page class="people-page big-side-padding q-pb-xl">
     <div class="column gap-4 q-mt-lg">
       <div class="flex justify-end gap-2">
-        <BaseButton label="Создайте новую команду" secondary-color unelevated @click="dialog.open('createTeam')" />
-        <BaseButton label="Добавить людей" color="primary" unelevated />
+        <BaseButton label="Create a new team" secondary-color unelevated @click="dialog.open('createTeam')" />
+        <BaseButton label="Add people" color="primary" unelevated />
       </div>
 
-      <CommonSearch v-model="searchValue" placeholder="Поиск людей и команд" :outlined="false" filled append-icon />
+      <CommonSearch v-model="searchValue" placeholder="Search people and teams" :outlined="false" filled append-icon />
     </div>
 
     <BaseLoader v-if="loading.active.value" page-margin />
     <template v-else>
-      <h6 class="text-body1">Вы работаете с</h6>
+      <h6 class="text-body1">You work with</h6>
       <PeopleListUser>
         <PeopleListUserCard
           v-for="user in availableUsers"
@@ -21,7 +21,7 @@
         />
       </PeopleListUser>
 
-      <h6 class="text-body1">Ваши команды</h6>
+      <h6 class="text-body1">Your commands</h6>
       <PeopleListTeam>
         <PeopleListTeamCard
           v-for="team in availableTeams"

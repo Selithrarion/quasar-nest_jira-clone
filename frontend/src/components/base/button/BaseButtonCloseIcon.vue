@@ -1,5 +1,5 @@
 <template>
-  <BaseButton v-close-popup icon="close" tooltip="Закрыть" :flat="flat" :round="round" :dense="dense" />
+  <BaseButton v-close-popup icon="close" tooltip="Close" :flat="flat" :round="round" :dense="dense" />
 </template>
 
 <script lang="ts">

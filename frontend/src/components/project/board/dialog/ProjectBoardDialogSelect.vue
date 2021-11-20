@@ -1,10 +1,10 @@
 <template>
   <BaseDialog
-    close-text="Назад"
-    confirm-text="Создать доску"
+    close-text="Back"
+    confirm-text="Create board"
     :title="computedTitle"
     :show-back-button="step !== 1"
-    :back-text="step === 1 ? 'Отмена' : 'Назад'"
+    :back-text="step === 1 ? 'Cancel' : 'Back'"
     :hide-confirm-button="step === 2"
     :confirm-loading="loading.active.value"
     :confirm-icon="step === 1 ? 'add' : undefined"
@@ -19,7 +19,7 @@
     <div v-if="step === 1">
       <CommonSearch v-model="search" :outlined="false" client-search filled />
 
-      <CommonListTitle class="q-mt-md q-mb-sm"> доски в {{ project.name }} </CommonListTitle>
+      <CommonListTitle class="q-mt-md q-mb-sm"> boards in {{ project.name }} </CommonListTitle>
       <q-list>
         <BaseItem
           v-for="board in filteredBoards"
@@ -46,7 +46,7 @@
             >
               <q-menu auto-close>
                 <q-list>
-                  <BaseItem label="Удалить" @click.stop="dialog.open('deleteBoard', { item: board })" />
+                  <BaseItem label="Delete" @click.stop="dialog.open('deleteBoard', { item: board })" />
                 </q-list>
               </q-menu>
             </BaseButton>
@@ -61,14 +61,13 @@
           <div class="column">
             <h5 class="text-weight-medium no-margin">Scrum</h5>
             <div class="q-mt-md">
-              Scrum предназначается для планирования, включения и передачи сгруппированных по времени фрагментов
-              операций, называемых спринтами.
+              Scrum is about planning, incorporating, and communicating time-grouped chunks operations called sprints.
             </div>
           </div>
 
           <BaseButton
             class="q-mt-xl"
-            label="Создание доски Scrum"
+            label="Scrum board creation"
             secondary-color
             disable
             unelevated
@@ -80,14 +79,14 @@
           <div class="column">
             <h5 class="text-weight-medium no-margin">Kanban</h5>
             <div class="q-mt-md">
-              Kanban предназначается для визуализации рабочего процесса и ограничения объема работы, выполняющейся в
-              данный момент, для последовательного усовершенствования существующих процессов.
+              Kanban is about visualizing the workflow and limiting the amount of work done in at the moment,
+              for the consistent improvement of existing processes.
             </div>
           </div>
 
           <BaseButton
             class="q-mt-xl"
-            label="Создание доски Kanban"
+            label="Creating a Kanban board"
             secondary-color
             unelevated
             @click="showKanbanCreateForm"
@@ -98,24 +97,24 @@
 
     <div v-else-if="step === 3">
       <div class="form-fields-wrapper">
-        <q-input v-model="form.name" label="Имя доски" autofocus lazy-rules filled />
-        <BaseSelect v-model="form.project" label="Проект" :options="availableProjects" :emit-value="false" />
+        <q-input v-model="form.name" label="Board name" autofocus lazy-rules filled />
+        <BaseSelect v-model="form.project" label="Project" :options="availableProjects" :emit-value="false" />
       </div>
     </div>
 
     <BaseDialog
       v-if="dialog.openedName.value === 'deleteBoard'"
       type="delete"
-      :title="`Удалить ${dialog.openedItem.value.name}?`"
+      :title="`Delete ${dialog.openedItem.value.name}?`"
       :confirm-loading="dialog.loading.value"
       :confirm-disabled="dialog.openedItem.value.name !== confirmBoardName"
       @close="closeDeleteConfirmDialog"
       @confirm="deleteBoard(dialog.openedItem.value.id)"
     >
-      Вы уверены, что хотите удалить доску
+      Are you sure you want to Delete the board
       <b>{{ dialog.openedItem.value.name }}</b>
-      ? Данные в ней навсегда будут утеряны.
-      <q-input v-model.trim="confirmBoardName" class="q-mt-md" label="Введите имя доски" autofocus outlined />
+      ? The data in it will be lost forever.
+      <q-input v-model.trim="confirmBoardName" class="q-mt-md" label="Enter board name" autofocus outlined />
     </BaseDialog>
   </BaseDialog>
 </template>
@@ -216,8 +215,8 @@ export default defineComponent({
     }
 
     const computedTitle = computed(() => {
-      if (step.value === 1) return 'Выбор доски';
-      else return 'Создать доску Agile';
+      if (step.value === 1) return 'Board selection';
+      else return 'Create Agile Board';
     });
     const step = ref(1);
 

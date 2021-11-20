@@ -24,7 +24,7 @@
             @blur="updateUserInfo('position', form.position)"
             @keydown.enter="$event.target.blur()"
           >
-            <BaseTooltip v-if="canEdit" label="Название должности можно изменить" />
+            <BaseTooltip v-if="canEdit" label="Position name can be changed" />
           </q-input>
           <q-input
             v-model="form.department"
@@ -35,7 +35,7 @@
             @blur="updateUserInfo('department', form.department)"
             @keydown.enter="$event.target.blur()"
           >
-            <BaseTooltip v-if="canEdit" label="Название отдела можно изменить" />
+            <BaseTooltip v-if="canEdit" label="Department name can be changed" />
           </q-input>
           <q-input
             v-model="form.organisation"
@@ -46,7 +46,7 @@
             @blur="updateUserInfo('organisation', form.organisation)"
             @keydown.enter="$event.target.blur()"
           >
-            <BaseTooltip v-if="canEdit" label="Название организации можно изменить" />
+            <BaseTooltip v-if="canEdit" label="Organization name can be changed" />
           </q-input>
           <q-input
             v-model="form.location"
@@ -57,7 +57,7 @@
             @blur="updateUserInfo('location', form.location)"
             @keydown.enter="$event.target.blur()"
           >
-            <BaseTooltip v-if="canEdit" label="Данные о местоположении можно изменить" />
+            <BaseTooltip v-if="canEdit" label="Location data can be changed" />
           </q-input>
         </q-card-section>
 
@@ -75,7 +75,7 @@
         </q-card-section>
 
         <q-card-section v-if="canEdit ? true : availableUserTeams.length" class="column gap-2">
-          <CommonListTitle title="команды" />
+          <CommonListTitle title="commands" />
           <BaseItem v-for="team in availableUserTeams" :key="team.id" @click="handleTeamClick(team.id)">
             <q-item-section side>
               <BaseAvatar
@@ -145,7 +145,7 @@ export default defineComponent({
     const createNewTeamItem = ref({
       id: 0,
       color: 'blue-grey-2',
-      name: 'Создайте новую команду',
+      name: 'Create a new team',
     });
     const availableUserTeams = computed(() => {
       const teams = props.user.teams || [];

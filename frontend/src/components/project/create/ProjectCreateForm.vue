@@ -22,7 +22,7 @@
 
     <q-input
       v-model="form.key"
-      hint="К примеру My Project может быть — MP, MP1, MYPR, MY, PR или любое другое"
+      hint="For example, My Project can be - MP, MP1, MYPR, MY, PR or any other"
       :label="t('table.key')"
       :rules="[rules.required, rules.max10]"
       lazy-rules

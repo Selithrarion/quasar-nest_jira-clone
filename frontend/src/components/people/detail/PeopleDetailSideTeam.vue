@@ -2,7 +2,7 @@
   <PeopleDetailSide
     type="team"
     :item-id="team.id"
-    :button-label="canEdit ? 'Добавить людей' : null"
+    :button-label="canEdit ? 'Add people' : null"
     :display-name="team.name"
     :name="team.name"
     :avatar="team.avatar"
@@ -13,7 +13,7 @@
     @update:display-name="updateTeamInfo('name', $event)"
   >
     <template #moreButtonItems>
-      <BaseItem v-if="canEdit" label="Удалить команду" @click="dialog.open('deleteTeam')" />
+      <BaseItem v-if="canEdit" label="Delete command" @click="dialog.open('deleteTeam')" />
     </template>
 
     <template #append>
@@ -50,7 +50,7 @@
         @close="dialog.close"
         @confirm="deleteTeam"
       >
-        <div v-html="t('people.deleteTeamText', { name: team.name, number: team.users.length })" />
+        {{ $t('people.deleteTeamText', { name: team.name, number: team.users.length }) }}
       </BaseDialog>
     </template>
   </PeopleDetailSide>

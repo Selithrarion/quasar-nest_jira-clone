@@ -1,8 +1,8 @@
 <template>
   <q-page class="projects-page">
     <CommonPageHeader
-      page-title="Фильтры"
-      create-button-label="Создать фильтр"
+      page-title="Filters"
+      create-button-label="Create filter"
       :filters="['leader', 'project', 'group']"
       @create="dialog.open('createFilter')"
     />
@@ -66,8 +66,8 @@
             <BaseButtonMore>
               <q-menu auto-close>
                 <q-list>
-                  <BaseItem label="Управление подписками" />
-                  <BaseItem label="Копировать фильтр" />
+                  <BaseItem label="Subscription management" />
+                  <BaseItem label="Copy filter" />
                 </q-list>
               </q-menu>
             </BaseButtonMore>
@@ -107,7 +107,7 @@ export default defineComponent({
       {
         name: 'name',
         required: true,
-        label: 'Название',
+        label: 'Name',
         field: (row: FilterInterface) => row.name,
         sortable: true,
         align: 'left',
@@ -115,7 +115,7 @@ export default defineComponent({
       {
         name: 'leader',
         required: true,
-        label: 'Руководитель',
+        label: 'Supervisor',
         field: (row: FilterInterface) => row.leader,
         sortable: true,
         align: 'left',
@@ -123,7 +123,7 @@ export default defineComponent({
       {
         name: 'access',
         required: true,
-        label: 'Доступ',
+        label: 'Access',
         field: (row: FilterInterface) => AccessEnum[row.accessID],
         sortable: false,
         align: 'left',
@@ -131,9 +131,9 @@ export default defineComponent({
       {
         name: 'favoriteCount',
         required: true,
-        label: 'Кто добавил в избранное',
+        label: 'Who added to favorites',
         field: (row: FilterInterface) => row.favoriteCount,
-        format: (val: number) => `${val} пользователей`,
+        format: (val: number) => `${val} users`,
         sortable: true,
         align: 'left',
       },

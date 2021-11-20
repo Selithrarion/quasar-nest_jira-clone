@@ -39,7 +39,7 @@ export default defineComponent({
     placeholder: {
       type: String,
       required: false,
-      default: 'Поиск',
+      default: 'Search',
     },
     outlined: {
       type: Boolean,
