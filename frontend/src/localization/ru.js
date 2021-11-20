@@ -117,7 +117,7 @@ export default {
     openSettings: 'Открыть диалог настроек',
     configure: 'Настроить',
     deleteComment: 'Удалить комментарий?',
-    deleteCommentFrom: 'Удалить комментарий от {n}',
+    deleteCommentFrom: 'Удалить комментарий от {name}',
 
     issueType: {
       issueType: 'Тип задачи',

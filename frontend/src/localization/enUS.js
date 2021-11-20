@@ -15,7 +15,7 @@ export default {
     lastUpdates: 'Last updated',
     clearAll: 'Clear all',
     or: 'or',
-    code: 'code',
+    code: 'Code',
     help: 'Help',
     settings: 'Settings',
     createIssue: 'Create issue',
@@ -74,15 +74,15 @@ export default {
     trash: 'Move to trash',
 
     board: 'Board',
-    softwareDevProject: 'Проект по разработке ПО',
-    companyType: 'Это проект управляемый компанией',
+    softwareDevProject: 'Software Development Project',
+    companyType: 'This is a project managed by a company',
 
     automation: 'Automation',
     markBoard: 'Mark board',
     newVersion: 'New version',
-    enterNameTeamOrEmail: 'Введите имя, команду или адрес эл. почты',
-    enterMessage: 'Введите сообщение',
-    copyLink: 'Копировать ссылку',
+    enterNameTeamOrEmail: 'Enter name, team or email',
+    enterMessage: 'Enter message',
+    copyLink: 'Copy link',
     onlyMyTasks: 'Only my tasks',
     release: 'Release',
 
@@ -104,7 +104,7 @@ export default {
     openSettings: 'Open settings dialog',
     configure: 'Configure',
     deleteComment: 'Delete comment?',
-    deleteCommentFrom: 'Delete comment from {n}',
+    deleteCommentFrom: 'Delete comment from {name}',
 
     issueType: {
       issueType: 'Issue type',
