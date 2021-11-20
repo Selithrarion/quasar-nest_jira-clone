@@ -19,7 +19,7 @@
     <div v-if="step === 1">
       <CommonSearch v-model="search" :outlined="false" client-search filled />
 
-      <CommonListTitle class="q-mt-md q-mb-sm"> доски в {{ project.name }} </CommonListTitle>
+      <CommonListTitle class="q-mt-md q-mb-sm"> boards in {{ project.name }} </CommonListTitle>
       <q-list>
         <BaseItem
           v-for="board in filteredBoards"
@@ -36,7 +36,7 @@
             </q-item-section>
 
             <BaseButton
-              v-show="isActiveBoard(board.id)"
+              v-show="!isActiveBoard(board.id)"
               icon="more_horiz"
               padding="4px"
               color="blue-grey-4"
@@ -46,7 +46,7 @@
             >
               <q-menu auto-close>
                 <q-list>
-                  <BaseItem label="Удалить" @click.stop="dialog.open('deleteBoard', { item: board })" />
+                  <BaseItem label="Delete" @click.stop="dialog.open('deleteBoard', { item: board })" />
                 </q-list>
               </q-menu>
             </BaseButton>
@@ -112,9 +112,11 @@
       @close="closeDeleteConfirmDialog"
       @confirm="deleteBoard(dialog.openedItem.value.id)"
     >
-      Вы уверены, что хотите удалить доску
-      <b>{{ dialog.openedItem.value.name }}</b>
-      ? Данные в ней навсегда будут утеряны.
+      <div>
+        Вы уверены, что хотите удалить доску
+        <b>{{ dialog.openedItem.value.name }}</b>
+        ? Данные в ней навсегда будут утеряны.
+      </div>
       <q-input v-model.trim="confirmBoardName" class="q-mt-md" label="Введите имя доски" autofocus outlined />
     </BaseDialog>
   </BaseDialog>

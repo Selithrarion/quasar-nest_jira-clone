@@ -245,18 +245,18 @@ export default defineComponent({
 
     const sidebarItems: SidebarItemModel[] = [
       {
-        label: 'Дорожная карта',
+        label: 'Roadmap',
         icon: 'view_day',
         routeName: 'roadmap',
       },
       {
-        label: 'Доска задач',
+        label: 'Board',
         icon: 'view_week',
         routeName: 'board',
         action: openSelectedBoard,
       },
       {
-        label: 'Отчёты',
+        label: 'Reports',
         icon: 'show_chart',
         dialog: true,
       },
@@ -264,44 +264,44 @@ export default defineComponent({
         separator: true,
       },
       {
-        label: 'Задачи',
+        label: 'Issues',
         icon: 'splitscreen',
         routeName: 'issues',
         hideHeaderTitleRowActions: true,
         hideHeaderActions: true,
       },
       {
-        label: 'Компоненты',
+        label: 'Components',
         icon: 'call_to_action',
         dialog: true,
       },
       {
-        label: 'Код',
+        label: 'Code',
         icon: 'code',
         dialog: true,
       },
       {
-        label: 'Развёртывания',
+        label: 'Cloud upload',
         icon: 'cloud_upload',
         dialog: true,
       },
       {
-        label: 'Релизы',
+        label: 'Releases',
         icon: 'sailing',
         dialog: true,
       },
       {
-        label: 'Страницы проекта',
+        label: 'Project pages',
         icon: 'article',
         dialog: true,
       },
       {
-        label: 'Учёт времени',
+        label: 'Time tracking',
         icon: 'schedule',
         dialog: true,
       },
       {
-        label: 'Настройки проекта',
+        label: 'Project settings',
         icon: 'settings',
         dialog: true,
       },

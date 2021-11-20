@@ -101,7 +101,7 @@ export default defineComponent({
     const { formatDate } = useFormat();
 
     const limitedItems = computed(() => props.items.slice(0, 5));
-    const restNumber = computed(() => props.items.length - 5);
+    const restNumber = computed(() => (props.items.length > 5 ? props.items.length - 5 : null));
 
     return {
       t,

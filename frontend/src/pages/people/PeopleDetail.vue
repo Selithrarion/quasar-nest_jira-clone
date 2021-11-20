@@ -32,14 +32,14 @@
                   <q-item-section style="margin-top: -8px">
                     <q-file
                       class="header-file-input"
-                      label="Загрузить изображение"
+                      label="Upload image"
                       borderless
                       dense
                       @update:model-value="uploadHeaderFile"
                     />
                   </q-item-section>
                 </BaseItem>
-                <BaseItem label="Удалить изображение" @click="deleteHeaderImage" />
+                <BaseItem label="Delete image" @click="deleteHeaderImage" />
               </q-list>
             </div>
           </transition>
@@ -53,7 +53,7 @@
         <main class="flex-grow-2">
           <!--TODO: fix long name-->
           <PeopleDetailActivitySection
-            title="Назначенные задачи"
+            title="Assigned issues"
             :items="currentItemDetail.assignedIssues"
             :is-own-profile="isOwnProfile"
             :is-user-profile="isUserPageType"
