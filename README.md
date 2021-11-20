@@ -1,4 +1,9 @@
-# Jira clone with Quasar (Vue 3 TS) + Nest (Node.js)  
+# Jira clone with Quasar (Vue 3 Composition API with Typescript) + Nest (Node.js)  
+
+### Video  
+https://user-images.githubusercontent.com/59411497/141484169-912fc465-505e-4aeb-aaea-da8d26e47c1b.mp4
+  
+https://vimeo.com/647362201 (original resolution) 
 
 ### Stack
 #### Frontend
@@ -63,7 +68,6 @@ Github actions CI pipeline
 ##### Boards (only kanban and no multiple boards on one page)
 
 - Add board (with ability to select project and automaticly redirect, interface is slightly different from jira)
-- Board settings (not implemented yet ❌)  
 - Delete board  
 - Auto load last viewed board (or load it from URL)  
 - Auto load last viewed issue (from URL)  
@@ -76,8 +80,6 @@ Github actions CI pipeline
 - Issues filter by user (not implemented yet ❌)  
 - Issues filter by last changes (not implemented yet ❌)  
 - Issues search (not implemented yet ❌)  
-  
-- Projects search (not implemented yet ❌) 
 - Change name / description
 - WYSYWIG description editor
 - Change column
@@ -89,14 +91,6 @@ Github actions CI pipeline
 - Created at / updated at fields with ability to toggle show mode (2 hours ago, 16 seconds ago, etc..) and default (May 15, 13:43)
 - Add / Edit / Delete comments
 - Add mentions in comments (not implemented yet ❌) 
-
-##### Roadmap    
-  
-#### Filters
-–
-  
-#### Dashboards
-–
 
 #### People
 - Teams CRUD
@@ -113,7 +107,7 @@ Github actions CI pipeline
 - View favorite projects
 - View user teams / team users  
   
-star if you like it 🤩
+and.. you know - give star if you like it 🤩😊
 
 ### Install  
 1. Clone project  
