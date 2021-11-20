@@ -36,7 +36,7 @@
             </q-item-section>
 
             <BaseButton
-              v-show="isActiveBoard(board.id)"
+              v-show="!isActiveBoard(board.id)"
               icon="more_horiz"
               padding="4px"
               color="blue-grey-4"
@@ -111,9 +111,11 @@
       @close="closeDeleteConfirmDialog"
       @confirm="deleteBoard(dialog.openedItem.value.id)"
     >
-      Are you sure you want to Delete the board
-      <b>{{ dialog.openedItem.value.name }}</b>
-      ? The data in it will be lost forever.
+      <div>
+        Are you sure you want to Delete the board
+        <b>{{ dialog.openedItem.value.name }}</b>
+        ? The data in it will be lost forever.
+      </div>
       <q-input v-model.trim="confirmBoardName" class="q-mt-md" label="Enter board name" autofocus outlined />
     </BaseDialog>
   </BaseDialog>

@@ -35,7 +35,7 @@ const routes: RouteRecordRaw[] = [
             path: 'board',
             name: 'board',
             meta: {
-              name: 'Task board',
+              name: 'Board',
             },
             component: () => import('components/project/board/ProjectBoard.vue'),
             children: [
@@ -43,7 +43,7 @@ const routes: RouteRecordRaw[] = [
                 path: ':boardID',
                 name: 'boardDetail',
                 meta: {
-                  name: 'Task board',
+                  name: 'Board',
                 },
                 component: () => import('components/project/board/ProjectBoard.vue'),
               },
@@ -53,7 +53,7 @@ const routes: RouteRecordRaw[] = [
             path: 'roadmap',
             name: 'roadmap',
             meta: {
-              name: 'Road map',
+              name: 'Roadmap',
             },
             component: () => import('components/project/roadmap/ProjectRoadmap.vue'),
           },
@@ -61,7 +61,7 @@ const routes: RouteRecordRaw[] = [
             path: 'issues',
             name: 'issues',
             meta: {
-              name: 'All project tasks',
+              name: 'All project issues',
             },
             component: () => import('components/project/issues/ProjectIssues.vue'),
           },
@@ -69,7 +69,7 @@ const routes: RouteRecordRaw[] = [
             path: 'issues/:issueID',
             name: 'issueDetail',
             meta: {
-              name: 'Task details',
+              name: 'Issue detail',
             },
             component: () => import('components/project/issues/ProjectIssueDetail.vue'),
           },

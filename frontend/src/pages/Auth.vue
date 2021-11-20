@@ -62,7 +62,7 @@
               <q-input
                 v-if="authTypes[type].fields.includes('passwordRepeat')"
                 v-model="form.passwordRepeat"
-                :label="t('user.confirmEmail')"
+                :label="t('user.confirmPassword')"
                 :type="isHidePassword ? 'password' : 'text'"
                 :rules="[rules.required, equalPasswords]"
                 hide-bottom-space

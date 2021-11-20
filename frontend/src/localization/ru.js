@@ -48,6 +48,7 @@ export default {
     created: 'Создрано',
     updateDate: 'Дата обновления',
     thereNoAnything: 'Здесь ничего нет',
+    search: 'Поиск',
   },
 
   work: {
@@ -116,7 +117,7 @@ export default {
     openSettings: 'Открыть диалог настроек',
     configure: 'Настроить',
     deleteComment: 'Удалить комментарий?',
-    deleteCommentFrom: 'Удалить комментарий от {n}',
+    deleteCommentFrom: 'Удалить комментарий от {name}',
 
     issueType: {
       issueType: 'Тип задачи',
@@ -183,7 +184,7 @@ export default {
     username: 'Имя пользователя',
     email: 'Email',
     password: 'Пароль',
-    confirmEmail: 'Подтвердите пароль',
+    confirmPassword: 'Подтвердите пароль',
     profile: 'Профиль',
     displayNameUsernameOrEmail: 'Их отображаемое имя, имя пользователя или email',
     max10Users: 'Вы можете пригласить не более 10 пользователей за раз.',

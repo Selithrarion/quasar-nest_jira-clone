@@ -53,7 +53,7 @@
         <main class="flex-grow-2">
           <!--TODO: fix long name-->
           <PeopleDetailActivitySection
-            title="Assigned tasks"
+            title="Assigned issues"
             :items="currentItemDetail.assignedIssues"
             :is-own-profile="isOwnProfile"
             :is-user-profile="isUserPageType"

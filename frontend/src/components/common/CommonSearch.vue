@@ -1,7 +1,7 @@
 <template>
   <q-input
     :model-value="modelValue"
-    :placeholder="placeholder"
+    :placeholder="computedPlaceholder"
     :outlined="outlined"
     :debounce="clientSearch ? 0 : 500"
     dense
@@ -18,7 +18,8 @@
 </template>
 
 <script lang="ts">
-import { defineComponent } from 'vue';
+import { defineComponent, computed } from 'vue';
+import { useI18n } from 'vue-i18n';
 
 export default defineComponent({
   name: 'CommonSearch',
@@ -39,7 +40,7 @@ export default defineComponent({
     placeholder: {
       type: String,
       required: false,
-      default: 'Search',
+      default: null,
     },
     outlined: {
       type: Boolean,
@@ -61,13 +62,16 @@ export default defineComponent({
   emits: ['update:model-value', 'search'],
 
   setup(props, { emit }) {
+    const { t } = useI18n();
+
     function emitSearch(value: string) {
       const normalizedSearch = value.toLowerCase().trim();
       emit('update:model-value', normalizedSearch);
       emit('search');
     }
+    const computedPlaceholder = computed(() => props.placeholder || t('common.search'));
 
-    return { emitSearch };
+    return { computedPlaceholder, emitSearch };
   },
 });
 </script>

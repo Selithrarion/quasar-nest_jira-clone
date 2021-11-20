@@ -79,7 +79,6 @@ export default defineComponent({
   name: 'ProjectBoardColumn',
 
   components: {
-    // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
     Draggable,
     CommonListTitle,
     CommonInputEdit,

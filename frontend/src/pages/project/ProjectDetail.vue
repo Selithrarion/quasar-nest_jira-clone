@@ -245,12 +245,12 @@ export default defineComponent({
 
     const sidebarItems: SidebarItemModel[] = [
       {
-        label: 'Road map',
+        label: 'Roadmap',
         icon: 'view_day',
         routeName: 'roadmap',
       },
       {
-        label: 'Task board',
+        label: 'Board',
         icon: 'view_week',
         routeName: 'board',
         action: openSelectedBoard,
@@ -264,7 +264,7 @@ export default defineComponent({
         separator: true,
       },
       {
-        label: 'Tasks',
+        label: 'Issues',
         icon: 'splitscreen',
         routeName: 'issues',
         hideHeaderTitleRowActions: true,
@@ -281,7 +281,7 @@ export default defineComponent({
         dialog: true,
       },
       {
-        label: 'Deployments',
+        label: 'Cloud upload',
         icon: 'cloud_upload',
         dialog: true,
       },
@@ -291,7 +291,7 @@ export default defineComponent({
         dialog: true,
       },
       {
-        label: 'Project Pages',
+        label: 'Project pages',
         icon: 'article',
         dialog: true,
       },

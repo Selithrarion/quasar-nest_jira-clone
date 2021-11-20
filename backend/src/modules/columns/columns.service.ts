@@ -23,10 +23,10 @@ export class ColumnsService {
   }
 
   async createDefaultColumns(board: BoardEntity): Promise<void> {
-    await this.columns.save({ name: 'Бэклог', board });
-    await this.columns.save({ name: 'Выбрано для разработки', board });
-    await this.columns.save({ name: 'В работе', board });
-    await this.columns.save({ name: 'Готово', board });
+    await this.columns.save({ name: 'Backlog', board });
+    await this.columns.save({ name: 'Selected for development', board });
+    await this.columns.save({ name: 'In work', board });
+    await this.columns.save({ name: 'Done', board });
   }
 
   async update(id: number, payload: UpdateColumnDTO): Promise<ColumnEntity> {

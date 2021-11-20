@@ -297,7 +297,7 @@
           @close="dialog.close"
           @confirm="deleteComment(dialog.openedItem.value.id)"
         >
-          {{ t('project.deleteCommentFrom', dialog.openedItem.value.author.name) }}
+          {{ t('project.deleteCommentFrom', { name: dialog.openedItem.value.author.name }) }}
         </BaseDialog>
       </div>
     </template>
