@@ -1,5 +1,5 @@
 <template>
-  <BaseDialog title="Создание дашбоарда" :actions="false" medium @close="close">
+  <BaseDialog title="Dashboard creation" :actions="false" medium @close="close">
     <DashboardCreateForm :loading="loading.active.value" @close="close" @submit.prevent="createDashboard" />
   </BaseDialog>
 </template>

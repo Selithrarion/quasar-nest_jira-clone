@@ -1,29 +1,27 @@
 <template>
   <div>
-    <p>Почему существует два типа проектов?</p>
+    <p>Why are there two types of projects?</p>
     <p>
-      Проекты, управляемые командами, — это новый вид проектов Jira Software Cloud, созданный с нуля. Примечание. Выбор,
-      который вы сделаете на этом этапе, изменить невозможно. Единственный способ сменить тип проекта — создать новый
-      проект.
+      Team-Driven Projects are a new kind of Jira Software Cloud projects built from the ground up.
+      Note. Choice, which you will do in this step cannot be changed. The only way to change the project type is to create a new one project.
     </p>
 
     <div class="project-types-wrapper row q-pt-lg">
       <div class="project-type col">
         <div class="q-mb-md">
           <div class="text-subtitle1 text-blue-grey-14 text-weight-medium text-center">
-            Проект, управляемый компанией
+            Company managed project
           </div>
           <div class="q-mt-sm q-mb-md">
-            Проекты, управляемые компанией, поддерживают популярные функции Jira Software, которые так ценят постоянные
-            пользователи сервиса.
+            Company-managed Projects support popular Jira Software features that value consistent service users.
           </div>
         </div>
 
         <div class="flex justify-center">
-          <BaseButton label="Выбрать управляемый компанией" size="0.8rem" disable @click="select(ProjectTypeEnum.TEAM)" />
+          <BaseButton label="Select company-managed" size="0.8rem" disable @click="select(ProjectTypeEnum.TEAM)" />
           <div class="project-type__caption q-pt-sm text-blue-grey-6">
-            <div>Вы не можете создавать проекты, управляемые компанией.</div>
-            <div>Обратитесь к администратору Jira.</div>
+            <div>You cannot create company managed projects.</div>
+            <div>Contact your Jira admin.</div>
           </div>
         </div>
       </div>
@@ -31,17 +29,17 @@
       <div class="project-type col">
         <div class="q-mb-md">
           <div class="text-subtitle1 text-blue-grey-14 text-weight-medium text-center">
-            Проект, управляемый командой
+            Team-driven project
           </div>
           <div class="q-mt-sm q-mb-md">
-            В проектах, управляемых командой, Jira Software полностью меняется, чтобы упростить настройку, использование
-            и обслуживание для команд разработчиков ПО любого размера.
+            In team-driven projects, Jira Software is completely redesigned to make it easier to customize,
+            use and service for software development teams of all sizes.
           </div>
         </div>
 
         <BaseButton
           color="primary"
-          label="Выбрать управляемый командой"
+          label="Select team-driven"
           size="0.8rem"
           unelevated
           @click="select(ProjectTypeEnum.SOFTWARE)"

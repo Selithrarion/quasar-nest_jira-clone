@@ -1,7 +1,7 @@
 <template>
   <BaseDialog
-    title="Создать новую команду"
-    confirm-text="Создать команду"
+    title="Create a new team"
+    confirm-text="Create a team"
     :loading="loading.active.value"
     large
     @confirm="createTeam"
@@ -10,17 +10,16 @@
       <div class="col-4 create-team-background" />
       <div class="col-8 q-pl-lg">
         <p class="q-mb-lg">
-          Добавляйте сотрудников в команду и работайте над задачами в одном месте. Отслеживайте @упоминания, чтобы
-          оставаться в курсе дел, ведите совместную работу и эффективно управляйте всеми настройками на странице профиля
-          команды.
-          <a href="https://support.atlassian.com/atlassian-account/docs/what-is-an-atlassian-team/"> Подробнее </a>
+          Add employees to your team and work on tasks in one place. Track @mentions to stay up to date,
+          collaborate and effectively manage all settings on your profile page teams.
+          <a href="https://support.atlassian.com/atlassian-account/docs/what-is-an-atlassian-team/"> More details </a>
         </p>
 
         <div class="form-fields-wrapper">
           <q-input
             v-model="form.name"
-            label="Название команды"
-            hint="Как называется ваша команда?"
+            label="Team name"
+            hint="What is the name of your team?"
             lazy-rules
             filled
             :rules="[rules.required, rules.max40]"

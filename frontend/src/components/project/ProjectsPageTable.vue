@@ -82,7 +82,7 @@
     <BaseDialog
       v-if="dialog.openedName.value === 'deleteProject'"
       type="delete"
-      :title="`Удалить ${dialog.openedItem.value.name}?`"
+      :title="`Delete ${dialog.openedItem.value.name}?`"
       :confirm-loading="dialog.loading.value"
       @close="dialog.close"
       @confirm="deleteProject(dialog.openedItem.value.id)"

@@ -9,8 +9,8 @@
     >
     </q-editor>
     <div v-if="actionButtons" class="flex-center-end gap-2 q-mt-sm">
-      <BaseButton label="Отмена" color="blue-grey-5" flat @click="$emit('cancel')" />
-      <BaseButton label="Сохранить" color="primary" :loading="saveLoading" unelevated @click="$emit('save')" />
+      <BaseButton label="Cancel" color="blue-grey-5" flat @click="$emit('cancel')" />
+      <BaseButton label="Save" color="primary" :loading="saveLoading" unelevated @click="$emit('save')" />
     </div>
   </div>
 </template>

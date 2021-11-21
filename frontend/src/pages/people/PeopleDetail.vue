@@ -71,7 +71,7 @@
           </PeopleDetailActivitySection>
 
           <PeopleDetailActivitySection
-            title="Наблюдаемые задачи"
+            title="Observed tasks"
             :items="currentItemDetail.watchingIssues"
             :is-own-profile="isOwnProfile"
             :is-user-profile="isUserPageType"
@@ -90,7 +90,7 @@
 
           <PeopleDetailActivitySection
             v-if="isUserPageType"
-            title="Любимые проекты"
+            title="Favorite projects"
             :items="currentItemDetail.favoriteProjects"
             :is-own-profile="isOwnProfile"
             :is-user-profile="isUserPageType"
@@ -107,8 +107,8 @@
           </PeopleDetailActivitySection>
 
           <div class="flex-center-between">
-            <h6 class="text-body1 text-weight-medium q-mb-md">Ссылки</h6>
-            <BaseButton icon="add" tooltip="Добавить ссылку" padding="4px" flat />
+            <h6 class="text-body1 text-weight-medium q-mb-md">Links</h6>
+            <BaseButton icon="add" tooltip="Add link" padding="4px" flat />
           </div>
 
           <q-card>
@@ -121,9 +121,9 @@
             </q-card-section>
 
             <q-card-section class="column gap-2">
-              <div>Расскажите, удобно ли вам пользоваться функциями профилей и поиска внутри этого каталога.</div>
+              <div>Tell us if you are comfortable using the profiles and search functions within this directory.</div>
               <div class="text-center">
-                <BaseButton label="Отправить отзыв по Atlassian" secondary-color unelevated />
+                <BaseButton label="Send feedback on Atlassian" secondary-color unelevated />
               </div>
             </q-card-section>
           </q-card>

@@ -1,6 +1,6 @@
 <template>
   <BaseDialog
-    title="Добавить гаджет"
+    title="Add gadget"
     :loading="loading.active.value"
     :maximized="$q.screen.lt.md"
     hide-confirm-button
@@ -11,7 +11,7 @@
       <nav class="col-3">
         <CommonSearch v-model="searchValue" autofocus filled />
 
-        <CommonListTitle class="q-mt-md" title="Категории" />
+        <CommonListTitle class="q-mt-md" title="Categories" />
         <q-list class="category-list" dense>
           <BaseItem>
             <q-item-section>
@@ -21,7 +21,7 @@
           </BaseItem>
           <BaseItem class="bg-grey-2">
             <q-item-section>
-              <span class="text-weight-bold">Все</span>
+              <span class="text-weight-bold">Everything</span>
               <q-chip size="sm" color="blue-2">2</q-chip>
             </q-item-section>
           </BaseItem>
@@ -32,11 +32,11 @@
         <BaseAlert
           v-if="isAvailableMoreGadgets"
           class="q-mb-lg"
-          title="Доступно больше гаджетов"
-          text="Были найдены дополнительные гаджеты, которые можно загрузить."
+          title="Access no more gadgets"
+          text="Additional gadgets were found for download."
           color="indigo"
           icon="warning"
-          action-text="Загрузить"
+          action-text="Download"
           padding="16px 16px 8px 16px"
           @action-click="isAvailableMoreGadgets = false"
         />
@@ -50,15 +50,15 @@
 
             <q-card-section>
               <div class="text-subtitle2">Wallboard Spacer Gadget</div>
-              <div class="text-caption text-grey-7">Разработчик: Atlassian • Локальный</div>
+              <div class="text-caption text-grey-7">Developer: Atlassian • Local</div>
 
               <div class="text-body2 q-py-md">Allows for custom spacing between gadgets in a wallboard</div>
 
-              <BaseButton label="Показать ссылку XML" text-color="blue-8" size="12px" unelevated dense />
+              <BaseButton label="Show XML Link" text-color="blue-8" size="12px" unelevated dense />
             </q-card-section>
 
             <q-card-actions class="q-py-md q-pl-md q-pr-none" vertical>
-              <BaseButton label="Добавить гаджет" size="12px" secondary-color unelevated @click="add" />
+              <BaseButton label="Add gadget" size="12px" secondary-color unelevated @click="add" />
             </q-card-actions>
           </q-card-section>
         </q-card>

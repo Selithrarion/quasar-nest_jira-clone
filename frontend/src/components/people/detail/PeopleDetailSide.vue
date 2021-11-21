@@ -35,7 +35,7 @@
             <slot name="displayName">
               {{ displayName }}
             </slot>
-            <BaseTooltip label="Отображаемое имя" delay="0" />
+            <BaseTooltip label="Display name" delay="0" />
           </h6>
         </template>
       </CommonInputEdit>
@@ -55,7 +55,7 @@
             <slot name="name">
               {{ name }}
             </slot>
-            <BaseTooltip label="Имя пользователя" delay="0" />
+            <BaseTooltip label="Username" delay="0" />
           </div>
         </template>
       </CommonInputEdit>
@@ -64,7 +64,7 @@
     <div v-if="$slots.appendName" class="row items-center gap-3">
       <slot name="appendName">
         <q-icon class="text-blue-grey-3" name="visibility" size="sm" />
-        <div class="text-body2 text-blue-grey-4">Открытая команда</div>
+        <div class="text-body2 text-blue-grey-4">Open team</div>
       </slot>
     </div>
 

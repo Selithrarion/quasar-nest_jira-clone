@@ -192,7 +192,7 @@
           />
 
           <div class="issue__item-row">
-            <label>Исполнитель</label>
+            <label>Executor</label>
             <BaseSelectWithAvatar
               :model-value="issue.assigned"
               :options="availableProjectUsers"
