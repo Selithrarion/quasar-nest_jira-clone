@@ -6,7 +6,6 @@
 /* eslint-env node */
 /* eslint-disable @typescript-eslint/no-var-requires */
 const { configure } = require('quasar/wrappers');
-require('dotenv').config();
 
 module.exports = configure(function (ctx) {
   return {
@@ -61,6 +60,8 @@ module.exports = configure(function (ctx) {
       chainWebpack(/* chain */) {
         //
       },
+      
+      env: require('dotenv').config().parsed
     },
 
     devServer: {
