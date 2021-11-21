@@ -50,7 +50,7 @@
         @close="dialog.close"
         @confirm="deleteTeam"
       >
-        {{ $t('people.deleteTeamText', { name: team.name, number: team.users.length }) }}
+         <div v-html="t('people.deleteTeamText', { name: team.name, number: team.users.length })" />
       </BaseDialog>
     </template>
   </PeopleDetailSide>

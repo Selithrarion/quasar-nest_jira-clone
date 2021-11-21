@@ -19,7 +19,7 @@
     <q-input
       v-if="step === 1"
       v-model="form.email"
-      label="new email address"
+      label="New email address"
       debounce="500"
       :rules="[rules.required, rules.email, rules.uniqueEmail, notOldEmail]"
       lazy-rules
