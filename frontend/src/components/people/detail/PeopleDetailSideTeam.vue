@@ -50,7 +50,8 @@
         @close="dialog.close"
         @confirm="deleteTeam"
       >
-         <div v-html="t('people.deleteTeamText', { name: team.name, number: team.users.length })" />
+        <!--eslint-disable-next-line vue/no-v-html-->
+        <div v-html="t('people.deleteTeamText', { name: team.name, number: team.users.length })" />
       </BaseDialog>
     </template>
   </PeopleDetailSide>
