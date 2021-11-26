@@ -55,7 +55,7 @@ function state(): ProjectStateInterface {
       },
       {
         id: 3,
-        name: t('project.history.bug'),
+        name: t('project.issueType.history'),
         key: 'HISTORY',
         icon: 'circle',
         color: 'green-5',
