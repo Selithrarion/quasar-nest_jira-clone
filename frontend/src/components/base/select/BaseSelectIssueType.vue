@@ -1,7 +1,7 @@
 <template>
   <BaseSelect
     :model-value="modelValue"
-    :label="label"
+    :label="label || t('project.issuePriority.priority')"
     v-bind="$attrs"
     @update:model-value="$emit('update:model-value', $event)"
   >
@@ -19,6 +19,7 @@
 <script lang="ts">
 import { defineComponent } from 'vue';
 import ProjectBoardIconIssueType from 'components/project/board/icon/ProjectBoardIconIssueType.vue';
+import { useI18n } from 'vue-i18n';
 
 export default defineComponent({
   name: 'BaseSelectWithAvatar',
@@ -37,10 +38,18 @@ export default defineComponent({
     label: {
       type: String,
       required: false,
-      default: 'Priority',
+      default: null,
     },
   },
 
   emits: ['update:model-value'],
+
+  setup() {
+    const { t } = useI18n();
+
+    return {
+      t,
+    };
+  },
 });
 </script>
