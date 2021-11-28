@@ -115,6 +115,6 @@ and.. you know - give star if you like it 🤩😊
 3. Terminal #2 "cd .\frontend\" and "quasar dev"  
 4. Terminal #3 "cd .\backend\" and "yarn start:dev" 
    
-frontend and backend not in docker because i can't fix backend bcrypt error and i need to figure out how to make a hot reload (you can help if you know, it'll be cool)
+frontend and backend not in docker because i can't fix backend bcrypt error and i need to figure out how to make a hot reload (you can help if you know, it'll be cool). glad to any PRs
 
 
