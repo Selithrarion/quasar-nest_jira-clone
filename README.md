@@ -11,10 +11,10 @@ https://vimeo.com/647362201 (original resolution)
 1. Vue 3
 2. Vuex
 3. Typescript
-4. Quasar (ui)
-5. Socket.io (real-time issues update)
+4. Quasar
+5. Socket.io
 6. Vuedraggable (issues kanban board)
-7. Vue i18n (for pluralization '1 доскА' '2 доскИ' '6 досОК' (1 board, 2 boardS, 6 boardS))
+7. Vue i18n (for translation and pluralization '1 доскА' '2 доскИ' '6 досОК' (1 board, 2 boardS, 6 boardS))
 8. Unit tests (Vue test utils, Jest), E2E tests (Cypress)
 9. other - date-fns, some lodash functions, eslint + tslint + prettier
 
@@ -115,6 +115,6 @@ and.. you know - give star if you like it 🤩😊
 3. Terminal #2 "cd .\frontend\" and "quasar dev"  
 4. Terminal #3 "cd .\backend\" and "yarn start:dev" 
    
-frontend and backend not in docker because i can't fix backend bcrypt error and i need to figure out how to make a hot reload (you can help if you know, it'll be cool)
+frontend and backend not in docker because i can't fix backend bcrypt error and i need to figure out how to make a hot reload (you can help if you know, it'll be cool). glad to any PRs
 
 
