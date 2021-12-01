@@ -62,9 +62,8 @@ export default boot(async ({ store, urlPath, redirect, router }) => {
       // TODO: add vue-18n error translation
       if (errorMessage)
         Notify.create({
+          type: 'negative',
           message: errorMessage,
-          color: 'red-5',
-          textColor: 'white',
         });
 
       const originalRequest = error.config as AxiosRequestConfigWithRetryField;
