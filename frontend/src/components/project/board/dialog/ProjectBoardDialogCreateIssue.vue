@@ -80,6 +80,7 @@
 
 <script lang="ts">
 import { defineComponent, reactive, computed, ref } from 'vue';
+import { useQuasar } from 'quasar';
 import { useI18n } from 'vue-i18n';
 import { useStore } from 'src/store';
 import useLoading from 'src/composables/common/useLoading';
@@ -94,6 +95,7 @@ export default defineComponent({
   emits: ['close'],
 
   setup(props, { emit }) {
+    const q = useQuasar();
     const { t } = useI18n();
     const store = useStore();
     const loading = useLoading();
@@ -125,6 +127,10 @@ export default defineComponent({
         const board = currentBoard.value || currentProject.value?.boards[0];
         const payload = { ...form, board };
         await store.dispatch('project/createIssue', payload);
+        q.notify({
+          type: 'positive',
+          message: 'Issue created',
+        });
         close();
       } finally {
         loading.stop;

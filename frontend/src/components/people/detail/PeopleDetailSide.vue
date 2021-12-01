@@ -172,6 +172,7 @@ export default defineComponent({
         const isTaken = await userRepository.isUsernameTaken(localName.value);
         if (isTaken) {
           q.notify({
+            type: 'negative',
             message: 'This username already taken',
           });
           return;
@@ -194,6 +195,10 @@ export default defineComponent({
         loading.start();
         const action = props.type === 'user' ? 'people/uploadUserImage' : 'people/uploadTeamImage';
         await store.dispatch(action, { file, type: 'avatar', id: props.itemId });
+        q.notify({
+          type: 'positive',
+          message: 'Avatar updated',
+        });
       } finally {
         loading.stop();
       }

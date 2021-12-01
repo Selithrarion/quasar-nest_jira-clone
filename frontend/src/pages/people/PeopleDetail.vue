@@ -135,6 +135,7 @@
 
 <script lang="ts">
 import { computed, defineComponent, ref, watch, onBeforeMount, onMounted } from 'vue';
+import { useQuasar } from 'quasar';
 import { useRoute, useRouter } from 'vue-router';
 import { useStore } from 'src/store';
 import { useI18n } from 'vue-i18n';
@@ -159,6 +160,7 @@ export default defineComponent({
   },
 
   setup() {
+    const q = useQuasar();
     const { t } = useI18n();
     const router = useRouter();
     const route = useRoute();
@@ -220,6 +222,10 @@ export default defineComponent({
         loading.start('header');
         if (isUserPageType.value) await store.dispatch('people/uploadUserImage', { file, type: 'header' });
         else await store.dispatch('people/uploadTeamImage', { file, id: currentTeamID.value, type: 'header' });
+        q.notify({
+          type: 'positive',
+          message: 'Header updated',
+        });
       } finally {
         loading.stop('header');
       }
@@ -229,6 +235,10 @@ export default defineComponent({
         loading.start('header');
         if (isUserPageType.value) await store.dispatch('people/deleteUserHeader');
         else await store.dispatch('people/deleteTeamHeader');
+        q.notify({
+          type: 'positive',
+          message: 'Header deleted',
+        });
       } finally {
         loading.stop('header');
       }

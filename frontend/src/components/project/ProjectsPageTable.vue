@@ -94,6 +94,7 @@
 
 <script lang="ts">
 import { defineComponent, reactive, computed, ref, onBeforeMount } from 'vue';
+import { useQuasar } from 'quasar';
 import { useI18n } from 'vue-i18n';
 import { useStore } from 'src/store';
 import useDialog from 'src/composables/common/useDialog';
@@ -106,6 +107,7 @@ export default defineComponent({
   name: 'ProjectsPageTable',
 
   setup() {
+    const q = useQuasar();
     const { t } = useI18n();
     const store = useStore();
     const dialog = useDialog();
@@ -194,6 +196,10 @@ export default defineComponent({
       try {
         dialog.startLoading();
         await store.dispatch('project/delete', projectID);
+        q.notify({
+          type: 'positive',
+          message: 'Project deleted',
+        });
         dialog.close();
       } finally {
         dialog.stopLoading();
