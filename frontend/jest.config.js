@@ -4,7 +4,6 @@ const esModules = ['quasar/lang', 'lodash-es'].join('|');
 module.exports = {
   globals: {
     __DEV__: true,
-    // TODO: Remove if resolved natively
     // See https://github.com/vuejs/vue-jest/issues/175
     'vue-jest': {
       pug: { doctype: 'html' },

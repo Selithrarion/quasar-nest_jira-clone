@@ -32,7 +32,6 @@
           </div>
         </div>
 
-        <!--  TODO:  there are time sections in jira (today, yesterday, etc). add or simplify? -->
         <template v-else>
           <div class="layout-notifications__section-header flex-center-between q-py-sm q-pl-md q-px-lg">
             <CommonListTitle class="text-weight-medium" :title="t('date.today')" />

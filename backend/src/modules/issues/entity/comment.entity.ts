@@ -8,7 +8,7 @@ export class CommentEntity extends BaseEntity {
   @Column()
   text: string;
 
-  // TODO: не удаляется пользователь если есть комменты
+  // TODO: user not delete if there are some comments
   @ManyToOne(() => UserEntity, (user) => user.comments, {
     eager: true,
     onUpdate: 'CASCADE',

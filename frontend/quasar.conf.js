@@ -45,7 +45,6 @@ module.exports = configure(function (ctx) {
       // Applies only if "transpile" is set to true.
       // transpileDependencies: [],
 
-      // TODO: https://quasar.dev/options/quasar-language-packs
       rtl: true, // https://v2.quasar.dev/options/rtl-support
       // preloadChunks: true,
       // showProgress: false,
@@ -60,7 +59,7 @@ module.exports = configure(function (ctx) {
       chainWebpack(/* chain */) {
         //
       },
-      
+
       env: require('dotenv').config().parsed
     },
 
