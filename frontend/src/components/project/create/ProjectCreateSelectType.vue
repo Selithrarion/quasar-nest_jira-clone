@@ -17,7 +17,7 @@
           </div>
         </div>
 
-        <div class="flex justify-center">
+        <div class="column justify-center">
           <BaseButton label="Select company-managed" size="0.8rem" disable @click="select(ProjectTypeEnum.TEAM)" />
           <div class="project-type__caption q-pt-sm text-blue-grey-6">
             <div>You cannot create company managed projects.</div>
