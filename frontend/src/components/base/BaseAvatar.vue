@@ -1,5 +1,5 @@
 <template>
-  <q-avatar class="base-avatar" :size="size" :style="{ backgroundColor: src ? 'white' : itemColor }" v-bind="$attrs">
+  <q-avatar class="base-avatar" :class="classes" :size="size" :style="styles" v-bind="$attrs">
     <slot>
       <BaseLoader
         v-if="loading"
@@ -82,9 +82,26 @@ export default defineComponent({
 
   setup(props) {
     const itemInitials = computed(() => String(props.itemName).slice(0, 2).toUpperCase());
+    const isHslOrRgbItemColor = computed(() => props.itemColor?.includes('hsl') || props.itemColor?.includes('rgb'));
+
+    const classes = computed(() => {
+      return {
+        [`bg-${props.itemColor}`]: !isHslOrRgbItemColor.value && !props.src,
+      };
+    });
+    const styles = computed(() => {
+      const styles = [];
+
+      if (props.src) styles.push({ background: 'white' });
+      else if (isHslOrRgbItemColor.value) styles.push({ background: props.itemColor });
+
+      return styles;
+    });
 
     return {
       itemInitials,
+      classes,
+      styles,
     };
   },
 });
