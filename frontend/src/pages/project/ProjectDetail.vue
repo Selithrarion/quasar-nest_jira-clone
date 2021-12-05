@@ -199,6 +199,7 @@ export default defineComponent({
     });
 
     watch(currentProjectID, async (value: number) => {
+      if (!value) return;
       loading.start();
       await store.dispatch('project/getByID', value);
       loading.stop();
