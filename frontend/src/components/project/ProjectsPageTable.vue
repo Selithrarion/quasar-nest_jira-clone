@@ -80,8 +80,8 @@
     </q-table>
 
     <BaseDialog
-      v-if="dialog.openedName.value === 'deleteProject'"
       type="delete"
+      :model-value="dialog.openedName.value === 'deleteProject'"
       :title="`Delete ${dialog.openedItem.value.name}?`"
       :confirm-loading="dialog.loading.value"
       @close="dialog.close"

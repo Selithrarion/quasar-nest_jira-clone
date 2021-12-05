@@ -130,7 +130,7 @@
     </q-page>
 
     <ProjectBoardDialogSelect
-      v-if="dialog.openedName.value === 'selectBoard'"
+      :model-value="dialog.openedName.value === 'selectBoard'"
       :project="project"
       :available-projects="availableProjects"
       :boards="project.boards"

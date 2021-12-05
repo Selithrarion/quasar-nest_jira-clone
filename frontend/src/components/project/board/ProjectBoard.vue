@@ -21,8 +21,8 @@
       </div>
     </div>
 
-    <ProjectBoardDialogCreateIssue v-if="dialog.openedName.value === 'createIssue'" @close="dialog.close" />
-    <ProjectBoardDialogViewIssue v-if="dialog.openedName.value === 'viewIssue'" @close="closeIssue" />
+    <ProjectBoardDialogCreateIssue :model-value="dialog.openedName.value === 'createIssue'" @close="dialog.close" />
+    <ProjectBoardDialogViewIssue :model-value="dialog.openedName.value === 'viewIssue'" @close="closeIssue" />
   </div>
 </template>
 

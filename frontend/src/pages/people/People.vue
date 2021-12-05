@@ -33,7 +33,7 @@
       </PeopleListTeam>
     </template>
 
-    <PeopleDialogTeamCreate v-if="dialog.openedName.value === 'createTeam'" @close="dialog.close" />
+    <PeopleDialogTeamCreate :model-value="dialog.openedName.value === 'createTeam'" @close="dialog.close" />
   </q-page>
 </template>
 

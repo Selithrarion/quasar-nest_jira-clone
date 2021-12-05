@@ -290,8 +290,8 @@
         </div>
 
         <BaseDialog
-          v-if="dialog.openedName.value === 'deleteComment'"
           type="delete"
+          :model-value="dialog.openedName.value === 'deleteComment'"
           :title="t('project.deleteComment')"
           :confirm-loading="dialog.loading.value"
           @close="dialog.close"

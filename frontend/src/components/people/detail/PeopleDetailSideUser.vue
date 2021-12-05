@@ -94,8 +94,8 @@
         </q-card-section>
       </q-card>
 
-      <PeopleDialogEmailChange v-if="dialog.openedName.value === 'changeEmail'" @close="dialog.close" />
-      <PeopleDialogTeamCreate v-if="dialog.openedName.value === 'createTeam'" @close="dialog.close" />
+      <PeopleDialogEmailChange :model-value="dialog.openedName.value === 'changeEmail'" @close="dialog.close" />
+      <PeopleDialogTeamCreate :model-value="dialog.openedName.value === 'createTeam'" @close="dialog.close" />
     </template>
   </PeopleDetailSide>
 </template>

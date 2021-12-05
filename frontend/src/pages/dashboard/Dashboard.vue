@@ -82,7 +82,7 @@
       </Suspense>
     </div>
 
-    <DashboardCreateDialog v-if="dialog.openedName.value === 'createDashboard'" @close="dialog.close" />
+    <DashboardCreateDialog :model-value="dialog.openedName.value === 'createDashboard'" @close="dialog.close" />
   </q-page>
 </template>
 

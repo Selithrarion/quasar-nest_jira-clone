@@ -33,7 +33,7 @@
       </q-card>
 
       <BaseDialog
-        v-if="dialog.openedName.value === 'addUsers'"
+        :model-value="dialog.openedName.value === 'addUsers'"
         :title="t('people.addTeamMembers')"
         :confirm-loading="dialog.loading.value"
         @close="dialog.close"
@@ -43,8 +43,8 @@
         <CommonSelectUsers v-model="form.users" />
       </BaseDialog>
       <BaseDialog
-        v-if="dialog.openedName.value === 'deleteTeam'"
         type="delete"
+        :model-value="dialog.openedName.value === 'deleteTeam'"
         :title="t('people.deleteTeam')"
         :confirm-loading="dialog.loading.value"
         @close="dialog.close"

@@ -9,7 +9,7 @@
 
     <ProjectsPageTable />
 
-    <ProjectCreateDialog v-if="dialog.openedName.value === 'create'" @close="dialog.close" />
+    <ProjectCreateDialog :model-value="dialog.openedName.value === 'create'" @close="dialog.close" />
   </q-page>
 </template>
 

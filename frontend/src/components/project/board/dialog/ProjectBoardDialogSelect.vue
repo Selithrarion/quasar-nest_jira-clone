@@ -79,8 +79,8 @@
           <div class="column">
             <h5 class="text-weight-medium no-margin">Kanban</h5>
             <div class="q-mt-md">
-              Kanban is about visualizing the workflow and limiting the amount of work done in at the moment,
-              for the consistent improvement of existing processes.
+              Kanban is about visualizing the workflow and limiting the amount of work done in at the moment, for the
+              consistent improvement of existing processes.
             </div>
           </div>
 
@@ -103,8 +103,8 @@
     </div>
 
     <BaseDialog
-      v-if="dialog.openedName.value === 'deleteBoard'"
       type="delete"
+      :model-value="dialog.openedName.value === 'deleteBoard'"
       :title="`Delete ${dialog.openedItem.value.name}?`"
       :confirm-loading="dialog.loading.value"
       :confirm-disabled="dialog.openedItem.value.name !== confirmBoardName"

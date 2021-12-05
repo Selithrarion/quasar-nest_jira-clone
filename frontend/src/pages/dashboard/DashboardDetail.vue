@@ -133,17 +133,18 @@
       </div>
     </div>
 
-    <DashboardGadgetAddDialog v-if="dialog.openedName.value === 'addGadget'" @close="dialog.close" />
-    <DashboardCreateDialog v-if="dialog.openedName.value === 'createDashboard'" @close="dialog.close" />
+    <DashboardGadgetAddDialog :model-value="dialog.openedName.value === 'addGadget'" @close="dialog.close" />
+    <DashboardCreateDialog :model-value="dialog.openedName.value === 'createDashboard'" @close="dialog.close" />
     <BaseDialog
-      v-if="dialog.openedName.value === 'deleteDashboard'"
       type="delete"
+      :model-value="dialog.openedName.value === 'deleteDashboard'"
       :title="`Delete ${dashboard.name}?`"
       :confirm-loading="isDeleteDashboardLoading"
       @close="dialog.close"
       @confirm="deleteDashboard"
     >
-      This dashboard and its configuration will be permanently deleted. Use this dashboard in as a wallboard or to display a slideshow on a wallboard.
+      This dashboard and its configuration will be permanently deleted. Use this dashboard in as a wallboard or to
+      display a slideshow on a wallboard.
     </BaseDialog>
   </q-page>
 </template>

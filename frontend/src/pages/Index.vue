@@ -16,7 +16,7 @@
     </div>
 
     <CommonDialogConfirmEmail
-      v-if="dialog.openedName.value === 'confirmEmail'"
+      :model-value="dialog.openedName.value === 'confirmEmail'"
       :content-loading="dialog.loading.value"
       :success="isEmailConfirmSuccess"
       @close="dialog.close"

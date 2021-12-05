@@ -77,7 +77,7 @@
       <router-view />
     </q-page-container>
 
-    <ProjectBoardDialogCreateIssue v-if="dialog.openedName.value === 'createIssue'" @close="dialog.close" />
+    <ProjectBoardDialogCreateIssue :model-value="dialog.openedName.value === 'createIssue'" @close="dialog.close" />
   </q-layout>
 </template>
 
