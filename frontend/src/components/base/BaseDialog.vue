@@ -70,13 +70,15 @@
 </template>
 
 <script lang="ts">
-import { defineComponent, computed, ref } from 'vue';
+import { defineComponent, computed, ref, watch } from 'vue';
 import { useI18n } from 'vue-i18n';
 
 export default defineComponent({
   name: 'BaseDialog',
 
   props: {
+    modelValue: Boolean,
+
     type: {
       type: String,
       required: false,
@@ -178,6 +180,14 @@ export default defineComponent({
   setup(props, { emit }) {
     const { t } = useI18n();
 
+    const show = ref(false);
+    watch(
+      () => props.modelValue,
+      (v) => {
+        show.value = v;
+      }
+    );
+
     function handleInput(value: boolean) {
       if (!value) close();
     }
@@ -193,7 +203,6 @@ export default defineComponent({
 
     const defaultBackText = ref(t('common.back'));
     const defaultConfirmText = ref(t('common.confirm'));
-    const show = ref(true);
 
     const types = [
       {
