@@ -119,7 +119,7 @@ and.. you know - give star if you like it 🤩😊
 frontend and backend not in docker because i can't fix backend bcrypt error and i need to figure out how to make a hot reload (you can help if you know, it'll be cool). glad to any PRs
 
 ### Known bugs
-1. I don't know why but axios response interceptors not work. request interceptors work, but response not (frontend/src/boot/axios)
+1. I don't know why but axios response interceptors not work. request interceptors work, but response not. It means than refresh tokens also not work :( (frontend/src/boot/axios)
 2. After project create it don't save current user to users column (backend/src/modules/projects/projects.service, line 50)
 
 
