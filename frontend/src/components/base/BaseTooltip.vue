@@ -19,7 +19,7 @@ export default defineComponent({
       default: null,
     },
     delay: {
-      type: Number,
+      type: [Number, String],
       required: false,
       default: 300
     }
