@@ -6,3 +6,12 @@ Notify.setDefaults({
   textColor: 'black',
   color: 'white',
 });
+
+Notify.setDefaults({
+  type: 'positive',
+  textColor: 'white',
+});
+Notify.setDefaults({
+  type: 'negative',
+  textColor: 'white',
+});
