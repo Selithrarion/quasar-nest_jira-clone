@@ -121,5 +121,6 @@ frontend and backend not in docker because i can't fix backend bcrypt error and 
 ### Known bugs
 1. I don't know why but axios response interceptors not work. request interceptors work, but response not. It means than refresh tokens also not work :( (frontend/src/boot/axios)
 2. After project create it don't save current user to users column (backend/src/modules/projects/projects.service, line 50)
+3. Layout tab no highlight if we go to any children route (frontend/src/layouts/MainLayout)
 
 
