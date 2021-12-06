@@ -118,7 +118,7 @@ Github actions CI pipeline
 frontend and backend not in docker because i can't fix backend bcrypt error and i need to figure out how to make a hot reload (you can help if you know, it'll be cool). glad to any PRs
 
 ### Known bugs
-1. I don't know why but axios response interceptors not work. request interceptors work, but response not. It means than refresh tokens also not work :( (frontend/src/boot/axios)
+1. I don't know why but axios response interceptors not work. request interceptors work, but response not. It means than refresh tokens also not work. its funny than my next project instagram clone literally the same config and it work lol :( (frontend/src/boot/axios)
 2. After project create it don't save current user to users column (backend/src/modules/projects/projects.service, line 50)
 3. Layout tab no highlight if we go to any children route (frontend/src/layouts/MainLayout)  
   
