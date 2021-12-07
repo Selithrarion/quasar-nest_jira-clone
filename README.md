@@ -106,8 +106,6 @@ Github actions CI pipeline
 - View watching issues
 - View favorite projects
 - View user teams / team users  
-  
-and.. you know - give star if you like it 🤩😊
 
 ### Install  
 1. Clone project  
@@ -115,11 +113,12 @@ and.. you know - give star if you like it 🤩😊
 3. Terminal #2 "cd .\frontend\" and "quasar dev"  
 4. Terminal #3 "cd .\backend\" and "yarn start:dev"
 5. Don't forget to create new server (Object => Create => Server) and then database (jiraClone) in pgadmin (localhost:8082). small tip: in server connection field enter: host.docker.internal
+6. and.. you know - give star if you like it 🤩😊
    
 frontend and backend not in docker because i can't fix backend bcrypt error and i need to figure out how to make a hot reload (you can help if you know, it'll be cool). glad to any PRs
 
 ### Known bugs
-1. I don't know why but axios response interceptors not work. request interceptors work, but response not. It means than refresh tokens also not work :( (frontend/src/boot/axios)
+1. I don't know why but axios response interceptors not work. request interceptors work, but response not. It means than refresh tokens also not work. its funny than my next project instagram clone literally the same config and it work lol :( (frontend/src/boot/axios)
 2. After project create it don't save current user to users column (backend/src/modules/projects/projects.service, line 50)
 3. Layout tab no highlight if we go to any children route (frontend/src/layouts/MainLayout)  
   
