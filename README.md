@@ -5,6 +5,9 @@ https://user-images.githubusercontent.com/59411497/141484169-912fc465-505e-4aeb-
   
 https://vimeo.com/647362201 (original resolution) 
 
+### Project structure
+for a quick understanding of project structure you can look at frontend models or backend modules (frontend/src/models and backend/src/modules)
+
 ### Stack
 #### Frontend
 
