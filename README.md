@@ -7,7 +7,7 @@ https://user-images.githubusercontent.com/59411497/141484169-912fc465-505e-4aeb-
 https://vimeo.com/647362201 (original resolution) 
 
 ### Project structure
-for a quick understanding of project structure you can look at frontend models or backend modules (frontend/src/models and backend/src/modules)
+for a quick understanding of the project structure you can look at the frontend models or backend modules (frontend/src/models and backend/src/modules)
 
 ### Stack
 #### Frontend
@@ -32,7 +32,7 @@ for a quick understanding of project structure you can look at frontend models o
 6. Unit tests (Jest), E2E tests (Supertest)
 7. AWS S3 (Amazon Simple Storage Service)
 8. Elasticsearch (just for app complexity 😄) 
-9. Nodemailer, @nestjs/schedule and cron (annoying email messages with very-very-very interisting news or email confirmation)
+9. Nodemailer, @nestjs/schedule and cron (an annoying email messages with a very-very-very interisting news or with an email confirmation)
 
 #### Other
 
@@ -112,20 +112,20 @@ Github actions CI pipeline
 - View user teams / team users  
 
 ### Install  
-1. Clone project  
+1. Clone the project  
 2. Terminal 1 "docker compose up"  
 3. Terminal 2 "cd .\frontend\" and "quasar dev"  
 4. Terminal 3 "cd .\backend\" and "yarn start:dev"
-5. Don't forget to create new server (Object => Create => Server) and then database (jiraClone) in pgadmin (localhost:8082). small tip: in server connection field enter: host.docker.internal
-6. and.. you know - give star if you like it 🤩😊
+5. Don't forget to create a new server (Object => Create => Server) and then a database (jiraClone) in pgadmin (localhost:8082). small tip: in a server connection field enter: host.docker.internal
+6. and.. you know - give a star if you like it 🤩😊
    
 frontend and backend not in docker cuz i can't fix backend bcrypt error and i need to figure out how to fix hot reload (you can help if you know, it'd be cool). glad to any PRs
 
 ### Known bugs
-1. I don't know why but axios response interceptors not work. request interceptors work, but response not. It means that refresh tokens also not work. its funny that my next project (instagram clone) has literally the same config and it works xDD (frontend/src/boot/axios)
-2. After project create it doesnt save current user to users column (backend/src/modules/projects/projects.service, line 50)
-3. Layout tab no highlight if we go to any children route (frontend/src/layouts/MainLayout)  
+1. I don't know why but axios response interceptors dont work. request interceptors do work, but response not. It means refresh tokens also dont work. its funny that my next project (instagram clone) has literally the same config and it works xDD (frontend/src/boot/axios)
+2. After the project is created it doesnt save current user to the users column (backend/src/modules/projects/projects.service, line 50)
+3. No layout tab highlighting if we go to any children route (frontend/src/layouts/MainLayout)  
   
-If you have any ideas feel free to contact me to discuss (any links in my profile) or just make pull request, i'll merge it if it doesn't break the whole project (joke. i'll merge it even so 😊😊)
+If you have any ideas feel free to contact me to discuss (any links in my profile) or just make a pull request, i'll merge it if it doesn't break the whole project (joke... i'll merge it even so =w=)
 
 
