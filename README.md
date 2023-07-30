@@ -126,6 +126,6 @@ frontend and backend not in docker cuz i can't fix backend bcrypt error and i ne
 2. After the project is created it doesnt save current user to the users column (backend/src/modules/projects/projects.service, line 50)
 3. No layout tab highlighting if we go to any children route (frontend/src/layouts/MainLayout)  
   
-If you have any ideas feel free to contact me to discuss (any links in my profile) or just make a pull request, i'll merge it if it doesn't break the whole project (joke... i'll merge it even so =w=)
+If you have any ideas feel free to contact me to discuss (any links in my profile) or just make a pull request, i'll merge it if it doesn't break the whole project (kidding... i'll merge it even so =w=)
 
 
